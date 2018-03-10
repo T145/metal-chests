@@ -1,0 +1,10 @@
+{
+	"homepage": "https://minecraft.curseforge.com/projects/metalchests",
+	"1.12.2": {
+		"origin": "https://github.com/T145/metalchests"
+	},
+	"promos": {
+		"1.12.2-latest": "origin",
+		"1.12.2-recommended": "origin"
+	}
+}
