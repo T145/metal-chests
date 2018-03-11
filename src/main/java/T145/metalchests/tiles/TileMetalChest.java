@@ -27,8 +27,8 @@ public class TileMetalChest extends TileBase implements ITickable {
 
 	public TileMetalChest(MetalChestType type) {
 		this.type = type;
-		front = EnumFacing.NORTH;
-		inventory = createInventory(type);
+		this.front = EnumFacing.NORTH;
+		this.inventory = createInventory(type);
 	}
 
 	public TileMetalChest() {

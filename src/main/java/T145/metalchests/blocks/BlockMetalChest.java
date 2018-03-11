@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import T145.metalchests.MetalChests;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -20,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -42,11 +42,11 @@ public class BlockMetalChest extends BlockContainer {
 
 	public BlockMetalChest() {
 		super(Material.IRON);
-		this.setRegistryName(new ResourceLocation(MetalChests.MODID, "metal_chest"));
+		setRegistryName(new ResourceLocation(MetalChests.MODID, "metal_chest"));
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, MetalChestType.IRON));
-		this.setUnlocalizedName("metalchests:MetalChest");
-		this.setHardness(3F);
-		this.setCreativeTab(CreativeTabs.DECORATIONS);
+		setUnlocalizedName("metalchests:metal_chest");
+		setHardness(3F);
+		setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
 	@Override
@@ -60,9 +60,13 @@ public class BlockMetalChest extends BlockContainer {
 	}
 
 	@Override
-	protected Block setSoundType(SoundType sound) {
-		blockSoundType = getDefaultState().getValue(VARIANT).getSoundType();
-		return this;
+	public Material getMaterial(IBlockState state) {
+		return state.getValue(VARIANT).getMaterial();
+	}
+
+	@Override
+	public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
+		return state.getValue(VARIANT).getSoundType();
 	}
 
 	@Override
@@ -96,10 +100,25 @@ public class BlockMetalChest extends BlockContainer {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+
+			// if has storage upgrade
 			// drop it as an item, and save its inventory
+			// else
+			dropInventoryItems(world, pos, chest);
 		}
 
 		super.breakBlock(world, pos, state);
+	}
+
+	private static void dropInventoryItems(World worldIn, BlockPos pos, TileMetalChest inventory) {
+		for (int i = 0; i < inventory.getType().getInventorySize(); ++i) {
+			ItemStack stack = inventory.getInventory().getStackInSlot(i);
+
+			if (!stack.isEmpty()) {
+				InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
+			}
+		}
 	}
 
 	@Override
@@ -114,14 +133,14 @@ public class BlockMetalChest extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (!world.isRemote) {
+		if (!world.isRemote && !isBlocked(world, pos)) {
 			player.openGui(MetalChests.MODID, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}
 
 	private boolean isBlocked(World world, BlockPos pos) {
-		return this.isBelowSolidBlock(world, pos) || this.isOcelotSittingOnChest(world, pos);
+		return isBelowSolidBlock(world, pos) || isOcelotSittingOnChest(world, pos);
 	}
 
 	private boolean isBelowSolidBlock(World world, BlockPos pos) {

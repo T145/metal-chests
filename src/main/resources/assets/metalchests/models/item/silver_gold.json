@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "metalchests:items/silver_gold_upgrade"
+    }
+}
