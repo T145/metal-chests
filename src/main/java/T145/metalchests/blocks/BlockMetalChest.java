@@ -2,9 +2,9 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.MetalChests;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.base.TileInventory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
@@ -20,13 +20,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,7 +42,11 @@ public class BlockMetalChest extends BlockContainer {
 
 	public BlockMetalChest() {
 		super(Material.IRON);
+		this.setRegistryName(new ResourceLocation(MetalChests.MODID, "metal_chest"));
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, MetalChestType.IRON));
+		this.setUnlocalizedName("metalchests:MetalChest");
+		this.setHardness(3F);
+		this.setCreativeTab(CreativeTabs.DECORATIONS);
 	}
 
 	@Override
@@ -91,22 +95,11 @@ public class BlockMetalChest extends BlockContainer {
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntity te = world.getTileEntity(pos);
 
-		if (te instanceof TileInventory) {
-			dropInventoryItems(world, pos, (TileInventory) te);
-			world.updateComparatorOutputLevel(pos, this);
+		if (te instanceof TileMetalChest) {
+			// drop it as an item, and save its inventory
 		}
 
 		super.breakBlock(world, pos, state);
-	}
-
-	private void dropInventoryItems(World world, BlockPos pos, TileInventory inventory) {
-		for (int slot = 0; slot < inventory.getInventorySize(); ++slot) {
-			ItemStack stack = inventory.getInventory().getStackInSlot(slot);
-
-			if (!stack.isEmpty()) {
-				InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-			}
-		}
 	}
 
 	@Override
@@ -121,9 +114,9 @@ public class BlockMetalChest extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-
-		// show custom gui
-
+		if (!world.isRemote) {
+			player.openGui(MetalChests.MODID, 0, world, pos.getX(), pos.getY(), pos.getZ());
+		}
 		return true;
 	}
 
@@ -154,17 +147,17 @@ public class BlockMetalChest extends BlockContainer {
 
 	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
-		return calcRedstoneFromInventory((TileInventory) world.getTileEntity(pos));
+		return calcRedstoneFromInventory((TileMetalChest) world.getTileEntity(pos));
 	}
 
-	public static int calcRedstoneFromInventory(@Nullable TileInventory inv) {
+	public static int calcRedstoneFromInventory(@Nullable TileMetalChest inv) {
 		if (inv == null) {
 			return 0;
 		} else {
 			int i = 0;
 			float f = 0.0F;
 
-			for (int j = 0; j < inv.getInventorySize(); ++j) {
+			for (int j = 0; j < inv.getType().getInventorySize(); ++j) {
 				ItemStack itemstack = inv.getInventory().getStackInSlot(j);
 
 				if (!itemstack.isEmpty()) {
@@ -173,7 +166,7 @@ public class BlockMetalChest extends BlockContainer {
 				}
 			}
 
-			f = f / inv.getInventorySize();
+			f = f / inv.getType().getInventorySize();
 			return MathHelper.floor(f * 14.0F) + (i > 0 ? 1 : 0);
 		}
 	}

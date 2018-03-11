@@ -1,0 +1,8 @@
+
+tile.metalchests:MetalChest.copper.name=Copper Chest
+tile.metalchests:MetalChest.iron.name=Iron Chest
+tile.metalchests:MetalChest.silver.name=Silver Chest
+tile.metalchests:MetalChest.gold.name=Gold Chest
+tile.metalchests:MetalChest.diamond.name=Diamond Chest
+tile.metalchests:MetalChest.obsidian.name=Obsidian Chest
+tile.metalchests:MetalChest.crystal.name=Crystal Chest

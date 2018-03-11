@@ -1,0 +1,61 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-block",
+        "model": "metalchests:chest"
+    },
+    "variants": {
+        "inventory": [
+            {
+            }
+        ],
+        "normal": [
+            {
+            }
+        ],
+        "variant": {
+            "copper": {
+                "textures": {
+                    "particle": "metalchests:blocks/copper_chest",
+                    "chest": "metalchests:entity/chest/copper"
+                }
+            },
+            "iron": {
+                "textures": {
+                    "particle": "metalchests:blocks/iron_chest",
+                    "chest": "metalchests:entity/chest/iron"
+                }
+            },
+            "silver": {
+                "textures": {
+                    "particle": "metalchests:blocks/silver_chest",
+                    "chest": "metalchests:entity/chest/silver"
+                }
+            },
+            "gold": {
+                "textures": {
+                    "particle": "metalchests:blocks/gold_chest",
+                    "chest": "metalchests:entity/chest/gold"
+                }
+            },
+            "diamond": {
+                "textures": {
+                    "particle": "metalchests:blocks/diamond_chest",
+                    "chest": "metalchests:entity/chest/diamond"
+                }
+            },
+            "obsidian": {
+                "textures": {
+                    "particle": "metalchests:blocks/obsidian_chest",
+                    "chest": "metalchests:entity/chest/obsidian"
+                }
+            },
+            "crystal": {
+                "textures": {
+                    "particle": "metalchests:blocks/crystal_chest",
+                    "chest": "metalchests:entity/chest/crystal"
+                }
+            }
+        }
+    }
+}

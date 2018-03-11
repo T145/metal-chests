@@ -1,15 +1,20 @@
 package T145.metalchests.tiles;
 
+import javax.annotation.Nonnull;
+
 import T145.metalchests.lib.MetalChestType;
-import T145.metalchests.tiles.base.TileInventory;
+import T145.metalchests.tiles.base.TileBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
-public class TileMetalChest extends TileInventory implements ITickable {
+public class TileMetalChest extends TileBase implements ITickable {
 
 	public float lidAngle;
 	public float prevLidAngle;
@@ -18,10 +23,12 @@ public class TileMetalChest extends TileInventory implements ITickable {
 
 	private MetalChestType type;
 	private EnumFacing front;
+	private ItemStackHandler inventory;
 
 	public TileMetalChest(MetalChestType type) {
 		this.type = type;
-		this.front = EnumFacing.NORTH;
+		front = EnumFacing.NORTH;
+		inventory = createInventory(type);
 	}
 
 	public TileMetalChest() {
@@ -40,23 +47,40 @@ public class TileMetalChest extends TileInventory implements ITickable {
 		return front;
 	}
 
+	public ItemStackHandler getInventory() {
+		return inventory;
+	}
+
+	private ItemStackHandler createInventory(MetalChestType type) {
+		return new ItemStackHandler(type.getInventorySize());
+	}
+
+	@Override
+	public boolean hasCapability(@Nonnull Capability<?> cap, EnumFacing side) {
+		return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(cap, side);
+	}
+
+	@Override
+	public <T> T getCapability(@Nonnull Capability<T> cap, EnumFacing side) {
+		if (cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.cast(inventory);
+		}
+		return super.getCapability(cap, side);
+	}
+
 	@Override
 	public void readPacketNBT(NBTTagCompound tag) {
-		super.readPacketNBT(tag);
 		type = MetalChestType.valueOf(tag.getString("Type"));
-		front = EnumFacing.valueOf(tag.getString("Front"));
+		front = EnumFacing.byName(tag.getString("Front"));
+		inventory = createInventory(type);
+		inventory.deserializeNBT(tag);
 	}
 
 	@Override
 	public void writePacketNBT(NBTTagCompound tag) {
-		super.writePacketNBT(tag);
 		tag.setString("Type", type.toString());
 		tag.setString("Front", front.toString());
-	}
-
-	@Override
-	public int getInventorySize() {
-		return type.getInventorySize();
+		tag.merge(inventory.serializeNBT());
 	}
 
 	@Override
@@ -110,14 +134,6 @@ public class TileMetalChest extends TileInventory implements ITickable {
 		case 1:
 			numPlayersUsing = data;
 			return true;
-		case 2:
-			++numPlayersUsing;
-			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
-			return true;
-		case 3:
-			--numPlayersUsing;
-			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
-			return true;
 		default:
 			return super.receiveClientEvent(id, data);
 		}
@@ -127,6 +143,34 @@ public class TileMetalChest extends TileInventory implements ITickable {
 	public void invalidate() {
 		updateContainingBlockInfo();
 		super.invalidate();
+	}
+
+	public void openInventory(EntityPlayer player) {
+		if (!player.isSpectator()) {
+			if (numPlayersUsing < 0) {
+				numPlayersUsing = 0;
+			}
+
+			++numPlayersUsing;
+			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
+
+			/*if (hasRedstoneUpgrade) {
+				world.notifyNeighborsOfStateChange(pos.down(), getBlockType(), false);
+			}*/
+		}
+	}
+
+	public void closeInventory(EntityPlayer player) {
+		if (!player.isSpectator()) {
+			--numPlayersUsing;
+			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
+
+			/*if (hasRedstoneUpgrade) {
+				world.notifyNeighborsOfStateChange(pos.down(), getBlockType(), false);
+			}*/
+		}
 	}
 
 	public boolean isUsableByPlayer(EntityPlayer player) {
