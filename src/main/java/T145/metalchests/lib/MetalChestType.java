@@ -75,7 +75,7 @@ public enum MetalChestType implements IStringSerializable {
 	}
 
 	public static MetalChestType byMetadata(int meta) {
-		return MetalChestType.values()[meta]; 
+		return values()[meta]; 
 	}
 
 	MetalChestType(int inventorySize, int upgradeInventorySize, Material material, MapColor color, SoundType sound, String oreDictEntry) {
@@ -167,6 +167,10 @@ public enum MetalChestType implements IStringSerializable {
 		@Override
 		public String getName() {
 			return name().toLowerCase();
+		}
+
+		public static StructureUpgrade byMetadata(int meta) {
+			return values()[meta]; 
 		}
 
 		StructureUpgrade(MetalChestType base, MetalChestType upgrade) {

@@ -46,7 +46,7 @@ public class BlockMetalChest extends BlockContainer {
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, MetalChestType.IRON));
 		setUnlocalizedName("metalchests:metal_chest");
 		setHardness(3F);
-		setCreativeTab(CreativeTabs.DECORATIONS);
+		setCreativeTab(MetalChests.TAB);
 	}
 
 	@Override
@@ -133,8 +133,17 @@ public class BlockMetalChest extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (!world.isRemote && !isBlocked(world, pos)) {
-			player.openGui(MetalChests.MODID, 0, world, pos.getX(), pos.getY(), pos.getZ());
+		TileEntity te = world.getTileEntity(pos);
+
+		if (!world.isRemote && te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+			ItemStack stack = player.getHeldItemMainhand();
+
+			if (!player.isSneaking()) {
+				if (!isBlocked(world, pos)) {
+					player.openGui(MetalChests.MODID, 0, world, pos.getX(), pos.getY(), pos.getZ());
+				}
+			}
 		}
 		return true;
 	}

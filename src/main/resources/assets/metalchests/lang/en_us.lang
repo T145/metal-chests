@@ -1,4 +1,6 @@
 
+itemGroup.metalchests=MetalChests
+
 tile.metalchests:metal_chest.copper.name=Copper Chest
 tile.metalchests:metal_chest.iron.name=Iron Chest
 tile.metalchests:metal_chest.silver.name=Silver Chest

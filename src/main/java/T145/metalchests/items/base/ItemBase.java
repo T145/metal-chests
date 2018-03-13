@@ -18,8 +18,12 @@ public class ItemBase extends Item {
 		this.itemTypes = itemTypes;
 		setRegistryName(new ResourceLocation(MetalChests.MODID, name));
 		setUnlocalizedName(MetalChests.MODID + ':' + name);
-		setCreativeTab(CreativeTabs.DECORATIONS);
 		setHasSubtypes(itemTypes != null);
+		setCreativeTab(MetalChests.TAB);
+	}
+
+	public Enum<? extends IStringSerializable>[] getItemTypes() {
+		return itemTypes;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -35,7 +36,9 @@ public class CommonProxy implements IGuiHandler {
 
 	public void preInit(FMLPreInitializationEvent event) {}
 
-	public void init(FMLInitializationEvent event) {}
+	public void init(FMLInitializationEvent event) {
+		TileMetalChest.registerFixesChest(FMLCommonHandler.instance().getDataFixer());
+	}
 
 	public void postInit(FMLPostInitializationEvent event) {
 		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);

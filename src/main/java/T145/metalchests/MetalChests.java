@@ -3,8 +3,11 @@ package T145.metalchests;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import T145.metalchests.core.ModLoader;
 import T145.metalchests.proxies.CommonProxy;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -15,6 +18,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
 @Mod(modid = MetalChests.MODID, name = MetalChests.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON)
@@ -27,6 +32,20 @@ public class MetalChests {
 	public static final String COMMON_PROXY = "T145.metalchests.proxies.CommonProxy";
 	public static final String CLIENT_PROXY = "T145.metalchests.proxies.ClientProxy";
 	public static final Logger LOG = LogManager.getLogger(MODID);
+	public static final CreativeTabs TAB = new CreativeTabs(MODID) {
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public ItemStack getIconItemStack() {
+			return new ItemStack(ModLoader.METAL_CHEST, 1, 1);
+		}
+
+		@Override
+		@SideOnly(Side.CLIENT)
+		public ItemStack getTabIconItem() {
+			return getIconItemStack();
+		}
+	};
 
 	@Instance(MODID)
 	public static MetalChests instance;
