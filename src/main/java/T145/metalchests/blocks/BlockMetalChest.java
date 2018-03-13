@@ -102,9 +102,6 @@ public class BlockMetalChest extends BlockContainer {
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
 
-			// if has storage upgrade
-			// drop it as an item, and save its inventory
-			// else
 			dropInventoryItems(world, pos, chest);
 		}
 
@@ -137,7 +134,6 @@ public class BlockMetalChest extends BlockContainer {
 
 		if (!world.isRemote && te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
-			ItemStack stack = player.getHeldItemMainhand();
 
 			if (!player.isSneaking()) {
 				if (!isBlocked(world, pos)) {
@@ -216,6 +212,32 @@ public class BlockMetalChest extends BlockContainer {
 				items.add(new ItemStack(this, 1, type.ordinal()));
 			}
 		}
+	}
+
+	@Override
+	public boolean canProvidePower(IBlockState state) {
+		return false;
+	}
+
+	@Override
+	public int getWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		if (!state.canProvidePower()) {
+			return 0;
+		} else {
+			int i = 0;
+			TileEntity te = world.getTileEntity(pos);
+
+			if (te instanceof TileMetalChest) {
+				i = ((TileMetalChest) te).numPlayersUsing;
+			}
+
+			return MathHelper.clamp(i, 0, 15);
+		}
+	}
+
+	@Override
+	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return side == EnumFacing.UP ? state.getWeakPower(world, pos, side) : 0;
 	}
 
 	@Override

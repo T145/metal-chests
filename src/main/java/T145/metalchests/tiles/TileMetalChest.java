@@ -2,7 +2,6 @@ package T145.metalchests.tiles;
 
 import javax.annotation.Nonnull;
 
-import T145.metalchests.lib.AccessibleStackHandler;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.tiles.base.TileBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,6 +17,7 @@ import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 public class TileMetalChest extends TileBase implements ITickable {
 
@@ -28,14 +28,12 @@ public class TileMetalChest extends TileBase implements ITickable {
 
 	private MetalChestType type;
 	private EnumFacing front;
-	private AccessibleStackHandler inventory;
-	private AccessibleStackHandler upgrades;
+	private ItemStackHandler inventory;
 
 	public TileMetalChest(MetalChestType type) {
 		this.type = type;
 		this.front = EnumFacing.NORTH;
 		this.inventory = createInventory(type.getInventorySize());
-		this.upgrades = createInventory(type.getUpgradeInventorySize());
 	}
 
 	public TileMetalChest() {
@@ -54,20 +52,20 @@ public class TileMetalChest extends TileBase implements ITickable {
 		return front;
 	}
 
-	public AccessibleStackHandler getInventory() {
+	public ItemStackHandler getInventory() {
 		return inventory;
 	}
 
-	public void setInventory(NonNullList<ItemStack> inventory) {
-		for (int slot = 0; slot < inventory.size(); ++slot) {
-			if (slot < this.inventory.size()) {
-				this.inventory.setStackInSlot(slot, inventory.get(slot));
+	public void setInventory(NonNullList<ItemStack> items) {
+		for (int slot = 0; slot < items.size(); ++slot) {
+			if (slot < type.getInventorySize()) {
+				inventory.setStackInSlot(slot, items.get(slot));
 			}
 		}
 	}
 
-	private AccessibleStackHandler createInventory(int inventorySize) {
-		return new AccessibleStackHandler(inventorySize);
+	private ItemStackHandler createInventory(int inventorySize) {
+		return new ItemStackHandler(inventorySize);
 	}
 
 	public static void registerFixesChest(DataFixer fixer) {
@@ -92,7 +90,6 @@ public class TileMetalChest extends TileBase implements ITickable {
 		type = MetalChestType.valueOf(tag.getString("Type"));
 		front = EnumFacing.byName(tag.getString("Front"));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-		upgrades.deserializeNBT(tag.getCompoundTag("Upgrades"));
 	}
 
 	@Override
@@ -100,7 +97,6 @@ public class TileMetalChest extends TileBase implements ITickable {
 		tag.setString("Type", type.toString());
 		tag.setString("Front", front.toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
-		tag.setTag("Upgrades", upgrades.serializeNBT());
 	}
 
 	@Override
@@ -174,10 +170,6 @@ public class TileMetalChest extends TileBase implements ITickable {
 			++numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-
-			/*if (hasRedstoneUpgrade) {
-				world.notifyNeighborsOfStateChange(pos.down(), getBlockType(), false);
-			}*/
 		}
 	}
 
@@ -186,10 +178,6 @@ public class TileMetalChest extends TileBase implements ITickable {
 			--numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-
-			/*if (hasRedstoneUpgrade) {
-				world.notifyNeighborsOfStateChange(pos.down(), getBlockType(), false);
-			}*/
 		}
 	}
 

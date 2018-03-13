@@ -4,7 +4,6 @@ import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.base.BlockItemBase;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.items.ItemChestAbilityUpgrade;
 import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.items.base.ItemBase;
 import T145.metalchests.lib.MetalChestType;
@@ -31,7 +30,6 @@ public class ModLoader {
 
 	public static final BlockMetalChest METAL_CHEST = new BlockMetalChest();
 
-	public static final ItemBase CHEST_UPGRADE_ABILITY = new ItemChestAbilityUpgrade();
 	public static final ItemBase CHEST_UPGRADE_STRUCTURE = new ItemChestStructureUpgrade();
 
 	@EventBusSubscriber(modid = MetalChests.MODID)
@@ -53,7 +51,6 @@ public class ModLoader {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 			registerItemBlock(registry, METAL_CHEST, MetalChestType.class);
 			registry.register(CHEST_UPGRADE_STRUCTURE);
-			registry.register(CHEST_UPGRADE_ABILITY);
 		}
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -75,10 +72,6 @@ public class ModLoader {
 			}
 
 			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
-
-			for (MetalChestType.AbilityUpgrade type : MetalChestType.AbilityUpgrade.values()) {
-				registerItemModel(CHEST_UPGRADE_ABILITY, type.ordinal(), type.getName());
-			}
 
 			for (MetalChestType.StructureUpgrade type : MetalChestType.StructureUpgrade.values()) {
 				registerItemModel(CHEST_UPGRADE_STRUCTURE, type.ordinal(), type.getName());

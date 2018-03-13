@@ -160,6 +160,10 @@ public enum MetalChestType implements IStringSerializable {
 			return upgrade;
 		}
 
+		public boolean isRegistered() {
+			return hasBase() && base.isRegistered() && upgrade.isRegistered();
+		}
+
 		public boolean canUpgradeWood(IBlockState target) {
 			return base == null && target.getBlock() instanceof BlockChest;
 		}
@@ -176,21 +180,6 @@ public enum MetalChestType implements IStringSerializable {
 		StructureUpgrade(MetalChestType base, MetalChestType upgrade) {
 			this.base = base;
 			this.upgrade = upgrade;
-		}
-	}
-
-	public enum AbilityUpgrade implements IStringSerializable {
-
-		STORAGE,
-		ENDER,
-		REDSTONE,
-		HOPPING,
-		VOID,
-		CREATIVE;
-
-		@Override
-		public String getName() {
-			return name().toLowerCase();
 		}
 	}
 }
