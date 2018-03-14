@@ -1,0 +1,31 @@
+{
+    "conditions": [
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "gemDiamond"
+        },
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "blockGlass"
+        }
+    ],
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "TTT",
+        "TST",
+        "TTT"
+    ],
+    "key": {
+        "T": {
+            "item": "#GLASS"
+        },
+        "S": {
+            "item": "metalchests:metal_chest",
+            "data": 4
+        }
+    },
+    "result": {
+        "item": "metalchests:metal_chest",
+        "data": 6
+    }
+}

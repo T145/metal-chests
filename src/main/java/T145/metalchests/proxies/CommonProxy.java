@@ -34,13 +34,13 @@ public class CommonProxy implements IGuiHandler {
 		return null;
 	}
 
-	public void preInit(FMLPreInitializationEvent event) {}
+	public void preInit(FMLPreInitializationEvent event) {
+		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
+	}
 
 	public void init(FMLInitializationEvent event) {
 		TileMetalChest.registerFixesChest(FMLCommonHandler.instance().getDataFixer());
 	}
 
-	public void postInit(FMLPostInitializationEvent event) {
-		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
-	}
+	public void postInit(FMLPostInitializationEvent event) {}
 }

@@ -1,0 +1,31 @@
+{
+    "conditions": [
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "ingotGold"
+        },
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "gemDiamond"
+        }
+    ],
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "TTT",
+        "TST",
+        "TTT"
+    ],
+    "key": {
+        "T": {
+            "item": "#DIAMOND"
+        },
+        "S": {
+            "item": "metalchests:metal_chest",
+            "data": 3
+        }
+    },
+    "result": {
+        "item": "metalchests:metal_chest",
+        "data": 4
+    }
+}
