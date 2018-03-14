@@ -1,9 +1,14 @@
 package T145.metalchests.tiles;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 import javax.annotation.Nonnull;
 
 import T145.metalchests.lib.MetalChestType;
+import T145.metalchests.lib.SimpleItemStackHandler;
 import T145.metalchests.tiles.base.TileBase;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -17,7 +22,6 @@ import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class TileMetalChest extends TileBase implements ITickable {
 
@@ -28,12 +32,14 @@ public class TileMetalChest extends TileBase implements ITickable {
 
 	private MetalChestType type;
 	private EnumFacing front;
-	private ItemStackHandler inventory;
+	private SimpleItemStackHandler inventory;
+	private SimpleItemStackHandler topStacks;
 
 	public TileMetalChest(MetalChestType type) {
 		this.type = type;
 		this.front = EnumFacing.NORTH;
 		this.inventory = createInventory(type.getInventorySize());
+		this.topStacks = createInventory(8);
 	}
 
 	public TileMetalChest() {
@@ -52,8 +58,12 @@ public class TileMetalChest extends TileBase implements ITickable {
 		return front;
 	}
 
-	public ItemStackHandler getInventory() {
+	public SimpleItemStackHandler getInventory() {
 		return inventory;
+	}
+
+	public SimpleItemStackHandler getTopStacks() {
+		return topStacks;
 	}
 
 	public void setInventory(NonNullList<ItemStack> items) {
@@ -64,8 +74,8 @@ public class TileMetalChest extends TileBase implements ITickable {
 		}
 	}
 
-	private ItemStackHandler createInventory(int inventorySize) {
-		return new ItemStackHandler(inventorySize);
+	private SimpleItemStackHandler createInventory(int inventorySize) {
+		return new SimpleItemStackHandler(inventorySize, this, true);
 	}
 
 	public static void registerFixesChest(DataFixer fixer) {
@@ -90,6 +100,8 @@ public class TileMetalChest extends TileBase implements ITickable {
 		type = MetalChestType.valueOf(tag.getString("Type"));
 		front = EnumFacing.byName(tag.getString("Front"));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+		topStacks.deserializeNBT(tag.getCompoundTag("TopStacks"));
+		sortTopStacks();
 	}
 
 	@Override
@@ -97,6 +109,7 @@ public class TileMetalChest extends TileBase implements ITickable {
 		tag.setString("Type", type.toString());
 		tag.setString("Front", front.toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
+		tag.setTag("TopStacks", topStacks.serializeNBT());
 	}
 
 	@Override
@@ -152,6 +165,97 @@ public class TileMetalChest extends TileBase implements ITickable {
 			return true;
 		default:
 			return super.receiveClientEvent(id, data);
+		}
+	}
+
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		sortTopStacks();
+	}
+
+	private boolean touched = false;
+
+	protected void sortTopStacks() {
+		if (type != MetalChestType.CRYSTAL || (world != null && world.isRemote)) {
+			return;
+		}
+
+		NonNullList<ItemStack> temp = NonNullList.<ItemStack>withSize(type.getInventorySize(), ItemStack.EMPTY);
+		boolean hasStuff = false;
+		int maxSlot = 0;
+
+		copyInventory: for (int i = 0; i < type.getInventorySize(); i++) {
+			ItemStack stack = inventory.getStackInSlot(i);
+
+			if (!stack.isEmpty()) {
+				for (int j = 0; j < maxSlot; j++) {
+					ItemStack tempStack = temp.get(j);
+
+					if (ItemStack.areItemsEqualIgnoreDurability(tempStack, stack)) {
+						if (stack.getCount() != tempStack.getCount()) {
+							tempStack.grow(stack.getCount());
+						}
+
+						continue copyInventory;
+					}
+				}
+
+				temp.set(maxSlot++, stack.copy());
+				hasStuff = true;
+			}
+		}
+
+		if (!hasStuff && touched) {
+			touched = false;
+
+			for (int i = 0; i < topStacks.size(); ++i) {
+				topStacks.setStackInSlot(i, ItemStack.EMPTY);
+			}
+
+			if (world != null) {
+				IBlockState state = world.getBlockState(pos);
+				world.notifyBlockUpdate(pos, state, state, 3);
+			}
+
+			return;
+		}
+
+		touched = true;
+
+		Collections.sort(temp, new Comparator<ItemStack>() {
+
+			@Override
+			public int compare(ItemStack stack1, ItemStack stack2) {
+				if (stack1.isEmpty()) {
+					return 1;
+				} else if (stack2.isEmpty()) {
+					return -1;
+				} else {
+					return stack2.getCount() - stack1.getCount();
+				}
+			}
+		});
+
+		maxSlot = 0;
+
+		for (ItemStack element : temp) {
+			if (!element.isEmpty() && element.getCount() > 0) {
+				if (maxSlot == topStacks.size()) {
+					break;
+				}
+
+				topStacks.setStackInSlot(maxSlot++, element);
+			}
+		}
+
+		for (int i = maxSlot; i < topStacks.size(); ++i) {
+			topStacks.setStackInSlot(i, ItemStack.EMPTY);
+		}
+
+		if (world != null) {
+			IBlockState state = world.getBlockState(pos);
+			world.notifyBlockUpdate(pos, state, state, 3);
 		}
 	}
 
