@@ -11,17 +11,34 @@ tile.metalchests:metal_chest.crystal.name=Crystal Chest
 
 item.metalchests:structure_upgrade.wood_copper.name=Wood to Copper Chest Upgrade
 item.metalchests:structure_upgrade.wood_iron.name=Wood to Iron Chest Upgrade
+item.metalchests:structure_upgrade.wood_silver.name=Wood to Silver Chest Upgrade
+item.metalchests:structure_upgrade.wood_gold.name=Wood to Gold Chest Upgrade
+item.metalchests:structure_upgrade.wood_diamond.name=Wood to Diamond Chest Upgrade
+item.metalchests:structure_upgrade.wood_obsidian.name=Wood to Obsidian Chest Upgrade
+item.metalchests:structure_upgrade.wood_crystal.name=Wood to Crystal Chest Upgrade
+
 item.metalchests:structure_upgrade.copper_iron.name=Copper to Iron Chest Upgrade
 item.metalchests:structure_upgrade.copper_silver.name=Copper to Silver Chest Upgrade
+item.metalchests:structure_upgrade.copper_gold.name=Copper to Gold Chest Upgrade
+item.metalchests:structure_upgrade.copper_diamond.name=Copper to Diamond Chest Upgrade
+item.metalchests:structure_upgrade.copper_obsidian.name=Copper to Obsidian Chest Upgrade
+item.metalchests:structure_upgrade.copper_crystal.name=Copper to Crystal Chest Upgrade
+
+item.metalchests:structure_upgrade.iron_silver.name=Iron to Silver Chest Upgrade
 item.metalchests:structure_upgrade.iron_gold.name=Iron to Gold Chest Upgrade
+item.metalchests:structure_upgrade.iron_diamond.name=Iron to Diamond Chest Upgrade
+item.metalchests:structure_upgrade.iron_obsidian.name=Iron to Obsidian Chest Upgrade
+item.metalchests:structure_upgrade.iron_crystal.name=Iron to Crystal Chest Upgrade
+
 item.metalchests:structure_upgrade.silver_gold.name=Silver to Gold Chest Upgrade
+item.metalchests:structure_upgrade.silver_diamond.name=Silver to Diamond Chest Upgrade
+item.metalchests:structure_upgrade.silver_obsidian.name=Silver to Obsidian Chest Upgrade
+item.metalchests:structure_upgrade.silver_crystal.name=Silver to Crystal Chest Upgrade
+
 item.metalchests:structure_upgrade.gold_diamond.name=Gold to Diamond Chest Upgrade
+item.metalchests:structure_upgrade.gold_obsidian.name=Gold to Obsidian Chest Upgrade
+item.metalchests:structure_upgrade.gold_crystal.name=Gold to Crystal Chest Upgrade
+
 item.metalchests:structure_upgrade.diamond_obsidian.name=Diamond to Obsidian Chest Upgrade
 item.metalchests:structure_upgrade.diamond_crystal.name=Diamond to Crystal Chest Upgrade
 
-item.metalchests:ability_upgrade.storage.name=Storage Upgrade
-item.metalchests:ability_upgrade.ender.name=Ender Upgrade
-item.metalchests:ability_upgrade.redstone.name=Redstone Upgrade
-item.metalchests:ability_upgrade.hopping.name=Hopping Upgrade
-item.metalchests:ability_upgrade.void.name=Void Upgrade
-item.metalchests:ability_upgrade.creative.name=Creative Upgrade

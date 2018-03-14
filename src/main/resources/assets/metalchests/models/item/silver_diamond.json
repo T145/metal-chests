@@ -2,6 +2,6 @@
     "parent": "item/generated",
     "textures": {
         "layer0": "metalchests:items/chest_silver",
-        "layer1": "metalchests:items/arrow_gold"
+        "layer1": "metalchests:items/arrow_diamond"
     }
 }

@@ -135,11 +135,29 @@ public enum MetalChestType implements IStringSerializable {
 
 		WOOD_COPPER(null, COPPER),
 		WOOD_IRON(null, IRON),
+		WOOD_SILVER(null, SILVER),
+		WOOD_GOLD(null, GOLD),
+		WOOD_DIAMOND(null, DIAMOND),
+		WOOD_OBSIDIAN(null, OBSIDIAN),
+		WOOD_CRYSTAL(null, CRYSTAL),
 		COPPER_IRON(COPPER, IRON),
 		COPPER_SILVER(COPPER, SILVER),
+		COPPER_GOLD(COPPER, GOLD),
+		COPPER_DIAMOND(COPPER, DIAMOND),
+		COPPER_OBSIDIAN(COPPER, OBSIDIAN),
+		COPPER_CRYSTAL(COPPER, CRYSTAL),
+		IRON_SILVER(IRON, SILVER),
 		IRON_GOLD(IRON, GOLD),
+		IRON_DIAMOND(IRON, DIAMOND),
+		IRON_OBSIDIAN(IRON, OBSIDIAN),
+		IRON_CRYSTAL(IRON, CRYSTAL),
 		SILVER_GOLD(SILVER, GOLD),
+		SILVER_DIAMOND(SILVER, DIAMOND),
+		SILVER_OBSIDIAN(SILVER, OBSIDIAN),
+		SILVER_CRYSTAL(SILVER, CRYSTAL),
 		GOLD_DIAMOND(GOLD, DIAMOND),
+		GOLD_OBSIDIAN(GOLD, OBSIDIAN),
+		GOLD_CRYSTAL(GOLD, CRYSTAL),
 		DIAMOND_OBSIDIAN(DIAMOND, OBSIDIAN),
 		DIAMOND_CRYSTAL(DIAMOND, CRYSTAL);
 
@@ -161,7 +179,7 @@ public enum MetalChestType implements IStringSerializable {
 		}
 
 		public boolean isRegistered() {
-			return hasBase() && base.isRegistered() && upgrade.isRegistered();
+			return ((hasBase() && base.isRegistered()) || !hasBase()) && upgrade.isRegistered();
 		}
 
 		public boolean canUpgradeWood(IBlockState target) {
