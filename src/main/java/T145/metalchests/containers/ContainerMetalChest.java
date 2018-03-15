@@ -2,12 +2,14 @@ package T145.metalchests.containers;
 
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.tiles.TileMetalChest;
+import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
+@ChestContainer(isLargeChest = true)
 public class ContainerMetalChest extends Container {
 
 	private final TileMetalChest chest;
@@ -75,5 +77,10 @@ public class ContainerMetalChest extends Container {
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
 		chest.closeInventory(player);
+	}
+
+	@ChestContainer.RowSizeCallback
+	public int getNumColumns() {
+		return chest.getType().getRowLength();
 	}
 }

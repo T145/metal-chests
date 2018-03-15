@@ -69,6 +69,7 @@ processResources {
 
 build {
 	doLast {
+		project.file('release').deleteDir()
 		project.file('build/libs').renameTo(project.file('release'))
 		project.file('build/tmp/recompileMc/sources').renameTo(project.file('minecraftSrc'))
 	}
