@@ -1,10 +1,11 @@
 {
 	"homepage": "https://minecraft.curseforge.com/projects/metalchests",
 	"1.12.2": {
-		"origin": "https://github.com/T145/metalchests"
+		"origin": "https://github.com/T145/metalchests",
+		"v1.0.gf79bb8a": "https://github.com/T145/metalchests/releases/tag/v1.0"
 	},
 	"promos": {
-		"1.12.2-latest": "origin",
-		"1.12.2-recommended": "origin"
+		"1.12.2-latest": "v1.0.gf79bb8a",
+		"1.12.2-recommended": "v1.0.gf79bb8a"
 	}
 }

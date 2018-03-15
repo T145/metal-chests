@@ -44,8 +44,7 @@ task setupWorkspace(type: Download, dependsOn: setupDecompWorkspace) {
 	}
 }
 
-//version = (grgit.describe(longDescr: true) - '-0').replaceAll('-', '.')
-version = 'origin'
+version = (grgit.describe(longDescr: true) - '-0').replaceAll('-', '.')
 group = mod_group
 archivesBaseName = mod_id
 
