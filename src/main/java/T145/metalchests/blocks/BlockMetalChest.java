@@ -30,6 +30,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -93,6 +94,21 @@ public class BlockMetalChest extends BlockContainer {
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
 		return CHEST_AABB;
+	}
+
+	@Override
+	public float getExplosionResistance(World world, BlockPos pos, Entity exploder, Explosion explosion) {
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+
+			if (chest.getType() == MetalChestType.OBSIDIAN) {
+				return 10000F;
+			}
+		}
+
+		return super.getExplosionResistance(world, pos, exploder, explosion);
 	}
 
 	@Override
