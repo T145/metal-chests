@@ -22,7 +22,13 @@ public class ContainerMetalChest extends Container {
 
 		for (int chestRow = 0; chestRow < type.getRowCount(); chestRow++) {
 			for (int chestCol = 0; chestCol < type.getRowLength(); chestCol++) {
-				this.addSlotToContainer(new SlotItemHandler(chest.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
+				addSlotToContainer(new SlotItemHandler(chest.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18) {
+
+					@Override
+					public void onSlotChanged() {
+						chest.markDirty();
+					}
+				});
 			}
 		}
 
@@ -30,13 +36,12 @@ public class ContainerMetalChest extends Container {
 
 		for (int playerInvRow = 0; playerInvRow < 3; playerInvRow++) {
 			for (int playerInvCol = 0; playerInvCol < 9; playerInvCol++) {
-				this.addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, ySize - (4 - playerInvRow) * 18 - 10));
+				addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, ySize - (4 - playerInvRow) * 18 - 10));
 			}
-
 		}
 
 		for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++) {
-			this.addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, ySize - 24));
+			addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, ySize - 24));
 		}
 	}
 
@@ -47,30 +52,30 @@ public class ContainerMetalChest extends Container {
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack itemstack = ItemStack.EMPTY;
+		ItemStack stack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
 
 		if (slot != null && slot.getHasStack()) {
-			ItemStack itemstack1 = slot.getStack();
-			itemstack = itemstack1.copy();
+			ItemStack slotStack = slot.getStack();
+			stack = slotStack.copy();
 			int inventorySize = chest.getType().getInventorySize();
 
 			if (index < inventorySize) {
-				if (!mergeItemStack(itemstack1, inventorySize, inventorySlots.size(), true)) {
+				if (!mergeItemStack(slotStack, inventorySize, inventorySlots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!mergeItemStack(itemstack1, 0, inventorySize, false)) {
+			} else if (!mergeItemStack(slotStack, 0, inventorySize, false)) {
 				return ItemStack.EMPTY;
 			}
 
-			if (itemstack1.isEmpty()) {
+			if (slotStack.isEmpty()) {
 				slot.putStack(ItemStack.EMPTY);
 			} else {
 				slot.onSlotChanged();
 			}
 		}
 
-		return itemstack;
+		return stack;
 	}
 
 	@Override
