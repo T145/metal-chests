@@ -2,30 +2,30 @@
     "conditions": [
         {
             "type": "metalchests:ore_exists",
-            "ore": "ingotGold"
+            "ore": "gemDiamond"
         },
         {
             "type": "metalchests:ore_exists",
-            "ore": "gemDiamond"
+            "ore": "blockGlass"
         }
     ],
     "type": "forge:ore_shaped",
     "pattern": [
         "TTT",
-        "TST",
-        "TTT"
+        "TTT",
+        "ETT"
     ],
     "key": {
         "T": {
-            "item": "#DIAMOND"
+            "item": "#GLASS"
         },
-        "S": {
-            "item": "metalchests:metal_chest",
-            "data": 3
+        "E": {
+            "item": "metalchests:structure_upgrade",
+            "data": 4
         }
     },
     "result": {
-        "item": "metalchests:metal_chest",
-        "data": 4
+        "item": "metalchests:structure_upgrade",
+        "data": 6
     }
 }

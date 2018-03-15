@@ -1,0 +1,30 @@
+{
+    "conditions": [
+        {
+            "type": "metalchests:ore_null",
+            "ore": "ingotCopper"
+        },
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "ingotIron"
+        }
+    ],
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "TTT",
+        "TTT",
+        "ETT"
+    ],
+    "key": {
+        "T": {
+            "item": "#IRON"
+        },
+        "E": {
+            "item": "#PLANKS"
+        }
+    },
+    "result": {
+        "item": "metalchests:structure_upgrade",
+        "data": 1
+    }
+}

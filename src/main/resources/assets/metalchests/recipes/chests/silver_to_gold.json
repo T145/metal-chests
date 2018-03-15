@@ -2,11 +2,11 @@
     "conditions": [
         {
             "type": "metalchests:ore_exists",
-            "ore": "ingotGold"
+            "ore": "ingotSilver"
         },
         {
             "type": "metalchests:ore_exists",
-            "ore": "gemDiamond"
+            "ore": "ingotGold"
         }
     ],
     "type": "forge:ore_shaped",
@@ -17,15 +17,15 @@
     ],
     "key": {
         "T": {
-            "item": "#DIAMOND"
+            "item": "#GOLD"
         },
         "S": {
             "item": "metalchests:metal_chest",
-            "data": 3
+            "data": 2
         }
     },
     "result": {
         "item": "metalchests:metal_chest",
-        "data": 4
+        "data": 3
     }
 }

@@ -1,0 +1,35 @@
+{
+    "conditions": [
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "ingotIron"
+        },
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "ingotSilver"
+        },
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "ingotGold"
+        }
+    ],
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "TTT",
+        "TTT",
+        "ETT"
+    ],
+    "key": {
+        "T": {
+            "item": "#GOLD"
+        },
+        "E": {
+            "item": "metalchests:structure_upgrade",
+            "data": 13
+        }
+    },
+    "result": {
+        "item": "metalchests:structure_upgrade",
+        "data": 14
+    }
+}
