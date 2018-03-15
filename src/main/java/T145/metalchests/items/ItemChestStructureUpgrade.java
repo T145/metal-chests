@@ -4,7 +4,6 @@ import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.base.ItemBase;
-import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.StructureUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
@@ -28,7 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemChestStructureUpgrade extends ItemBase {
 
 	public ItemChestStructureUpgrade() {
-		super("structure_upgrade", MetalChestType.StructureUpgrade.values());
+		super("structure_upgrade", StructureUpgrade.values());
 		setMaxStackSize(1);
 	}
 
@@ -41,7 +40,7 @@ public class ItemChestStructureUpgrade extends ItemBase {
 		ItemStack stack = player.getHeldItem(hand);
 		TileEntity te = world.getTileEntity(pos);
 		IBlockState state = world.getBlockState(pos);
-		MetalChestType.StructureUpgrade upgrade = MetalChestType.StructureUpgrade.byMetadata(stack.getItemDamage());
+		StructureUpgrade upgrade = StructureUpgrade.byMetadata(stack.getItemDamage());
 
 		if (te instanceof TileMetalChest && ((TileMetalChest) te).getType() == upgrade.getBase()) {
 			TileMetalChest chest = (TileMetalChest) te;
@@ -50,13 +49,7 @@ public class ItemChestStructureUpgrade extends ItemBase {
 				return EnumActionResult.PASS;
 			}
 
-			NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(chest.getType().getInventorySize(), ItemStack.EMPTY);
-
-			for (int i = 0; i < inventory.size(); i++) {
-				inventory.set(i, chest.getInventory().getStackInSlot(i));
-			}
-
-			createNewChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), inventory, chest.getFront());
+			createNewChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory().getStacks(), chest.getFront());
 		} else if (te instanceof TileEntityChest && state.getBlock() instanceof BlockChest) {
 			TileEntityChest chest = (TileEntityChest) te;
 
