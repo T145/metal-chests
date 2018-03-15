@@ -1,9 +1,12 @@
 package T145.metalchests.core;
 
+import java.util.HashSet;
+
 import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.base.BlockItemBase;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
+import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.items.base.ItemBase;
 import T145.metalchests.lib.MetalChestType;
@@ -11,12 +14,17 @@ import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.ai.EntityAIOcelotSit;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -59,6 +67,27 @@ public class ModLoader {
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block, Class types) {
 			registry.register(new BlockItemBase(block, types).setRegistryName(block.getRegistryName()));
+		}
+
+		@SubscribeEvent
+		public void changeSittingTaskForOcelots(LivingUpdateEvent event) {
+			EntityLivingBase creature = event.getEntityLiving();
+
+			if (creature instanceof EntityOcelot && creature.ticksExisted < 5) {
+				EntityOcelot ocelot = (EntityOcelot) creature;
+				HashSet<EntityAITaskEntry> hashset = new HashSet<EntityAITaskEntry>();
+
+				for (EntityAITaskEntry task : ocelot.tasks.taskEntries) {
+					if (task.action.getClass() == EntityAIOcelotSit.class) {
+						hashset.add(task);
+					}
+				}
+
+				for (EntityAITaskEntry task : hashset) {
+					ocelot.tasks.removeTask(task.action);
+					ocelot.tasks.addTask(task.priority, new EntityAIOcelotSitOnChest(ocelot, 0.4F));
+				}
+			}
 		}
 	}
 
