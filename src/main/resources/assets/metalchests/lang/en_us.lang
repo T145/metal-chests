@@ -9,6 +9,14 @@ tile.metalchests:metal_chest.diamond.name=Diamond Chest
 tile.metalchests:metal_chest.obsidian.name=Obsidian Chest
 tile.metalchests:metal_chest.crystal.name=Crystal Chest
 
+item.metalchests:minecart_metal_chest.copper.name=Minecart with Copper Chest
+item.metalchests:minecart_metal_chest.iron.name=Minecart with Iron Chest
+item.metalchests:minecart_metal_chest.silver.name=Minecart with Silver Chest
+item.metalchests:minecart_metal_chest.gold.name=Minecart with Gold Chest
+item.metalchests:minecart_metal_chest.diamond.name=Minecart with Diamond Chest
+item.metalchests:minecart_metal_chest.obsidian.name=Minecart with Obsidian Chest
+item.metalchests:minecart_metal_chest.crystal.name=Minecart with Crystal Chest
+
 item.metalchests:structure_upgrade.wood_copper.name=Wood to Copper Chest Upgrade
 item.metalchests:structure_upgrade.wood_iron.name=Wood to Iron Chest Upgrade
 item.metalchests:structure_upgrade.wood_silver.name=Wood to Silver Chest Upgrade

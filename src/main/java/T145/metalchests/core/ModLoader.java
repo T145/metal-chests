@@ -126,12 +126,13 @@ public class ModLoader {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (MetalChestType type : MetalChestType.values()) {
 				registerBlockModel(METAL_CHEST, type.ordinal(), type);
+				registerItemModel(MINECART_METAL_CHEST, type.ordinal(), "minecarts/" + type.getName());
 			}
 
 			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 			for (MetalChestType.StructureUpgrade type : MetalChestType.StructureUpgrade.values()) {
-				registerItemModel(CHEST_UPGRADE_STRUCTURE, type.ordinal(), type.getName());
+				registerItemModel(CHEST_UPGRADE_STRUCTURE, type.ordinal(), "upgrades/" + type.getName());
 			}
 
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderEntityMinecartMetalChest(manager));

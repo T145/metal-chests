@@ -1,0 +1,6 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "metalchests:items/chest_cart_iron"
+    }
+}

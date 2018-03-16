@@ -8,6 +8,7 @@ import net.minecraft.client.model.ModelMinecart;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -90,7 +91,9 @@ public class RenderEntityMinecartMetalChest extends Render<EntityMinecartMetalCh
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(0.75F, 0.75F, 0.75F);
 		GlStateManager.translate(-0.5F, (float) (j - 8) / 16.0F, -0.5F);
-		RenderMetalChest.INSTANCE.render(new TileMetalChest(entity.getChestType()), 0, 0, 0, partialTicks, -1, 0);
+		TileMetalChest chest = new TileMetalChest(entity.getChestType());
+		chest.setFront(EnumFacing.EAST);
+		RenderMetalChest.INSTANCE.render(chest, 0, 0, 0, partialTicks, -1, 0);
 		GlStateManager.popMatrix();
 		this.bindEntityTexture(entity);
 
