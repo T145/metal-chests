@@ -1,6 +1,7 @@
 package T145.metalchests.lib;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import T145.metalchests.tiles.base.TileBase;
 import net.minecraft.inventory.InventoryHelper;
@@ -14,18 +15,34 @@ import net.minecraftforge.items.ItemStackHandler;
 public class SimpleItemStackHandler extends ItemStackHandler {
 
 	private final boolean allowWrite;
-	private final TileBase inv;
+	private final TileBase te;
 
-	public SimpleItemStackHandler(int invSize, TileBase inv, boolean allowWrite) {
+	public SimpleItemStackHandler(int invSize, @Nullable TileBase te, boolean allowWrite) {
 		super(invSize);
 		this.allowWrite = allowWrite;
-		this.inv = inv;
+		this.te = te;
 	}
 
-	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks, TileBase inv, boolean allowWrite) {
+	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks, @Nullable TileBase te, boolean allowWrite) {
 		super(topStacks);
 		this.allowWrite = allowWrite;
-		this.inv = inv;
+		this.te = te;
+	}
+
+	public SimpleItemStackHandler(int invSize, boolean allowWrite) {
+		this(invSize, null, allowWrite);
+	}
+
+	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks, boolean allowWrite) {
+		this(topStacks, null, allowWrite);
+	}
+
+	public SimpleItemStackHandler(int invSize) {
+		this(invSize, true);
+	}
+
+	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks) {
+		this(topStacks, true);
 	}
 
 	@Nonnull
@@ -50,7 +67,9 @@ public class SimpleItemStackHandler extends ItemStackHandler {
 
 	@Override
 	public void onContentsChanged(int slot) {
-		inv.markDirty();
+		if (te != null) {
+			te.markDirty();
+		}
 	}
 
 	public NonNullList<ItemStack> getStacks() {
@@ -72,7 +91,7 @@ public class SimpleItemStackHandler extends ItemStackHandler {
 	}
 
 	public int calcRedstone() {
-		if (inv == null) {
+		if (te == null) {
 			return 0;
 		} else {
 			int i = 0;

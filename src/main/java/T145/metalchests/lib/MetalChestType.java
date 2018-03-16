@@ -3,15 +3,11 @@ package T145.metalchests.lib;
 import javax.annotation.Nullable;
 
 import T145.metalchests.MetalChests;
-import T145.metalchests.containers.ContainerMetalChest;
-import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
@@ -119,10 +115,6 @@ public enum MetalChestType implements IStringSerializable {
 		public ResourceLocation getGuiTexture() {
 			MetalChestType type = MetalChestType.byMetadata(ordinal());
 			return new ResourceLocation(MetalChests.MODID, "textures/gui/" + (type.isLarge() ? "diamond" : type.getName()) + "_container.png");
-		}
-
-		public Container getContainer(TileMetalChest chest, EntityPlayer player) {
-			return new ContainerMetalChest(chest, player, xSize, ySize);
 		}
 
 		GUI(int xSize, int ySize) {

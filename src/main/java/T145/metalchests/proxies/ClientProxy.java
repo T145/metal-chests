@@ -1,8 +1,11 @@
 package T145.metalchests.proxies;
 
 import T145.metalchests.client.gui.GuiMetalChest;
+import T145.metalchests.client.gui.GuiMinecartMetalChest;
+import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.tiles.TileMetalChest;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -21,9 +24,15 @@ public class ClientProxy extends CommonProxy {
 		switch (ID) {
 		case 0:
 			TileMetalChest chest = (TileMetalChest) te;
-			MetalChestType.GUI gui = MetalChestType.GUI.byType(chest.getType());
-			return new GuiMetalChest(gui, chest, player);
+			return new GuiMetalChest(MetalChestType.GUI.byType(chest.getType()), chest, player);
 		default:
+			Entity entity = world.getEntityByID(ID);
+
+			if (entity instanceof EntityMinecartMetalChest) {
+				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
+				return new GuiMinecartMetalChest(MetalChestType.GUI.byType(cart.getChestType()), cart, player);
+			}
+
 			return null;
 		}
 	}
