@@ -19,7 +19,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -117,20 +116,10 @@ public class BlockMetalChest extends BlockContainer {
 
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
-			dropInventoryItems(world, pos, chest);
+			chest.getInventory().dropItems(world, pos);
 		}
 
 		super.breakBlock(world, pos, state);
-	}
-
-	private static void dropInventoryItems(World worldIn, BlockPos pos, TileMetalChest inventory) {
-		for (int i = 0; i < inventory.getType().getInventorySize(); ++i) {
-			ItemStack stack = inventory.getInventory().getStackInSlot(i);
-
-			if (!stack.isEmpty()) {
-				InventoryHelper.spawnItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), stack);
-			}
-		}
 	}
 
 	@Override
@@ -184,28 +173,14 @@ public class BlockMetalChest extends BlockContainer {
 
 	@Override
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos) {
-		return calcRedstoneFromInventory((TileMetalChest) world.getTileEntity(pos));
-	}
+		TileEntity te = world.getTileEntity(pos);
 
-	public static int calcRedstoneFromInventory(@Nullable TileMetalChest inv) {
-		if (inv == null) {
-			return 0;
-		} else {
-			int i = 0;
-			float f = 0.0F;
-
-			for (int j = 0; j < inv.getType().getInventorySize(); ++j) {
-				ItemStack itemstack = inv.getInventory().getStackInSlot(j);
-
-				if (!itemstack.isEmpty()) {
-					f += itemstack.getCount() / Math.min(inv.getInventory().getSlotLimit(j), itemstack.getMaxStackSize());
-					++i;
-				}
-			}
-
-			f = f / inv.getType().getInventorySize();
-			return MathHelper.floor(f * 14.0F) + (i > 0 ? 1 : 0);
+		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+			return chest.getInventory().calcRedstone();
 		}
+
+		return 0;
 	}
 
 	@Override
