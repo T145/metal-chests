@@ -37,14 +37,6 @@ public class SimpleItemStackHandler extends ItemStackHandler {
 		this(topStacks, null, allowWrite);
 	}
 
-	public SimpleItemStackHandler(int invSize) {
-		this(invSize, true);
-	}
-
-	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks) {
-		this(topStacks, true);
-	}
-
 	@Nonnull
 	@Override
 	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {

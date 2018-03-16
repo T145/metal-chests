@@ -37,7 +37,7 @@ public class EntityMinecartMetalChest extends EntityMinecart {
 
 	private static World setChestData(MetalChestType chestType, World world) {
 		type = chestType;
-		inventory = new SimpleItemStackHandler(chestType.getInventorySize());
+		inventory = new SimpleItemStackHandler(chestType.getInventorySize(), true);
 		return world;
 	}
 
