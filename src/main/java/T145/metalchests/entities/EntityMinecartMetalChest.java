@@ -28,19 +28,11 @@ public class EntityMinecartMetalChest extends EntityMinecart {
 	private static SimpleItemStackHandler inventory;
 
 	public EntityMinecartMetalChest(World world) {
-		super(setChestData(MetalChestType.IRON, world));
+		super(world);
 	}
 
 	public EntityMinecartMetalChest(World world, double x, double y, double z) {
-		super(setChestData(MetalChestType.IRON, world), x, y, z);
-	}
-
-	public EntityMinecartMetalChest(MetalChestType type, World world) {
-		super(setChestData(type, world));
-	}
-
-	public EntityMinecartMetalChest(MetalChestType type, World world, double x, double y, double z) {
-		super(setChestData(type, world), x, y, z);
+		super(world, x, y, z);
 	}
 
 	private static World setChestData(MetalChestType chestType, World world) {
@@ -51,6 +43,10 @@ public class EntityMinecartMetalChest extends EntityMinecart {
 
 	public MetalChestType getChestType() {
 		return type;
+	}
+
+	public void setChestType(MetalChestType type) {
+		setChestData(type, world);
 	}
 
 	public SimpleItemStackHandler getInventory() {
@@ -98,12 +94,14 @@ public class EntityMinecartMetalChest extends EntityMinecart {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tag) {
 		super.writeEntityToNBT(tag);
+		tag.setString("Type", type.toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tag) {
 		super.readEntityFromNBT(tag);
+		type = MetalChestType.valueOf(tag.getString("Type"));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 	}
 

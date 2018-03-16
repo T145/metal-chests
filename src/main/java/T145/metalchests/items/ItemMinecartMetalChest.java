@@ -63,7 +63,8 @@ public class ItemMinecartMetalChest extends ItemBase {
 				}
 			}
 
-			EntityMinecartMetalChest cart = new EntityMinecartMetalChest(MetalChestType.byMetadata(stack.getItemDamage()), world, d0, d1 + d3, d2);
+			EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, d0, d1 + d3, d2);
+			cart.setChestType(MetalChestType.byMetadata(stack.getItemDamage()));
 
 			if (stack.hasDisplayName()) {
 				cart.setCustomNameTag(stack.getDisplayName());
@@ -97,7 +98,8 @@ public class ItemMinecartMetalChest extends ItemBase {
 					d0 = 0.5D;
 				}
 
-				EntityMinecartMetalChest cart = new EntityMinecartMetalChest(MetalChestType.byMetadata(itemstack.getItemDamage()), world, pos.getX() + 0.5D, pos.getY() + 0.0625D + d0, pos.getZ() + 0.5D);
+				EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, pos.getX() + 0.5D, pos.getY() + 0.0625D + d0, pos.getZ() + 0.5D);
+				cart.setChestType(MetalChestType.byMetadata(itemstack.getItemDamage()));
 
 				if (itemstack.hasDisplayName()) {
 					cart.setCustomNameTag(itemstack.getDisplayName());

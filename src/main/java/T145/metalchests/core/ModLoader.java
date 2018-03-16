@@ -6,6 +6,7 @@ import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.base.BlockItemBase;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
+import T145.metalchests.client.render.entities.RenderEntityMinecartMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestStructureUpgrade;
@@ -30,6 +31,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -126,11 +128,13 @@ public class ModLoader {
 				registerBlockModel(METAL_CHEST, type.ordinal(), type);
 			}
 
-			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
+			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 			for (MetalChestType.StructureUpgrade type : MetalChestType.StructureUpgrade.values()) {
 				registerItemModel(CHEST_UPGRADE_STRUCTURE, type.ordinal(), type.getName());
 			}
+
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderEntityMinecartMetalChest(manager));
 		}
 
 		public static String getVariantName(IStringSerializable variant) {
