@@ -1,39 +1,39 @@
 package T145.metalchests.client.gui;
 
 import T145.metalchests.containers.ContainerMinecartMetalChest;
-import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.lib.MetalChestType;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiMinecartMetalChest extends GuiContainer {
 
-	private final MetalChestType.GUI gui;
+	private MetalChestType.GUI type;
 
-	public GuiMinecartMetalChest(MetalChestType.GUI gui, EntityMinecartMetalChest cart, EntityPlayer player) {
-		super(new ContainerMinecartMetalChest(cart, player, gui.getSizeX(), gui.getSizeY()));
-		this.gui = gui;
-		this.xSize = gui.getSizeX();
-		this.ySize = gui.getSizeY();
+	public GuiMinecartMetalChest(MetalChestType.GUI type, IInventory player, IInventory chest) {
+		super(new ContainerMinecartMetalChest(player, chest, MetalChestType.byMetadata(type.ordinal()), type.getSizeX(), type.getSizeY()));
+		this.type = type;
+		this.xSize = type.getSizeX();
+		this.ySize = type.getSizeY();
+		this.allowUserInput = false;
 	}
 
 	@Override
 	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-		drawDefaultBackground();
+		this.drawDefaultBackground();
 		super.drawScreen(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+		this.renderHoveredToolTip(mouseX, mouseY);
 	}
 
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+	public void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindTexture(gui.getGuiTexture());
-		int x = (width - xSize) / 2;
-		int y = (height - ySize) / 2;
-		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+		this.mc.getTextureManager().bindTexture(this.type.getGuiTexture());
+		int x = (this.width - this.xSize) / 2;
+		int y = (this.height - this.ySize) / 2;
+		this.drawTexturedModalRect(x, y, 0, 0, this.xSize, this.ySize);
 	}
 }

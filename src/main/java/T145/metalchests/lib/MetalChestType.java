@@ -14,16 +14,15 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum MetalChestType implements IStringSerializable {
 
-	COPPER(45, 1, Material.IRON, Material.IRON.getMaterialMapColor(), SoundType.METAL, "ingotCopper"),
-	IRON(54, 1, Material.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
-	SILVER(72, 2, Material.IRON, Material.IRON.getMaterialMapColor(), SoundType.METAL, "ingotSilver"),
-	GOLD(81, 2, Material.IRON, MapColor.GOLD, SoundType.METAL, "ingotGold"),
-	DIAMOND(108, 3, Material.IRON, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-	OBSIDIAN(108, 3, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "blockObsidian"),
-	CRYSTAL(108, 3, Material.GLASS, MapColor.QUARTZ, SoundType.GLASS, "blockGlass");
+	COPPER(45, Material.IRON, Material.IRON.getMaterialMapColor(), SoundType.METAL, "ingotCopper"),
+	IRON(54, Material.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
+	SILVER(72, Material.IRON, Material.IRON.getMaterialMapColor(), SoundType.METAL, "ingotSilver"),
+	GOLD(81, Material.IRON, MapColor.GOLD, SoundType.METAL, "ingotGold"),
+	DIAMOND(108, Material.IRON, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
+	OBSIDIAN(108, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "blockObsidian"),
+	CRYSTAL(108, Material.GLASS, MapColor.QUARTZ, SoundType.GLASS, "blockGlass");
 
 	private final int inventorySize;
-	private final int upgradeInventorySize;
 	private final Material material;
 	private final MapColor color;
 	private final SoundType sound;
@@ -49,10 +48,6 @@ public enum MetalChestType implements IStringSerializable {
 		return inventorySize;
 	}
 
-	public int getUpgradeInventorySize() {
-		return upgradeInventorySize;
-	}
-
 	public boolean isLarge() {
 		return inventorySize > 100;
 	}
@@ -74,9 +69,8 @@ public enum MetalChestType implements IStringSerializable {
 		return values()[meta]; 
 	}
 
-	MetalChestType(int inventorySize, int upgradeInventorySize, Material material, MapColor color, SoundType sound, String oreDictEntry) {
+	MetalChestType(int inventorySize, Material material, MapColor color, SoundType sound, String oreDictEntry) {
 		this.inventorySize = inventorySize;
-		this.upgradeInventorySize = upgradeInventorySize;
 		this.material = material;
 		this.color = color;
 		this.sound = sound;

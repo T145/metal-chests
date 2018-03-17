@@ -2,7 +2,7 @@ package T145.metalchests.proxies;
 
 import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.containers.ContainerMinecartMetalChest;
-import T145.metalchests.entities.EntityMinecartMetalChest;
+import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,9 +31,9 @@ public class CommonProxy implements IGuiHandler {
 		default:
 			Entity entity = world.getEntityByID(ID);
 
-			if (entity instanceof EntityMinecartMetalChest) {
-				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
-				return new ContainerMinecartMetalChest(cart, player, 0, 0);
+			if (entity instanceof EntityMinecartMetalChestBase) {
+				EntityMinecartMetalChestBase cart = (EntityMinecartMetalChestBase) entity;
+				return new ContainerMinecartMetalChest(player.inventory, cart, cart.getChestType(), 0, 0);
 			}
 
 			return null;
@@ -53,7 +53,7 @@ public class CommonProxy implements IGuiHandler {
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
 		TileMetalChest.registerFixesChest(fixer);
-		EntityMinecartMetalChest.addDataFixers(fixer);
+		//EntityMinecartMetalChest.addDataFixers(fixer);
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {}

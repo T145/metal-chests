@@ -1,27 +1,71 @@
 package T145.metalchests.containers;
 
-import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.lib.MetalChestType;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.items.SlotItemHandler;
 
 @ChestContainer(isLargeChest = true)
 public class ContainerMinecartMetalChest extends Container {
 
-	private final EntityMinecartMetalChest cart;
+	private MetalChestType type;
+	private EntityPlayer player;
+	private IInventory chest;
 
-	public ContainerMinecartMetalChest(EntityMinecartMetalChest cart, EntityPlayer player, int xSize, int ySize) {
-		this.cart = cart;
+	public ContainerMinecartMetalChest(IInventory playerInventory, IInventory chestInventory, MetalChestType type, int xSize, int ySize) {
+		this.chest = chestInventory;
+		this.player = ((InventoryPlayer) playerInventory).player;
+		this.type = type;
+		chestInventory.openInventory(this.player);
+		this.layoutContainer(playerInventory, chestInventory, type, xSize, ySize);
+	}
 
-		MetalChestType type = cart.getChestType();
+	@Override
+	public boolean canInteractWith(EntityPlayer playerIn) {
+		return this.chest.isUsableByPlayer(playerIn);
+	}
 
+	@Override
+	public ItemStack transferStackInSlot(EntityPlayer playerIn, int index) {
+		ItemStack itemstack = ItemStack.EMPTY;
+		Slot slot = this.inventorySlots.get(index);
+
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
+
+			if (index < this.type.getInventorySize()) {
+				if (!this.mergeItemStack(itemstack1, this.type.getInventorySize(), this.inventorySlots.size(), true)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 0, this.type.getInventorySize(), false)) {
+				return ItemStack.EMPTY;
+			}
+
+			if (itemstack1.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
+			}
+		}
+
+		return itemstack;
+	}
+
+	@Override
+	public void onContainerClosed(EntityPlayer playerIn) {
+		super.onContainerClosed(playerIn);
+		this.chest.closeInventory(playerIn);
+	}
+
+	protected void layoutContainer(IInventory playerInventory, IInventory chestInventory, MetalChestType type, int xSize, int ySize) {
 		for (int chestRow = 0; chestRow < type.getRowCount(); chestRow++) {
 			for (int chestCol = 0; chestCol < type.getRowLength(); chestCol++) {
-				addSlotToContainer(new SlotItemHandler(cart.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
+				this.addSlotToContainer(new Slot(chestInventory, chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
 			}
 		}
 
@@ -29,50 +73,22 @@ public class ContainerMinecartMetalChest extends Container {
 
 		for (int playerInvRow = 0; playerInvRow < 3; playerInvRow++) {
 			for (int playerInvCol = 0; playerInvCol < 9; playerInvCol++) {
-				addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, ySize - (4 - playerInvRow) * 18 - 10));
+				this.addSlotToContainer(new Slot(playerInventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, ySize - (4 - playerInvRow) * 18 - 10));
 			}
+
 		}
 
 		for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++) {
-			addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, ySize - 24));
+			this.addSlotToContainer(new Slot(playerInventory, hotbarSlot, leftCol + hotbarSlot * 18, ySize - 24));
 		}
 	}
 
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return cart.isUsableByPlayer(player);
-	}
-
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack stack = ItemStack.EMPTY;
-		Slot slot = inventorySlots.get(index);
-
-		if (slot != null && slot.getHasStack()) {
-			ItemStack slotStack = slot.getStack();
-			stack = slotStack.copy();
-			int inventorySize = cart.getChestType().getInventorySize();
-
-			if (index < inventorySize) {
-				if (!mergeItemStack(slotStack, inventorySize, inventorySlots.size(), true)) {
-					return ItemStack.EMPTY;
-				}
-			} else if (!mergeItemStack(slotStack, 0, inventorySize, false)) {
-				return ItemStack.EMPTY;
-			}
-
-			if (slotStack.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
-			} else {
-				slot.onSlotChanged();
-			}
-		}
-
-		return stack;
+	public EntityPlayer getPlayer() {
+		return this.player;
 	}
 
 	@ChestContainer.RowSizeCallback
 	public int getNumColumns() {
-		return cart.getChestType().getRowLength();
+		return this.type.getRowLength();
 	}
 }

@@ -6,8 +6,14 @@ import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.base.BlockItemBase;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.client.render.entities.RenderEntityMinecartMetalChest;
-import T145.metalchests.entities.EntityMinecartMetalChest;
+import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
+import T145.metalchests.entities.EntityMinecartCopperChest;
+import T145.metalchests.entities.EntityMinecartCrystalChest;
+import T145.metalchests.entities.EntityMinecartDiamondChest;
+import T145.metalchests.entities.EntityMinecartGoldChest;
+import T145.metalchests.entities.EntityMinecartIronChest;
+import T145.metalchests.entities.EntityMinecartObsidianChest;
+import T145.metalchests.entities.EntityMinecartSilverChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.items.ItemMinecartMetalChest;
@@ -47,7 +53,7 @@ public class ModLoader {
 	public static final BlockMetalChest METAL_CHEST = new BlockMetalChest();
 
 	public static final ItemBase MINECART_METAL_CHEST = new ItemMinecartMetalChest();
-	public static final ItemBase CHEST_UPGRADE_STRUCTURE = new ItemChestStructureUpgrade();
+	public static final ItemBase CHEST_UPGRADE_STRUCTURE = new ItemChestStructureUpgrade(); 
 
 	@EventBusSubscriber(modid = MetalChests.MODID)
 	public static class ServerLoader {
@@ -81,12 +87,40 @@ public class ModLoader {
 
 		@SubscribeEvent
 		public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
-			final IForgeRegistry<EntityEntry> registry = event.getRegistry();
-			EntityEntry minecartEntry = createBuilder("minecart_metal_chest")
-					.entity(EntityMinecartMetalChest.class)
+			final EntityEntry[] entries = {
+					createBuilder("MinecartCopperChest")
+					.entity(EntityMinecartCopperChest.class)
 					.tracker(80, 3, true)
-					.build();
-			registry.register(minecartEntry);
+					.build(),
+					createBuilder("MinecartIronChest")
+					.entity(EntityMinecartIronChest.class)
+					.tracker(80, 3, true)
+					.build(),
+					createBuilder("MinecartSilverChest")
+					.entity(EntityMinecartSilverChest.class)
+					.tracker(80, 3, true)
+					.build(),
+					createBuilder("MinecartGoldChest")
+					.entity(EntityMinecartGoldChest.class)
+					.tracker(80, 3, true)
+					.build(),
+					createBuilder("MinecartDiamondChest")
+					.entity(EntityMinecartDiamondChest.class)
+					.tracker(80, 3, true)
+					.build(),
+					createBuilder("MinecartObsidianChest")
+					.entity(EntityMinecartObsidianChest.class)
+					.tracker(80, 3, true)
+					.build(),
+					createBuilder("MinecartCrystalChest")
+					.entity(EntityMinecartCrystalChest.class)
+					.tracker(80, 3, true)
+					.build()
+			};
+
+			for (EntityEntry entry : entries) {
+				event.getRegistry().register(entry);
+			}
 		}
 
 		private static int entityID = 0;
@@ -135,7 +169,13 @@ public class ModLoader {
 				registerItemModel(CHEST_UPGRADE_STRUCTURE, type.ordinal(), "upgrades/" + type.getName());
 			}
 
-			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderEntityMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCopperChest.class, manager -> new RenderMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartIronChest.class, manager -> new RenderMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartSilverChest.class, manager -> new RenderMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartGoldChest.class, manager -> new RenderMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartDiamondChest.class, manager -> new RenderMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartObsidianChest.class, manager -> new RenderMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrystalChest.class, manager -> new RenderMinecartMetalChest(manager));
 		}
 
 		public static String getVariantName(IStringSerializable variant) {

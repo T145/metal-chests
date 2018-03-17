@@ -1,14 +1,12 @@
 package T145.metalchests.client.render.entities;
 
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.entities.EntityMinecartMetalChest;
-import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelMinecart;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -16,18 +14,18 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderEntityMinecartMetalChest extends Render<EntityMinecartMetalChest> {
+public class RenderMinecartMetalChest extends Render<EntityMinecartMetalChestBase> {
 
 	private static final ResourceLocation MINECART_TEXTURES = new ResourceLocation("textures/entity/minecart.png");
 	protected ModelBase modelMinecart = new ModelMinecart();
 
-	public RenderEntityMinecartMetalChest(RenderManager manager) {
-		super(manager);
+	public RenderMinecartMetalChest(RenderManager renderManagerIn) {
+		super(renderManagerIn);
 		this.shadowSize = 0.5F;
 	}
 
 	@Override
-	public void doRender(EntityMinecartMetalChest entity, double x, double y, double z, float entityYaw, float partialTicks) {
+	public void doRender(EntityMinecartMetalChestBase entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
 		this.bindEntityTexture(entity);
 		long i = (long) entity.getEntityId() * 493286711L;
@@ -91,10 +89,9 @@ public class RenderEntityMinecartMetalChest extends Render<EntityMinecartMetalCh
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(0.75F, 0.75F, 0.75F);
 		GlStateManager.translate(-0.5F, (float) (j - 8) / 16.0F, -0.5F);
-		TileMetalChest chest = new TileMetalChest(entity.getChestType());
-		chest.setFront(EnumFacing.EAST);
-		RenderMetalChest.INSTANCE.render(chest, 0, 0, 0, partialTicks, -1, 0);
+		RenderMetalChest.INSTANCE.render(entity.getChestInstance(), 0, 0, 0, partialTicks, -1, 0);
 		GlStateManager.popMatrix();
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.bindEntityTexture(entity);
 
 		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
@@ -110,7 +107,7 @@ public class RenderEntityMinecartMetalChest extends Render<EntityMinecartMetalCh
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(EntityMinecartMetalChest entity) {
+	protected ResourceLocation getEntityTexture(EntityMinecartMetalChestBase entity) {
 		return MINECART_TEXTURES;
 	}
 }

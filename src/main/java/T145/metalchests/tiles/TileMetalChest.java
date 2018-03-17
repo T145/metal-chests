@@ -29,6 +29,7 @@ public class TileMetalChest extends TileBase implements ITickable {
 	public float prevLidAngle;
 	public int numPlayersUsing;
 	private int ticksSinceSync;
+	private boolean touched;
 
 	private MetalChestType type;
 	private EnumFacing front;
@@ -37,7 +38,7 @@ public class TileMetalChest extends TileBase implements ITickable {
 
 	public TileMetalChest(MetalChestType type) {
 		this.type = type;
-		this.front = EnumFacing.NORTH;
+		this.front = EnumFacing.EAST;
 		this.inventory = createInventory(type.getInventorySize());
 		this.topStacks = createInventory(8);
 	}
@@ -174,9 +175,7 @@ public class TileMetalChest extends TileBase implements ITickable {
 		sortTopStacks();
 	}
 
-	private boolean touched = false;
-
-	protected void sortTopStacks() {
+	public void sortTopStacks() {
 		if (type != MetalChestType.CRYSTAL || (world != null && world.isRemote)) {
 			return;
 		}
