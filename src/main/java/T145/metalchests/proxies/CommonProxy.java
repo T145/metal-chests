@@ -27,13 +27,12 @@ public class CommonProxy implements IGuiHandler {
 
 		switch (ID) {
 		case 0:
-			return new ContainerMetalChest((TileMetalChest) te, player, 0, 0);
+			return new ContainerMetalChest((TileMetalChest) te, player);
 		default:
 			Entity entity = world.getEntityByID(ID);
 
 			if (entity instanceof EntityMinecartMetalChestBase) {
-				EntityMinecartMetalChestBase cart = (EntityMinecartMetalChestBase) entity;
-				return new ContainerMinecartMetalChest(player.inventory, cart, cart.getChestType(), 0, 0);
+				return new ContainerMinecartMetalChest((EntityMinecartMetalChestBase) entity, player);
 			}
 
 			return null;
@@ -53,7 +52,7 @@ public class CommonProxy implements IGuiHandler {
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
 		TileMetalChest.registerFixesChest(fixer);
-		//EntityMinecartMetalChest.addDataFixers(fixer);
+		//EntityMinecartMetalChestBase.addDataFixers(fixer); ?
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {}

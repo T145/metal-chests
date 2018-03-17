@@ -53,14 +53,12 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 			return new EntityMinecartDiamondChest(world, x, y, z);
 		case GOLD:
 			return new EntityMinecartGoldChest(world, x, y, z);
-		case IRON:
-			return new EntityMinecartIronChest(world, x, y, z);
 		case OBSIDIAN:
 			return new EntityMinecartObsidianChest(world, x, y, z);
 		case SILVER:
 			return new EntityMinecartSilverChest(world, x, y, z);
 		default:
-			return null;
+			return new EntityMinecartIronChest(world, x, y, z);
 		}
 	}
 
@@ -75,24 +73,25 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 		chestInstance.sortTopStacks();
 	}
 
-	/*
-	 * @Override public ItemStack getCartItem() { return null; }
-	 */
+	@Override
+	public ItemStack getCartItem() {
+		return new ItemStack(ModLoader.MINECART_METAL_CHEST, 1, getChestType().ordinal());
+	}
 
 	@Override
 	public void killMinecart(DamageSource source) {
-		this.setDead();
+		setDead();
 
-		if (this.world.getGameRules().getBoolean("doEntityDrops")) {
+		if (world.getGameRules().getBoolean("doEntityDrops")) {
 			ItemStack itemstack = new ItemStack(Items.MINECART, 1);
 
-			if (this.hasCustomName()) {
-				itemstack.setStackDisplayName(this.getCustomNameTag());
+			if (hasCustomName()) {
+				itemstack.setStackDisplayName(getCustomNameTag());
 			}
 
-			this.entityDropItem(itemstack, 0.0F);
-			InventoryHelper.dropInventoryItems(this.world, this, this);
-			this.entityDropItem(new ItemStack(ModLoader.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
+			entityDropItem(itemstack, 0.0F);
+			InventoryHelper.dropInventoryItems(world, this, this);
+			entityDropItem(new ItemStack(ModLoader.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
 		}
 	}
 
@@ -112,7 +111,7 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 			return true;
 		}
 
-		if (!this.world.isRemote) {
+		if (!world.isRemote) {
 			player.openGui(MetalChests.MODID, hashCode(), world, 0, 0, 0);
 		}
 
@@ -126,56 +125,56 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 
 	@Override
 	public ItemStack getStackInSlot(int slot) {
-		this.addLoot(null);
+		addLoot(null);
 		return inventory.get(slot);
 	}
 
 	@Override
 	public ItemStack decrStackSize(int slot, int size) {
-		this.addLoot(null);
-		return ItemStackHelper.getAndSplit(this.inventory, slot, size);
+		addLoot(null);
+		return ItemStackHelper.getAndSplit(inventory, slot, size);
 	}
 
 	@Override
 	public ItemStack removeStackFromSlot(int index) {
-		this.addLoot(null);
-		ItemStack itemstack = this.inventory.get(index);
+		addLoot(null);
+		ItemStack itemstack = inventory.get(index);
 
 		if (itemstack.isEmpty()) {
 			return ItemStack.EMPTY;
 		} else {
-			this.inventory.set(index, ItemStack.EMPTY);
+			inventory.set(index, ItemStack.EMPTY);
 			return itemstack;
 		}
 	}
 
 	@Override
 	public void setInventorySlotContents(int index, ItemStack stack) {
-		this.addLoot(null);
-		this.inventory.set(index, stack);
+		addLoot(null);
+		inventory.set(index, stack);
 
-		if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit()) {
-			stack.setCount(this.getInventoryStackLimit());
+		if (!stack.isEmpty() && stack.getCount() > getInventoryStackLimit()) {
+			stack.setCount(getInventoryStackLimit());
 		}
 	}
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound compound) {
-		if (this.hasDisplayTile()) {
+		if (hasDisplayTile()) {
 			compound.setBoolean("CustomDisplayTile", true);
-			IBlockState iblockstate = this.getDisplayTile();
+			IBlockState iblockstate = getDisplayTile();
 			ResourceLocation resourcelocation = Block.REGISTRY.getNameForObject(iblockstate.getBlock());
 			compound.setString("DisplayTile", resourcelocation == null ? "" : resourcelocation.toString());
 			compound.setInteger("DisplayData", iblockstate.getBlock().getMetaFromState(iblockstate));
-			compound.setInteger("DisplayOffset", this.getDisplayTileOffset());
+			compound.setInteger("DisplayOffset", getDisplayTileOffset());
 		}
 
-		if (this.getLootTable() != null) {
-			compound.setString("LootTable", this.getLootTable().toString());
+		if (getLootTable() != null) {
+			compound.setString("LootTable", getLootTable().toString());
 
 			// need accesstransformer for the seed (if we ever want to add in dungeon gen)
 		} else {
-			ItemStackHelper.saveAllItems(compound, this.inventory);
+			ItemStackHelper.saveAllItems(compound, inventory);
 		}
 	}
 
@@ -191,16 +190,16 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 			}
 
 			int i = compound.getInteger("DisplayData");
-			this.setDisplayTile(block == null ? Blocks.AIR.getDefaultState() : block.getStateFromMeta(i));
-			this.setDisplayTileOffset(compound.getInteger("DisplayOffset"));
+			setDisplayTile(block == null ? Blocks.AIR.getDefaultState() : block.getStateFromMeta(i));
+			setDisplayTileOffset(compound.getInteger("DisplayOffset"));
 		}
 
-		this.inventory = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
+		inventory = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
 
 		if (compound.hasKey("LootTable", 8)) {
-			this.setLootTable(new ResourceLocation(compound.getString("LootTable")), compound.getLong("LootTableSeed"));
+			setLootTable(new ResourceLocation(compound.getString("LootTable")), compound.getLong("LootTableSeed"));
 		} else {
-			ItemStackHelper.loadAllItems(compound, this.inventory);
+			ItemStackHelper.loadAllItems(compound, inventory);
 		}
 	}
 }
