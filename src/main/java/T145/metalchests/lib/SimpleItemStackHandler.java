@@ -83,23 +83,19 @@ public class SimpleItemStackHandler extends ItemStackHandler {
 	}
 
 	public int calcRedstone() {
-		if (te == null) {
-			return 0;
-		} else {
-			int i = 0;
-			float f = 0.0F;
+		int i = 0;
+		float f = 0.0F;
 
-			for (int j = 0; j < size(); ++j) {
-				ItemStack itemstack = getStackInSlot(j);
+		for (int j = 0; j < size(); ++j) {
+			ItemStack itemstack = getStackInSlot(j);
 
-				if (!itemstack.isEmpty()) {
-					f += itemstack.getCount() / Math.min(getSlotLimit(j), itemstack.getMaxStackSize());
-					++i;
-				}
+			if (!itemstack.isEmpty()) {
+				f += itemstack.getCount() / Math.min(getSlotLimit(j), itemstack.getMaxStackSize());
+				++i;
 			}
-
-			f = f / size();
-			return MathHelper.floor(f * 14.0F) + (i > 0 ? 1 : 0);
 		}
+
+		f = f / size();
+		return MathHelper.floor(f * 14.0F) + (i > 0 ? 1 : 0);
 	}
 }
