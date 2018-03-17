@@ -1,0 +1,26 @@
+{
+    "conditions": [
+        {
+            "type": "metalchests:ore_exists",
+            "ore": "ingotGold"
+        }
+    ],
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "T",
+        "S"
+    ],
+    "key": {
+        "T": {
+            "item": "metalchests:metal_chest",
+            "data": 3
+        },
+        "S": {
+            "item": "minecraft:minecart"
+        }
+    },
+    "result": {
+        "item": "metalchests:minecart_metal_chest",
+        "data": 3
+    }
+}
