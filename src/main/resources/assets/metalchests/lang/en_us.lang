@@ -17,13 +17,13 @@ item.metalchests:minecart_metal_chest.diamond.name=Minecart with Diamond Chest
 item.metalchests:minecart_metal_chest.obsidian.name=Minecart with Obsidian Chest
 item.metalchests:minecart_metal_chest.crystal.name=Minecart with Crystal Chest
 
-entity.metalchests:MinecartCopperChest.copper.name=Minecart with Copper Chest
-entity.metalchests:MinecartIronChest.iron.name=Minecart with Iron Chest
-entity.metalchests:MinecartSilverChest.silver.name=Minecart with Silver Chest
-entity.metalchests:MinecartGoldChest.gold.name=Minecart with Gold Chest
-entity.metalchests:MinecartDiamondChest.diamond.name=Minecart with Diamond Chest
-entity.metalchests:MinecartObsidianChest.obsidian.name=Minecart with Obsidian Chest
-entity.metalchests:MinecartCrystalChest.crystal.name=Minecart with Crystal Chest
+entity.metalchests:MinecartCopperChest.name=Minecart with Copper Chest
+entity.metalchests:MinecartIronChest.name=Minecart with Iron Chest
+entity.metalchests:MinecartSilverChest.name=Minecart with Silver Chest
+entity.metalchests:MinecartGoldChest.name=Minecart with Gold Chest
+entity.metalchests:MinecartDiamondChest.name=Minecart with Diamond Chest
+entity.metalchests:MinecartObsidianChest.name=Minecart with Obsidian Chest
+entity.metalchests:MinecartCrystalChest.name=Minecart with Crystal Chest
 
 item.metalchests:structure_upgrade.wood_copper.name=Wood to Copper Chest Upgrade
 item.metalchests:structure_upgrade.wood_iron.name=Wood to Iron Chest Upgrade

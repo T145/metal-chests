@@ -1,5 +1,6 @@
 package T145.metalchests.containers;
 
+import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.lib.MetalChestType;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,10 +15,10 @@ public class ContainerMinecartMetalChest extends Container {
 
 	private MetalChestType type;
 	private EntityPlayer player;
-	private IInventory chest;
+	private EntityMinecartMetalChestBase cart;
 
-	public ContainerMinecartMetalChest(IInventory playerInventory, IInventory chestInventory, MetalChestType type, int xSize, int ySize) {
-		this.chest = chestInventory;
+	public ContainerMinecartMetalChest(IInventory playerInventory, EntityMinecartMetalChestBase chestInventory, MetalChestType type, int xSize, int ySize) {
+		this.cart = chestInventory;
 		this.player = ((InventoryPlayer) playerInventory).player;
 		this.type = type;
 		chestInventory.openInventory(this.player);
@@ -26,7 +27,7 @@ public class ContainerMinecartMetalChest extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer playerIn) {
-		return this.chest.isUsableByPlayer(playerIn);
+		return this.cart.isUsableByPlayer(playerIn);
 	}
 
 	@Override
@@ -59,13 +60,20 @@ public class ContainerMinecartMetalChest extends Container {
 	@Override
 	public void onContainerClosed(EntityPlayer playerIn) {
 		super.onContainerClosed(playerIn);
-		this.chest.closeInventory(playerIn);
+		this.cart.closeInventory(playerIn);
 	}
 
 	protected void layoutContainer(IInventory playerInventory, IInventory chestInventory, MetalChestType type, int xSize, int ySize) {
 		for (int chestRow = 0; chestRow < type.getRowCount(); chestRow++) {
 			for (int chestCol = 0; chestCol < type.getRowLength(); chestCol++) {
-				this.addSlotToContainer(new Slot(chestInventory, chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
+				this.addSlotToContainer(new Slot(chestInventory, chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18) {
+
+					@Override
+					public void onSlotChanged() {
+						super.onSlotChanged();
+						cart.updateChestInstance();
+					}
+				});
 			}
 		}
 
@@ -81,10 +89,6 @@ public class ContainerMinecartMetalChest extends Container {
 		for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++) {
 			this.addSlotToContainer(new Slot(playerInventory, hotbarSlot, leftCol + hotbarSlot * 18, ySize - 24));
 		}
-	}
-
-	public EntityPlayer getPlayer() {
-		return this.player;
 	}
 
 	@ChestContainer.RowSizeCallback

@@ -14,6 +14,7 @@ import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderEntityItem;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -37,12 +38,11 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			{ 0.3F, 0.1F,  0.7F }, { 0.7F, 0.1F,  0.7F }, { 0.5F, 0.32F, 0.5F }
 	};
 
-	@Override
-	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float partial) {
-		if (chest == null || chest.isInvalid()) {
-			return;
-		}
+	public double getRenderDistance(Entity entity) {
+		return entity.getDistanceSq(rendererDispatcher.entityX, rendererDispatcher.entityY, rendererDispatcher.entityZ);
+	}
 
+	public void renderChest(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, double renderDist) {
 		if (destroyStage >= 0) {
 			bindTexture(DESTROY_STAGES[destroyStage]);
 			GlStateManager.matrixMode(GL11.GL_TEXTURE);
@@ -90,7 +90,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.popMatrix();
 		GlStateManager.color(1F, 1F, 1F, 1F);
 
-		if (chest.getType() == MetalChestType.CRYSTAL && chest.getDistanceSq(rendererDispatcher.entityX, rendererDispatcher.entityY, rendererDispatcher.entityZ) < 128d) {
+		if (chest.getType() == MetalChestType.CRYSTAL && renderDist < 128D) {
 			rand.setSeed(254L);
 
 			float shiftX;
@@ -159,6 +159,15 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 
 			GlStateManager.popMatrix();
 		}
+	}
+
+	@Override
+	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float partial) {
+		if (chest == null || chest.isInvalid()) {
+			return;
+		}
+
+		renderChest(chest, x, y, z, partialTicks, destroyStage, chest.getDistanceSq(rendererDispatcher.entityX, rendererDispatcher.entityY, rendererDispatcher.entityZ));
 	}
 
 	private int getRotationAngle(EnumFacing front) {

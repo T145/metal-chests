@@ -1,6 +1,7 @@
 package T145.metalchests.client.gui;
 
 import T145.metalchests.containers.ContainerMinecartMetalChest;
+import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.lib.MetalChestType;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,7 +14,7 @@ public class GuiMinecartMetalChest extends GuiContainer {
 
 	private MetalChestType.GUI type;
 
-	public GuiMinecartMetalChest(MetalChestType.GUI type, IInventory player, IInventory chest) {
+	public GuiMinecartMetalChest(MetalChestType.GUI type, IInventory player, EntityMinecartMetalChestBase chest) {
 		super(new ContainerMinecartMetalChest(player, chest, MetalChestType.byMetadata(type.ordinal()), type.getSizeX(), type.getSizeY()));
 		this.type = type;
 		this.xSize = type.getSizeX();

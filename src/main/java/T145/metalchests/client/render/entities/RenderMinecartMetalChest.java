@@ -89,7 +89,7 @@ public class RenderMinecartMetalChest extends Render<EntityMinecartMetalChestBas
 		GlStateManager.pushMatrix();
 		GlStateManager.scale(0.75F, 0.75F, 0.75F);
 		GlStateManager.translate(-0.5F, (float) (j - 8) / 16.0F, -0.5F);
-		RenderMetalChest.INSTANCE.render(entity.getChestInstance(), 0, 0, 0, partialTicks, -1, 0);
+		RenderMetalChest.INSTANCE.renderChest(entity.getChestInstance(), 0, 0, 0, partialTicks, -1, RenderMetalChest.INSTANCE.getRenderDistance(entity));
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 		this.bindEntityTexture(entity);

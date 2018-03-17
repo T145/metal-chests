@@ -67,9 +67,12 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 	public abstract MetalChestType getChestType();
 
 	public TileMetalChest getChestInstance() {
+		return chestInstance;
+	}
+
+	public void updateChestInstance() {
 		chestInstance.setInventory(inventory);
 		chestInstance.sortTopStacks();
-		return chestInstance;
 	}
 
 	/*
