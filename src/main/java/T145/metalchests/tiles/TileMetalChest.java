@@ -76,7 +76,7 @@ public class TileMetalChest extends TileBase implements ITickable {
 	}
 
 	private SimpleItemStackHandler createInventory(int inventorySize) {
-		return new SimpleItemStackHandler(inventorySize, this, true);
+		return new SimpleItemStackHandler(inventorySize, this);
 	}
 
 	public static void registerFixesChest(DataFixer fixer) {

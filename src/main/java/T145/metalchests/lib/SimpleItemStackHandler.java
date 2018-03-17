@@ -1,6 +1,5 @@
 package T145.metalchests.lib;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import T145.metalchests.tiles.base.TileBase;
@@ -14,47 +13,16 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class SimpleItemStackHandler extends ItemStackHandler {
 
-	private final boolean allowWrite;
 	private final TileBase te;
 
-	public SimpleItemStackHandler(int invSize, @Nullable TileBase te, boolean allowWrite) {
+	public SimpleItemStackHandler(int invSize, @Nullable TileBase te) {
 		super(invSize);
-		this.allowWrite = allowWrite;
 		this.te = te;
 	}
 
-	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks, @Nullable TileBase te, boolean allowWrite) {
+	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks, @Nullable TileBase te) {
 		super(topStacks);
-		this.allowWrite = allowWrite;
 		this.te = te;
-	}
-
-	public SimpleItemStackHandler(int invSize, boolean allowWrite) {
-		this(invSize, null, allowWrite);
-	}
-
-	public SimpleItemStackHandler(NonNullList<ItemStack> topStacks, boolean allowWrite) {
-		this(topStacks, null, allowWrite);
-	}
-
-	@Nonnull
-	@Override
-	public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-		if (allowWrite) {
-			return super.insertItem(slot, stack, simulate);
-		} else {
-			return stack;
-		}
-	}
-
-	@Nonnull
-	@Override
-	public ItemStack extractItem(int slot, int amount, boolean simulate) {
-		if (allowWrite) {
-			return super.extractItem(slot, amount, simulate);
-		} else {
-			return ItemStack.EMPTY;
-		}
 	}
 
 	@Override
