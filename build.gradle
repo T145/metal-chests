@@ -65,6 +65,9 @@ minecraft {
 processResources {
 	exclude '**/*.db'
 	exclude '**/*.DS_Store'
+
+	// move our access transformer
+	rename '(.+_at.cfg)', 'META-INF/$1'
 }
 
 build {
@@ -72,5 +75,11 @@ build {
 		project.file('release').deleteDir()
 		project.file('build/libs').renameTo(project.file('release'))
 		project.file('build/tmp/recompileMc/sources').renameTo(project.file('minecraftSrc'))
+	}
+}
+
+jar {
+	manifest {
+		attributes 'FMLAT': 'metalchests_at.cfg'
 	}
 }
