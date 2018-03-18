@@ -2,16 +2,20 @@ package T145.metalchests.containers.base;
 
 import T145.metalchests.lib.MetalChestType;
 import invtweaks.api.container.ChestContainer;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
+import vazkii.quark.api.IChestButtonCallback;
 
 @ChestContainer(isLargeChest = true)
-public abstract class ContainerMetalChestBase extends Container {
+@Optional.Interface(modid = "quark", iface = "vazkii.quark.api.IChestButtonCallback", striprefs = true)
+public abstract class ContainerMetalChestBase extends Container implements IChestButtonCallback {
 
 	protected final MetalChestType type;
 	protected final MetalChestType.GUI gui;
@@ -100,5 +104,10 @@ public abstract class ContainerMetalChestBase extends Container {
 	@ChestContainer.RowSizeCallback
 	public int getNumColumns() {
 		return type.getRowLength();
+	}
+
+	@Override
+	public boolean onAddChestButton(GuiButton button, int buttonType) {
+		return true;
 	}
 }
