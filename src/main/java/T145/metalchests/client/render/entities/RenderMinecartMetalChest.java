@@ -21,13 +21,13 @@ public class RenderMinecartMetalChest extends Render<EntityMinecartMetalChestBas
 
 	public RenderMinecartMetalChest(RenderManager renderManagerIn) {
 		super(renderManagerIn);
-		this.shadowSize = 0.5F;
+		shadowSize = 0.5F;
 	}
 
 	@Override
 	public void doRender(EntityMinecartMetalChestBase entity, double x, double y, double z, float entityYaw, float partialTicks) {
 		GlStateManager.pushMatrix();
-		this.bindEntityTexture(entity);
+		bindEntityTexture(entity);
 		long i = (long) entity.getEntityId() * 493286711L;
 		i = i * i * 4392167121L + i * 98761L;
 		float f = (((float) (i >> 16 & 7L) + 0.5F) / 8.0F - 0.5F) * 0.004F;
@@ -81,9 +81,9 @@ public class RenderMinecartMetalChest extends Render<EntityMinecartMetalChestBas
 
 		int j = entity.getDisplayTileOffset();
 
-		if (this.renderOutlines) {
+		if (renderOutlines) {
 			GlStateManager.enableColorMaterial();
-			GlStateManager.enableOutlineMode(this.getTeamColor(entity));
+			GlStateManager.enableOutlineMode(getTeamColor(entity));
 		}
 
 		GlStateManager.pushMatrix();
@@ -92,13 +92,13 @@ public class RenderMinecartMetalChest extends Render<EntityMinecartMetalChestBas
 		RenderMetalChest.INSTANCE.renderChest(entity.getChestInstance(), 0, 0, 0, partialTicks, -1, RenderMetalChest.INSTANCE.getRenderDistance(entity));
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		this.bindEntityTexture(entity);
+		bindEntityTexture(entity);
 
 		GlStateManager.scale(-1.0F, -1.0F, 1.0F);
-		this.modelMinecart.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
+		modelMinecart.render(entity, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F, 0.0625F);
 		GlStateManager.popMatrix();
 
-		if (this.renderOutlines) {
+		if (renderOutlines) {
 			GlStateManager.disableOutlineMode();
 			GlStateManager.disableColorMaterial();
 		}
