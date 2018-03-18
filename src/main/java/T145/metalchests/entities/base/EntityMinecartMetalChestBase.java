@@ -10,7 +10,9 @@ import T145.metalchests.entities.EntityMinecartGoldChest;
 import T145.metalchests.entities.EntityMinecartIronChest;
 import T145.metalchests.entities.EntityMinecartObsidianChest;
 import T145.metalchests.entities.EntityMinecartSilverChest;
+import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.lib.MetalChestType;
+import T145.metalchests.lib.MetalChestType.StructureUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -18,6 +20,7 @@ import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -26,6 +29,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
@@ -112,6 +116,35 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 		}
 
 		if (!world.isRemote) {
+			ItemStack stack = player.getHeldItem(hand);
+
+			if (player.isSneaking() && stack.getItem() instanceof ItemChestStructureUpgrade) {
+				ItemChestStructureUpgrade upgradeItem = (ItemChestStructureUpgrade) stack.getItem();
+				StructureUpgrade upgrade = StructureUpgrade.byMetadata(stack.getItemDamage());
+
+				if (getChestType() == upgrade.getBase()) {
+					EntityMinecartMetalChestBase newCart = create(world, posX, posY, posZ, upgrade.getUpgrade());
+
+					for (int i = 0; i < getSizeInventory(); ++i) {
+						newCart.setInventorySlotContents(i, getStackInSlot(i));
+					}
+
+					dropContentsWhenDead = false;
+					setDead();
+
+					world.spawnEntity(newCart);
+					newCart.updateChestInstance();
+
+					if (!player.capabilities.isCreativeMode) {
+						stack.shrink(1);
+					}
+
+					player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+
+					return true;
+				}
+			}
+
 			player.openGui(MetalChests.MODID, hashCode(), world, 0, 0, 0);
 		}
 

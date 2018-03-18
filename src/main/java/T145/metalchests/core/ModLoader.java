@@ -15,10 +15,12 @@ import T145.metalchests.entities.EntityMinecartIronChest;
 import T145.metalchests.entities.EntityMinecartObsidianChest;
 import T145.metalchests.entities.EntityMinecartSilverChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
+import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.items.ItemMinecartMetalChest;
 import T145.metalchests.items.base.ItemBase;
 import T145.metalchests.lib.MetalChestType;
+import T145.metalchests.lib.MetalChestType.StructureUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -27,15 +29,24 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -148,6 +159,43 @@ public class ModLoader {
 				for (EntityAITaskEntry task : hashset) {
 					ocelot.tasks.removeTask(task.action);
 					ocelot.tasks.addTask(task.priority, new EntityAIOcelotSitOnChest(ocelot, 0.4F));
+				}
+			}
+		}
+
+		@SubscribeEvent
+		public static void upgradeMinecartChests(MinecartInteractEvent event) {
+			World world = event.getMinecart().world;
+
+			if (!world.isRemote) {
+				EntityPlayer player = event.getPlayer();
+				ItemStack stack = player.getHeldItem(event.getHand());
+
+				if (player.isSneaking() && stack.getItem() instanceof ItemChestStructureUpgrade) {
+					ItemChestStructureUpgrade upgradeItem = (ItemChestStructureUpgrade) stack.getItem();
+					StructureUpgrade upgrade = StructureUpgrade.byMetadata(stack.getItemDamage());
+					EntityMinecart cart = event.getMinecart();
+
+					if (cart instanceof EntityMinecartChest) {
+						if (upgrade.canUpgradeWood(Blocks.CHEST.getDefaultState())) {
+							EntityMinecartChest normalCart = (EntityMinecartChest) cart;
+							EntityMinecartMetalChestBase metalCart = EntityMinecartMetalChestBase.create(world, normalCart.posX, normalCart.posY, normalCart.posZ, upgrade.getUpgrade());
+
+							for (int i = 0; i < normalCart.getSizeInventory(); ++i) {
+								metalCart.setInventorySlotContents(i, normalCart.getStackInSlot(i));
+							}
+
+							normalCart.dropContentsWhenDead = false;
+							normalCart.setDead();
+
+							world.spawnEntity(metalCart);
+
+							if (!player.capabilities.isCreativeMode) {
+								stack.shrink(1);
+							}
+							player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+						}
+					}
 				}
 			}
 		}
