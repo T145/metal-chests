@@ -71,7 +71,7 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 	}
 
 	public void updateChestInstance() {
-		chestInstance.setInventory(minecartContainerItems);
+		chestInstance.setInventory(itemHandler);
 		chestInstance.sortTopStacks();
 	}
 
