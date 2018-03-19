@@ -19,6 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -34,6 +35,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 public class BlockMetalChest extends BlockContainer {
 
@@ -116,7 +118,16 @@ public class BlockMetalChest extends BlockContainer {
 
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
-			chest.getInventory().dropItems(world, pos);
+
+			for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
+				ItemStack stack = chest.getInventory().getStackInSlot(i);
+
+				if (!stack.isEmpty()) {
+					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+				}
+			}
+
+			world.updateComparatorOutputLevel(pos, this);
 		}
 
 		super.breakBlock(world, pos, state);
@@ -177,7 +188,7 @@ public class BlockMetalChest extends BlockContainer {
 
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
-			return chest.getInventory().calcRedstone();
+			return ItemHandlerHelper.calcRedstoneFromInventory(chest.getInventory());
 		}
 
 		return 0;

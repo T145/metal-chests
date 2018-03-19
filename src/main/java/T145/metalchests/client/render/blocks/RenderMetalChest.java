@@ -111,7 +111,9 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			hovering.setWorld(getWorld());
 			hovering.hoverStart = 0F;
 
-			for (ItemStack stack : chest.getTopStacks().getStacks()) {
+			for (int i = 0; i < chest.getTopStacks().getSlots(); ++i) {
+				ItemStack stack = chest.getTopStacks().getStackInSlot(i);
+
 				if (shift > shifts.length) {
 					break;
 				}

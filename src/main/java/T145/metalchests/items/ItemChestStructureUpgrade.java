@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.IItemHandler;
 
 public class ItemChestStructureUpgrade extends ItemBase {
 
@@ -49,7 +50,7 @@ public class ItemChestStructureUpgrade extends ItemBase {
 				return EnumActionResult.PASS;
 			}
 
-			createNewChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory().getStacks(), chest.getFront());
+			createNewChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
 		} else if (te instanceof TileEntityChest && state.getBlock() instanceof BlockChest) {
 			TileEntityChest chest = (TileEntityChest) te;
 
@@ -57,13 +58,7 @@ public class ItemChestStructureUpgrade extends ItemBase {
 				return EnumActionResult.PASS;
 			}
 
-			NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(chest.getSizeInventory(), ItemStack.EMPTY);
-
-			for (int i = 0; i < inventory.size(); i++) {
-				inventory.set(i, chest.getStackInSlot(i));
-			}
-
-			createNewChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), inventory, state.getValue(BlockChest.FACING));
+			createNewChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), state.getValue(BlockChest.FACING));
 		} else {
 			return EnumActionResult.PASS;
 		}
@@ -76,7 +71,7 @@ public class ItemChestStructureUpgrade extends ItemBase {
 		return EnumActionResult.SUCCESS;
 	}
 
-	private void createNewChest(World world, BlockPos pos, TileEntity te, TileMetalChest newChest, NonNullList<ItemStack> inventory, EnumFacing front) {
+	private void createNewChest(World world, BlockPos pos, TileEntity te, TileMetalChest newChest, IItemHandler inventory, EnumFacing front) {
 		te.updateContainingBlockInfo();
 
 		if (te instanceof TileEntityChest) {

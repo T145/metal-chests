@@ -2,11 +2,11 @@ package T145.metalchests.tiles;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
 import T145.metalchests.lib.MetalChestType;
-import T145.metalchests.lib.SimpleItemStackHandler;
 import T145.metalchests.tiles.base.TileBase;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
@@ -24,9 +24,13 @@ import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
+import vazkii.quark.api.IDropoffManager;
 
 @Optional.Interface(modid = "holoinventory", iface = "net.dries007.holoInventory.api.INamedItemHandler", striprefs = true)
-public class TileMetalChest extends TileBase implements ITickable, INamedItemHandler {
+@Optional.Interface(modid = "quark", iface = "vazkii.quark.api.IDropoffManager", striprefs = true)
+public class TileMetalChest extends TileBase implements ITickable, IDropoffManager, INamedItemHandler {
 
 	public float lidAngle;
 	public float prevLidAngle;
@@ -36,8 +40,8 @@ public class TileMetalChest extends TileBase implements ITickable, INamedItemHan
 
 	private MetalChestType type;
 	private EnumFacing front;
-	private SimpleItemStackHandler inventory;
-	private SimpleItemStackHandler topStacks;
+	private ItemStackHandler inventory;
+	private ItemStackHandler topStacks;
 
 	public TileMetalChest(MetalChestType type) {
 		this.type = type;
@@ -62,24 +66,24 @@ public class TileMetalChest extends TileBase implements ITickable, INamedItemHan
 		return front;
 	}
 
-	public SimpleItemStackHandler getInventory() {
+	public ItemStackHandler getInventory() {
 		return inventory;
 	}
 
-	public SimpleItemStackHandler getTopStacks() {
+	public ItemStackHandler getTopStacks() {
 		return topStacks;
 	}
 
-	public void setInventory(NonNullList<ItemStack> items) {
-		for (int slot = 0; slot < items.size(); ++slot) {
+	public void setInventory(IItemHandler stacks) {
+		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
 			if (slot < type.getInventorySize()) {
-				inventory.setStackInSlot(slot, items.get(slot));
+				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
 			}
 		}
 	}
 
-	private SimpleItemStackHandler createInventory(int inventorySize) {
-		return new SimpleItemStackHandler(inventorySize, this);
+	private ItemStackHandler createInventory(int inventorySize) {
+		return new ItemStackHandler(inventorySize);
 	}
 
 	public static void registerFixesChest(DataFixer fixer) {
@@ -211,7 +215,7 @@ public class TileMetalChest extends TileBase implements ITickable, INamedItemHan
 		if (!hasStuff && touched) {
 			touched = false;
 
-			for (int i = 0; i < topStacks.size(); ++i) {
+			for (int i = 0; i < topStacks.getSlots(); ++i) {
 				topStacks.setStackInSlot(i, ItemStack.EMPTY);
 			}
 
@@ -243,7 +247,7 @@ public class TileMetalChest extends TileBase implements ITickable, INamedItemHan
 
 		for (ItemStack element : temp) {
 			if (!element.isEmpty() && element.getCount() > 0) {
-				if (maxSlot == topStacks.size()) {
+				if (maxSlot == topStacks.getSlots()) {
 					break;
 				}
 
@@ -251,7 +255,7 @@ public class TileMetalChest extends TileBase implements ITickable, INamedItemHan
 			}
 		}
 
-		for (int i = maxSlot; i < topStacks.size(); ++i) {
+		for (int i = maxSlot; i < topStacks.getSlots(); ++i) {
 			topStacks.setStackInSlot(i, ItemStack.EMPTY);
 		}
 
@@ -265,11 +269,6 @@ public class TileMetalChest extends TileBase implements ITickable, INamedItemHan
 	public void invalidate() {
 		updateContainingBlockInfo();
 		super.invalidate();
-	}
-
-	@Override
-	public String getItemHandlerName() {
-		return "tile.metalchests:metal_chest." + type.getName() + ".name";
 	}
 
 	public void openInventory(EntityPlayer player) {
@@ -298,5 +297,20 @@ public class TileMetalChest extends TileBase implements ITickable, INamedItemHan
 		} else {
 			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 		}
+	}
+
+	@Override
+	public String getItemHandlerName() {
+		return "tile.metalchests:metal_chest." + type.getName() + ".name";
+	}
+
+	@Override
+	public boolean acceptsDropoff(EntityPlayer player) {
+		return true;
+	}
+
+	@Override
+	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
+		return inventory;
 	}
 }
