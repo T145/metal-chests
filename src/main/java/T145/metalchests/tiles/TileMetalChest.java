@@ -8,6 +8,7 @@ import javax.annotation.Nonnull;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.SimpleItemStackHandler;
 import T145.metalchests.tiles.base.TileBase;
+import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -21,9 +22,11 @@ import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 
-public class TileMetalChest extends TileBase implements ITickable {
+@Optional.Interface(modid = "holoinventory", iface = "net.dries007.holoInventory.api.INamedItemHandler", striprefs = true)
+public class TileMetalChest extends TileBase implements ITickable, INamedItemHandler {
 
 	public float lidAngle;
 	public float prevLidAngle;
@@ -262,6 +265,11 @@ public class TileMetalChest extends TileBase implements ITickable {
 	public void invalidate() {
 		updateContainingBlockInfo();
 		super.invalidate();
+	}
+
+	@Override
+	public String getItemHandlerName() {
+		return "tile.metalchests:metal_chest." + type.getName() + ".name";
 	}
 
 	public void openInventory(EntityPlayer player) {

@@ -16,6 +16,7 @@ import T145.metalchests.lib.MetalChestType.StructureUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecartChest;
+import net.minecraft.entity.item.EntityMinecartContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -25,6 +26,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
@@ -71,6 +73,10 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 	public void updateChestInstance() {
 		chestInstance.setInventory(minecartContainerItems);
 		chestInstance.sortTopStacks();
+	}
+
+	public static void registerFixesMinecartChest(DataFixer fixer) {
+		EntityMinecartContainer.addDataFixers(fixer, EntityMinecartMetalChestBase.class);
 	}
 
 	@Override

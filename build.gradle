@@ -62,10 +62,6 @@ minecraft {
 	replace "@VERSION@", project.version
 }
 
-dependencies {
-	compile fileTree(dir: 'libs', include: '*.jar')
-}
-
 processResources {
 	exclude '**/*.db'
 	exclude '**/*.DS_Store'

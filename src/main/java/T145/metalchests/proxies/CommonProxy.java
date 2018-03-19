@@ -1,6 +1,5 @@
 package T145.metalchests.proxies;
 
-import T145.metalchests.compat.ModCompatibilityHandler;
 import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.containers.ContainerMinecartMetalChest;
 import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
@@ -53,8 +52,7 @@ public class CommonProxy implements IGuiHandler {
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
 		TileMetalChest.registerFixesChest(fixer);
-		//EntityMinecartMetalChestBase.addDataFixers(fixer); ?
-		ModCompatibilityHandler.init();
+		EntityMinecartMetalChestBase.registerFixesMinecartChest(fixer);
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {}
