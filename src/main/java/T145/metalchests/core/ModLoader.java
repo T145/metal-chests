@@ -180,10 +180,7 @@ public class ModLoader {
 						if (upgrade.canUpgradeWood(Blocks.CHEST.getDefaultState())) {
 							EntityMinecartChest normalCart = (EntityMinecartChest) cart;
 							EntityMinecartMetalChestBase metalCart = EntityMinecartMetalChestBase.create(world, normalCart.posX, normalCart.posY, normalCart.posZ, upgrade.getUpgrade());
-
-							for (int i = 0; i < normalCart.getSizeInventory(); ++i) {
-								metalCart.setInventorySlotContents(i, normalCart.getStackInSlot(i));
-							}
+							metalCart.setInventory(normalCart.itemHandler);
 
 							normalCart.dropContentsWhenDead = false;
 							normalCart.setDead();

@@ -1,7 +1,11 @@
 package T145.metalchests.entities.base;
 
+import javax.annotation.Nullable;
+
 import T145.metalchests.MetalChests;
+import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.entities.EntityMinecartCopperChest;
 import T145.metalchests.entities.EntityMinecartCrystalChest;
@@ -15,34 +19,36 @@ import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.StructureUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityMinecartChest;
-import net.minecraft.entity.item.EntityMinecartContainer;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.minecart.MinecartInteractEvent;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.ItemStackHandler;
 
-public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
+public abstract class EntityMinecartMetalChestBase extends EntityMinecart implements IInventoryHandler, IInteractionObject {
 
-	private TileMetalChest chestInstance = new TileMetalChest(getChestType());
+	private final TileMetalChest chestInstance = new TileMetalChest(getChestType());
+	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
 	public EntityMinecartMetalChestBase(World world) {
 		super(world);
-		minecartContainerItems = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
 	}
 
 	public EntityMinecartMetalChestBase(World world, double x, double y, double z) {
 		super(world, x, y, z);
-		minecartContainerItems = NonNullList.<ItemStack>withSize(getSizeInventory(), ItemStack.EMPTY);
 	}
 
 	public static EntityMinecartMetalChestBase create(World world, double x, double y, double z, MetalChestType type) {
@@ -71,12 +77,21 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 	}
 
 	public void updateChestInstance() {
-		chestInstance.setInventory(itemHandler);
-		chestInstance.sortTopStacks();
+		chestInstance.setInventory(inventory);
+		chestInstance.onSlotChanged();
 	}
 
-	public static void registerFixesMinecartChest(DataFixer fixer) {
-		EntityMinecartContainer.addDataFixers(fixer, EntityMinecartMetalChestBase.class);
+	@Override
+	public ItemStackHandler getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(IItemHandler stacks) {
+		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
+			if (slot < getChestType().getInventorySize()) {
+				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
+			}
+		}
 	}
 
 	@Override
@@ -86,34 +101,27 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 
 	@Override
 	public void killMinecart(DamageSource source) {
-		setDead();
+		super.killMinecart(source);
 
 		if (world.getGameRules().getBoolean("doEntityDrops")) {
-			ItemStack itemstack = new ItemStack(Items.MINECART, 1);
-
-			if (hasCustomName()) {
-				itemstack.setStackDisplayName(getCustomNameTag());
-			}
-
-			entityDropItem(itemstack, 0.0F);
-			InventoryHelper.dropInventoryItems(world, this, this);
+			dropItems();
 			entityDropItem(new ItemStack(ModLoader.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
 		}
 	}
 
-	@Override
-	public void setDead() {
-		isDead = true;
-	}
+	private void dropItems() {
+		for (int i = 0; i < inventory.getSlots(); ++i) {
+			ItemStack stack = inventory.getStackInSlot(i);
 
-	@Override
-	public int getSizeInventory() {
-		return getChestType().getInventorySize();
+			if (!stack.isEmpty()) {
+				InventoryHelper.spawnItemStack(world, posX, posY, posZ, stack);
+			}
+		}
 	}
 
 	@Override
 	public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
-		if (MinecraftForge.EVENT_BUS.post(new MinecartInteractEvent(this, player, hand))) {
+		if (super.processInitialInteract(player, hand)) {
 			return true;
 		}
 
@@ -126,12 +134,8 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 
 				if (getChestType() == upgrade.getBase()) {
 					EntityMinecartMetalChestBase newCart = create(world, posX, posY, posZ, upgrade.getUpgrade());
+					newCart.setInventory(inventory);
 
-					for (int i = 0; i < getSizeInventory(); ++i) {
-						newCart.setInventorySlotContents(i, getStackInSlot(i));
-					}
-
-					dropContentsWhenDead = false;
 					setDead();
 
 					world.spawnEntity(newCart);
@@ -154,5 +158,82 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecartChest {
 	@Override
 	public IBlockState getDefaultDisplayTile() {
 		return ModLoader.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+	}
+
+	@Override
+	public EntityMinecart.Type getType() {
+		return EntityMinecart.Type.CHEST;
+	}
+
+	@Override
+	public int getDefaultDisplayTileOffset() {
+		return 8;
+	}
+
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		if (isDead) {
+			return false;
+		} else {
+			return player.getDistanceSq(this) <= 64.0D;
+		}
+	}
+
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound tag) {
+		super.writeEntityToNBT(tag);
+		tag.setTag("Inventory", inventory.serializeNBT());
+	}
+
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound tag) {
+		super.readEntityFromNBT(tag);
+		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+	}
+
+	@Override
+	protected void applyDrag() {
+		float f = 0.98F;
+
+		int i = 15 - ItemHandlerHelper.calcRedstoneFromInventory(inventory);
+		f += (float) i * 0.001F;
+
+		motionX *= f;
+		motionY *= 0.0D;
+		motionZ *= f;
+	}
+
+	@Override
+	@Nullable
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+			return (T) inventory;
+		}
+		return super.getCapability(capability, facing);
+	}
+
+	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public ContainerMetalChest createContainer(InventoryPlayer playerInventory, EntityPlayer player) {
+		return new ContainerMetalChest(this, player, getChestType());
+	}
+
+	@Override
+	public String getGuiID() {
+		return "metalchests:" + getChestType().getName() + "_cart";
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public void onSlotChanged() {
+		updateChestInstance();
 	}
 }

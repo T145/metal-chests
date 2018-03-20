@@ -1,7 +1,5 @@
 package T145.metalchests.proxies;
 
-import T145.metalchests.containers.ContainerMetalChest;
-import T145.metalchests.containers.ContainerMinecartMetalChest;
 import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.entity.Entity;
@@ -9,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -20,19 +18,23 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy implements IGuiHandler {
 
+	protected final MutableBlockPos pos = new MutableBlockPos();
+
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		BlockPos pos = new BlockPos(x, y, z);
+		pos.setPos(x, y, z);
 		TileEntity te = world.getTileEntity(pos);
 
 		switch (ID) {
 		case 0:
-			return new ContainerMetalChest((TileMetalChest) te, player);
+			TileMetalChest chest = (TileMetalChest) te;
+			return chest.createContainer(null, player);
 		default:
 			Entity entity = world.getEntityByID(ID);
 
 			if (entity instanceof EntityMinecartMetalChestBase) {
-				return new ContainerMinecartMetalChest((EntityMinecartMetalChestBase) entity, player);
+				EntityMinecartMetalChestBase cart = (EntityMinecartMetalChestBase) entity;
+				return cart.createContainer(null, player);
 			}
 
 			return null;
@@ -49,10 +51,7 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void init(FMLInitializationEvent event) {
-		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
-
-		TileMetalChest.registerFixesChest(fixer);
-		EntityMinecartMetalChestBase.registerFixesMinecartChest(fixer);
+		TileMetalChest.registerFixesChest(FMLCommonHandler.instance().getDataFixer());
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {}
