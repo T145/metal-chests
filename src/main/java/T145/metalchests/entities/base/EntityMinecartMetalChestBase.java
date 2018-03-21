@@ -18,6 +18,7 @@ import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.StructureUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
+import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
@@ -33,12 +34,14 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
-public abstract class EntityMinecartMetalChestBase extends EntityMinecart implements IInventoryHandler, IInteractionObject {
+@Optional.Interface(modid = "railcraft", iface = "mods.railcraft.api.carts.IItemCart", striprefs = true)
+public abstract class EntityMinecartMetalChestBase extends EntityMinecart implements IInventoryHandler, IInteractionObject, IItemCart {
 
 	private final TileMetalChest chestInstance = new TileMetalChest(getChestType());
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
@@ -235,5 +238,31 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 	@Override
 	public void onSlotChanged() {
 		updateChestInstance();
+	}
+
+	@Optional.Method(modid = "railcraft")
+	@Override
+	public boolean canPassItemRequests() {
+		return true;
+	}
+
+	@Optional.Method(modid = "railcraft")
+	@Override
+	public boolean canAcceptPushedItem(EntityMinecart requester, ItemStack stack) {
+		return !ItemHandlerHelper.insertItemStacked(inventory, stack, true).isEmpty();
+	}
+
+	@Optional.Method(modid = "railcraft")
+	@Override
+	public boolean canProvidePulledItem(EntityMinecart requester, ItemStack stack) {
+		ItemStack result = ItemStack.EMPTY;
+
+		for (int i = 0; i < inventory.getSlots(); ++i) {
+			if (!inventory.extractItem(i, stack.getCount(), true).isEmpty()) {
+				result = inventory.extractItem(i, stack.getCount(), false);
+			}
+		}
+
+		return !result.isEmpty();
 	}
 }
