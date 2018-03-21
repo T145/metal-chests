@@ -106,6 +106,7 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 		return type.getRowLength();
 	}
 
+	@Optional.Method(modid = "quark")
 	@Override
 	public boolean onAddChestButton(GuiButton button, int buttonType) {
 		return true;

@@ -32,8 +32,10 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import vazkii.quark.api.IDropoffManager;
 
-@Optional.Interface(modid = "holoinventory", iface = "net.dries007.holoInventory.api.INamedItemHandler", striprefs = true)
-@Optional.Interface(modid = "quark", iface = "vazkii.quark.api.IDropoffManager", striprefs = true)
+@Optional.InterfaceList({
+	@Optional.Interface(modid = "holoinventory", iface = "net.dries007.holoInventory.api.INamedItemHandler", striprefs = true),
+	@Optional.Interface(modid = "quark", iface = "vazkii.quark.api.IDropoffManager", striprefs = true)
+})
 public class TileMetalChest extends TileBase implements ITickable, IInventoryHandler, IInteractionObject, IDropoffManager, INamedItemHandler {
 
 	public float lidAngle;
@@ -327,16 +329,19 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 		return true;
 	}
 
+	@Optional.Method(modid = "holoinventory")
 	@Override
 	public String getItemHandlerName() {
 		return getName();
 	}
 
+	@Optional.Method(modid = "quark")
 	@Override
 	public boolean acceptsDropoff(EntityPlayer player) {
 		return true;
 	}
 
+	@Optional.Method(modid = "quark")
 	@Override
 	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return inventory;
