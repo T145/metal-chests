@@ -258,8 +258,10 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 		ItemStack result = ItemStack.EMPTY;
 
 		for (int i = 0; i < inventory.getSlots(); ++i) {
-			if (!inventory.extractItem(i, stack.getCount(), true).isEmpty()) {
-				result = inventory.extractItem(i, stack.getCount(), false);
+			ItemStack extractedStack = inventory.extractItem(i, stack.getCount(), true);
+
+			if (ItemStack.areItemStacksEqual(extractedStack, stack)) {
+				result = extractedStack;
 			}
 		}
 
