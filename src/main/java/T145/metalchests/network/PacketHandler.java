@@ -2,6 +2,7 @@ package T145.metalchests.network;
 
 import T145.metalchests.MetalChests;
 import T145.metalchests.network.base.MessageBase;
+import T145.metalchests.network.client.MessageSyncMinecartInventory;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -25,6 +26,7 @@ public class PacketHandler {
 	}
 
 	public static void registerMessages() {
+		registerMessage(MessageSyncMinecartInventory.class, Side.CLIENT);
 	}
 
 	public static void registerMessage(Class<? extends MessageBase> message, Side side) {

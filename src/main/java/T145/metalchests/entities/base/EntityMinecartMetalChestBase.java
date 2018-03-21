@@ -17,6 +17,8 @@ import T145.metalchests.entities.EntityMinecartSilverChest;
 import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.StructureUpgrade;
+import T145.metalchests.network.PacketHandler;
+import T145.metalchests.network.client.MessageSyncMinecartInventory;
 import T145.metalchests.tiles.TileMetalChest;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
@@ -155,6 +157,7 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 					newCart.onSlotChanged();
 					setDead();
 					world.spawnEntity(newCart);
+					PacketHandler.sendToAllAround(new MessageSyncMinecartInventory(newCart.hashCode()), world, getPosition());
 
 					if (!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
