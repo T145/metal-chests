@@ -27,6 +27,9 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -43,7 +46,8 @@ import net.minecraftforge.items.ItemStackHandler;
 @Optional.Interface(modid = "railcraft", iface = "mods.railcraft.api.carts.IItemCart", striprefs = true)
 public abstract class EntityMinecartMetalChestBase extends EntityMinecart implements IInventoryHandler, IInteractionObject, IItemCart {
 
-	private final TileMetalChest chestInstance = new TileMetalChest(getChestType());
+	private static final DataParameter<NBTTagCompound> TILE_INVENTORY = EntityDataManager.<NBTTagCompound>createKey(EntityMinecartMetalChestBase.class, DataSerializers.COMPOUND_TAG);
+	private final TileMetalChest chest = new TileMetalChest(getChestType());
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
 	public EntityMinecartMetalChestBase(World world) {
@@ -75,13 +79,24 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 
 	public abstract MetalChestType getChestType();
 
-	public TileMetalChest getChestInstance() {
-		return chestInstance;
+	public TileMetalChest getChest() {
+		return chest;
 	}
 
-	public void updateChestInstance() {
-		chestInstance.setInventory(inventory);
-		chestInstance.onSlotChanged();
+	public void setTopStacks(ItemStackHandler topStacks) {
+		this.dataManager.set(TILE_INVENTORY, topStacks.serializeNBT());
+	}
+
+	public ItemStackHandler getTopStacks() {
+		NBTTagCompound tag = this.dataManager.get(TILE_INVENTORY);
+		chest.getTopStacks().deserializeNBT(tag);
+		return chest.getTopStacks();
+	}
+
+	@Override
+	protected void entityInit() {
+		super.entityInit();
+		this.dataManager.register(TILE_INVENTORY, new NBTTagCompound());
 	}
 
 	@Override
@@ -107,51 +122,47 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 		super.killMinecart(source);
 
 		if (world.getGameRules().getBoolean("doEntityDrops")) {
-			dropItems();
-			entityDropItem(new ItemStack(ModLoader.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
-		}
-	}
+			for (int i = 0; i < inventory.getSlots(); ++i) {
+				ItemStack stack = inventory.getStackInSlot(i);
 
-	private void dropItems() {
-		for (int i = 0; i < inventory.getSlots(); ++i) {
-			ItemStack stack = inventory.getStackInSlot(i);
-
-			if (!stack.isEmpty()) {
-				InventoryHelper.spawnItemStack(world, posX, posY, posZ, stack);
+				if (!stack.isEmpty()) {
+					InventoryHelper.spawnItemStack(world, posX, posY, posZ, stack);
+				}
 			}
+
+			entityDropItem(new ItemStack(ModLoader.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
 		}
 	}
 
 	@Override
 	public boolean processInitialInteract(EntityPlayer player, EnumHand hand) {
-		if (super.processInitialInteract(player, hand)) {
+		if (super.processInitialInteract(player, hand) || world.isRemote) {
 			return true;
 		}
 
-		if (!world.isRemote) {
+		if (player.isSneaking()) {
 			ItemStack stack = player.getHeldItem(hand);
 
-			if (player.isSneaking() && stack.getItem() instanceof ItemChestStructureUpgrade) {
+			if (stack.getItem() instanceof ItemChestStructureUpgrade) {
 				ItemChestStructureUpgrade upgradeItem = (ItemChestStructureUpgrade) stack.getItem();
 				StructureUpgrade upgrade = StructureUpgrade.byMetadata(stack.getItemDamage());
 
 				if (getChestType() == upgrade.getBase()) {
 					EntityMinecartMetalChestBase newCart = create(world, posX, posY, posZ, upgrade.getUpgrade());
+
+					onSlotChanged();
 					newCart.setInventory(inventory);
-
+					newCart.onSlotChanged();
 					setDead();
-
 					world.spawnEntity(newCart);
 
 					if (!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
 					}
-
 					player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
-					return true;
 				}
 			}
-
+		} else {
 			player.openGui(MetalChests.MODID, hashCode(), world, 0, 0, 0);
 		}
 
@@ -237,7 +248,9 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 
 	@Override
 	public void onSlotChanged() {
-		updateChestInstance();
+		chest.setInventory(inventory);
+		chest.sortTopStacks();
+		setTopStacks(chest.getTopStacks());
 	}
 
 	@Optional.Method(modid = "railcraft")
