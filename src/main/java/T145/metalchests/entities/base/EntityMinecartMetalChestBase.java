@@ -8,7 +8,6 @@ import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.entities.EntityMinecartCopperChest;
-import T145.metalchests.entities.EntityMinecartCrystalChest;
 import T145.metalchests.entities.EntityMinecartDiamondChest;
 import T145.metalchests.entities.EntityMinecartGoldChest;
 import T145.metalchests.entities.EntityMinecartIronChest;
@@ -17,8 +16,6 @@ import T145.metalchests.entities.EntityMinecartSilverChest;
 import T145.metalchests.items.ItemChestStructureUpgrade;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.StructureUpgrade;
-import T145.metalchests.network.PacketHandler;
-import T145.metalchests.network.client.MessageSyncMinecartInventory;
 import T145.metalchests.tiles.TileMetalChest;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
@@ -29,9 +26,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -48,7 +42,6 @@ import net.minecraftforge.items.ItemStackHandler;
 @Optional.Interface(modid = "railcraft", iface = "mods.railcraft.api.carts.IItemCart", striprefs = true)
 public abstract class EntityMinecartMetalChestBase extends EntityMinecart implements IInventoryHandler, IInteractionObject, IItemCart {
 
-	private static final DataParameter<NBTTagCompound> TILE_INVENTORY = EntityDataManager.<NBTTagCompound>createKey(EntityMinecartMetalChestBase.class, DataSerializers.COMPOUND_TAG);
 	private final TileMetalChest chest = new TileMetalChest(getChestType());
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
@@ -64,8 +57,6 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 		switch (type) {
 		case COPPER:
 			return new EntityMinecartCopperChest(world, x, y, z);
-		case CRYSTAL:
-			return new EntityMinecartCrystalChest(world, x, y, z);
 		case DIAMOND:
 			return new EntityMinecartDiamondChest(world, x, y, z);
 		case GOLD:
@@ -83,22 +74,6 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 
 	public TileMetalChest getChest() {
 		return chest;
-	}
-
-	public void setTopStacks(ItemStackHandler topStacks) {
-		this.dataManager.set(TILE_INVENTORY, topStacks.serializeNBT());
-	}
-
-	public ItemStackHandler getTopStacks() {
-		NBTTagCompound tag = this.dataManager.get(TILE_INVENTORY);
-		chest.getTopStacks().deserializeNBT(tag);
-		return chest.getTopStacks();
-	}
-
-	@Override
-	protected void entityInit() {
-		super.entityInit();
-		this.dataManager.register(TILE_INVENTORY, new NBTTagCompound());
 	}
 
 	@Override
@@ -151,13 +126,12 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 
 				if (getChestType() == upgrade.getBase()) {
 					EntityMinecartMetalChestBase newCart = create(world, posX, posY, posZ, upgrade.getUpgrade());
-
-					onSlotChanged();
 					newCart.setInventory(inventory);
-					newCart.onSlotChanged();
+
+					setDropItemsWhenDead(false);
 					setDead();
+
 					world.spawnEntity(newCart);
-					PacketHandler.sendToAllAround(new MessageSyncMinecartInventory(newCart.hashCode()), world, getPosition());
 
 					if (!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
@@ -248,13 +222,6 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 
 	@Override
 	public void closeInventory(EntityPlayer player) {}
-
-	@Override
-	public void onSlotChanged() {
-		chest.setInventory(inventory);
-		chest.sortTopStacks();
-		setTopStacks(chest.getTopStacks());
-	}
 
 	@Optional.Method(modid = "railcraft")
 	@Override

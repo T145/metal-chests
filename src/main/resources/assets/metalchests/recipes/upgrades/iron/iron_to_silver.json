@@ -2,10 +2,6 @@
     "conditions": [
         {
             "type": "metalchests:ore_exists",
-            "ore": "ingotIron"
-        },
-        {
-            "type": "metalchests:ore_exists",
             "ore": "ingotSilver"
         }
     ],
@@ -25,6 +21,6 @@
     },
     "result": {
         "item": "metalchests:structure_upgrade",
-        "data": 13
+        "data": 11
     }
 }

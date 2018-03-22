@@ -4,7 +4,6 @@ import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.base.ItemBase;
-import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.StructureUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
@@ -93,10 +92,6 @@ public class ItemChestStructureUpgrade extends ItemBase {
 			TileMetalChest chest = (TileMetalChest) te2;
 			chest.setInventory(inventory);
 			chest.setFront(front);
-
-			if (newChest.getType() == MetalChestType.CRYSTAL) {
-				chest.sortTopStacks();
-			}
 		}
 	}
 

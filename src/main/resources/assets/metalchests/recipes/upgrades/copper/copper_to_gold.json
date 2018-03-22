@@ -7,10 +7,6 @@
         {
             "type": "metalchests:ore_null",
             "ore": "ingotSilver"
-        },
-        {
-            "type": "metalchests:ore_exists",
-            "ore": "ingotGold"
         }
     ],
     "type": "forge:ore_shaped",
@@ -25,11 +21,11 @@
         },
         "E": {
             "item": "metalchests:structure_upgrade",
-            "data": 7
+            "data": 6
         }
     },
     "result": {
         "item": "metalchests:structure_upgrade",
-        "data": 9
+        "data": 8
     }
 }

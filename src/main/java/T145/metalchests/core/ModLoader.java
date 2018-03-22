@@ -8,7 +8,6 @@ import T145.metalchests.blocks.base.BlockItemBase;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
 import T145.metalchests.entities.EntityMinecartCopperChest;
-import T145.metalchests.entities.EntityMinecartCrystalChest;
 import T145.metalchests.entities.EntityMinecartDiamondChest;
 import T145.metalchests.entities.EntityMinecartGoldChest;
 import T145.metalchests.entities.EntityMinecartIronChest;
@@ -122,10 +121,6 @@ public class ModLoader {
 					createBuilder("MinecartObsidianChest")
 					.entity(EntityMinecartObsidianChest.class)
 					.tracker(80, 3, true)
-					.build(),
-					createBuilder("MinecartCrystalChest")
-					.entity(EntityMinecartCrystalChest.class)
-					.tracker(80, 3, true)
 					.build()
 			};
 
@@ -182,7 +177,7 @@ public class ModLoader {
 							EntityMinecartMetalChestBase metalCart = EntityMinecartMetalChestBase.create(world, normalCart.posX, normalCart.posY, normalCart.posZ, upgrade.getUpgrade());
 							metalCart.setInventory(normalCart.itemHandler);
 
-							normalCart.dropContentsWhenDead = false;
+							normalCart.setDropItemsWhenDead(false);
 							normalCart.setDead();
 
 							world.spawnEntity(metalCart);
@@ -220,7 +215,6 @@ public class ModLoader {
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartGoldChest.class, manager -> new RenderMinecartMetalChest(manager));
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartDiamondChest.class, manager -> new RenderMinecartMetalChest(manager));
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartObsidianChest.class, manager -> new RenderMinecartMetalChest(manager));
-			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCrystalChest.class, manager -> new RenderMinecartMetalChest(manager));
 		}
 
 		public static String getVariantName(IStringSerializable variant) {

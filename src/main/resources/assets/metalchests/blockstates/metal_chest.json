@@ -49,12 +49,6 @@
                     "particle": "metalchests:blocks/obsidian_chest",
                     "chest": "metalchests:entity/chest/obsidian"
                 }
-            },
-            "crystal": {
-                "textures": {
-                    "particle": "metalchests:blocks/crystal_chest",
-                    "chest": "metalchests:entity/chest/crystal"
-                }
             }
         }
     }

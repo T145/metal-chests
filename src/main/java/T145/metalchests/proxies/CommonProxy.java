@@ -1,7 +1,6 @@
 package T145.metalchests.proxies;
 
 import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
-import T145.metalchests.network.PacketHandler;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,7 +46,6 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void preInit(FMLPreInitializationEvent event) {
-		PacketHandler.registerMessages();
 		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
 	}
 

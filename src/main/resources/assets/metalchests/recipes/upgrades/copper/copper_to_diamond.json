@@ -3,10 +3,6 @@
         {
             "type": "metalchests:ore_exists",
             "ore": "ingotCopper"
-        },
-        {
-            "type": "metalchests:ore_exists",
-            "ore": "gemDiamond"
         }
     ],
     "type": "forge:ore_shaped",
@@ -21,11 +17,11 @@
         },
         "E": {
             "item": "metalchests:structure_upgrade",
-            "data": 9
+            "data": 8
         }
     },
     "result": {
         "item": "metalchests:structure_upgrade",
-        "data": 10
+        "data": 9
     }
 }

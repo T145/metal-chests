@@ -36,13 +36,7 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 	protected void layoutInventory() {
 		for (int chestRow = 0; chestRow < type.getRowCount(); chestRow++) {
 			for (int chestCol = 0; chestCol < type.getRowLength(); chestCol++) {
-				addSlotToContainer(new SlotItemHandler(handler.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18) {
-
-					@Override
-					public void onSlotChanged() {
-						handler.onSlotChanged();
-					}
-				});
+				addSlotToContainer(new SlotItemHandler(handler.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
 			}
 		}
 	}

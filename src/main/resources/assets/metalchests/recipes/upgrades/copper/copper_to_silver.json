@@ -21,11 +21,11 @@
         },
         "E": {
             "item": "metalchests:structure_upgrade",
-            "data": 7
+            "data": 6
         }
     },
     "result": {
         "item": "metalchests:structure_upgrade",
-        "data": 8
+        "data": 7
     }
 }

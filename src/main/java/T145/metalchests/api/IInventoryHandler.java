@@ -12,6 +12,4 @@ public interface IInventoryHandler {
 	void closeInventory(EntityPlayer player);
 
 	boolean isUsableByPlayer(EntityPlayer player);
-
-	void onSlotChanged();
 }

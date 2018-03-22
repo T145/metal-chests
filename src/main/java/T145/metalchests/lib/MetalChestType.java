@@ -19,8 +19,7 @@ public enum MetalChestType implements IStringSerializable {
 	SILVER(72, Material.IRON, Material.IRON.getMaterialMapColor(), SoundType.METAL, "ingotSilver"),
 	GOLD(81, Material.IRON, MapColor.GOLD, SoundType.METAL, "ingotGold"),
 	DIAMOND(108, Material.IRON, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-	OBSIDIAN(108, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "blockObsidian"),
-	CRYSTAL(108, Material.GLASS, MapColor.QUARTZ, SoundType.GLASS, "blockGlass");
+	OBSIDIAN(108, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "blockObsidian");
 
 	private final int inventorySize;
 	private final Material material;
@@ -84,8 +83,7 @@ public enum MetalChestType implements IStringSerializable {
 		SILVER(184, 238),
 		GOLD(184, 256),
 		DIAMOND(238, 256),
-		OBSIDIAN(238, 256),
-		CRYSTAL(238, 256);
+		OBSIDIAN(238, 256);
 
 		private final int xSize;
 		private final int ySize;
@@ -125,27 +123,21 @@ public enum MetalChestType implements IStringSerializable {
 		WOOD_GOLD(null, GOLD),
 		WOOD_DIAMOND(null, DIAMOND),
 		WOOD_OBSIDIAN(null, OBSIDIAN),
-		WOOD_CRYSTAL(null, CRYSTAL),
 		COPPER_IRON(COPPER, IRON),
 		COPPER_SILVER(COPPER, SILVER),
 		COPPER_GOLD(COPPER, GOLD),
 		COPPER_DIAMOND(COPPER, DIAMOND),
 		COPPER_OBSIDIAN(COPPER, OBSIDIAN),
-		COPPER_CRYSTAL(COPPER, CRYSTAL),
 		IRON_SILVER(IRON, SILVER),
 		IRON_GOLD(IRON, GOLD),
 		IRON_DIAMOND(IRON, DIAMOND),
 		IRON_OBSIDIAN(IRON, OBSIDIAN),
-		IRON_CRYSTAL(IRON, CRYSTAL),
 		SILVER_GOLD(SILVER, GOLD),
 		SILVER_DIAMOND(SILVER, DIAMOND),
 		SILVER_OBSIDIAN(SILVER, OBSIDIAN),
-		SILVER_CRYSTAL(SILVER, CRYSTAL),
 		GOLD_DIAMOND(GOLD, DIAMOND),
 		GOLD_OBSIDIAN(GOLD, OBSIDIAN),
-		GOLD_CRYSTAL(GOLD, CRYSTAL),
-		DIAMOND_OBSIDIAN(DIAMOND, OBSIDIAN),
-		DIAMOND_CRYSTAL(DIAMOND, CRYSTAL);
+		DIAMOND_OBSIDIAN(DIAMOND, OBSIDIAN);
 
 		@Nullable
 		private final MetalChestType base;

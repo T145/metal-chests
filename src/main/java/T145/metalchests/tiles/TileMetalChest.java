@@ -1,7 +1,5 @@
 package T145.metalchests.tiles;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
@@ -11,15 +9,12 @@ import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.tiles.base.TileBase;
 import net.dries007.holoInventory.api.INamedItemHandler;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
@@ -47,13 +42,11 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 	private MetalChestType type;
 	private EnumFacing front;
 	private ItemStackHandler inventory;
-	private ItemStackHandler topStacks;
 
 	public TileMetalChest(MetalChestType type) {
 		this.type = type;
 		this.front = EnumFacing.EAST;
 		this.inventory = new ItemStackHandler(type.getInventorySize());
-		this.topStacks = new ItemStackHandler(8);
 	}
 
 	public TileMetalChest() {
@@ -74,10 +67,6 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 
 	public ItemStackHandler getInventory() {
 		return inventory;
-	}
-
-	public ItemStackHandler getTopStacks() {
-		return topStacks;
 	}
 
 	public void setInventory(IItemHandler stacks) {
@@ -110,8 +99,6 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 		type = MetalChestType.valueOf(tag.getString("Type"));
 		front = EnumFacing.byName(tag.getString("Front"));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-		topStacks.deserializeNBT(tag.getCompoundTag("TopStacks"));
-		sortTopStacks();
 	}
 
 	@Override
@@ -119,7 +106,6 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 		tag.setString("Type", type.toString());
 		tag.setString("Front", front.toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
-		tag.setTag("TopStacks", topStacks.serializeNBT());
 	}
 
 	@Override
@@ -179,95 +165,6 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 	}
 
 	@Override
-	public void markDirty() {
-		super.markDirty();
-		sortTopStacks();
-	}
-
-	public void sortTopStacks() {
-		if (type != MetalChestType.CRYSTAL || (world != null && world.isRemote)) {
-			return;
-		}
-
-		NonNullList<ItemStack> temp = NonNullList.<ItemStack>withSize(type.getInventorySize(), ItemStack.EMPTY);
-		boolean hasStuff = false;
-		int maxSlot = 0;
-
-		copyInventory: for (int i = 0; i < type.getInventorySize(); i++) {
-			ItemStack stack = inventory.getStackInSlot(i);
-
-			if (!stack.isEmpty()) {
-				for (int j = 0; j < maxSlot; j++) {
-					ItemStack tempStack = temp.get(j);
-
-					if (ItemStack.areItemsEqualIgnoreDurability(tempStack, stack)) {
-						if (stack.getCount() != tempStack.getCount()) {
-							tempStack.grow(stack.getCount());
-						}
-
-						continue copyInventory;
-					}
-				}
-
-				temp.set(maxSlot++, stack.copy());
-				hasStuff = true;
-			}
-		}
-
-		if (!hasStuff && touched) {
-			touched = false;
-
-			for (int i = 0; i < topStacks.getSlots(); ++i) {
-				topStacks.setStackInSlot(i, ItemStack.EMPTY);
-			}
-
-			if (world != null) {
-				IBlockState state = world.getBlockState(pos);
-				world.notifyBlockUpdate(pos, state, state, 3);
-			}
-
-			return;
-		}
-
-		touched = true;
-
-		Collections.sort(temp, new Comparator<ItemStack>() {
-
-			@Override
-			public int compare(ItemStack stack1, ItemStack stack2) {
-				if (stack1.isEmpty()) {
-					return 1;
-				} else if (stack2.isEmpty()) {
-					return -1;
-				} else {
-					return stack2.getCount() - stack1.getCount();
-				}
-			}
-		});
-
-		maxSlot = 0;
-
-		for (ItemStack element : temp) {
-			if (!element.isEmpty() && element.getCount() > 0) {
-				if (maxSlot == topStacks.getSlots()) {
-					break;
-				}
-
-				topStacks.setStackInSlot(maxSlot++, element);
-			}
-		}
-
-		for (int i = maxSlot; i < topStacks.getSlots(); ++i) {
-			topStacks.setStackInSlot(i, ItemStack.EMPTY);
-		}
-
-		if (world != null) {
-			IBlockState state = world.getBlockState(pos);
-			world.notifyBlockUpdate(pos, state, state, 3);
-		}
-	}
-
-	@Override
 	public void invalidate() {
 		updateContainingBlockInfo();
 		super.invalidate();
@@ -302,11 +199,6 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 		} else {
 			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 		}
-	}
-
-	@Override
-	public void onSlotChanged() {
-		sortTopStacks();
 	}
 
 	@Override

@@ -7,10 +7,6 @@
         {
             "type": "metalchests:ore_exists",
             "ore": "ingotSilver"
-        },
-        {
-            "type": "metalchests:ore_exists",
-            "ore": "ingotGold"
         }
     ],
     "type": "forge:ore_shaped",

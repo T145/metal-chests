@@ -2,11 +2,7 @@
     "conditions": [
         {
             "type": "metalchests:ore_exists",
-            "ore": "gemDiamond"
-        },
-        {
-            "type": "metalchests:ore_exists",
-            "ore": "blockObsidian"
+            "ore": "ingotCopper"
         }
     ],
     "type": "forge:ore_shaped",
@@ -21,11 +17,11 @@
         },
         "E": {
             "item": "metalchests:structure_upgrade",
-            "data": 10
+            "data": 9
         }
     },
     "result": {
         "item": "metalchests:structure_upgrade",
-        "data": 11
+        "data": 10
     }
 }

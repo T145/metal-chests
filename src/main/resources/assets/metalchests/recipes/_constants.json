@@ -1,5 +1,19 @@
 [
     {
+        "name": "PLANKS",
+        "ingredient": {
+            "type": "forge:ore_dict",
+            "ore": "plankWood"
+        }
+    },
+    {
+        "name": "CHEST",
+        "ingredient": {
+            "type": "forge:ore_dict",
+            "ore": "chestWood"
+        }
+    },
+    {
         "name": "IRON",
         "ingredient": [
             {
@@ -41,31 +55,10 @@
         }
     },
     {
-        "name": "GLASS",
-        "ingredient": {
-            "type": "forge:ore_dict",
-            "ore": "blockGlass"
-        }
-    },
-    {
         "name": "OBSIDIAN",
         "ingredient": {
             "type": "forge:ore_dict",
             "ore": "blockObsidian"
-        }
-    },
-    {
-        "name": "PLANKS",
-        "ingredient": {
-            "type": "forge:ore_dict",
-            "ore": "plankWood"
-        }
-    },
-    {
-        "name": "CHEST",
-        "ingredient": {
-            "type": "forge:ore_dict",
-            "ore": "chestWood"
         }
     }
 ]
