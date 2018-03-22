@@ -115,7 +115,7 @@ public enum MetalChestType implements IStringSerializable {
 		}
 	}
 
-	public enum StructureUpgrade implements IStringSerializable {
+	public enum ChestUpgrade implements IStringSerializable {
 
 		WOOD_COPPER(null, COPPER),
 		WOOD_IRON(null, IRON),
@@ -169,11 +169,11 @@ public enum MetalChestType implements IStringSerializable {
 			return name().toLowerCase();
 		}
 
-		public static StructureUpgrade byMetadata(int meta) {
+		public static ChestUpgrade byMetadata(int meta) {
 			return values()[meta]; 
 		}
 
-		StructureUpgrade(MetalChestType base, MetalChestType upgrade) {
+		ChestUpgrade(MetalChestType base, MetalChestType upgrade) {
 			this.base = base;
 			this.upgrade = upgrade;
 		}

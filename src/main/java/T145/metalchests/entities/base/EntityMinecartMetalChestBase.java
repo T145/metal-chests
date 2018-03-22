@@ -12,9 +12,9 @@ import T145.metalchests.entities.EntityMinecartGoldChest;
 import T145.metalchests.entities.EntityMinecartIronChest;
 import T145.metalchests.entities.EntityMinecartObsidianChest;
 import T145.metalchests.entities.EntityMinecartSilverChest;
-import T145.metalchests.items.ItemChestStructureUpgrade;
+import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.lib.MetalChestType;
-import T145.metalchests.lib.MetalChestType.StructureUpgrade;
+import T145.metalchests.lib.MetalChestType.ChestUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
@@ -117,9 +117,9 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 		if (player.isSneaking()) {
 			ItemStack stack = player.getHeldItem(hand);
 
-			if (stack.getItem() instanceof ItemChestStructureUpgrade) {
-				ItemChestStructureUpgrade upgradeItem = (ItemChestStructureUpgrade) stack.getItem();
-				StructureUpgrade upgrade = StructureUpgrade.byMetadata(stack.getItemDamage());
+			if (stack.getItem() instanceof ItemChestUpgrade) {
+				ItemChestUpgrade upgradeItem = (ItemChestUpgrade) stack.getItem();
+				ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
 				if (getChestType() == upgrade.getBase()) {
 					EntityMinecartMetalChestBase newCart = create(world, posX, posY, posZ, upgrade.getUpgrade());

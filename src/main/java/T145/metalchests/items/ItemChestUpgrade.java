@@ -4,7 +4,7 @@ import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.base.ItemBase;
-import T145.metalchests.lib.MetalChestType.StructureUpgrade;
+import T145.metalchests.lib.MetalChestType.ChestUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
@@ -25,10 +25,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 
-public class ItemChestStructureUpgrade extends ItemBase {
+public class ItemChestUpgrade extends ItemBase {
 
-	public ItemChestStructureUpgrade() {
-		super("structure_upgrade", StructureUpgrade.values());
+	public ItemChestUpgrade() {
+		super("structure_upgrade", ChestUpgrade.values());
 		setMaxStackSize(1);
 	}
 
@@ -41,7 +41,7 @@ public class ItemChestStructureUpgrade extends ItemBase {
 		ItemStack stack = player.getHeldItem(hand);
 		TileEntity te = world.getTileEntity(pos);
 		IBlockState state = world.getBlockState(pos);
-		StructureUpgrade upgrade = StructureUpgrade.byMetadata(stack.getItemDamage());
+		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
 		if (te instanceof TileMetalChest && ((TileMetalChest) te).getType() == upgrade.getBase()) {
 			TileMetalChest chest = (TileMetalChest) te;
@@ -100,7 +100,7 @@ public class ItemChestStructureUpgrade extends ItemBase {
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (tab == MetalChests.TAB) {
 			for (int meta = 0; meta < getItemTypes().length; ++meta) {
-				StructureUpgrade upgrade = StructureUpgrade.byMetadata(meta);
+				ChestUpgrade upgrade = ChestUpgrade.byMetadata(meta);
 
 				if (upgrade.isRegistered()) {
 					items.add(new ItemStack(this, 1, meta));
