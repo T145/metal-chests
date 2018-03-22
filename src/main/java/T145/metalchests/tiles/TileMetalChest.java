@@ -5,12 +5,10 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 
 import T145.metalchests.api.IInventoryHandler;
-import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.tiles.base.TileBase;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
@@ -19,7 +17,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
-import net.minecraft.world.IInteractionObject;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -31,7 +28,7 @@ import vazkii.quark.api.IDropoffManager;
 	@Optional.Interface(modid = "holoinventory", iface = "net.dries007.holoInventory.api.INamedItemHandler", striprefs = true),
 	@Optional.Interface(modid = "quark", iface = "vazkii.quark.api.IDropoffManager", striprefs = true)
 })
-public class TileMetalChest extends TileBase implements ITickable, IInventoryHandler, IInteractionObject, IDropoffManager, INamedItemHandler {
+public class TileMetalChest extends TileBase implements ITickable, IInventoryHandler, IDropoffManager, INamedItemHandler {
 
 	public float lidAngle;
 	public float prevLidAngle;
@@ -201,30 +198,10 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 		}
 	}
 
-	@Override
-	public ContainerMetalChest createContainer(InventoryPlayer playerInventory, EntityPlayer player) {
-		return new ContainerMetalChest(this, player, type);
-	}
-
-	@Override
-	public String getGuiID() {
-		return "metalchests:" + type.getName() + "_chest";
-	}
-
-	@Override
-	public String getName() {
-		return "tile.metalchests:metal_chest." + type.getName() + ".name";
-	}
-
-	@Override
-	public boolean hasCustomName() {
-		return true;
-	}
-
 	@Optional.Method(modid = "holoinventory")
 	@Override
 	public String getItemHandlerName() {
-		return getName();
+		return "tile.metalchests:metal_chest." + type.getName() + ".name";
 	}
 
 	@Optional.Method(modid = "quark")

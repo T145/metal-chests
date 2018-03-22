@@ -5,7 +5,6 @@ import javax.annotation.Nullable;
 import T145.metalchests.MetalChests;
 import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.entities.EntityMinecartCopperChest;
 import T145.metalchests.entities.EntityMinecartDiamondChest;
@@ -21,7 +20,6 @@ import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -30,7 +28,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
@@ -40,7 +37,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 @Optional.Interface(modid = "railcraft", iface = "mods.railcraft.api.carts.IItemCart", striprefs = true)
-public abstract class EntityMinecartMetalChestBase extends EntityMinecart implements IInventoryHandler, IInteractionObject, IItemCart {
+public abstract class EntityMinecartMetalChestBase extends EntityMinecart implements IInventoryHandler, IItemCart {
 
 	private final TileMetalChest chest = new TileMetalChest(getChestType());
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
@@ -205,16 +202,6 @@ public abstract class EntityMinecartMetalChestBase extends EntityMinecart implem
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
 		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-	}
-
-	@Override
-	public ContainerMetalChest createContainer(InventoryPlayer playerInventory, EntityPlayer player) {
-		return new ContainerMetalChest(this, player, getChestType());
-	}
-
-	@Override
-	public String getGuiID() {
-		return "metalchests:" + getChestType().getName() + "_cart";
 	}
 
 	@Override

@@ -1,11 +1,13 @@
 package T145.metalchests.proxies;
 
+import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -22,18 +24,17 @@ public class CommonProxy implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		pos.setPos(x, y, z);
-		TileEntity te = world.getTileEntity(pos);
 
 		switch (ID) {
 		case 0:
-			TileMetalChest chest = (TileMetalChest) te;
-			return chest.createContainer(null, player);
+			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos);
+			return new ContainerMetalChest(chest, player, chest.getType());
 		default:
 			Entity entity = world.getEntityByID(ID);
 
 			if (entity instanceof EntityMinecartMetalChestBase) {
 				EntityMinecartMetalChestBase cart = (EntityMinecartMetalChestBase) entity;
-				return cart.createContainer(null, player);
+				return new ContainerMetalChest(cart, player, cart.getChestType());
 			}
 
 			return null;
@@ -50,7 +51,10 @@ public class CommonProxy implements IGuiHandler {
 	}
 
 	public void init(FMLInitializationEvent event) {
-		TileMetalChest.registerFixesChest(FMLCommonHandler.instance().getDataFixer());
+		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
+
+		TileMetalChest.registerFixesChest(fixer);
+		EntityMinecart.registerFixesMinecart(fixer, EntityMinecartMetalChestBase.class);
 	}
 
 	public void postInit(FMLPostInitializationEvent event) {}
