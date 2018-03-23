@@ -8,6 +8,14 @@ tile.metalchests:metal_chest.gold.name=Gold Chest
 tile.metalchests:metal_chest.diamond.name=Diamond Chest
 tile.metalchests:metal_chest.obsidian.name=Obsidian Chest
 
+tile.metalchests:project_table.wood.name=Project Table
+tile.metalchests:project_table.copper.name=Copper Project Table
+tile.metalchests:project_table.iron.name=Iron Project Table
+tile.metalchests:project_table.silver.name=Silver Project Table
+tile.metalchests:project_table.gold.name=Gold Project Table
+tile.metalchests:project_table.diamond.name=Diamond Project Table
+tile.metalchests:project_table.obsidian.name=Obsidian Project Table
+
 item.metalchests:minecart_metal_chest.copper.name=Minecart with Copper Chest
 item.metalchests:minecart_metal_chest.iron.name=Minecart with Iron Chest
 item.metalchests:minecart_metal_chest.silver.name=Minecart with Silver Chest

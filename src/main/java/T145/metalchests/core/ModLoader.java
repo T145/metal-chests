@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.blocks.BlockProjectTable;
 import T145.metalchests.blocks.base.BlockItemBase;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
@@ -20,7 +21,9 @@ import T145.metalchests.items.ItemMinecartMetalChest;
 import T145.metalchests.items.base.ItemBase;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.ChestUpgrade;
+import T145.metalchests.lib.ProjectTableType;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileProjectTable;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -37,6 +40,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -61,6 +65,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class ModLoader {
 
 	public static final BlockMetalChest METAL_CHEST = new BlockMetalChest();
+	public static final BlockProjectTable PROJECT_TABLE = new BlockProjectTable();
 
 	public static final ItemBase MINECART_METAL_CHEST = new ItemMinecartMetalChest();
 	public static final ItemBase CHEST_UPGRADE_STRUCTURE = new ItemChestUpgrade(); 
@@ -72,7 +77,9 @@ public class ModLoader {
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 			registry.register(METAL_CHEST);
+			registry.register(PROJECT_TABLE);
 			registerTileEntity(TileMetalChest.class);
+			registerTileEntity(TileProjectTable.class);
 		}
 
 		private static void registerTileEntity(Class tileClass) {
@@ -83,6 +90,7 @@ public class ModLoader {
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 			registerItemBlock(registry, METAL_CHEST, MetalChestType.class);
+			registerItemBlock(registry, PROJECT_TABLE, ProjectTableType.class);
 			registry.register(MINECART_METAL_CHEST);
 			registry.register(CHEST_UPGRADE_STRUCTURE);
 		}
@@ -201,6 +209,10 @@ public class ModLoader {
 			for (MetalChestType type : MetalChestType.values()) {
 				registerBlockModel(METAL_CHEST, type.ordinal(), type);
 				registerItemModel(MINECART_METAL_CHEST, type.ordinal(), "minecarts/" + type.getName());
+			}
+
+			for (ProjectTableType type : ProjectTableType.values()) {
+				ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(PROJECT_TABLE), type.ordinal(), new ModelResourceLocation(PROJECT_TABLE.getRegistryName(), "facing=north," + getVariantName(type)));
 			}
 
 			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);

@@ -16,37 +16,37 @@
         "variant": {
             "copper": {
                 "textures": {
-                    "particle": "metalchests:blocks/copper_chest",
+                    "particle": "metalchests:blocks/chest/copper",
                     "chest": "metalchests:entity/chest/copper"
                 }
             },
             "iron": {
                 "textures": {
-                    "particle": "metalchests:blocks/iron_chest",
+                    "particle": "metalchests:blocks/chest/iron",
                     "chest": "metalchests:entity/chest/iron"
                 }
             },
             "silver": {
                 "textures": {
-                    "particle": "metalchests:blocks/silver_chest",
+                    "particle": "metalchests:blocks/chest/silver",
                     "chest": "metalchests:entity/chest/silver"
                 }
             },
             "gold": {
                 "textures": {
-                    "particle": "metalchests:blocks/gold_chest",
+                    "particle": "metalchests:blocks/chest/gold",
                     "chest": "metalchests:entity/chest/gold"
                 }
             },
             "diamond": {
                 "textures": {
-                    "particle": "metalchests:blocks/diamond_chest",
+                    "particle": "metalchests:blocks/chest/diamond",
                     "chest": "metalchests:entity/chest/diamond"
                 }
             },
             "obsidian": {
                 "textures": {
-                    "particle": "metalchests:blocks/obsidian_chest",
+                    "particle": "metalchests:blocks/chest/obsidian",
                     "chest": "metalchests:entity/chest/obsidian"
                 }
             }

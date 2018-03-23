@@ -93,14 +93,12 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 
 	@Override
 	public void readPacketNBT(NBTTagCompound tag) {
-		type = MetalChestType.valueOf(tag.getString("Type"));
 		front = EnumFacing.byName(tag.getString("Front"));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 	}
 
 	@Override
 	public void writePacketNBT(NBTTagCompound tag) {
-		tag.setString("Type", type.toString());
 		tag.setString("Front", front.toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
 	}
