@@ -1,9 +1,7 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"side": "blocks/tank_glass_side",
-		"particle": "blocks/tank_glass_side",
-		"vert": "blocks/tank_glass_vert"
+		"particle": "#side"
 	},
 	"elements": [
 		{
@@ -11,8 +9,8 @@
 			"from": [2, 0, 2],
 			"to": [14, 16, 14],
 			"faces": {
-				"up": {"uv": [2, 2, 14, 14], "texture": "#vert"},
-				"down": {"uv": [2, 2, 14, 14], "texture": "#vert"}
+				"up": {"uv": [2, 2, 14, 14], "texture": "#end"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#end"}
 			},
 			"type": "cube"
 		},
@@ -24,8 +22,8 @@
 				"east": {"uv": [2, 0, 3, 16], "texture": "#side"},
 				"south": {"uv": [2, 0, 14, 16], "texture": "#side"},
 				"west": {"uv": [13, 0, 14, 16], "texture": "#side"},
-				"up": {"uv": [2, 14, 14, 15], "texture": "#vert"},
-				"down": {"uv": [2, 14, 14, 15], "texture": "#vert"}
+				"up": {"uv": [2, 14, 14, 15], "texture": "#end"},
+				"down": {"uv": [2, 14, 14, 15], "texture": "#end"}
 			},
 			"type": "cube"
 		},
@@ -37,8 +35,8 @@
 				"north": {"uv": [2, 0, 14, 16], "texture": "#side"},
 				"east": {"uv": [13, 0, 14, 16], "texture": "#side"},
 				"west": {"uv": [2, 0, 3, 16], "texture": "#side"},
-				"up": {"uv": [2, 1, 14, 2], "texture": "#vert"},
-				"down": {"uv": [2, 1, 14, 2], "texture": "#vert"}
+				"up": {"uv": [2, 1, 14, 2], "texture": "#end"},
+				"down": {"uv": [2, 1, 14, 2], "texture": "#end"}
 			},
 			"type": "cube"
 		},
@@ -53,8 +51,8 @@
 					"uv": [13, 0, 14, 16],
 					"texture": "#side"
 				},
-				"up": {"uv": [14, 2, 15, 14], "texture": "#vert"},
-				"down": {"uv": [1, 2, 2, 14], "texture": "#vert"}
+				"up": {"uv": [14, 2, 15, 14], "texture": "#end"},
+				"down": {"uv": [1, 2, 2, 14], "texture": "#end"}
 			},
 			"type": "cube"
 		},
@@ -69,8 +67,8 @@
 				},
 				"south": {"uv": [2, 0, 3, 16], "texture": "#side"},
 				"west": {"uv": [2, 0, 14, 16], "texture": "#side"},
-				"up": {"uv": [1, 2, 2, 14], "texture": "#vert"},
-				"down": {"uv": [14, 2, 15, 14], "texture": "#vert"}
+				"up": {"uv": [1, 2, 2, 14], "texture": "#end"},
+				"down": {"uv": [14, 2, 15, 14], "texture": "#end"}
 			},
 			"type": "cube"
 		}

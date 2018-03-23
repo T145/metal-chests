@@ -24,6 +24,10 @@ public class TileProjectTable extends TileBase {
 		this.setFront(EnumFacing.NORTH);
 	}
 
+	public TileProjectTable() {
+		this(ProjectTableType.WOOD);
+	}
+
 	public ProjectTableType getType() {
 		return type;
 	}

@@ -1,33 +1,27 @@
 package T145.metalchests.lib;
 
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.oredict.OreDictionary;
 
 public enum MetalTankType implements IStringSerializable {
 
-	BASE("blockGlass"),
-	COPPER(MetalChestType.COPPER),
-	IRON(MetalChestType.IRON),
-	SILVER(MetalChestType.SILVER),
-	GOLD(MetalChestType.GOLD),
-	DIAMOND(MetalChestType.DIAMOND),
-	OBSIDIAN(MetalChestType.OBSIDIAN);
+	BASE(4, "blockGlass"),
+	COPPER(6, MetalChestType.COPPER),
+	IRON(8, MetalChestType.IRON),
+	SILVER(10, MetalChestType.SILVER),
+	GOLD(12, MetalChestType.GOLD),
+	DIAMOND(14, MetalChestType.DIAMOND),
+	OBSIDIAN(14, MetalChestType.OBSIDIAN);
 
+	private final int capacity;
 	private final String oreDictEntry;
 
-	public Material getMaterial() {
-		return Material.GLASS;
+	public int getCapacity() {
+		return capacity;
 	}
 
-	public MapColor getMapColor() {
-		return MapColor.QUARTZ;
-	}
-
-	public SoundType getSoundType() {
-		return SoundType.GLASS;
+	public String getOreDictEntry() {
+		return oreDictEntry;
 	}
 
 	public boolean isRegistered() {
@@ -43,11 +37,12 @@ public enum MetalTankType implements IStringSerializable {
 		return values()[meta]; 
 	}
 
-	MetalTankType(String oreDictEntry) {
+	MetalTankType(int capacity, String oreDictEntry) {
+		this.capacity = capacity;
 		this.oreDictEntry = oreDictEntry;
 	}
 
-	MetalTankType(MetalChestType type) {
-		this(type.getOreDictEntry());
+	MetalTankType(int capacity, MetalChestType type) {
+		this(capacity, type.getOreDictEntry());
 	}
 }

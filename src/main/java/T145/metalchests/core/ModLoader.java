@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 import T145.metalchests.MetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.blocks.BlockMetalTank;
 import T145.metalchests.blocks.BlockProjectTable;
 import T145.metalchests.blocks.base.BlockItemBase;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
@@ -21,8 +22,10 @@ import T145.metalchests.items.ItemMinecartMetalChest;
 import T145.metalchests.items.base.ItemBase;
 import T145.metalchests.lib.MetalChestType;
 import T145.metalchests.lib.MetalChestType.ChestUpgrade;
+import T145.metalchests.lib.MetalTankType;
 import T145.metalchests.lib.ProjectTableType;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileMetalTank;
 import T145.metalchests.tiles.TileProjectTable;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -40,10 +43,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.StringUtils;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -66,9 +69,10 @@ public class ModLoader {
 
 	public static final BlockMetalChest METAL_CHEST = new BlockMetalChest();
 	public static final BlockProjectTable PROJECT_TABLE = new BlockProjectTable();
+	public static final BlockMetalTank METAL_TANK = new BlockMetalTank();
 
 	public static final ItemBase MINECART_METAL_CHEST = new ItemMinecartMetalChest();
-	public static final ItemBase CHEST_UPGRADE_STRUCTURE = new ItemChestUpgrade(); 
+	public static final ItemBase CHEST_UPGRADE = new ItemChestUpgrade(); 
 
 	@EventBusSubscriber(modid = MetalChests.MODID)
 	public static class ServerLoader {
@@ -78,8 +82,10 @@ public class ModLoader {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 			registry.register(METAL_CHEST);
 			registry.register(PROJECT_TABLE);
+			registry.register(METAL_TANK);
 			registerTileEntity(TileMetalChest.class);
 			registerTileEntity(TileProjectTable.class);
+			registerTileEntity(TileMetalTank.class);
 		}
 
 		private static void registerTileEntity(Class tileClass) {
@@ -91,8 +97,9 @@ public class ModLoader {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 			registerItemBlock(registry, METAL_CHEST, MetalChestType.class);
 			registerItemBlock(registry, PROJECT_TABLE, ProjectTableType.class);
+			registerItemBlock(registry, METAL_TANK, MetalTankType.class);
 			registry.register(MINECART_METAL_CHEST);
-			registry.register(CHEST_UPGRADE_STRUCTURE);
+			registry.register(CHEST_UPGRADE);
 		}
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -207,19 +214,23 @@ public class ModLoader {
 		@SubscribeEvent
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (MetalChestType type : MetalChestType.values()) {
-				registerBlockModel(METAL_CHEST, type.ordinal(), type);
-				registerItemModel(MINECART_METAL_CHEST, type.ordinal(), "minecarts/" + type.getName());
+				registerBlockModel(METAL_CHEST, type.ordinal(), getVariantName(type));
+				registerItemModel(MINECART_METAL_CHEST, "minecarts/" + type.getName(), type.ordinal(), "inventory");
+			}
+
+			for (ChestUpgrade type : ChestUpgrade.values()) {
+				registerItemModel(CHEST_UPGRADE, "upgrades/" + type.getName(), type.ordinal(), "inventory");
 			}
 
 			for (ProjectTableType type : ProjectTableType.values()) {
-				ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(PROJECT_TABLE), type.ordinal(), new ModelResourceLocation(PROJECT_TABLE.getRegistryName(), "facing=north," + getVariantName(type)));
+				registerBlockModel(PROJECT_TABLE, type.ordinal(), "facing=north", getVariantName(type));
+			}
+
+			for (MetalTankType type : MetalTankType.values()) {
+				registerBlockModel(METAL_TANK, type.ordinal(), getVariantName(type));
 			}
 
 			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
-
-			for (ChestUpgrade type : ChestUpgrade.values()) {
-				registerItemModel(CHEST_UPGRADE_STRUCTURE, type.ordinal(), "upgrades/" + type.getName());
-			}
 
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartCopperChest.class, manager -> new RenderMinecartMetalChest(manager));
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartIronChest.class, manager -> new RenderMinecartMetalChest(manager));
@@ -229,31 +240,44 @@ public class ModLoader {
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartObsidianChest.class, manager -> new RenderMinecartMetalChest(manager));
 		}
 
-		public static String getVariantName(IStringSerializable variant) {
+		private static String getVariantName(IStringSerializable variant) {
 			return "variant=" + variant.getName();
 		}
 
-		public static void registerBlockModel(Block block, int meta, String path, String variant) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(MetalChests.MODID + ":" + path, variant));
+		private static void registerBlockModel(Block block, int meta, String... variants) {
+			registerBlockModel(block, null, meta, variants);
 		}
 
-		public static void registerBlockModel(Block block, int meta, String variant) {
-			ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(block), meta, new ModelResourceLocation(block.getRegistryName(), variant));
+		private static void registerBlockModel(Block block, String customDomain, int meta, String... variants) {
+			registerItemModel(Item.getItemFromBlock(block), customDomain, meta, variants);
 		}
 
-		public static void registerBlockModel(Block block, int meta, IStringSerializable variant) {
-			registerBlockModel(block, meta, getVariantName(variant));
+		private static void registerItemModel(Item item, int meta, String... variants) {
+			registerItemModel(item, null, meta, variants);
 		}
 
-		public static void registerItemModel(Item item, int meta, String path) {
-			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(MetalChests.MODID + ":" + path, "inventory"));
+		private static void registerItemModel(Item item, String customDomain, int meta, String... variants) {
+			StringBuilder variantPath = new StringBuilder();
+
+			for (int i = 0; i < variants.length; ++i) {
+				if (i > 0) {
+					variantPath.append(',');
+				}
+				variantPath.append(variants[i]);
+			}
+
+			ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
 		}
 
-		public static void registerItemModel(Item item, int meta) {
-			ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		private static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
+			if (StringUtils.isNullOrEmpty(customDomain)) {
+				return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
+			} else {
+				return new ModelResourceLocation(MetalChests.MODID + ":" + customDomain, variantPath.toString());
+			}
 		}
 
-		public static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
+		private static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
 			ClientRegistry.bindTileEntitySpecialRenderer(tileClass, tileRenderer);
 		}
 	}
