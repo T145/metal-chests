@@ -95,8 +95,8 @@ public class BlockProjectTable extends BlockContainer {
 		if (te instanceof TileProjectTable) {
 			TileProjectTable table = (TileProjectTable) te;
 
-			dropInventoryItems(world, pos, table.getUpperInventory());
-			dropInventoryItems(world, pos, table.getLowerInventory());
+			dropInventoryItems(world, pos, table.getCraftMatrix());
+			dropInventoryItems(world, pos, table.getInventory());
 
 			world.updateComparatorOutputLevel(pos, this);
 		}
@@ -147,7 +147,7 @@ public class BlockProjectTable extends BlockContainer {
 
 		if (te instanceof TileProjectTable) {
 			TileProjectTable table = (TileProjectTable) te;
-			return ItemHandlerHelper.calcRedstoneFromInventory(table.getLowerInventory());
+			return ItemHandlerHelper.calcRedstoneFromInventory(table.getInventory());
 		}
 
 		return 0;

@@ -33,7 +33,7 @@ public class CommonProxy implements IGuiHandler {
 			return new ContainerMetalChest(chest, player, chest.getType());
 		case 1:
 			TileProjectTable table = (TileProjectTable) world.getTileEntity(pos);
-			return new ContainerProjectTable(table, player, world);
+			return new ContainerProjectTable(table, player);
 		default:
 			Entity entity = world.getEntityByID(ID);
 

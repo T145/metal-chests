@@ -1,37 +1,30 @@
 package T145.metalchests.containers;
 
-import T145.metalchests.api.IInventoryHandler;
+import T145.metalchests.tiles.TileProjectTable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.InventoryCraftResult;
-import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraftforge.items.SlotItemHandler;
 
 public class ContainerProjectTable extends Container {
 
-	public InventoryCrafting craftMatrix = new InventoryProjectTableCrafting(this, 3, 3);
-	public InventoryCraftResult craftResult = new InventoryCraftResult();
-
-	private final IInventoryHandler handler;
+	private final TileProjectTable table;
 	private final EntityPlayer player;
-	private final World world;
 
-	public ContainerProjectTable(IInventoryHandler handler, EntityPlayer player, World world) {
-		this.handler = handler;
+	public ContainerProjectTable(TileProjectTable table, EntityPlayer player) {
+		this.table = table;
 		this.player = player;
-		this.world = world;
 
-		handler.openInventory(player);
+		table.openInventory(player);
 
-		this.addSlotToContainer(new SlotCrafting(player, this.craftMatrix, this.craftResult, 0, 124, 35));
+		this.addSlotToContainer(new SlotCrafting(player, table.getCrafter(), table.getCraftingResult(), 0, 124, 35));
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 3; ++j) {
-				this.addSlotToContainer(new Slot(this.craftMatrix, j + i * 3, 30 + j * 18, 17 + i * 18));
+				this.addSlotToContainer(new SlotItemHandler(table.getCraftMatrix(), j + i * 3, 30 + j * 18, 17 + i * 18));
 			}
 		}
 
@@ -46,26 +39,20 @@ public class ContainerProjectTable extends Container {
 		}
 	}
 
-	public IInventoryHandler getHandler() {
-		return handler;
+	@Override
+	public boolean canInteractWith(EntityPlayer player) {
+		return table.isUsableByPlayer(player);
 	}
 
 	@Override
-	public void onCraftMatrixChanged(IInventory inventory) {
-		this.slotChangedCraftingGrid(this.world, this.player, this.craftMatrix, this.craftResult);
+	public void onCraftMatrixChanged(IInventory inventoryIn) {
+		this.slotChangedCraftingGrid(table.getWorld(), this.player, table.getCrafter(), table.getCraftingResult());
 	}
 
 	@Override
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
-		handler.closeInventory(player);
-		// if (!this.world.isRemote) { this.clearContainer(player, this.world,
-		// this.craftMatrix); }
-	}
-
-	@Override
-	public boolean canInteractWith(EntityPlayer player) {
-		return handler.isUsableByPlayer(player);
+		table.closeInventory(player);
 	}
 
 	@Override
@@ -78,7 +65,7 @@ public class ContainerProjectTable extends Container {
 			itemstack = itemstack1.copy();
 
 			if (index == 0) {
-				itemstack1.getItem().onCreated(itemstack1, this.world, playerIn);
+				itemstack1.getItem().onCreated(itemstack1, table.getWorld(), playerIn);
 
 				if (!this.mergeItemStack(itemstack1, 10, 46, true)) {
 					return ItemStack.EMPTY;
@@ -118,7 +105,7 @@ public class ContainerProjectTable extends Container {
 	}
 
 	@Override
-	public boolean canMergeSlot(ItemStack stack, Slot slot) {
-		return slot.inventory != this.craftResult && super.canMergeSlot(stack, slot);
+	public boolean canMergeSlot(ItemStack stack, Slot slotIn) {
+		return slotIn.inventory != table.getCraftingResult() && super.canMergeSlot(stack, slotIn);
 	}
 }

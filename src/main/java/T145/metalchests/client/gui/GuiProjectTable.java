@@ -2,8 +2,8 @@ package T145.metalchests.client.gui;
 
 import java.io.IOException;
 
-import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.containers.ContainerProjectTable;
+import T145.metalchests.tiles.TileProjectTable;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiButtonImage;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,10 +13,8 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.ContainerWorkbench;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -24,20 +22,23 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiProjectTable extends GuiContainer implements IRecipeShownListener {
 
 	private static final ResourceLocation CRAFTING_TABLE_GUI_TEXTURES = new ResourceLocation("textures/gui/container/crafting_table.png");
+
+	private final TileProjectTable table;
+	private final GuiRecipeBook recipeBookGui = new GuiRecipeBook();
+
 	private GuiButtonImage recipeButton;
-	private final GuiRecipeBook recipeBookGui;
 	private boolean widthTooNarrow;
 
-	public GuiProjectTable(IInventoryHandler handler, EntityPlayer player, World world) {
-		super(new ContainerProjectTable(handler, player, world));
-		this.recipeBookGui = new GuiRecipeBook();
+	public GuiProjectTable(TileProjectTable table, EntityPlayer player) {
+		super(new ContainerProjectTable(table, player));
+		this.table = table;
 	}
 
 	@Override
 	public void initGui() {
 		super.initGui();
 		this.widthTooNarrow = this.width < 379;
-		this.recipeBookGui.func_194303_a(this.width, this.height, this.mc, this.widthTooNarrow, ((ContainerWorkbench) this.inventorySlots).craftMatrix);
+		this.recipeBookGui.func_194303_a(this.width, this.height, this.mc, this.widthTooNarrow, table.getCrafter());
 		this.guiLeft = this.recipeBookGui.updateScreenPosition(this.widthTooNarrow, this.width, this.xSize);
 		this.recipeButton = new GuiButtonImage(10, this.guiLeft + 5, this.height / 2 - 49, 20, 18, 0, 168, 19, CRAFTING_TABLE_GUI_TEXTURES);
 		this.buttonList.add(this.recipeButton);
@@ -104,7 +105,7 @@ public class GuiProjectTable extends GuiContainer implements IRecipeShownListene
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		if (button.id == 10) {
-			this.recipeBookGui.initVisuals(this.widthTooNarrow, ((ContainerWorkbench) this.inventorySlots).craftMatrix);
+			this.recipeBookGui.initVisuals(this.widthTooNarrow, table.getCrafter());
 			this.recipeBookGui.toggleVisibility();
 			this.guiLeft = this.recipeBookGui.updateScreenPosition(this.widthTooNarrow, this.width, this.xSize);
 			this.recipeButton.setPosition(this.guiLeft + 5, this.height / 2 - 49);
