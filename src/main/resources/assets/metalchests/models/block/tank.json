@@ -11,66 +11,12 @@
 			"from": [2, 0, 2],
 			"to": [14, 16, 14],
 			"faces": {
+				"north": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"east": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"south": {"uv": [2, 0, 14, 16], "texture": "#side"},
+				"west": {"uv": [2, 0, 14, 16], "texture": "#side"},
 				"up": {"uv": [2, 2, 14, 14], "texture": "#vert"},
 				"down": {"uv": [2, 2, 14, 14], "texture": "#vert"}
-			},
-			"type": "cube"
-		},
-		{
-			"name": "cube",
-			"from": [2, 0, 14],
-			"to": [14, 16, 15],
-			"faces": {
-				"east": {"uv": [2, 0, 3, 16], "texture": "#side"},
-				"south": {"uv": [2, 0, 14, 16], "texture": "#side"},
-				"west": {"uv": [13, 0, 14, 16], "texture": "#side"},
-				"up": {"uv": [2, 14, 14, 15], "texture": "#vert"},
-				"down": {"uv": [2, 14, 14, 15], "texture": "#vert"}
-			},
-			"type": "cube"
-		},
-		{
-			"name": "cube",
-			"from": [2, 0, 1],
-			"to": [14, 16, 2],
-			"faces": {
-				"north": {"uv": [2, 0, 14, 16], "texture": "#side"},
-				"east": {"uv": [13, 0, 14, 16], "texture": "#side"},
-				"west": {"uv": [2, 0, 3, 16], "texture": "#side"},
-				"up": {"uv": [2, 1, 14, 2], "texture": "#vert"},
-				"down": {"uv": [2, 1, 14, 2], "texture": "#vert"}
-			},
-			"type": "cube"
-		},
-		{
-			"name": "cube",
-			"from": [14, 0, 2],
-			"to": [15, 16, 14],
-			"faces": {
-				"north": {"uv": [2, 0, 3, 16], "texture": "#side"},
-				"east": {"uv": [2, 0, 14, 16], "texture": "#side"},
-				"south": {
-					"uv": [13, 0, 14, 16],
-					"texture": "#side"
-				},
-				"up": {"uv": [14, 2, 15, 14], "texture": "#vert"},
-				"down": {"uv": [1, 2, 2, 14], "texture": "#vert"}
-			},
-			"type": "cube"
-		},
-		{
-			"name": "cube",
-			"from": [1, 0, 2],
-			"to": [2, 16, 14],
-			"faces": {
-				"north": {
-					"uv": [13, 0, 14, 16],
-					"texture": "#side"
-				},
-				"south": {"uv": [2, 0, 3, 16], "texture": "#side"},
-				"west": {"uv": [2, 0, 14, 16], "texture": "#side"},
-				"up": {"uv": [1, 2, 2, 14], "texture": "#vert"},
-				"down": {"uv": [14, 2, 15, 14], "texture": "#vert"}
 			},
 			"type": "cube"
 		}
