@@ -2,15 +2,18 @@ package T145.metalchests.tiles;
 
 import javax.annotation.Nonnull;
 
+import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.lib.ProjectTableType;
 import T145.metalchests.tiles.base.TileBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TileProjectTable extends TileBase {
+public class TileProjectTable extends TileBase implements IInventoryHandler {
 
 	private final ProjectTableType type;
 	private final ItemStackHandler externalInventory;
@@ -77,5 +80,25 @@ public class TileProjectTable extends TileBase {
 		tag.setString("Front", front.toString());
 		tag.setTag("ExternalInventory", externalInventory.serializeNBT());
 		tag.setTag("InternalInventory", externalInventory.serializeNBT());
+	}
+
+	@Override
+	public IItemHandler getInventory() {
+		return externalInventory;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		if (this.world.getTileEntity(pos) != this) {
+			return false;
+		} else {
+			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
+		}
 	}
 }

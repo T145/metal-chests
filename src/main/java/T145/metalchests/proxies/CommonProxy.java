@@ -1,8 +1,10 @@
 package T145.metalchests.proxies;
 
 import T145.metalchests.containers.ContainerMetalChest;
+import T145.metalchests.containers.ContainerProjectTable;
 import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileProjectTable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,6 +31,9 @@ public class CommonProxy implements IGuiHandler {
 		case 0:
 			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos);
 			return new ContainerMetalChest(chest, player, chest.getType());
+		case 1:
+			TileProjectTable table = (TileProjectTable) world.getTileEntity(pos);
+			return new ContainerProjectTable(table, player, world);
 		default:
 			Entity entity = world.getEntityByID(ID);
 

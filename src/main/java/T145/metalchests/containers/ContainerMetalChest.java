@@ -16,7 +16,7 @@ import vazkii.quark.api.IChestButtonCallback;
 @Optional.Interface(modid = "quark", iface = "vazkii.quark.api.IChestButtonCallback", striprefs = true)
 public class ContainerMetalChest extends Container implements IChestButtonCallback {
 
-	private IInventoryHandler handler;
+	private final IInventoryHandler handler;
 	private final MetalChestType type;
 	private final MetalChestType.GUI gui;
 

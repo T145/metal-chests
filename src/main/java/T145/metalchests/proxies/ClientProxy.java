@@ -1,9 +1,12 @@
 package T145.metalchests.proxies;
 
 import T145.metalchests.client.gui.GuiMetalChest;
+import T145.metalchests.client.gui.GuiProjectTable;
 import T145.metalchests.containers.ContainerMetalChest;
+import T145.metalchests.containers.ContainerProjectTable;
 import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileProjectTable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -22,6 +25,9 @@ public class ClientProxy extends CommonProxy {
 			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos);
 			ContainerMetalChest chestContainer = new ContainerMetalChest(chest, player, chest.getType());
 			return new GuiMetalChest(chestContainer);
+		case 1:
+			TileProjectTable table = (TileProjectTable) world.getTileEntity(pos);
+			return new GuiProjectTable(table, player, world);
 		default:
 			Entity entity = world.getEntityByID(ID);
 

@@ -55,7 +55,7 @@ public class BlockProjectTable extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileProjectTable(ProjectTableType.values()[meta]);
+		return new TileProjectTable(ProjectTableType.byMetadata(meta));
 	}
 
 	@Override
@@ -131,9 +131,7 @@ public class BlockProjectTable extends BlockContainer {
 		if (!world.isRemote && te instanceof TileProjectTable) {
 			TileProjectTable table = (TileProjectTable) te;
 
-			if (!player.isSneaking()) {
-				player.openGui(MetalChests.MODID, 1, world, pos.getX(), pos.getY(), pos.getZ());
-			}
+			player.openGui(MetalChests.MODID, 1, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

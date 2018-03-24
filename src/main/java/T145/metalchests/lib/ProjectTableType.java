@@ -54,6 +54,10 @@ public enum ProjectTableType implements IStringSerializable {
 		return inventorySize / getRowLength();
 	}
 
+	public MetalChestType toMetalChestType() {
+		return this != WOOD ? MetalChestType.byMetadata(ordinal() - 1) : null;
+	}
+
 	@Override
 	public String getName() {
 		return name().toLowerCase();
