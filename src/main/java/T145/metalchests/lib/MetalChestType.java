@@ -27,6 +27,10 @@ public enum MetalChestType implements IStringSerializable {
 	private final SoundType sound;
 	private final String oreDictEntry;
 
+	public int getInventorySize() {
+		return inventorySize;
+	}
+
 	public Material getMaterial() {
 		return material;
 	}
@@ -39,12 +43,12 @@ public enum MetalChestType implements IStringSerializable {
 		return sound;
 	}
 
-	public boolean isRegistered() {
-		return !OreDictionary.getOres(oreDictEntry).isEmpty();
+	public String getOreDictEntry() {
+		return oreDictEntry;
 	}
 
-	public int getInventorySize() {
-		return inventorySize;
+	public boolean isRegistered() {
+		return !OreDictionary.getOres(oreDictEntry).isEmpty();
 	}
 
 	public boolean isLarge() {

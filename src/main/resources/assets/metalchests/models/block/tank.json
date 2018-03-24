@@ -1,9 +1,7 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"side": "blocks/tank_glass_side",
-		"particle": "blocks/tank_glass_side",
-		"vert": "blocks/tank_glass_vert"
+		"particle": "#side"
 	},
 	"elements": [
 		{
