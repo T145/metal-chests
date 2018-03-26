@@ -25,8 +25,12 @@ public class ClientProxy extends CommonProxy {
 			ContainerMetalChest chestContainer = new ContainerMetalChest(chest, player, chest.getType());
 			return new GuiMetalChest(chestContainer);
 		case 1:
-			TileProjectTable table = (TileProjectTable) world.getTileEntity(pos);
-			return new GuiProjectTable(table, player);
+			TileProjectTable t = (TileProjectTable) world.getTileEntity(pos);
+			return new GuiProjectTable(t, player);
+		case 2:
+			TileProjectTable t1 = (TileProjectTable) world.getTileEntity(pos);
+			ContainerMetalChest c1 = new ContainerMetalChest(t1, player, t1.getType().toMetalChestType());
+			return new GuiProjectTable(t1, player);
 		default:
 			Entity entity = world.getEntityByID(ID);
 

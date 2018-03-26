@@ -6,9 +6,11 @@ import javax.annotation.Nonnull;
 
 import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.containers.InventoryProjectTableCrafting;
+import T145.metalchests.core.ModLoader;
 import T145.metalchests.lib.ProjectTableType;
 import T145.metalchests.tiles.base.TileBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryCraftResult;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -152,5 +154,13 @@ public class TileProjectTable extends TileBase implements IInventoryHandler {
 
 		craftingResult.setRecipeUsed(recipe);
 		return recipe.getCraftingResult(crafter);
+	}
+
+	public ItemStack getChestStack() {
+		if (type == ProjectTableType.WOOD) {
+			return new ItemStack(Blocks.CHEST);
+		} else {
+			return new ItemStack(ModLoader.METAL_CHEST, 1, type.ordinal() - 1);
+		}
 	}
 }

@@ -2,7 +2,9 @@ package T145.metalchests.client.gui;
 
 import java.io.IOException;
 
+import T145.metalchests.MetalChests;
 import T145.metalchests.containers.ContainerProjectTable;
+import T145.metalchests.lib.ProjectTableType;
 import T145.metalchests.tiles.TileProjectTable;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiButtonImage;
@@ -10,11 +12,13 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.recipebook.GuiRecipeBook;
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -22,16 +26,22 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class GuiProjectTable extends GuiContainer implements IRecipeShownListener {
 
 	private static final ResourceLocation CRAFTING_TABLE_GUI_TEXTURES = new ResourceLocation("textures/gui/container/crafting_table.png");
+	private static final ResourceLocation PROJECT_TABLE_GUI_TEXTURES = new ResourceLocation(MetalChests.MODID, "textures/gui/project_table.png");
 
 	private final TileProjectTable table;
+	private final EntityPlayer player;
 	private final GuiRecipeBook recipeBookGui = new GuiRecipeBook();
 
 	private GuiButtonImage recipeButton;
+	private GuiButtonImage chestButton;
+	private int recipeButtonY = 60;
+	private int chestButtonY = 40;
 	private boolean widthTooNarrow;
 
 	public GuiProjectTable(TileProjectTable table, EntityPlayer player) {
 		super(new ContainerProjectTable(table, player));
 		this.table = table;
+		this.player = player;
 	}
 
 	@Override
@@ -40,8 +50,10 @@ public class GuiProjectTable extends GuiContainer implements IRecipeShownListene
 		this.widthTooNarrow = this.width < 379;
 		this.recipeBookGui.func_194303_a(this.width, this.height, this.mc, this.widthTooNarrow, table.getCrafter());
 		this.guiLeft = this.recipeBookGui.updateScreenPosition(this.widthTooNarrow, this.width, this.xSize);
-		this.recipeButton = new GuiButtonImage(10, this.guiLeft + 5, this.height / 2 - 49, 20, 18, 0, 168, 19, CRAFTING_TABLE_GUI_TEXTURES);
+		this.recipeButton = new GuiButtonImage(10, this.guiLeft + 5, this.height / 2 - recipeButtonY, 20, 18, 0, 168, 19, CRAFTING_TABLE_GUI_TEXTURES);
 		this.buttonList.add(this.recipeButton);
+		this.chestButton = new GuiButtonImage(11, this.guiLeft + 5, this.height / 2 - chestButtonY, 20, 18, 0, 168, 19, PROJECT_TABLE_GUI_TEXTURES);
+		this.buttonList.add(chestButton);
 	}
 
 	@Override
@@ -61,6 +73,16 @@ public class GuiProjectTable extends GuiContainer implements IRecipeShownListene
 			this.recipeBookGui.render(mouseX, mouseY, partialTicks);
 			super.drawScreen(mouseX, mouseY, partialTicks);
 			this.recipeBookGui.renderGhostRecipe(this.guiLeft, this.guiTop, true, partialTicks);
+		}
+
+		if (this.chestButton.visible) {
+			GlStateManager.color(1F, 1F, 1F, 1F);
+			this.chestButton.drawButton(mc, mouseX, mouseY, partialTicks);
+			RenderHelper.enableGUIStandardItemLighting();
+			GlStateManager.disableLighting();
+			mc.getRenderItem().renderItemIntoGUI(table.getChestStack(), chestButton.x + 1, chestButton.y);
+			GlStateManager.enableLighting();
+			RenderHelper.disableStandardItemLighting();
 		}
 
 		this.renderHoveredToolTip(mouseX, mouseY);
@@ -108,7 +130,19 @@ public class GuiProjectTable extends GuiContainer implements IRecipeShownListene
 			this.recipeBookGui.initVisuals(this.widthTooNarrow, table.getCrafter());
 			this.recipeBookGui.toggleVisibility();
 			this.guiLeft = this.recipeBookGui.updateScreenPosition(this.widthTooNarrow, this.width, this.xSize);
-			this.recipeButton.setPosition(this.guiLeft + 5, this.height / 2 - 49);
+			this.recipeButton.setPosition(this.guiLeft + 5, this.height / 2 - this.recipeButtonY);
+			this.chestButton.setPosition(this.guiLeft + 5, this.height / 2 - this.chestButtonY);
+		}
+
+		if (button.id == 11) {
+			BlockPos pos = table.getPos();
+			MetalChests.LOG.info("OPENING!");
+			
+			if (table.getType() == ProjectTableType.WOOD) {
+				
+			} else {
+				player.openGui(MetalChests.MODID, 2, table.getWorld(), pos.getX(), pos.getY(), pos.getZ());
+			}
 		}
 	}
 
