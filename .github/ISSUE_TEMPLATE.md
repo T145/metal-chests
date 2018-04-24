@@ -19,6 +19,5 @@
 ### Your Environment
 
 - OS: {Please write here}
-- Minecraft version: {Please write here}
-- MetalChests version: {Please write here}
-- Forge version: {Please write here}
+- Full Forge version: {Please write here; include Minecraft version}
+- Mod version: {Please write here}

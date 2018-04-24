@@ -13,6 +13,8 @@
 - [ ] Building successful
 - [ ] Proper formatting (indentation, etc)
 
+{Please write here; any other solutions / future goals}
+
 ### Additional Comments (if any)
 
-{Please write here}
+{Please write here; delete this whole block if no comments}
