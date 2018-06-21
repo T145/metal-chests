@@ -4,8 +4,8 @@
 
 The better alternative to IronChests!
 
-[![DownloadCount](http://cf.way2muchnoise.eu/elemental-creepers-redux.svg)](https://minecraft.curseforge.com/projects/metalchests)
-[![SupportedVersions](http://cf.way2muchnoise.eu/versions/For%20MC%20_metalchests_all.svg)](https://minecraft.curseforge.com/projects/metalchests)
+[![DownloadCount](http://cf.way2muchnoise.eu/metalchests.svg)](https://minecraft.curseforge.com/projects/metalchests)
+[![SupportedVersions](http://cf.way2muchnoise.eu/versions/For%20MC%20_290145_all.svg)](https://minecraft.curseforge.com/projects/metalchests)
 
 ---
 **_Table of Contents_**
@@ -26,48 +26,82 @@ In order to get started with Minecraft mod development in this workspace, a few 
 2. [Java Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (JDK 8)
 3. *(Optional)* [Gradle](http://gradle.org/gradle-download/)
 
-Each of the listed requirements contains a hyperlink that should take you directly to the correspondant download page.
-Just download and install what is compatible with your OS.
-Gradle is optional is because this workspace includes a Gradle wrapper,
-so when executing commands that begin with `gradle`,
-execute them with `gradlew` instead and everything will function normally.
+> If you don't manually install Gradle, just append a `w` to `gradle` command prefixes.
+> This will install the Gradle wrapper once, and any proceeding commands should be executed using it.
 
-If you're using OSX, I highly recommend using [Homebrew](https://brew.sh/),
+### Windows
+I highly recommend using [Chocolatey](https://chocolatey.org/install),
+and installing everything by executing the following commands:
+```bash
+choco install jdk8
+choco install gradle --version 4.4.1
+```
+I'd recommend running the Powershell variant.
+
+### OSX
+I highly recommend using [Homebrew](https://brew.sh/),
 and installing everything by executing the following commands:
 ```bash
 brew cask install java
-brew install gradle
+brew install gradle --version 4.4.1
 ```
-If you don't have Apple's Command Line Utilities installed before installing Homebrew, Hombrew will install them automatically.
+If you don't have Apple's Command Line Utilities installed before installing Homebrew, they will be installed automatically.
+Be sure you're using an Administrator account if this is the case.
 
 ---
 
 ## Workspace Setup
 
-Execute a file in the `scripts` with the project directory as your working directory to build automatically:
+If you plan to use the Eclipse IDE, then execute:
 ```bash
-./scripts/build*
+gradle setupEclipseWorkspace
 ```
-If you don't have Gradle installed, just run the script that works with your OS and ends with a `w`;
-this will install the Gradle wrapper once.
+else just run the typical:
+```bash
+gradle setupDecompWorkspace
+```
+
 Depending on your internet connection and the processing power of your machine, it may take a while to build.
 For most people it takes about 10 minutes.
-Once it completes, run the script that corresponds to your IDE of choice in a similar manner to how the project was built.
-```bash
-./scripts/{eclipse* / idea*}
-```
-If you're using Eclipse, be sure to rename the project in the IDE to `elementalcreepers`.
-This will force any installed Git plugins to reload.
+
+After that just run either `gradle eclipse` or `gradle idea`, depending on your IDE.
 
 ---
 
 ## License
 
-Please consult the [official license](http://www.apache.org/licenses/LICENSE-2.0) if you wish to use the source code.
-To use any of the assets, you may contatct [myself](https://github.com/T145) or the original artist for permission.
+Mod source code is licensed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0). The actual workspace license is located in this project. To use any mod assets, you may contatct [myself](https://github.com/T145) or the original creator for permission.
 
 ---
 
 ## Support
 
-If you like my work and are interested in supporting me, please go check out my [Patreon](https://www.patreon.com/user?u=152139)!
+<div align="center">
+
+**Patreon**: [https://www.patreon.com/user?u=152139](https://www.patreon.com/user?u=152139)
+</div>
+
+<div align="center">
+
+**Paypal**: [paypal.me/T145](paypal.me/T145)
+</div>
+
+<div align="center">
+
+**Bitcoin**: `1qrrPQqfbfXLRqzS6jb7A7Mgnzz85Mjxu`
+</div>
+
+<div align="center">
+
+**Ethereum**: `0x9dbafc51abe8ce05cac6f8a39ebd4351706840b0`
+</div>
+
+<div align="center">
+
+**Litecoin**: `LiV9SfDjFYLFRCzf9wTf7ap8BuRF39J7PB`
+</div>
+
+<div align="center">
+
+**Vertcoin**: `Vc6ss1NaitEtdrZZsDhQuv9pytKR5caiFy`
+</div>

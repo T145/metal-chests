@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-gradle setupWorkspace
-gradle build
-gradle --stop
