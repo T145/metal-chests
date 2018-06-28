@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2018 T145
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
 package T145.metalchests.tiles;
 
 import java.util.function.Supplier;
@@ -5,8 +20,9 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 
 import T145.metalchests.api.IInventoryHandler;
-import T145.metalchests.lib.MetalChestType;
-import T145.metalchests.tiles.base.TileBase;
+import T145.metalchests.api.SupportedInterfaces;
+import T145.metalchests.api.SupportedMods;
+import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -25,33 +41,36 @@ import net.minecraftforge.items.ItemStackHandler;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = "holoinventory", iface = "net.dries007.holoInventory.api.INamedItemHandler", striprefs = true),
-	@Optional.Interface(modid = "quark", iface = "vazkii.quark.api.IDropoffManager", striprefs = true)
+	@Optional.Interface(modid = SupportedMods.HOLOINVENTORY, iface = SupportedInterfaces.NAMED_ITEM_HANDLER, striprefs = true),
+	@Optional.Interface(modid = SupportedMods.QUARK, iface = SupportedInterfaces.DROPOFF_MANAGER, striprefs = true)
 })
-public class TileMetalChest extends TileBase implements ITickable, IInventoryHandler, IDropoffManager, INamedItemHandler {
+public class TileMetalChest extends TileMod implements ITickable, IInventoryHandler, IDropoffManager, INamedItemHandler {
+
+	private final ChestType type;
+	private ItemStackHandler inventory;
+	private EnumFacing front;
 
 	public float lidAngle;
 	public float prevLidAngle;
 	public int numPlayersUsing;
 	private int ticksSinceSync;
-	private boolean touched;
 
-	private MetalChestType type;
-	private EnumFacing front;
-	private ItemStackHandler inventory;
-
-	public TileMetalChest(MetalChestType type) {
+	public TileMetalChest(ChestType type) {
 		this.type = type;
-		this.front = EnumFacing.EAST;
 		this.inventory = new ItemStackHandler(type.getInventorySize());
+		this.setFront(EnumFacing.EAST);
 	}
 
 	public TileMetalChest() {
-		this(MetalChestType.IRON);
+		this(ChestType.IRON);
 	}
 
-	public MetalChestType getType() {
+	public ChestType getType() {
 		return type;
+	}
+
+	public ItemStackHandler getInventory() {
+		return inventory;
 	}
 
 	public void setFront(EnumFacing front) {
@@ -62,19 +81,7 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 		return front;
 	}
 
-	public ItemStackHandler getInventory() {
-		return inventory;
-	}
-
-	public void setInventory(IItemHandler stacks) {
-		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
-			if (slot < type.getInventorySize()) {
-				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
-			}
-		}
-	}
-
-	public static void registerFixesChest(DataFixer fixer) {
+	public static void registerFixes(DataFixer fixer) {
 		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileMetalChest.class, new String[] { "Items" }));
 	}
 
@@ -101,6 +108,55 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 	public void writePacketNBT(NBTTagCompound tag) {
 		tag.setString("Front", front.toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
+	}
+
+	@Optional.Method(modid = SupportedMods.HOLOINVENTORY)
+	@Override
+	public String getItemHandlerName() {
+		return "tile.metalchests:metal_chest." + type.getName() + ".name";
+	}
+
+	@Optional.Method(modid = SupportedMods.QUARK)
+	@Override
+	public boolean acceptsDropoff(EntityPlayer player) {
+		return true;
+	}
+
+	@Optional.Method(modid = SupportedMods.QUARK)
+	@Override
+	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
+		return inventory;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {
+		if (!player.isSpectator()) {
+			if (numPlayersUsing < 0) {
+				numPlayersUsing = 0;
+			}
+
+			++numPlayersUsing;
+			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
+		}
+	}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {
+		if (!player.isSpectator()) {
+			--numPlayersUsing;
+			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
+		}
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		if (world.getTileEntity(pos) != this) {
+			return false;
+		} else {
+			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
+		}
 	}
 
 	@Override
@@ -150,11 +206,10 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 
 	@Override
 	public boolean receiveClientEvent(int id, int data) {
-		switch (id) {
-		case 1:
+		if (id == 1) {
 			numPlayersUsing = data;
 			return true;
-		default:
+		} else {
 			return super.receiveClientEvent(id, data);
 		}
 	}
@@ -163,54 +218,5 @@ public class TileMetalChest extends TileBase implements ITickable, IInventoryHan
 	public void invalidate() {
 		updateContainingBlockInfo();
 		super.invalidate();
-	}
-
-	@Override
-	public void openInventory(EntityPlayer player) {
-		if (!player.isSpectator()) {
-			if (numPlayersUsing < 0) {
-				numPlayersUsing = 0;
-			}
-
-			++numPlayersUsing;
-			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-		}
-	}
-
-	@Override
-	public void closeInventory(EntityPlayer player) {
-		if (!player.isSpectator()) {
-			--numPlayersUsing;
-			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-		}
-	}
-
-	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
-		if (world.getTileEntity(pos) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
-		}
-	}
-
-	@Optional.Method(modid = "holoinventory")
-	@Override
-	public String getItemHandlerName() {
-		return "tile.metalchests:metal_chest." + type.getName() + ".name";
-	}
-
-	@Optional.Method(modid = "quark")
-	@Override
-	public boolean acceptsDropoff(EntityPlayer player) {
-		return true;
-	}
-
-	@Optional.Method(modid = "quark")
-	@Override
-	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
-		return inventory;
 	}
 }

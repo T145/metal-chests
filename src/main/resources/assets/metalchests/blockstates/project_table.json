@@ -2,7 +2,13 @@
     "forge_marker": 1,
     "defaults": {
         "transform": "forge:default-block",
-        "model": "minecraft:furnace"
+        "model": "minecraft:furnace",
+        "textures": {
+            "top": "metalchests:blocks/project_table/wood/top",
+            "bottom": "metalchests:blocks/project_table/wood/bottom",
+            "front": "metalchests:blocks/project_table/wood/front",
+            "side": "metalchests:blocks/project_table/wood/side"
+        }
     },
     "variants": {
         "facing": {
@@ -16,64 +22,6 @@
             },
             "west": {
                 "y": 270
-            }
-        },
-        "variant": {
-            "wood": {
-                "textures": {
-                    "top": "metalchests:blocks/project_table/wood/top",
-                    "bottom": "metalchests:blocks/project_table/wood/bottom",
-                    "front": "metalchests:blocks/project_table/wood/front",
-                    "side": "metalchests:blocks/project_table/wood/side"
-                }
-            },
-            "copper": {
-                "textures": {
-                    "top": "metalchests:blocks/project_table/copper/top",
-                    "bottom": "metalchests:blocks/project_table/copper/bottom",
-                    "front": "metalchests:blocks/project_table/copper/front",
-                    "side": "metalchests:blocks/project_table/copper/side"
-                }
-            },
-            "iron": {
-                "textures": {
-                    "top": "metalchests:blocks/project_table/iron/top",
-                    "bottom": "metalchests:blocks/project_table/iron/bottom",
-                    "front": "metalchests:blocks/project_table/iron/front",
-                    "side": "metalchests:blocks/project_table/iron/side"
-                }
-            },
-            "silver": {
-                "textures": {
-                    "top": "metalchests:blocks/project_table/silver/top",
-                    "bottom": "metalchests:blocks/project_table/silver/bottom",
-                    "front": "metalchests:blocks/project_table/silver/front",
-                    "side": "metalchests:blocks/project_table/silver/side"
-                }
-            },
-            "gold": {
-                "textures": {
-                    "top": "metalchests:blocks/project_table/gold/top",
-                    "bottom": "metalchests:blocks/project_table/gold/bottom",
-                    "front": "metalchests:blocks/project_table/gold/front",
-                    "side": "metalchests:blocks/project_table/gold/side"
-                }
-            },
-            "diamond": {
-                "textures": {
-                    "top": "metalchests:blocks/project_table/diamond/top",
-                    "bottom": "metalchests:blocks/project_table/diamond/bottom",
-                    "front": "metalchests:blocks/project_table/diamond/front",
-                    "side": "metalchests:blocks/project_table/diamond/side"
-                }
-            },
-            "obsidian": {
-                "textures": {
-                    "top": "metalchests:blocks/project_table/obsidian/top",
-                    "bottom": "metalchests:blocks/project_table/obsidian/bottom",
-                    "front": "metalchests:blocks/project_table/obsidian/front",
-                    "side": "metalchests:blocks/project_table/obsidian/side"
-                }
             }
         }
     }

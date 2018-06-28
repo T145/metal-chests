@@ -13,21 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.crafting.conditions;
+package T145.metalchests.api;
 
-import java.util.function.BooleanSupplier;
+public class SupportedInterfaces {
 
-import com.google.gson.JsonObject;
-
-import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.oredict.OreDictionary;
-
-public class ConditionOreNull implements IConditionFactory {
-
-	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
-		return () -> OreDictionary.getOres(JsonUtils.getString(json, "ore")).isEmpty();
-	}
+	public static final String CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
+	public static final String FLUID_CART = "mods.railcraft.api.carts.IFluidCart";
+	public static final String ITEM_CART = "mods.railcraft.api.carts.IItemCart";
+	public static final String NAMED_ITEM_HANDLER = "net.dries007.holoInventory.api.INamedItemHandler";
+	public static final String CHEST_BUTTON_CALLBACK = "vazkii.quark.api.IChestButtonCallback";
+	public static final String DROPOFF_MANAGER = "vazkii.quark.api.IDropoffManager";
 }

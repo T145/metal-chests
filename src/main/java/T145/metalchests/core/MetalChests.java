@@ -1,12 +1,25 @@
-package T145.metalchests;
+/*******************************************************************************
+ * Copyright 2018 T145
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
+package T145.metalchests.core;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import T145.metalchests.core.ModLoader;
 import T145.metalchests.proxies.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -17,22 +30,20 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 
-@Mod(modid = MetalChests.MODID, name = MetalChests.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON)
+@Mod(modid = MetalChests.MOD_ID, name = MetalChests.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON)
 public class MetalChests {
 
-	public static final String MODID = "metalchests";
-	public static final String NAME = "MetalChests";
+	public static final String MOD_ID = "metalchests";
+	public static final String MOD_NAME = "MetalChests";
 	public static final String VERSION = "@VERSION@";
 	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 	public static final String COMMON_PROXY = "T145.metalchests.proxies.CommonProxy";
 	public static final String CLIENT_PROXY = "T145.metalchests.proxies.ClientProxy";
-	public static final Logger LOG = LogManager.getLogger(MODID);
-	public static final CreativeTabs TAB = new CreativeTabs(MODID) {
+	public static final Logger LOG = LogManager.getLogger(MOD_ID);
+	public static final CreativeTabs TAB = new CreativeTabs(MOD_ID) {
 
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -47,7 +58,7 @@ public class MetalChests {
 		}
 	};
 
-	@Instance(MODID)
+	@Instance(MOD_ID)
 	public static MetalChests instance;
 
 	@SidedProxy(serverSide = COMMON_PROXY, clientSide = CLIENT_PROXY)
@@ -63,8 +74,8 @@ public class MetalChests {
 		meta.credits = "The fans!";
 		meta.description = "The better alternative to IronChests";
 		meta.logoFile = "logo.png";
-		meta.modId = MODID;
-		meta.name = NAME;
+		meta.modId = MOD_ID;
+		meta.name = MOD_NAME;
 		meta.url = "https://github.com/T145/metalchests";
 		meta.useDependencyInformation = false;
 		meta.version = VERSION;
@@ -73,8 +84,6 @@ public class MetalChests {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, proxy);
-		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
 		proxy.init(event);
 	}
 
