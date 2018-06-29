@@ -27,8 +27,6 @@ import net.minecraft.world.World;
 
 public class TileMod extends TileEntity {
 
-	public static final int TILE_TYPE = -999;
-
 	@Override
 	public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
 		return oldState.getBlock() != newState.getBlock();
@@ -62,7 +60,7 @@ public class TileMod extends TileEntity {
 	public final SPacketUpdateTileEntity getUpdatePacket() {
 		NBTTagCompound tag = new NBTTagCompound();
 		writePacketNBT(tag);
-		return new SPacketUpdateTileEntity(pos, TILE_TYPE, tag);
+		return new SPacketUpdateTileEntity(pos, -999, tag);
 	}
 
 	@Override

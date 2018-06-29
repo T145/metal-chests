@@ -42,35 +42,29 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 		this.type = type;
 		this.gui = ChestType.GUI.byType(type);
 		handler.openInventory(player);
-		layoutInventory();
-		layoutPlayerInventory(player);
+
+		for (int chestRow = 0; chestRow < type.getRowCount(); ++chestRow) {
+			for (int chestCol = 0; chestCol < type.getRowLength(); ++chestCol) {
+				this.addSlotToContainer(new SlotItemHandler(handler.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
+			}
+		}
+
+		int leftCol = (gui.getSizeX() - 162) / 2 + 1;
+
+		for (int playerInvRow = 0; playerInvRow < 3; ++playerInvRow) {
+			for (int playerInvCol = 0; playerInvCol < 9; ++playerInvCol) {
+				this.addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, gui.getSizeY() - (4 - playerInvRow) * 18 - 10));
+			}
+
+		}
+
+		for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
+			this.addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, gui.getSizeY() - 24));
+		}
 	}
 
 	public ChestType.GUI getGuiType() {
 		return gui;
-	}
-
-	protected void layoutInventory() {
-		for (int chestRow = 0; chestRow < type.getRowCount(); ++chestRow) {
-			for (int chestCol = 0; chestCol < type.getRowLength(); ++chestCol) {
-				addSlotToContainer(new SlotItemHandler(handler.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
-			}
-		}
-	}
-
-	protected void layoutPlayerInventory(EntityPlayer player) {
-		int leftCol = (gui.getSizeX() - 162) / 2 + 1;
-		int ySize = gui.getSizeY();
-
-		for (int playerInvRow = 0; playerInvRow < 3; ++playerInvRow) {
-			for (int playerInvCol = 0; playerInvCol < 9; ++playerInvCol) {
-				addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, ySize - (4 - playerInvRow) * 18 - 10));
-			}
-		}
-
-		for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
-			addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, ySize - 24));
-		}
 	}
 
 	@Override
