@@ -53,7 +53,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class BlockMetalChest extends Block implements ITileEntityProvider {
+public class BlockMetalChest extends Block {
 
 	static enum InventorySize {
 		COPPER(45),
@@ -184,9 +184,10 @@ public class BlockMetalChest extends Block implements ITileEntityProvider {
 		setCreativeTab(MetalChests.TAB);
 	}
 
+	@Nullable
 	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileMetalChest(ChestType.values()[meta]);
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		return new TileMetalChest(state.getValue(VARIANT));
 	}
 
 	@Override
