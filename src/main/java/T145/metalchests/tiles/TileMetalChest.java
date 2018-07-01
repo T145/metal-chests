@@ -99,27 +99,10 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	}
 
 	@Override
-	public void handleUpdateTag(NBTTagCompound tag) {
-		super.handleUpdateTag(tag);
-		front = EnumFacing.byName(tag.getString("Front"));
-		type = ChestType.byMetadata(tag.getInteger("Type"));
-		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-	}
-
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		NBTTagCompound tag = super.getUpdateTag();
-		tag.setString("Front", front.toString());
-		tag.setInteger("Type", type.ordinal());
-		tag.setTag("Inventory", inventory.serializeNBT());
-		return tag;
-	}
-
-	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		front = EnumFacing.byName(tag.getString("Front"));
-		type = ChestType.byMetadata(tag.getInteger("Type"));
+		type = ChestType.valueOf(tag.getString("Type"));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 	}
 
@@ -127,7 +110,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		tag = super.writeToNBT(tag);
 		tag.setString("Front", front.toString());
-		tag.setInteger("Type", type.ordinal());
+		tag.setString("Type", type.toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
 		return tag;
 	}
