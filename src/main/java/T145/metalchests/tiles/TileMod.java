@@ -18,7 +18,6 @@ package T145.metalchests.tiles;
 import javax.annotation.Nonnull;
 
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -32,40 +31,13 @@ public class TileMod extends TileEntity {
 		return oldState.getBlock() != newState.getBlock();
 	}
 
-	@Nonnull
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-		NBTTagCompound nbt = super.writeToNBT(tag);
-		writePacketNBT(nbt);
-		return nbt;
-	}
-
-	@Nonnull
-	@Override
-	public final NBTTagCompound getUpdateTag() {
-		return writeToNBT(new NBTTagCompound());
-	}
-
-	@Override
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		readPacketNBT(tag);
-	}
-
-	public void writePacketNBT(NBTTagCompound tag) {}
-
-	public void readPacketNBT(NBTTagCompound tag) {}
-
-	@Override
-	public final SPacketUpdateTileEntity getUpdatePacket() {
-		NBTTagCompound tag = new NBTTagCompound();
-		writePacketNBT(tag);
-		return new SPacketUpdateTileEntity(pos, -999, tag);
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
 	}
 
 	@Override
 	public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
-		super.onDataPacket(manager, packet);
-		readPacketNBT(packet.getNbtCompound());
+		handleUpdateTag(packet.getNbtCompound());
 	}
 }

@@ -46,7 +46,7 @@ import vazkii.quark.api.IDropoffManager;
 })
 public class TileMetalChest extends TileMod implements ITickable, IInventoryHandler, IDropoffManager, INamedItemHandler {
 
-	private final ChestType type;
+	private ChestType type;
 	private ItemStackHandler inventory;
 	private EnumFacing front;
 
@@ -99,15 +99,37 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	}
 
 	@Override
-	public void readPacketNBT(NBTTagCompound tag) {
+	public void handleUpdateTag(NBTTagCompound tag) {
+		super.handleUpdateTag(tag);
 		front = EnumFacing.byName(tag.getString("Front"));
+		type = ChestType.byMetadata(tag.getInteger("Type"));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 	}
 
 	@Override
-	public void writePacketNBT(NBTTagCompound tag) {
+	public NBTTagCompound getUpdateTag() {
+		NBTTagCompound tag = super.getUpdateTag();
 		tag.setString("Front", front.toString());
+		tag.setInteger("Type", type.ordinal());
 		tag.setTag("Inventory", inventory.serializeNBT());
+		return tag;
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound compound) {
+		super.readFromNBT(compound);
+		front = EnumFacing.byName(compound.getString("Front"));
+		type = ChestType.byMetadata(compound.getInteger("Type"));
+		inventory.deserializeNBT(compound.getCompoundTag("Inventory"));
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		compound = super.writeToNBT(compound);
+		compound.setString("Front", front.toString());
+		compound.setInteger("Type", type.ordinal());
+		compound.setTag("Inventory", inventory.serializeNBT());
+		return compound;
 	}
 
 	@Optional.Method(modid = SupportedMods.HOLOINVENTORY)
