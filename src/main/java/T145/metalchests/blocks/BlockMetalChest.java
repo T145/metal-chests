@@ -20,7 +20,6 @@ import javax.annotation.Nullable;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;
-import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -132,6 +131,10 @@ public class BlockMetalChest extends Block {
 
 		public static ChestType byMetadata(int meta) {
 			return values()[meta]; 
+		}
+
+		public GUI getGui() {
+			return GUI.byType(this);
 		}
 
 		public enum GUI {

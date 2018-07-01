@@ -29,8 +29,8 @@ public class GuiMetalChest extends GuiContainer {
 	public GuiMetalChest(ContainerMetalChest inventory) {
 		super(inventory);
 		this.inventory = inventory;
-		this.xSize = inventory.getGuiType().getSizeX();
-		this.ySize = inventory.getGuiType().getSizeY();
+		this.xSize = inventory.getGui().getSizeX();
+		this.ySize = inventory.getGui().getSizeY();
 		this.allowUserInput = false;
 	}
 
@@ -44,7 +44,7 @@ public class GuiMetalChest extends GuiContainer {
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-		mc.getTextureManager().bindTexture(inventory.getGuiType().getGuiTexture());
+		mc.getTextureManager().bindTexture(inventory.getGui().getGuiTexture());
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);

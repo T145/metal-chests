@@ -19,6 +19,7 @@ import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.api.SupportedInterfaces;
 import T145.metalchests.api.SupportedMods;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.blocks.BlockMetalChest.ChestType.GUI;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,12 +36,10 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 
 	private final IInventoryHandler handler;
 	private final ChestType type;
-	private final ChestType.GUI gui;
 
 	public ContainerMetalChest(IInventoryHandler handler, EntityPlayer player, ChestType type) {
 		this.handler = handler;
 		this.type = type;
-		this.gui = ChestType.GUI.byType(type);
 		handler.openInventory(player);
 
 		for (int chestRow = 0; chestRow < type.getRowCount(); ++chestRow) {
@@ -49,22 +48,26 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 			}
 		}
 
-		int leftCol = (gui.getSizeX() - 162) / 2 + 1;
+		int leftCol = (type.getGui().getSizeX() - 162) / 2 + 1;
 
 		for (int playerInvRow = 0; playerInvRow < 3; ++playerInvRow) {
 			for (int playerInvCol = 0; playerInvCol < 9; ++playerInvCol) {
-				this.addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, gui.getSizeY() - (4 - playerInvRow) * 18 - 10));
+				this.addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, type.getGui().getSizeY() - (4 - playerInvRow) * 18 - 10));
 			}
 
 		}
 
 		for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
-			this.addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, gui.getSizeY() - 24));
+			this.addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, type.getGui().getSizeY() - 24));
 		}
 	}
 
-	public ChestType.GUI getGuiType() {
-		return gui;
+	public ChestType getType() {
+		return type;
+	}
+
+	public GUI getGui() {
+		return type.getGui();
 	}
 
 	@Override
