@@ -19,11 +19,13 @@ import java.util.HashSet;
 
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.blocks.BlockMetalTank;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.tesrs.MetalChestRenderer;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileMetalTank;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -51,8 +53,11 @@ import net.minecraftforge.registries.IForgeRegistry;
 @ObjectHolder(MetalChests.MOD_ID)
 public class ModLoader {
 
-	@ObjectHolder("metal_chest")
+	@ObjectHolder(BlockMetalChest.NAME)
 	public static final Block METAL_CHEST = new BlockMetalChest();
+
+	@ObjectHolder(BlockMetalTank.NAME)
+	public static final Block METAL_TANK = new BlockMetalTank();
 
 	@EventBusSubscriber(modid = MetalChests.MOD_ID)
 	static class ServerLoader {
@@ -61,7 +66,9 @@ public class ModLoader {
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 			registry.register(METAL_CHEST);
+			registry.register(METAL_TANK);
 			registerTileEntity(TileMetalChest.class);
+			registerTileEntity(TileMetalTank.class);
 		}
 
 		private static void registerTileEntity(Class tileClass) {

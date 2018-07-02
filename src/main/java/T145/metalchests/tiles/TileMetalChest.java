@@ -33,6 +33,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -157,11 +158,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
-		if (world.getTileEntity(pos) != this) {
-			return false;
-		} else {
-			return player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
-		}
+		return world.getTileEntity(pos) == this && player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 	}
 
 	@Override
@@ -171,15 +168,12 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 		}
 
 		prevLidAngle = lidAngle;
-		int i = pos.getX();
-		int j = pos.getY();
-		int k = pos.getZ();
-		float f = 0.1F;
+		double i = pos.getX() + 0.5D;
+		double j = pos.getY() + 0.5D;
+		double k = pos.getZ() + 0.5D;
 
 		if (numPlayersUsing > 0 && lidAngle == 0.0F) {
-			double d0 = i + 0.5D;
-			double d1 = k + 0.5D;
-			world.playSound(null, d0, j + 0.5D, d1, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			world.playSound(null, i, j, k, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 
 		if (numPlayersUsing == 0 && lidAngle > 0.0F || numPlayersUsing > 0 && lidAngle < 1.0F) {
@@ -191,20 +185,10 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 				lidAngle -= 0.1F;
 			}
 
-			if (lidAngle > 1.0F) {
-				lidAngle = 1.0F;
-			}
-
-			float f1 = 0.5F;
+			MathHelper.clamp(lidAngle, 0.0F, 1.0F);
 
 			if (lidAngle < 0.5F && f2 >= 0.5F) {
-				double d3 = i + 0.5D;
-				double d2 = k + 0.5D;
-				world.playSound(null, d3, j + 0.5D, d2, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-			}
-
-			if (lidAngle < 0.0F) {
-				lidAngle = 0.0F;
+				world.playSound(null, i, j, k, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 			}
 		}
 	}

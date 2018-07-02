@@ -75,8 +75,9 @@ public class BlockMetalChest extends Block {
 		SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
 		GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
 		DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-		OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "blockObsidian"),
-		CRYSTAL(InventorySize.DIAMOND, Material.GLASS, MapColor.QUARTZ, SoundType.GLASS, "blockGlass");
+		OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian"),
+		//CRYSTAL(InventorySize.DIAMOND, Material.GLASS, MapColor.QUARTZ, SoundType.GLASS, "blockGlass")
+		;
 
 		private final InventorySize invSize;
 		private final Material material;
@@ -139,17 +140,20 @@ public class BlockMetalChest extends Block {
 
 		public enum GUI {
 
-			COPPER(184, 184),
-			IRON(184, 202),
-			SILVER(184, 238),
-			GOLD(184, 256),
-			DIAMOND(238, 256);
+			COPPER(184),
+			IRON(202),
+			SILVER(238),
+			GOLD(256),
+			DIAMOND(256);
 
-			private final int xSize;
 			private final int ySize;
 
+			GUI(int ySize) {
+				this.ySize = ySize;
+			}
+
 			public int getSizeX() {
-				return xSize;
+				return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
 			}
 
 			public int getSizeY() {
@@ -157,7 +161,7 @@ public class BlockMetalChest extends Block {
 			}
 
 			public static GUI byMetadata(int meta) {
-				return meta > DIAMOND.ordinal() ? DIAMOND : GUI.values()[meta];
+				return values()[meta];
 			}
 
 			public static GUI byType(ChestType type) {
@@ -168,21 +172,17 @@ public class BlockMetalChest extends Block {
 				ChestType type = ChestType.byMetadata(ordinal());
 				return new ResourceLocation(MetalChests.MOD_ID, "textures/gui/" + (type.isLarge() ? "diamond" : type.getName()) + "_container.png");
 			}
-
-			GUI(int xSize, int ySize) {
-				this.xSize = xSize;
-				this.ySize = ySize;
-			}
 		}
 	}
 
 	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
+	public static final String NAME = "metal_chest";
 
 	public BlockMetalChest() {
 		super(Material.IRON);
-		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, "metal_chest"));
+		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, NAME));
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, ChestType.IRON));
-		setUnlocalizedName("metalchests:metal_chest");
+		setUnlocalizedName("metalchests:" + NAME);
 		setHardness(3F);
 		setCreativeTab(MetalChests.TAB);
 	}
