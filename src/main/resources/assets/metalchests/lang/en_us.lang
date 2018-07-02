@@ -11,14 +11,6 @@ tile.metalchests:metal_chest.gold.name=Gold Chest
 tile.metalchests:metal_chest.diamond.name=Diamond Chest
 tile.metalchests:metal_chest.obsidian.name=Obsidian Chest
 
-tile.metalchests:project_table.wood.name=Project Table
-tile.metalchests:project_table.copper.name=Copper Project Table
-tile.metalchests:project_table.iron.name=Iron Project Table
-tile.metalchests:project_table.silver.name=Silver Project Table
-tile.metalchests:project_table.gold.name=Gold Project Table
-tile.metalchests:project_table.diamond.name=Diamond Project Table
-tile.metalchests:project_table.obsidian.name=Obsidian Project Table
-
 tile.metalchests:metal_tank.base.name=Tank
 tile.metalchests:metal_tank.copper.name=Copper Tank
 tile.metalchests:metal_tank.iron.name=Iron Tank
@@ -26,40 +18,3 @@ tile.metalchests:metal_tank.silver.name=Silver Tank
 tile.metalchests:metal_tank.gold.name=Gold Tank
 tile.metalchests:metal_tank.diamond.name=Diamond Tank
 tile.metalchests:metal_tank.obsidian.name=Obsidian Tank
-
-item.metalchests:minecart_metal_chest.copper.name=Minecart with Copper Chest
-item.metalchests:minecart_metal_chest.iron.name=Minecart with Iron Chest
-item.metalchests:minecart_metal_chest.silver.name=Minecart with Silver Chest
-item.metalchests:minecart_metal_chest.gold.name=Minecart with Gold Chest
-item.metalchests:minecart_metal_chest.diamond.name=Minecart with Diamond Chest
-item.metalchests:minecart_metal_chest.obsidian.name=Minecart with Obsidian Chest
-
-entity.metalchests:MinecartCopperChest.name=Minecart with Copper Chest
-entity.metalchests:MinecartIronChest.name=Minecart with Iron Chest
-entity.metalchests:MinecartSilverChest.name=Minecart with Silver Chest
-entity.metalchests:MinecartGoldChest.name=Minecart with Gold Chest
-entity.metalchests:MinecartDiamondChest.name=Minecart with Diamond Chest
-entity.metalchests:MinecartObsidianChest.name=Minecart with Obsidian Chest
-
-item.metalchests:structure_upgrade.wood_copper.name=Wood to Copper Chest Upgrade
-item.metalchests:structure_upgrade.wood_iron.name=Wood to Iron Chest Upgrade
-item.metalchests:structure_upgrade.wood_silver.name=Wood to Silver Chest Upgrade
-item.metalchests:structure_upgrade.wood_gold.name=Wood to Gold Chest Upgrade
-item.metalchests:structure_upgrade.wood_diamond.name=Wood to Diamond Chest Upgrade
-item.metalchests:structure_upgrade.wood_obsidian.name=Wood to Obsidian Chest Upgrade
-item.metalchests:structure_upgrade.copper_iron.name=Copper to Iron Chest Upgrade
-item.metalchests:structure_upgrade.copper_silver.name=Copper to Silver Chest Upgrade
-item.metalchests:structure_upgrade.copper_gold.name=Copper to Gold Chest Upgrade
-item.metalchests:structure_upgrade.copper_diamond.name=Copper to Diamond Chest Upgrade
-item.metalchests:structure_upgrade.copper_obsidian.name=Copper to Obsidian Chest Upgrade
-item.metalchests:structure_upgrade.iron_silver.name=Iron to Silver Chest Upgrade
-item.metalchests:structure_upgrade.iron_gold.name=Iron to Gold Chest Upgrade
-item.metalchests:structure_upgrade.iron_diamond.name=Iron to Diamond Chest Upgrade
-item.metalchests:structure_upgrade.iron_obsidian.name=Iron to Obsidian Chest Upgrade
-item.metalchests:structure_upgrade.silver_gold.name=Silver to Gold Chest Upgrade
-item.metalchests:structure_upgrade.silver_diamond.name=Silver to Diamond Chest Upgrade
-item.metalchests:structure_upgrade.silver_obsidian.name=Silver to Obsidian Chest Upgrade
-item.metalchests:structure_upgrade.gold_diamond.name=Gold to Diamond Chest Upgrade
-item.metalchests:structure_upgrade.gold_obsidian.name=Gold to Obsidian Chest Upgrade
-item.metalchests:structure_upgrade.diamond_obsidian.name=Diamond to Obsidian Chest Upgrade
-
