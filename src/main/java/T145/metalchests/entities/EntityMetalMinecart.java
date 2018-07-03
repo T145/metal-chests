@@ -13,37 +13,27 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.tiles;
+package T145.metalchests.entities;
 
-import javax.annotation.Nonnull;
-
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TileMod extends TileEntity {
+public class EntityMetalMinecart extends Entity {
 
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
-		return oldState.getBlock() != newState.getBlock();
+	public EntityMetalMinecart(World world) {
+		super(world);
 	}
 
 	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(super.getUpdateTag());
+	protected void entityInit() {
 	}
 
 	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
+	protected void readEntityFromNBT(NBTTagCompound compound) {
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
-		handleUpdateTag(packet.getNbtCompound());
+	protected void writeEntityToNBT(NBTTagCompound compound) {
 	}
 }

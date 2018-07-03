@@ -28,7 +28,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class MetalChestRenderer extends TileEntitySpecialRenderer<TileMetalChest> {
+public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> {
 
 	private final ModelChest model = new ModelChest();
 

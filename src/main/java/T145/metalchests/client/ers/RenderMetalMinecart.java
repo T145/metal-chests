@@ -13,37 +13,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.tiles;
+package T145.metalchests.client.ers;
 
-import T145.metalchests.blocks.BlockMetalTank.TankType;
-import net.minecraft.nbt.NBTTagCompound;
+import T145.metalchests.entities.EntityMetalMinecart;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class TileMetalTank extends TileMod {
+@SideOnly(Side.CLIENT)
+public class RenderMetalMinecart<T extends EntityMetalMinecart> extends Render<T> {
 
-	private TankType type;
-
-	public TileMetalTank(TankType type) {
-		this.type = type;
-	}
-
-	public TileMetalTank() {
-		this(TankType.BASE);
-	}
-
-	public TankType getType() {
-		return type;
+	protected RenderMetalMinecart(RenderManager renderManager) {
+		super(renderManager);
 	}
 
 	@Override
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		type = TankType.valueOf(tag.getString("Type"));
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-		tag = super.writeToNBT(tag);
-		tag.setString("Type", type.toString());
-		return tag;
+	protected ResourceLocation getEntityTexture(EntityMetalMinecart entity) {
+		return null;
 	}
 }

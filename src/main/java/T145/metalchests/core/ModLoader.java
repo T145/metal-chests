@@ -21,7 +21,7 @@ import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockMetalTank;
 import T145.metalchests.blocks.BlockModItem;
-import T145.metalchests.client.tesrs.MetalChestRenderer;
+import T145.metalchests.client.tesrs.RenderMetalChest;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.tiles.TileMetalChest;
@@ -140,7 +140,7 @@ public class ModLoader {
 				registerBlockModel(METAL_TANK, type.ordinal(), getVariantName(type));
 			}*/
 
-			registerTileRenderer(TileMetalChest.class, new MetalChestRenderer());
+			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
 		}
 
 		private static String getVariantName(IStringSerializable variant) {

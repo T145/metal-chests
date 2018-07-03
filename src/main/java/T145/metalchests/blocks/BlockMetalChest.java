@@ -75,9 +75,7 @@ public class BlockMetalChest extends Block {
 		SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
 		GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
 		DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-		OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian"),
-		//CRYSTAL(InventorySize.DIAMOND, Material.GLASS, MapColor.QUARTZ, SoundType.GLASS, "blockGlass")
-		;
+		OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian");
 
 		private final InventorySize invSize;
 		private final Material material;
