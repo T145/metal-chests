@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.ers;
+package T145.metalchests.client.render;
 
 import T145.metalchests.entities.EntityMetalMinecart;
 import net.minecraft.client.renderer.entity.Render;

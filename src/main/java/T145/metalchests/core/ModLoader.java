@@ -20,8 +20,10 @@ import java.util.HashSet;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockMetalTank;
+import T145.metalchests.blocks.BlockMetalTank.TankType;
 import T145.metalchests.blocks.BlockModItem;
-import T145.metalchests.client.tesrs.RenderMetalChest;
+import T145.metalchests.client.render.RenderMetalChest;
+import T145.metalchests.client.render.RenderMetalTank;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.tiles.TileMetalChest;
@@ -79,6 +81,7 @@ public class ModLoader {
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 			registerItemBlock(registry, METAL_CHEST, ChestType.class);
+			registerItemBlock(registry, METAL_TANK, TankType.class);
 		}
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -125,22 +128,14 @@ public class ModLoader {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (ChestType type : ChestType.values()) {
 				registerBlockModel(METAL_CHEST, type.ordinal(), getVariantName(type));
-				//registerItemModel(MINECART_METAL_CHEST, "minecarts/" + type.getName(), type.ordinal(), "inventory");
 			}
 
-			/*for (ChestUpgrade type : ChestUpgrade.values()) {
-				registerItemModel(CHEST_UPGRADE, "upgrades/" + type.getName(), type.ordinal(), "inventory");
-			}
-
-			for (ProjectTableType type : ProjectTableType.values()) {
-				registerBlockModel(PROJECT_TABLE, type.ordinal(), "facing=north", getVariantName(type));
-			}
-
-			for (MetalTankType type : MetalTankType.values()) {
+			for (TankType type : TankType.values()) {
 				registerBlockModel(METAL_TANK, type.ordinal(), getVariantName(type));
-			}*/
+			}
 
 			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
+			registerTileRenderer(TileMetalTank.class, new RenderMetalTank());
 		}
 
 		private static String getVariantName(IStringSerializable variant) {

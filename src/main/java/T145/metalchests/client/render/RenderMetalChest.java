@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.tesrs;
+package T145.metalchests.client.render;
 
 import org.lwjgl.opengl.GL11;
 
@@ -48,14 +48,14 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	@Override
 	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (destroyStage >= 0) {
-			this.bindTexture(DESTROY_STAGES[destroyStage]);
+			bindTexture(DESTROY_STAGES[destroyStage]);
 			GlStateManager.matrixMode(GL11.GL_TEXTURE);
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(4.0F, 4.0F, 1.0F);
 			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		} else {
-			this.bindTexture(new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/" + chest.getType().getName() + ".png"));
+			bindTexture(new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest_" + chest.getType().getName() + ".png"));
 		}
 
 		GlStateManager.pushMatrix();
@@ -69,8 +69,8 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
 		f = 1.0F - f;
 		f = 1.0F - f * f * f;
-		this.model.chestLid.rotateAngleX = (float) -(f * (Math.PI / 2F));
-		this.model.renderAll();
+		model.chestLid.rotateAngleX = (float) -(f * (Math.PI / 2F));
+		model.renderAll();
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
