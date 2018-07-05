@@ -50,12 +50,12 @@ public class BlockMetalTank extends Block {
 	public static enum TankType implements IStringSerializable {
 
 		BASE(16, "blockGlass"),
-		COPPER(24, "ingotCopper"),
-		IRON(32, "ingotIron"),
-		SILVER(36, "ingotSilver"),
-		GOLD(40, "ingotGold"),
-		DIAMOND(48, "gemDiamond"),
-		OBSIDIAN(48, "obsidian");
+		COPPER(20, "ingotCopper"),
+		IRON(24, "ingotIron"),
+		SILVER(28, "ingotSilver"),
+		GOLD(32, "ingotGold"),
+		DIAMOND(36, "gemDiamond"),
+		OBSIDIAN(36, "obsidian");
 
 		private final String dictName;
 		private final int bucketVolume;

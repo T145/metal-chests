@@ -15,6 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.containers;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.api.SupportedInterfaces;
 import T145.metalchests.api.SupportedMods;
@@ -71,6 +73,7 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 	}
 
 	@Override
+	@OverridingMethodsMustInvokeSuper
 	public void onContainerClosed(EntityPlayer player) {
 		super.onContainerClosed(player);
 		handler.closeInventory(player);
