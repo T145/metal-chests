@@ -113,7 +113,9 @@ public class ItemMetalUpgrade extends ItemMod {
 		}
 	}
 
+	public static final String NAME = "metal_upgrade";
+
 	public ItemMetalUpgrade() {
-		super("metal_upgrade", UpgradeType.values());
+		super(NAME, UpgradeType.values());
 	}
 }

@@ -155,6 +155,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 			--numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
+			receiveClientEvent(1, 0); // ensure that numPlayersUsing syncs across the client and server
 		}
 	}
 
@@ -181,7 +182,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 		}
 
 		prevLidAngle = lidAngle;
-		lidAngle = approachLinear(lidAngle, numPlayersUsing > 0 ? 1 : 0, 0.1F);
+		lidAngle = approachLinear(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
 
 		if (prevLidAngle >= 0.5 && lidAngle < 0.5) {
 			world.playSound(null, getPos(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
@@ -194,6 +195,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	public boolean receiveClientEvent(int id, int data) {
 		if (id == 1) {
 			numPlayersUsing = data;
+			markDirty(); // make doubly sure that this thing is synchronizing
 			return true;
 		} else {
 			return super.receiveClientEvent(id, data);

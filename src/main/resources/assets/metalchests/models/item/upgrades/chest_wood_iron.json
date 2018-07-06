@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "metalchests:items/upgrades/chest_wood",
+        "layer1": "metalchests:items/upgrades/arrow_iron"
+    }
+}

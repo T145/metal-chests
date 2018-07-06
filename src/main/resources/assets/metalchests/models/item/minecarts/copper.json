@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "metalchests:items/chest_cart_copper"
+        "layer0": "metalchests:items/minecarts/base_copper"
     }
 }

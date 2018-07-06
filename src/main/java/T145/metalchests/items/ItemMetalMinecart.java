@@ -44,7 +44,6 @@ public class ItemMetalMinecart extends ItemMod {
 		 * - COPPER
 		 * ~ Metal Chest Types
 		 */
-		COPPER_WITH_BASE_TANK(),
 		COPPER_WITH_COPPER_CHEST(),
 		COPPER_WITH_IRON_CHEST(),
 		COPPER_WITH_SILVER_CHEST(),
@@ -63,13 +62,13 @@ public class ItemMetalMinecart extends ItemMod {
 		 * - COPPER
 		 * ~ Metal Tank Types
 		 */
+		COPPER_WITH_BASE_TANK(),
 		COPPER_WITH_COPPER_TANK(),
 		COPPER_WITH_IRON_TANK(),
 		COPPER_WITH_SILVER_TANK(),
 		COPPER_WITH_GOLD_TANK(),
 		COPPER_WITH_DIAMOND_TANK(),
 		COPPER_WITH_OBSIDIAN_TANK(),
-		COPPER_WITH_CRYSTAL_TANK(),
 
 		/*
 		 * - IRON
@@ -87,7 +86,6 @@ public class ItemMetalMinecart extends ItemMod {
 		IRON_WITH_GOLD_CHEST(),
 		IRON_WITH_DIAMOND_CHEST(),
 		IRON_WITH_OBSIDIAN_CHEST(),
-		IRON_WITH_CRYSTAL_CHEST(),
 		/*
 		 * - IRON
 		 * ~ Regular Types
@@ -124,7 +122,6 @@ public class ItemMetalMinecart extends ItemMod {
 		SILVER_WITH_GOLD_CHEST(),
 		SILVER_WITH_DIAMOND_CHEST(),
 		SILVER_WITH_OBSIDIAN_CHEST(),
-		SILVER_WITH_CRYSTAL_CHEST(),
 		/*
 		 * - SILVER
 		 * ~ Regular Types
@@ -161,7 +158,6 @@ public class ItemMetalMinecart extends ItemMod {
 		GOLD_WITH_GOLD_CHEST(),
 		GOLD_WITH_DIAMOND_CHEST(),
 		GOLD_WITH_OBSIDIAN_CHEST(),
-		GOLD_WITH_CRYSTAL_CHEST(),
 		/*
 		 * - GOLD
 		 * ~ Regular Types
@@ -198,7 +194,6 @@ public class ItemMetalMinecart extends ItemMod {
 		DIAMOND_WITH_GOLD_CHEST(),
 		DIAMOND_WITH_DIAMOND_CHEST(),
 		DIAMOND_WITH_OBSIDIAN_CHEST(),
-		DIAMOND_WITH_CRYSTAL_CHEST(),
 		/*
 		 * - DIAMOND
 		 * ~ Regular Types
@@ -235,7 +230,6 @@ public class ItemMetalMinecart extends ItemMod {
 		OBSIDIAN_WITH_GOLD_CHEST(),
 		OBSIDIAN_WITH_DIAMOND_CHEST(),
 		OBSIDIAN_WITH_OBSIDIAN_CHEST(),
-		OBSIDIAN_WITH_CRYSTAL_CHEST(),
 		/*
 		 * - OBSIDIAN
 		 * ~ Regular Types
@@ -316,8 +310,10 @@ public class ItemMetalMinecart extends ItemMod {
 		}
 	};
 
+	public static final String NAME = "metal_minecart";
+
 	public ItemMetalMinecart() {
-		super("metal_minecart", MinecartType.values());
+		super(NAME, MinecartType.values());
 		this.setMaxStackSize(1);
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, MINECART_DISPENSER_BEHAVIOR);
 	}

@@ -34,7 +34,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class TileMetalTank extends TileMod implements ITickable {
 
-	private static final class InternalTank extends FluidTank {
+	public static final class InternalTank extends FluidTank {
 
 		public InternalTank(int capacity) {
 			super(capacity);
@@ -103,17 +103,26 @@ public class TileMetalTank extends TileMod implements ITickable {
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		type = TankType.valueOf(tag.getString("Type"));
-		tank = new InternalTank(FluidStack.loadFluidStackFromNBT(tag.getCompoundTag("FluidTag")), type.getCapacity());
+		tank = tag.hasKey("FluidTag") ? new InternalTank(FluidStack.loadFluidStackFromNBT(tag.getCompoundTag("FluidTag")), type.getCapacity()) : new InternalTank(type.getCapacity());
 		tank.setTileEntity(this);
+
+		/*if (tag.hasKey("FluidTag")) {
+			tank = new InternalTank(FluidStack.loadFluidStackFromNBT(tag.getCompoundTag("FluidTag")), type.getCapacity());
+			tank.setTileEntity(this);
+		}*/
 	}
 
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		tag = super.writeToNBT(tag);
 		tag.setString("Type", type.toString());
-		NBTTagCompound fluidTag = new NBTTagCompound();
-		tank.getFluid().writeToNBT(fluidTag);
-		fluidTag.setTag("FluidTag", fluidTag);
+
+		if (tank != null && tank.getFluid() != null) {
+			NBTTagCompound fluidTag = new NBTTagCompound();
+			tank.getFluid().writeToNBT(fluidTag);
+			fluidTag.setTag("FluidTag", fluidTag);
+		}
+
 		return tag;
 	}
 

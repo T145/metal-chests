@@ -42,6 +42,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -155,9 +156,7 @@ public class BlockMetalTank extends Block {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (!world.isRemote && te instanceof TileMetalTank) {
-			TileMetalTank tank = (TileMetalTank) te;
-
-			// check if it's a fluid container and can fill this tank
+			FluidUtil.interactWithFluidHandler(player, hand, world, pos, facing);
 		}
 		return true;
 	}
