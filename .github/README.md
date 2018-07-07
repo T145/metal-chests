@@ -30,8 +30,7 @@ In order to get started with Minecraft mod development in this workspace, a few 
 > This will install the Gradle wrapper once, and any proceeding commands should be executed using it.
 
 ### Windows
-I highly recommend using [Chocolatey](https://chocolatey.org/install),
-and installing everything by executing the following commands:
+Use [Chocolatey](https://chocolatey.org/install), and install everything like so:
 ```bash
 choco install jdk8
 choco install gradle --version 4.4.1
@@ -39,8 +38,7 @@ choco install gradle --version 4.4.1
 I'd recommend running the Powershell variant.
 
 ### OSX
-I highly recommend using [Homebrew](https://brew.sh/),
-and installing everything by executing the following commands:
+Use [Homebrew](https://brew.sh/), and install everything like so:
 ```bash
 brew cask install java
 brew install gradle --version 4.4.1
@@ -78,7 +76,7 @@ Mod source code is licensed under the [Apache License v2.0](http://www.apache.or
 
 <div align="center">
 
-**Patreon**: [https://www.patreon.com/user?u=152139](https://www.patreon.com/user?u=152139)
+**Patreon**: [patreon.com/user=152139](https://www.patreon.com/user?u=152139)
 </div>
 
 <div align="center">
@@ -99,9 +97,4 @@ Mod source code is licensed under the [Apache License v2.0](http://www.apache.or
 <div align="center">
 
 **Litecoin**: `LiV9SfDjFYLFRCzf9wTf7ap8BuRF39J7PB`
-</div>
-
-<div align="center">
-
-**Vertcoin**: `Vc6ss1NaitEtdrZZsDhQuv9pytKR5caiFy`
 </div>
