@@ -83,7 +83,7 @@ Mod source code is licensed under the [Apache License v2.0](http://www.apache.or
 
 <div align="center">
 
-**Paypal**: [paypal.me/T145](paypal.me/T145)
+**Paypal**: [paypal.me/T145](https://www.paypal.me/T145)
 </div>
 
 <div align="center">
