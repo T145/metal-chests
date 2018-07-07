@@ -139,19 +139,19 @@ public class ModLoader {
 		@SubscribeEvent
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (ChestType type : ChestType.values()) {
-				registerBlockModel(METAL_CHEST, type.ordinal(), getVariantName(type));
+				registerModel(METAL_CHEST, type.ordinal(), getVariantName(type));
 			}
 
 			for (TankType type : TankType.values()) {
-				registerBlockModel(METAL_TANK, type.ordinal(), getVariantName(type));
+				registerModel(METAL_TANK, type.ordinal(), getVariantName(type));
 			}
 
 			for (UpgradeType type : UpgradeType.values()) {
-				registerItemModel(METAL_UPGRADE, "upgrades/" + type.getName(), type.ordinal(), "inventory");
+				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
 			}
 
 			for (MinecartType type : MinecartType.values()) {
-				registerItemModel(METAL_MINECART, "minecarts/" + type.getName(), type.ordinal(), "inventory");
+				registerModel(METAL_MINECART, "item_minecart", type.ordinal(), "item=" + type.getName());
 			}
 
 			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
@@ -162,19 +162,15 @@ public class ModLoader {
 			return "variant=" + variant.getName();
 		}
 
-		private static void registerBlockModel(Block block, int meta, String... variants) {
-			registerBlockModel(block, null, meta, variants);
+		private static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
+			if (StringUtils.isNullOrEmpty(customDomain)) {
+				return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
+			} else {
+				return new ModelResourceLocation(MetalChests.MOD_ID + ":" + customDomain, variantPath.toString());
+			}
 		}
 
-		private static void registerBlockModel(Block block, String customDomain, int meta, String... variants) {
-			registerItemModel(Item.getItemFromBlock(block), customDomain, meta, variants);
-		}
-
-		private static void registerItemModel(Item item, int meta, String... variants) {
-			registerItemModel(item, null, meta, variants);
-		}
-
-		private static void registerItemModel(Item item, String customDomain, int meta, String... variants) {
+		private static void registerModel(Item item, String customDomain, int meta, String... variants) {
 			StringBuilder variantPath = new StringBuilder();
 
 			for (int i = 0; i < variants.length; ++i) {
@@ -187,12 +183,16 @@ public class ModLoader {
 			ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
 		}
 
-		private static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
-			if (StringUtils.isNullOrEmpty(customDomain)) {
-				return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
-			} else {
-				return new ModelResourceLocation(MetalChests.MOD_ID + ":" + customDomain, variantPath.toString());
-			}
+		private static void registerModel(Block block, String customDomain, int meta, String... variants) {
+			registerModel(Item.getItemFromBlock(block), customDomain, meta, variants);
+		}
+
+		private static void registerModel(Item item, int meta, String... variants) {
+			registerModel(item, null, meta, variants);
+		}
+
+		private static void registerModel(Block block, int meta, String... variants) {
+			registerModel(block, null, meta, variants);
 		}
 
 		private static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
