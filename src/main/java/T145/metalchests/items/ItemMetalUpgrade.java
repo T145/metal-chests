@@ -17,9 +17,27 @@ package T145.metalchests.items;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockMetalTank.TankType;
+import T145.metalchests.core.ModLoader;
+import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileMetalTank;
+import net.minecraft.block.BlockChest;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraftforge.items.IItemHandler;
 
 public class ItemMetalUpgrade extends ItemMod {
 
@@ -95,6 +113,22 @@ public class ItemMetalUpgrade extends ItemMod {
 			this(null, tankUpgrade);
 		}
 
+		public ChestType getChestBase() {
+			return chestBase;
+		}
+
+		public ChestType getChestUpgrade() {
+			return chestUpgrade;
+		}
+
+		public TankType getTankBase() {
+			return tankBase;
+		}
+
+		public TankType getTankUpgrade() {
+			return tankUpgrade;
+		}
+
 		public boolean isChestUpgrade() {
 			return tankBase == null && tankUpgrade == null;
 		}
@@ -107,6 +141,10 @@ public class ItemMetalUpgrade extends ItemMod {
 			}
 		}
 
+		public static UpgradeType byMetadata(int meta) {
+			return values()[meta];
+		}
+
 		@Override
 		public String getName() {
 			return name().toLowerCase();
@@ -117,5 +155,76 @@ public class ItemMetalUpgrade extends ItemMod {
 
 	public ItemMetalUpgrade() {
 		super(NAME, UpgradeType.values());
+		setMaxStackSize(1);
+	}
+
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (world.isRemote || !player.isSneaking()) {
+			return EnumActionResult.PASS;
+		}
+
+		TileEntity te = world.getTileEntity(pos);
+		IBlockState state = world.getBlockState(pos);
+		ItemStack stack = player.getHeldItem(hand);
+		UpgradeType upgrade = UpgradeType.byMetadata(stack.getItemDamage());
+
+		if (upgrade.isChestUpgrade()) {
+			if (te instanceof TileMetalChest) {
+				TileMetalChest chest = (TileMetalChest) te;
+
+				if (chest.getType() == upgrade.getChestBase() && chest.numPlayersUsing == 0) {
+					upgradeChest(world, pos, chest, upgrade.getChestUpgrade(), chest.getInventory(), chest.getFront());
+				} else {
+					return EnumActionResult.PASS;
+				}
+			} else if (te instanceof TileEntityChest && upgrade.getChestBase() == null) {
+				TileEntityChest chest = (TileEntityChest) te;
+
+				if (chest.numPlayersUsing > 0) {
+					return EnumActionResult.PASS;
+				}
+
+				upgradeChest(world, pos, chest, upgrade.getChestUpgrade(), chest.getSingleChestHandler(), state.getValue(BlockChest.FACING));
+			}
+		} else if (te instanceof TileMetalTank) {
+			TileMetalTank tank = (TileMetalTank) te;
+			
+			if (tank.getType() == upgrade.getTankBase()) {
+				
+			} else {
+				return EnumActionResult.PASS;
+			}
+		}
+
+		if (!player.capabilities.isCreativeMode) {
+			stack.shrink(1);
+		}
+
+		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+
+		return EnumActionResult.SUCCESS;
+	}
+
+	private void upgradeChest(World world, BlockPos pos, TileEntity oldChest, ChestType upgrade, IItemHandler oldInventory, EnumFacing front) {
+		TileMetalChest chest = new TileMetalChest(upgrade);
+
+		oldChest.invalidate();
+
+		world.removeTileEntity(pos);
+		world.setBlockToAir(pos);
+		world.setTileEntity(pos, chest);
+
+		IBlockState state = ModLoader.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, upgrade);
+		world.setBlockState(pos, state, 3);
+		world.notifyBlockUpdate(pos, state, state, 3);
+
+		for (int slot = 0; slot < oldInventory.getSlots(); ++slot) {
+			ItemStack stack = oldInventory.getStackInSlot(slot);
+			chest.getInventory().setStackInSlot(slot, stack);
+		}
+
+		chest.setFront(front);
+		chest.receiveClientEvent(1, 0);
 	}
 }
