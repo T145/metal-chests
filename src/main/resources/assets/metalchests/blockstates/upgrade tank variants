@@ -1,137 +1,126 @@
-{
-    "forge_marker": 1,
-    "defaults": {
-        "model": "builtin/generated",
-        "transform": "forge:default-item"
-    },
-    "variants": {
-        "item": {
-            "chest_wood_copper": {
+"tank_base_copper": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_wood",
+                    "layer0": "metalchests:items/upgrades/tank_base",
                     "layer1": "metalchests:items/upgrades/arrow_copper"
                 }
             },
-            "chest_wood_iron": {
+            "tank_base_iron": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_wood",
+                    "layer0": "metalchests:items/upgrades/tank_base",
                     "layer1": "metalchests:items/upgrades/arrow_iron"
                 }
             },
-            "chest_wood_silver": {
+            "tank_base_silver": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_wood",
+                    "layer0": "metalchests:items/upgrades/tank_base",
                     "layer1": "metalchests:items/upgrades/arrow_silver"
                 }
             },
-            "chest_wood_gold": {
+            "tank_base_gold": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_wood",
+                    "layer0": "metalchests:items/upgrades/tank_base",
                     "layer1": "metalchests:items/upgrades/arrow_gold"
                 }
             },
-            "chest_wood_diamond": {
+            "tank_base_diamond": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_wood",
+                    "layer0": "metalchests:items/upgrades/tank_base",
                     "layer1": "metalchests:items/upgrades/arrow_diamond"
                 }
             },
-            "chest_wood_obsidian": {
+            "tank_base_obsidian": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_wood",
+                    "layer0": "metalchests:items/upgrades/tank_base",
                     "layer1": "metalchests:items/upgrades/arrow_obsidian"
                 }
             },
-            "chest_copper_iron": {
+            "tank_copper_iron": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_copper",
+                    "layer0": "metalchests:items/upgrades/tank_copper",
                     "layer1": "metalchests:items/upgrades/arrow_iron"
                 }
             },
-            "chest_copper_silver": {
+            "tank_copper_silver": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_copper",
+                    "layer0": "metalchests:items/upgrades/tank_copper",
                     "layer1": "metalchests:items/upgrades/arrow_silver"
                 }
             },
-            "chest_copper_gold": {
+            "tank_copper_gold": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_copper",
+                    "layer0": "metalchests:items/upgrades/tank_copper",
                     "layer1": "metalchests:items/upgrades/arrow_gold"
                 }
             },
-            "chest_copper_diamond": {
+            "tank_copper_diamond": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_copper",
+                    "layer0": "metalchests:items/upgrades/tank_copper",
                     "layer1": "metalchests:items/upgrades/arrow_diamond"
                 }
             },
-            "chest_copper_obsidian": {
+            "tank_copper_obsidian": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_copper",
+                    "layer0": "metalchests:items/upgrades/tank_copper",
                     "layer1": "metalchests:items/upgrades/arrow_obsidian"
                 }
             },
-            "chest_iron_silver": {
+            "tank_iron_silver": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_iron",
+                    "layer0": "metalchests:items/upgrades/tank_iron",
                     "layer1": "metalchests:items/upgrades/arrow_silver"
                 }
             },
-            "chest_iron_gold": {
+            "tank_iron_gold": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_iron",
+                    "layer0": "metalchests:items/upgrades/tank_iron",
                     "layer1": "metalchests:items/upgrades/arrow_gold"
                 }
             },
-            "chest_iron_diamond": {
+            "tank_iron_diamond": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_iron",
+                    "layer0": "metalchests:items/upgrades/tank_iron",
                     "layer1": "metalchests:items/upgrades/arrow_diamond"
                 }
             },
-            "chest_iron_obsidian": {
+            "tank_iron_obsidian": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_iron",
+                    "layer0": "metalchests:items/upgrades/tank_iron",
                     "layer1": "metalchests:items/upgrades/arrow_obsidian"
                 }
             },
-            "chest_silver_gold": {
+            "tank_silver_gold": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_silver",
+                    "layer0": "metalchests:items/upgrades/tank_silver",
                     "layer1": "metalchests:items/upgrades/arrow_gold"
                 }
             },
-            "chest_silver_diamond": {
+            "tank_silver_diamond": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_silver",
+                    "layer0": "metalchests:items/upgrades/tank_silver",
                     "layer1": "metalchests:items/upgrades/arrow_diamond"
                 }
             },
-            "chest_silver_obsidian": {
+            "tank_silver_obsidian": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_silver",
+                    "layer0": "metalchests:items/upgrades/tank_silver",
                     "layer1": "metalchests:items/upgrades/arrow_obsidian"
                 }
             },
-            "chest_gold_diamond": {
+            "tank_gold_diamond": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_gold",
+                    "layer0": "metalchests:items/upgrades/tank_gold",
                     "layer1": "metalchests:items/upgrades/arrow_diamond"
                 }
             },
-            "chest_gold_obsidian": {
+            "tank_gold_obsidian": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_gold",
+                    "layer0": "metalchests:items/upgrades/tank_gold",
                     "layer1": "metalchests:items/upgrades/arrow_obsidian"
                 }
             },
-            "chest_diamond_obsidian": {
+            "tank_diamond_obsidian": {
                 "textures": {
-                    "layer0": "metalchests:items/upgrades/chest_diamond",
+                    "layer0": "metalchests:items/upgrades/tank_diamond",
                     "layer1": "metalchests:items/upgrades/arrow_obsidian"
                 }
             }
-        }
-    }
-}

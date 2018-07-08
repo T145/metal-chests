@@ -58,17 +58,6 @@ public class ItemMetalMinecart extends ItemMod {
 		COPPER_WITH_FURNACE(),
 		COPPER_WITH_HOPPER(),
 		COPPER_WITH_TNT(),
-		/*
-		 * - COPPER
-		 * ~ Metal Tank Types
-		 */
-		COPPER_WITH_BASE_TANK(),
-		COPPER_WITH_COPPER_TANK(),
-		COPPER_WITH_IRON_TANK(),
-		COPPER_WITH_SILVER_TANK(),
-		COPPER_WITH_GOLD_TANK(),
-		COPPER_WITH_DIAMOND_TANK(),
-		COPPER_WITH_OBSIDIAN_TANK(),
 
 		/*
 		 * - IRON
@@ -94,17 +83,6 @@ public class ItemMetalMinecart extends ItemMod {
 		IRON_WITH_FURNACE(),
 		IRON_WITH_HOPPER(),
 		IRON_WITH_TNT(),
-		/*
-		 * - IRON
-		 * ~ Metal Tank Types
-		 */
-		IRON_WITH_BASE_TANK(),
-		IRON_WITH_COPPER_TANK(),
-		IRON_WITH_IRON_TANK(),
-		IRON_WITH_SILVER_TANK(),
-		IRON_WITH_GOLD_TANK(),
-		IRON_WITH_DIAMOND_TANK(),
-		IRON_WITH_OBSIDIAN_TANK(),
 
 		/*
 		 * - SILVER
@@ -130,17 +108,6 @@ public class ItemMetalMinecart extends ItemMod {
 		SILVER_WITH_FURNACE(),
 		SILVER_WITH_HOPPER(),
 		SILVER_WITH_TNT(),
-		/*
-		 * - SILVER
-		 * ~ Metal Tank Types
-		 */
-		SILVER_WITH_BASE_TANK(),
-		SILVER_WITH_COPPER_TANK(),
-		SILVER_WITH_IRON_TANK(),
-		SILVER_WITH_SILVER_TANK(),
-		SILVER_WITH_GOLD_TANK(),
-		SILVER_WITH_DIAMOND_TANK(),
-		SILVER_WITH_OBSIDIAN_TANK(),
 
 		/*
 		 * - GOLD
@@ -166,17 +133,6 @@ public class ItemMetalMinecart extends ItemMod {
 		GOLD_WITH_FURNACE(),
 		GOLD_WITH_HOPPER(),
 		GOLD_WITH_TNT(),
-		/*
-		 * - GOLD
-		 * ~ Metal Tank Types
-		 */
-		GOLD_WITH_BASE_TANK(),
-		GOLD_WITH_COPPER_TANK(),
-		GOLD_WITH_IRON_TANK(),
-		GOLD_WITH_SILVER_TANK(),
-		GOLD_WITH_GOLD_TANK(),
-		GOLD_WITH_DIAMOND_TANK(),
-		GOLD_WITH_OBSIDIAN_TANK(),
 
 		/*
 		 * - GOLD
@@ -202,17 +158,6 @@ public class ItemMetalMinecart extends ItemMod {
 		DIAMOND_WITH_FURNACE(),
 		DIAMOND_WITH_HOPPER(),
 		DIAMOND_WITH_TNT(),
-		/*
-		 * - DIAMOND
-		 * ~ Metal Tank Types
-		 */
-		DIAMOND_WITH_BASE_TANK(),
-		DIAMOND_WITH_COPPER_TANK(),
-		DIAMOND_WITH_IRON_TANK(),
-		DIAMOND_WITH_SILVER_TANK(),
-		DIAMOND_WITH_GOLD_TANK(),
-		DIAMOND_WITH_DIAMOND_TANK(),
-		DIAMOND_WITH_OBSIDIAN_TANK(),
 
 		/*
 		 * - GOLD
@@ -237,18 +182,7 @@ public class ItemMetalMinecart extends ItemMod {
 		OBSIDIAN_WITH_WORKBENCH(),
 		OBSIDIAN_WITH_FURNACE(),
 		OBSIDIAN_WITH_HOPPER(),
-		OBSIDIAN_WITH_TNT(),
-		/*
-		 * - OBSIDIAN
-		 * ~ Metal Tank Types
-		 */
-		OBSIDIAN_WITH_BASE_TANK(),
-		OBSIDIAN_WITH_COPPER_TANK(),
-		OBSIDIAN_WITH_IRON_TANK(),
-		OBSIDIAN_WITH_SILVER_TANK(),
-		OBSIDIAN_WITH_GOLD_TANK(),
-		OBSIDIAN_WITH_DIAMOND_TANK(),
-		OBSIDIAN_WITH_OBSIDIAN_TANK();
+		OBSIDIAN_WITH_TNT();
 
 		@Override
 		public String getName() {

@@ -77,48 +77,6 @@
                     "layer1": "metalchests:items/minecarts/top_tnt"
                 }
             },
-            "copper_with_base_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_copper",
-                    "layer1": "metalchests:items/minecarts/top_tank_base"
-                }
-            },
-            "copper_with_copper_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_copper",
-                    "layer1": "metalchests:items/minecarts/top_tank_copper"
-                }
-            },
-            "copper_with_iron_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_copper",
-                    "layer1": "metalchests:items/minecarts/top_tank_iron"
-                }
-            },
-            "copper_with_silver_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_copper",
-                    "layer1": "metalchests:items/minecarts/top_tank_silver"
-                }
-            },
-            "copper_with_gold_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_copper",
-                    "layer1": "metalchests:items/minecarts/top_tank_gold"
-                }
-            },
-            "copper_with_diamond_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_copper",
-                    "layer1": "metalchests:items/minecarts/top_tank_diamond"
-                }
-            },
-            "copper_with_obsidian_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_copper",
-                    "layer1": "metalchests:items/minecarts/top_tank_obsidian"
-                }
-            },
             "iron": {
                 "textures": {
                     "layer0": "items/minecart_normal"
@@ -188,48 +146,6 @@
                 "textures": {
                     "layer0": "items/minecart_normal",
                     "layer1": "metalchests:items/minecarts/top_tnt"
-                }
-            },
-            "iron_with_base_tank": {
-                "textures": {
-                    "layer0": "items/minecart_normal",
-                    "layer1": "metalchests:items/minecarts/top_tank_base"
-                }
-            },
-            "iron_with_copper_tank": {
-                "textures": {
-                    "layer0": "items/minecart_normal",
-                    "layer1": "metalchests:items/minecarts/top_tank_copper"
-                }
-            },
-            "iron_with_iron_tank": {
-                "textures": {
-                    "layer0": "items/minecart_normal",
-                    "layer1": "metalchests:items/minecarts/top_tank_iron"
-                }
-            },
-            "iron_with_silver_tank": {
-                "textures": {
-                    "layer0": "items/minecart_normal",
-                    "layer1": "metalchests:items/minecarts/top_tank_silver"
-                }
-            },
-            "iron_with_gold_tank": {
-                "textures": {
-                    "layer0": "items/minecart_normal",
-                    "layer1": "metalchests:items/minecarts/top_tank_gold"
-                }
-            },
-            "iron_with_diamond_tank": {
-                "textures": {
-                    "layer0": "items/minecart_normal",
-                    "layer1": "metalchests:items/minecarts/top_tank_diamond"
-                }
-            },
-            "iron_with_obsidian_tank": {
-                "textures": {
-                    "layer0": "items/minecart_normal",
-                    "layer1": "metalchests:items/minecarts/top_tank_obsidian"
                 }
             },
             "silver": {
@@ -303,48 +219,6 @@
                     "layer1": "metalchests:items/minecarts/top_tnt"
                 }
             },
-            "silver_with_base_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_silver",
-                    "layer1": "metalchests:items/minecarts/top_tank_base"
-                }
-            },
-            "silver_with_copper_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_silver",
-                    "layer1": "metalchests:items/minecarts/top_tank_copper"
-                }
-            },
-            "silver_with_iron_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_silver",
-                    "layer1": "metalchests:items/minecarts/top_tank_iron"
-                }
-            },
-            "silver_with_silver_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_silver",
-                    "layer1": "metalchests:items/minecarts/top_tank_silver"
-                }
-            },
-            "silver_with_gold_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_silver",
-                    "layer1": "metalchests:items/minecarts/top_tank_gold"
-                }
-            },
-            "silver_with_diamond_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_silver",
-                    "layer1": "metalchests:items/minecarts/top_tank_diamond"
-                }
-            },
-            "silver_with_obsidian_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_silver",
-                    "layer1": "metalchests:items/minecarts/top_tank_obsidian"
-                }
-            },
             "gold": {
                 "textures": {
                     "layer0": "metalchests:items/minecarts/base_gold"
@@ -414,48 +288,6 @@
                 "textures": {
                     "layer0": "metalchests:items/minecarts/base_gold",
                     "layer1": "metalchests:items/minecarts/top_tnt"
-                }
-            },
-            "gold_with_base_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_gold",
-                    "layer1": "metalchests:items/minecarts/top_tank_base"
-                }
-            },
-            "gold_with_copper_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_gold",
-                    "layer1": "metalchests:items/minecarts/top_tank_copper"
-                }
-            },
-            "gold_with_iron_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_gold",
-                    "layer1": "metalchests:items/minecarts/top_tank_iron"
-                }
-            },
-            "gold_with_silver_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_gold",
-                    "layer1": "metalchests:items/minecarts/top_tank_silver"
-                }
-            },
-            "gold_with_gold_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_gold",
-                    "layer1": "metalchests:items/minecarts/top_tank_gold"
-                }
-            },
-            "gold_with_diamond_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_gold",
-                    "layer1": "metalchests:items/minecarts/top_tank_diamond"
-                }
-            },
-            "gold_with_obsidian_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_gold",
-                    "layer1": "metalchests:items/minecarts/top_tank_obsidian"
                 }
             },
             "diamond": {
@@ -529,48 +361,6 @@
                     "layer1": "metalchests:items/minecarts/top_tnt"
                 }
             },
-            "diamond_with_base_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_diamond",
-                    "layer1": "metalchests:items/minecarts/top_tank_base"
-                }
-            },
-            "diamond_with_copper_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_diamond",
-                    "layer1": "metalchests:items/minecarts/top_tank_copper"
-                }
-            },
-            "diamond_with_iron_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_diamond",
-                    "layer1": "metalchests:items/minecarts/top_tank_iron"
-                }
-            },
-            "diamond_with_silver_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_diamond",
-                    "layer1": "metalchests:items/minecarts/top_tank_silver"
-                }
-            },
-            "diamond_with_gold_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_diamond",
-                    "layer1": "metalchests:items/minecarts/top_tank_gold"
-                }
-            },
-            "diamond_with_diamond_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_diamond",
-                    "layer1": "metalchests:items/minecarts/top_tank_diamond"
-                }
-            },
-            "diamond_with_obsidian_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_diamond",
-                    "layer1": "metalchests:items/minecarts/top_tank_obsidian"
-                }
-            },
             "obsidian": {
                 "textures": {
                     "layer0": "metalchests:items/minecarts/base_obsidian"
@@ -640,48 +430,6 @@
                 "textures": {
                     "layer0": "metalchests:items/minecarts/base_obsidian",
                     "layer1": "metalchests:items/minecarts/top_tnt"
-                }
-            },
-            "obsidian_with_base_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_obsidian",
-                    "layer1": "metalchests:items/minecarts/top_tank_base"
-                }
-            },
-            "obsidian_with_copper_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_obsidian",
-                    "layer1": "metalchests:items/minecarts/top_tank_copper"
-                }
-            },
-            "obsidian_with_iron_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_obsidian",
-                    "layer1": "metalchests:items/minecarts/top_tank_iron"
-                }
-            },
-            "obsidian_with_silver_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_obsidian",
-                    "layer1": "metalchests:items/minecarts/top_tank_silver"
-                }
-            },
-            "obsidian_with_gold_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_obsidian",
-                    "layer1": "metalchests:items/minecarts/top_tank_gold"
-                }
-            },
-            "obsidian_with_diamond_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_obsidian",
-                    "layer1": "metalchests:items/minecarts/top_tank_diamond"
-                }
-            },
-            "obsidian_with_obsidian_tank": {
-                "textures": {
-                    "layer0": "metalchests:items/minecarts/base_obsidian",
-                    "layer1": "metalchests:items/minecarts/top_tank_obsidian"
                 }
             }
         }

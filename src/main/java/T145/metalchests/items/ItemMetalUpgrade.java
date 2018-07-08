@@ -19,10 +19,8 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.blocks.BlockMetalTank.TankType;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileMetalTank;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,37 +61,11 @@ public class ItemMetalUpgrade extends ItemMod {
 		CHEST_SILVER_OBSIDIAN(ChestType.SILVER, ChestType.OBSIDIAN),
 		CHEST_GOLD_DIAMOND(ChestType.GOLD, ChestType.DIAMOND),
 		CHEST_GOLD_OBSIDIAN(ChestType.GOLD, ChestType.OBSIDIAN),
-		CHEST_DIAMOND_OBSIDIAN(ChestType.DIAMOND, ChestType.OBSIDIAN),
-
-		TANK_BASE_COPPER(TankType.COPPER),
-		TANK_BASE_IRON(TankType.IRON),
-		TANK_BASE_SILVER(TankType.SILVER),
-		TANK_BASE_GOLD(TankType.GOLD),
-		TANK_BASE_DIAMOND(TankType.DIAMOND),
-		TANK_BASE_OBSIDIAN(TankType.OBSIDIAN),
-		TANK_COPPER_IRON(TankType.COPPER, TankType.IRON),
-		TANK_COPPER_SILVER(TankType.COPPER, TankType.SILVER),
-		TANK_COPPER_GOLD(TankType.COPPER, TankType.GOLD),
-		TANK_COPPER_DIAMOND(TankType.COPPER, TankType.DIAMOND),
-		TANK_COPPER_OBSIDIAN(TankType.COPPER, TankType.OBSIDIAN),
-		TANK_IRON_SILVER(TankType.IRON, TankType.SILVER),
-		TANK_IRON_GOLD(TankType.IRON, TankType.GOLD),
-		TANK_IRON_DIAMOND(TankType.IRON, TankType.DIAMOND),
-		TANK_IRON_OBSIDIAN(TankType.IRON, TankType.OBSIDIAN),
-		TANK_SILVER_GOLD(TankType.SILVER, TankType.GOLD),
-		TANK_SILVER_DIAMOND(TankType.SILVER, TankType.DIAMOND),
-		TANK_SILVER_OBSIDIAN(TankType.SILVER, TankType.OBSIDIAN),
-		TANK_GOLD_DIAMOND(TankType.GOLD, TankType.DIAMOND),
-		TANK_GOLD_OBSIDIAN(TankType.GOLD, TankType.OBSIDIAN),
-		TANK_DIAMOND_OBSIDIAN(TankType.DIAMOND, TankType.OBSIDIAN);
+		CHEST_DIAMOND_OBSIDIAN(ChestType.DIAMOND, ChestType.OBSIDIAN);
 
 		@Nullable
 		private ChestType chestBase;
 		private ChestType chestUpgrade;
-
-		@Nullable
-		private TankType tankBase;
-		private TankType tankUpgrade;
 
 		UpgradeType(ChestType chestBase, ChestType chestUpgrade) {
 			this.chestBase = chestBase;
@@ -104,15 +76,6 @@ public class ItemMetalUpgrade extends ItemMod {
 			this(null, chestUpgrade);
 		}
 
-		UpgradeType(TankType tankBase, TankType tankUpgrade) {
-			this.tankBase = tankBase;
-			this.tankUpgrade = tankUpgrade;
-		}
-
-		UpgradeType(TankType tankUpgrade) {
-			this(null, tankUpgrade);
-		}
-
 		public ChestType getChestBase() {
 			return chestBase;
 		}
@@ -121,24 +84,8 @@ public class ItemMetalUpgrade extends ItemMod {
 			return chestUpgrade;
 		}
 
-		public TankType getTankBase() {
-			return tankBase;
-		}
-
-		public TankType getTankUpgrade() {
-			return tankUpgrade;
-		}
-
-		public boolean isChestUpgrade() {
-			return tankBase == null && tankUpgrade == null;
-		}
-
 		public boolean isBaseUpgrade() {
-			if (isChestUpgrade()) {
-				return ordinal() <= CHEST_WOOD_OBSIDIAN.ordinal();
-			} else {
-				return ordinal() >= TANK_BASE_COPPER.ordinal() && ordinal() <= TANK_BASE_OBSIDIAN.ordinal();
-			}
+			return ordinal() <= CHEST_WOOD_OBSIDIAN.ordinal();
 		}
 
 		public static UpgradeType byMetadata(int meta) {
@@ -169,32 +116,22 @@ public class ItemMetalUpgrade extends ItemMod {
 		ItemStack stack = player.getHeldItem(hand);
 		UpgradeType upgrade = UpgradeType.byMetadata(stack.getItemDamage());
 
-		if (upgrade.isChestUpgrade()) {
-			if (te instanceof TileMetalChest) {
-				TileMetalChest chest = (TileMetalChest) te;
+		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
 
-				if (chest.getType() == upgrade.getChestBase() && chest.numPlayersUsing == 0) {
-					upgradeChest(world, pos, chest, upgrade.getChestUpgrade(), chest.getInventory(), chest.getFront());
-				} else {
-					return EnumActionResult.PASS;
-				}
-			} else if (te instanceof TileEntityChest && upgrade.getChestBase() == null) {
-				TileEntityChest chest = (TileEntityChest) te;
-
-				if (chest.numPlayersUsing > 0) {
-					return EnumActionResult.PASS;
-				}
-
-				upgradeChest(world, pos, chest, upgrade.getChestUpgrade(), chest.getSingleChestHandler(), state.getValue(BlockChest.FACING));
-			}
-		} else if (te instanceof TileMetalTank) {
-			TileMetalTank tank = (TileMetalTank) te;
-			
-			if (tank.getType() == upgrade.getTankBase()) {
-				
+			if (chest.getType() == upgrade.getChestBase() && chest.numPlayersUsing == 0) {
+				upgradeChest(world, pos, chest, upgrade.getChestUpgrade(), chest.getInventory(), chest.getFront());
 			} else {
 				return EnumActionResult.PASS;
 			}
+		} else if (te instanceof TileEntityChest && upgrade.getChestBase() == null) {
+			TileEntityChest chest = (TileEntityChest) te;
+
+			if (chest.numPlayersUsing > 0) {
+				return EnumActionResult.PASS;
+			}
+
+			upgradeChest(world, pos, chest, upgrade.getChestUpgrade(), chest.getSingleChestHandler(), state.getValue(BlockChest.FACING));
 		}
 
 		if (!player.capabilities.isCreativeMode) {

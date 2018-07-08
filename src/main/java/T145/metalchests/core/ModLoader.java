@@ -19,11 +19,8 @@ import java.util.HashSet;
 
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.blocks.BlockMetalTank;
-import T145.metalchests.blocks.BlockMetalTank.TankType;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
-import T145.metalchests.client.render.RenderMetalTank;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemMetalMinecart;
@@ -31,7 +28,6 @@ import T145.metalchests.items.ItemMetalMinecart.MinecartType;
 import T145.metalchests.items.ItemMetalUpgrade;
 import T145.metalchests.items.ItemMetalUpgrade.UpgradeType;
 import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileMetalTank;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -62,9 +58,6 @@ public class ModLoader {
 	@ObjectHolder(BlockMetalChest.NAME)
 	public static final Block METAL_CHEST = new BlockMetalChest();
 
-	@ObjectHolder(BlockMetalTank.NAME)
-	public static final Block METAL_TANK = new BlockMetalTank();
-
 	@ObjectHolder(ItemMetalUpgrade.NAME)
 	public static final Item METAL_UPGRADE = new ItemMetalUpgrade();
 
@@ -78,9 +71,7 @@ public class ModLoader {
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 			registry.register(METAL_CHEST);
-			registry.register(METAL_TANK);
 			registerTileEntity(TileMetalChest.class);
-			registerTileEntity(TileMetalTank.class);
 		}
 
 		private static void registerTileEntity(Class tileClass) {
@@ -91,7 +82,6 @@ public class ModLoader {
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 			registerItemBlock(registry, METAL_CHEST, ChestType.class);
-			registerItemBlock(registry, METAL_TANK, TankType.class);
 			registry.register(METAL_UPGRADE);
 			registry.register(METAL_MINECART);
 		}
@@ -142,10 +132,6 @@ public class ModLoader {
 				registerModel(METAL_CHEST, type.ordinal(), getVariantName(type));
 			}
 
-			for (TankType type : TankType.values()) {
-				registerModel(METAL_TANK, type.ordinal(), getVariantName(type));
-			}
-
 			for (UpgradeType type : UpgradeType.values()) {
 				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
 			}
@@ -155,7 +141,6 @@ public class ModLoader {
 			}
 
 			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
-			registerTileRenderer(TileMetalTank.class, new RenderMetalTank());
 		}
 
 		private static String getVariantName(IStringSerializable variant) {
