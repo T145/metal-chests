@@ -19,6 +19,7 @@ _MACOSX
 /release/
 /run/
 /classes/
+/out/
 *.launch
 
 # Ignore Forge documents
