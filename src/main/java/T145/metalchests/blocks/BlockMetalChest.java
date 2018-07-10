@@ -59,7 +59,8 @@ public class BlockMetalChest extends Block {
 		IRON(54),
 		SILVER(72),
 		GOLD(81),
-		DIAMOND(108);
+		DIAMOND(108),
+		OBSIDIAN(108);
 
 		private final int size;
 
@@ -142,7 +143,8 @@ public class BlockMetalChest extends Block {
 			IRON(202),
 			SILVER(238),
 			GOLD(256),
-			DIAMOND(256);
+			DIAMOND(256),
+			OBSIDIAN(256);
 
 			private final int ySize;
 
