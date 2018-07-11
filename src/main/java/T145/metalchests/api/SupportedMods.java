@@ -13,21 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.crafting.conditions;
+package T145.metalchests.api;
 
-import java.util.function.BooleanSupplier;
+public class SupportedMods {
 
-import com.google.gson.JsonObject;
-
-import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.oredict.OreDictionary;
-
-public class ConditionOreNull implements IConditionFactory {
-
-	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
-		return () -> OreDictionary.getOres(JsonUtils.getString(json, "ore")).isEmpty();
-	}
+	public static final String INVTWEAKS = "invtweaks";
+	public static final String QUARK = "quark";
+	public static final String HOLOINVENTORY = "holoinventory";
+	public static final String RAILCRAFT = "railcraft";
 }

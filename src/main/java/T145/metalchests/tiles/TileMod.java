@@ -13,41 +13,37 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.entities.ai;
+package T145.metalchests.tiles;
 
-import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.block.Block;
+import javax.annotation.Nonnull;
+
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.ai.EntityAIOcelotSit;
-import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class EntityAIOcelotSitOnChest extends EntityAIOcelotSit {
+public class TileMod extends TileEntity {
 
-	public EntityAIOcelotSitOnChest(EntityOcelot ocelot, double speed) {
-		super(ocelot, speed);
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
 	}
 
 	@Override
-	protected boolean shouldMoveTo(World world, BlockPos pos) {
-		if (!world.isAirBlock(pos.up())) {
-			return false;
-		} else {
-			IBlockState state = world.getBlockState(pos);
-			Block block = state.getBlock();
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(super.getUpdateTag());
+	}
 
-			if (block instanceof BlockMetalChest) {
-				TileEntity te = world.getTileEntity(pos);
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
+	}
 
-				if (te instanceof TileMetalChest && ((TileMetalChest) te).numPlayersUsing < 1) {
-					return true;
-				}
-			}
-
-			return super.shouldMoveTo(world, pos);
-		}
+	@Override
+	public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
+		handleUpdateTag(packet.getNbtCompound());
 	}
 }

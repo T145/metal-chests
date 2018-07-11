@@ -1,12 +1,23 @@
+/*******************************************************************************
+ * Copyright 2018 T145
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
 package T145.metalchests.proxies;
 
 import T145.metalchests.client.gui.GuiMetalChest;
-import T145.metalchests.client.gui.GuiProjectTable;
 import T145.metalchests.containers.ContainerMetalChest;
-import T145.metalchests.entities.base.EntityMinecartMetalChestBase;
 import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileProjectTable;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -22,24 +33,9 @@ public class ClientProxy extends CommonProxy {
 		switch (ID) {
 		case 0:
 			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos);
-			ContainerMetalChest chestContainer = new ContainerMetalChest(chest, player, chest.getType());
-			return new GuiMetalChest(chestContainer);
-		case 1:
-			TileProjectTable t = (TileProjectTable) world.getTileEntity(pos);
-			return new GuiProjectTable(t, player);
-		case 2:
-			TileProjectTable t1 = (TileProjectTable) world.getTileEntity(pos);
-			ContainerMetalChest c1 = new ContainerMetalChest(t1, player, t1.getType().toMetalChestType());
-			return new GuiProjectTable(t1, player);
+			ContainerMetalChest container = new ContainerMetalChest(chest, player, chest.getType());
+			return new GuiMetalChest(container);
 		default:
-			Entity entity = world.getEntityByID(ID);
-
-			if (entity instanceof EntityMinecartMetalChestBase) {
-				EntityMinecartMetalChestBase cart = (EntityMinecartMetalChestBase) entity;
-				ContainerMetalChest cartContainer = new ContainerMetalChest(cart, player, cart.getChestType());
-				return new GuiMetalChest(cartContainer);
-			}
-
 			return null;
 		}
 	}

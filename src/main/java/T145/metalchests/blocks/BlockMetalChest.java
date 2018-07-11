@@ -1,11 +1,25 @@
+/*******************************************************************************
+ * Copyright 2018 T145
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
 package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.MetalChests;
-import T145.metalchests.lib.MetalChestType;
+import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.block.BlockContainer;
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -25,6 +39,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -37,27 +52,155 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-public class BlockMetalChest extends BlockContainer {
+public class BlockMetalChest extends Block {
 
-	public static final PropertyEnum<MetalChestType> VARIANT = PropertyEnum.<MetalChestType>create("variant", MetalChestType.class);
+	static enum InventorySize {
+		COPPER(45),
+		IRON(54),
+		SILVER(72),
+		GOLD(81),
+		DIAMOND(108),
+		OBSIDIAN(108);
+
+		private final int size;
+
+		InventorySize(int size) {
+			this.size = size;
+		}
+	}
+
+	public static enum ChestType implements IStringSerializable {
+
+		COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper"),
+		IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
+		SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
+		GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
+		DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
+		OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian");
+
+		private final InventorySize invSize;
+		private final Material material;
+		private final MapColor color;
+		private final SoundType sound;
+		private final String dictName;
+
+		ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String dictName) {
+			this.invSize = invSize;
+			this.material = material;
+			this.color = color;
+			this.sound = sound;
+			this.dictName = dictName;
+		}
+
+		ChestType(InventorySize invSize, MapColor color, SoundType sound, String dictName) {
+			this(invSize, Material.IRON, color, sound, dictName);
+		}
+
+		@Override
+		public String getName() {
+			return name().toLowerCase();
+		}
+
+		public int getInventorySize() {
+			return invSize.size;
+		}
+
+		public Material getMaterial() {
+			return material;
+		}
+
+		public MapColor getMapColor() {
+			return color;
+		}
+
+		public SoundType getSoundType() {
+			return sound;
+		}
+
+		public boolean isLarge() {
+			return getInventorySize() > 100;
+		}
+
+		public int getRowLength() {
+			return isLarge() ? 12 : 9;
+		}
+
+		public int getRowCount() {
+			return getInventorySize() / getRowLength();
+		}
+
+		public static ChestType byMetadata(int meta) {
+			return values()[meta]; 
+		}
+
+		public GUI getGui() {
+			return GUI.byType(this);
+		}
+
+		public enum GUI {
+
+			COPPER(184),
+			IRON(202),
+			SILVER(238),
+			GOLD(256),
+			DIAMOND(256),
+			OBSIDIAN(256);
+
+			private final int ySize;
+
+			GUI(int ySize) {
+				this.ySize = ySize;
+			}
+
+			public int getSizeX() {
+				return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
+			}
+
+			public int getSizeY() {
+				return ySize;
+			}
+
+			public static GUI byMetadata(int meta) {
+				return values()[meta];
+			}
+
+			public static GUI byType(ChestType type) {
+				return byMetadata(type.ordinal());
+			}
+
+			public ResourceLocation getGuiTexture() {
+				ChestType type = ChestType.byMetadata(ordinal());
+				return new ResourceLocation(MetalChests.MOD_ID, "textures/gui/" + (type.isLarge() ? "diamond" : type.getName()) + "_container.png");
+			}
+		}
+	}
+
+	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
+	public static final String NAME = "metal_chest";
 
 	public BlockMetalChest() {
 		super(Material.IRON);
-		setRegistryName(new ResourceLocation(MetalChests.MODID, "metal_chest"));
-		setDefaultState(blockState.getBaseState().withProperty(VARIANT, MetalChestType.IRON));
-		setUnlocalizedName("metalchests:metal_chest");
+		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, NAME));
+		setDefaultState(blockState.getBaseState().withProperty(VARIANT, ChestType.IRON));
+		setUnlocalizedName("metalchests:" + NAME);
 		setHardness(3F);
 		setCreativeTab(MetalChests.TAB);
+	}
+
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		return new TileMetalChest(state.getValue(VARIANT));
+	}
+
+	@Override
+	public boolean hasTileEntity(IBlockState state) {
+		return true;
 	}
 
 	@Override
 	public EnumBlockRenderType getRenderType(IBlockState state) {
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
-	}
-
-	@Override
-	public TileEntity createNewTileEntity(World world, int meta) {
-		return new TileMetalChest(MetalChestType.values()[meta]);
 	}
 
 	@Override
@@ -103,7 +246,7 @@ public class BlockMetalChest extends BlockContainer {
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
 
-			if (chest.getType() == MetalChestType.OBSIDIAN) {
+			if (chest.getType() == ChestType.OBSIDIAN) {
 				return 10000F;
 			}
 		}
@@ -150,7 +293,7 @@ public class BlockMetalChest extends BlockContainer {
 			TileMetalChest chest = (TileMetalChest) te;
 
 			if (!player.isSneaking() && !isBlocked(world, pos)) {
-				player.openGui(MetalChests.MODID, 0, world, pos.getX(), pos.getY(), pos.getZ());
+				player.openGui(MetalChests.MOD_ID, 0, world, pos.getX(), pos.getY(), pos.getZ());
 			}
 		}
 		return true;
@@ -205,16 +348,14 @@ public class BlockMetalChest extends BlockContainer {
 
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (MetalChestType type : MetalChestType.values()) {
-			if (type.isRegistered()) {
-				items.add(new ItemStack(this, 1, type.ordinal()));
-			}
+		for (ChestType type : ChestType.values()) {
+			items.add(new ItemStack(this, 1, type.ordinal()));
 		}
 	}
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(VARIANT, MetalChestType.values()[meta]);
+		return getDefaultState().withProperty(VARIANT, ChestType.values()[meta]);
 	}
 
 	@Override

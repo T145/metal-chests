@@ -13,21 +13,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.crafting.conditions;
+package T145.metalchests.client.render;
 
-import java.util.function.BooleanSupplier;
+import T145.metalchests.entities.EntityMetalMinecart;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.google.gson.JsonObject;
+@SideOnly(Side.CLIENT)
+public class RenderMetalMinecart<T extends EntityMetalMinecart> extends Render<T> {
 
-import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.oredict.OreDictionary;
-
-public class ConditionOreNull implements IConditionFactory {
+	protected RenderMetalMinecart(RenderManager renderManager) {
+		super(renderManager);
+	}
 
 	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
-		return () -> OreDictionary.getOres(JsonUtils.getString(json, "ore")).isEmpty();
+	protected ResourceLocation getEntityTexture(EntityMetalMinecart entity) {
+		return null;
 	}
 }

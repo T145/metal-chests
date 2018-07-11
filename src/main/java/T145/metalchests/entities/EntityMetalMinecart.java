@@ -13,21 +13,27 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.crafting.conditions;
+package T145.metalchests.entities;
 
-import java.util.function.BooleanSupplier;
+import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
-import com.google.gson.JsonObject;
+public class EntityMetalMinecart extends Entity {
 
-import net.minecraft.util.JsonUtils;
-import net.minecraftforge.common.crafting.IConditionFactory;
-import net.minecraftforge.common.crafting.JsonContext;
-import net.minecraftforge.oredict.OreDictionary;
-
-public class ConditionOreNull implements IConditionFactory {
+	public EntityMetalMinecart(World world) {
+		super(world);
+	}
 
 	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
-		return () -> OreDictionary.getOres(JsonUtils.getString(json, "ore")).isEmpty();
+	protected void entityInit() {
+	}
+
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound compound) {
+	}
+
+	@Override
+	protected void writeEntityToNBT(NBTTagCompound compound) {
 	}
 }

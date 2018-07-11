@@ -8,44 +8,44 @@
         "variant": {
             "base": {
                 "textures": {
-                    "side": "metalchests:blocks/tank/base/side",
-                    "end": "metalchests:blocks/tank/base/top"
+                    "side": "metalchests:blocks/tank_base_side",
+                    "end": "metalchests:blocks/tank_base_top"
                 }
             },
             "copper": {
                 "textures": {
-                    "side": "metalchests:blocks/tank/copper/side",
-                    "end": "metalchests:blocks/tank/copper/top"
+                    "side": "metalchests:blocks/tank_copper_side",
+                    "end": "metalchests:blocks/tank_copper_top"
                 }
             },
             "iron": {
                 "textures": {
-                    "side": "metalchests:blocks/tank/iron/side",
-                    "end": "metalchests:blocks/tank/iron/top"
+                    "side": "metalchests:blocks/tank_iron_side",
+                    "end": "metalchests:blocks/tank_iron_top"
                 }
             },
             "silver": {
                 "textures": {
-                    "side": "metalchests:blocks/tank/silver/side",
-                    "end": "metalchests:blocks/tank/silver/top"
+                    "side": "metalchests:blocks/tank_silver_side",
+                    "end": "metalchests:blocks/tank_silver_top"
                 }
             },
             "gold": {
                 "textures": {
-                    "side": "metalchests:blocks/tank/gold/side",
-                    "end": "metalchests:blocks/tank/gold/top"
+                    "side": "metalchests:blocks/tank_gold_side",
+                    "end": "metalchests:blocks/tank_gold_top"
                 }
             },
             "diamond": {
                 "textures": {
-                    "side": "metalchests:blocks/tank/diamond/side",
-                    "end": "metalchests:blocks/tank/diamond/top"
+                    "side": "metalchests:blocks/tank_diamond_side",
+                    "end": "metalchests:blocks/tank_diamond_top"
                 }
             },
             "obsidian": {
                 "textures": {
-                    "side": "metalchests:blocks/tank/obsidian/side",
-                    "end": "metalchests:blocks/tank/obsidian/top"
+                    "side": "metalchests:blocks/tank_obsidian_side",
+                    "end": "metalchests:blocks/tank_obsidian_top"
                 }
             }
         }

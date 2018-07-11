@@ -1,6 +1,0 @@
-{
-    "conditions": {
-        "ore_exists": "T145.metalchests.crafting.conditions.ConditionOreExists",
-        "ore_null": "T145.metalchests.crafting.conditions.ConditionOreNull"
-    }
-}
