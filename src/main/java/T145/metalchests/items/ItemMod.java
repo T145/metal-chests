@@ -56,12 +56,14 @@ public class ItemMod extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		if (hasSubtypes) {
-			for (int meta = 0; meta < types.length; ++meta) {
-				items.add(new ItemStack(this, 1, meta));
+		if (tab == MetalChests.TAB) {
+			if (hasSubtypes) {
+				for (int meta = 0; meta < types.length; ++meta) {
+					items.add(new ItemStack(this, 1, meta));
+				}
+			} else {
+				items.add(new ItemStack(this));
 			}
-		} else {
-			items.add(new ItemStack(this));
 		}
 	}
 }
