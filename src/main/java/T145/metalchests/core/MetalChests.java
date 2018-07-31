@@ -38,10 +38,10 @@ public class MetalChests {
 
 	public static final String MOD_ID = "metalchests";
 	public static final String MOD_NAME = "MetalChests";
-	public static final String VERSION = "@VERSION@";
-	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
-	public static final String COMMON_PROXY = "T145.metalchests.proxies.CommonProxy";
-	public static final String CLIENT_PROXY = "T145.metalchests.proxies.ClientProxy";
+	static final String VERSION = "@VERSION@";
+	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
+	private static final String COMMON_PROXY = "T145.metalchests.proxies.CommonProxy";
+	private static final String CLIENT_PROXY = "T145.metalchests.proxies.ClientProxy";
 	public static final Logger LOG = LogManager.getLogger(MOD_ID);
 	public static final CreativeTabs TAB = new CreativeTabs(MOD_ID) {
 

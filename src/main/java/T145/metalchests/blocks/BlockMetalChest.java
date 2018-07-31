@@ -54,13 +54,12 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 public class BlockMetalChest extends Block {
 
-	static enum InventorySize {
+	enum InventorySize {
 		COPPER(45),
 		IRON(54),
 		SILVER(72),
 		GOLD(81),
-		DIAMOND(108),
-		OBSIDIAN(108);
+		DIAMOND(108);
 
 		private final int size;
 
@@ -69,7 +68,7 @@ public class BlockMetalChest extends Block {
 		}
 	}
 
-	public static enum ChestType implements IStringSerializable {
+	public enum ChestType implements IStringSerializable {
 
 		COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper"),
 		IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
@@ -280,21 +279,16 @@ public class BlockMetalChest extends Block {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
 			EnumFacing front = EnumFacing.getHorizontal(MathHelper.floor((placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
-			((TileMetalChest) te).setFront(front);
+			chest.setFront(front);
 		}
 	}
 
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-		TileEntity te = world.getTileEntity(pos);
-
-		if (!world.isRemote && te instanceof TileMetalChest) {
-			TileMetalChest chest = (TileMetalChest) te;
-
-			if (!player.isSneaking() && !isBlocked(world, pos)) {
-				player.openGui(MetalChests.MOD_ID, 0, world, pos.getX(), pos.getY(), pos.getZ());
-			}
+		if (!world.isRemote && world.getTileEntity(pos) instanceof TileMetalChest && !player.isSneaking() && !isBlocked(world, pos)) {
+			player.openGui(MetalChests.MOD_ID, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

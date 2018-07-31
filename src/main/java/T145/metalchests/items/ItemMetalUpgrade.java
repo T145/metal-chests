@@ -39,7 +39,7 @@ import net.minecraftforge.items.IItemHandler;
 
 public class ItemMetalUpgrade extends ItemMod {
 
-	public static enum UpgradeType implements IStringSerializable {
+	public enum UpgradeType implements IStringSerializable {
 
 		CHEST_WOOD_COPPER(ChestType.COPPER),
 		CHEST_WOOD_IRON(ChestType.IRON),

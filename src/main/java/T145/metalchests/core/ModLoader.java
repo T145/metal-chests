@@ -38,6 +38,7 @@ import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -75,7 +76,7 @@ public class ModLoader {
 		}
 
 		private static void registerTileEntity(Class tileClass) {
-			GameRegistry.registerTileEntity(tileClass, tileClass.getSimpleName());
+			GameRegistry.registerTileEntity(tileClass, new ResourceLocation(MetalChests.MOD_ID, tileClass.getSimpleName()));
 		}
 
 		@SubscribeEvent

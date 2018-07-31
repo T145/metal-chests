@@ -25,11 +25,11 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 class UpdateChecker {
 
-	public static ForgeVersion.CheckResult getResult() {
+	private static ForgeVersion.CheckResult getResult() {
 		return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(MetalChests.MOD_ID));
 	}
 
-	public static boolean hasUpdate() {
+	static boolean hasUpdate() {
 		ForgeVersion.CheckResult result = getResult();
 
 		if (result.status == ForgeVersion.Status.PENDING) {
@@ -40,11 +40,11 @@ class UpdateChecker {
 		return result.status.isAnimated();
 	}
 
-	public static String getLatestVersion() {
+	private static String getLatestVersion() {
 		return getResult().target.toString();
 	}
 
-	public static ITextComponent getUpdateNotification() {
+	static ITextComponent getUpdateNotification() {
 		ITextComponent prefix = new TextComponentTranslation("metalchests.client.update.prefix").setStyle(new Style().setColor(TextFormatting.GREEN));
 		ITextComponent base = new TextComponentTranslation("metalchests.client.update").setStyle(new Style().setColor(TextFormatting.GOLD));
 		ITextComponent postfix = new TextComponentString(TextFormatting.AQUA + getLatestVersion() + TextFormatting.GOLD + "!");

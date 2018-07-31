@@ -34,7 +34,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class CommonProxy implements IGuiHandler {
 
-	protected final MutableBlockPos pos = new MutableBlockPos(BlockPos.ORIGIN);
+	final MutableBlockPos pos = new MutableBlockPos(BlockPos.ORIGIN);
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
