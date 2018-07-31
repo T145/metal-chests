@@ -154,7 +154,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 			--numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-			receiveClientEvent(1, 0); // ensure that numPlayersUsing syncs across the client and server
+			receiveClientEvent(1, numPlayersUsing); // ensure that numPlayersUsing syncs across the client and server
 		}
 	}
 
@@ -169,7 +169,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	 * @param max The maximum step
 	 * @return the closed value to b no less than max from a
 	 */
-	public static float approachLinear(float a, float b, float max) {
+	private static float approachLinear(float a, float b, float max) {
 		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
 	}
 
