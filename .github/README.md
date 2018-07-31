@@ -22,7 +22,7 @@ The better alternative to IronChests!
 
 In order to get started with Minecraft mod development in this workspace, a few prerequisites are required:
 
-1. [Git](https://git-scm.com/downloads)
+1. [Git](https://git-scm.com/downloads) *([First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup))*
 2. [Java Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (JDK 8)
 3. *(Optional)* [Gradle](http://gradle.org/gradle-download/)
 
@@ -30,21 +30,30 @@ In order to get started with Minecraft mod development in this workspace, a few 
 > This will install the Gradle wrapper once, and any proceeding commands should be executed using it.
 
 ### Windows
-Use [Chocolatey](https://chocolatey.org/install), and install everything like so:
+
+#### Using [Scoop](https://scoop.sh/) *(Highly recommended)*
 ```bash
+scoop install git
+scoop bucket add java
+scoop install oraclejdk8
+scoop install gradle --version 4.4.1
+```
+
+#### Using [Chocolatey](https://chocolatey.org/install)
+```bash
+choco install git
 choco install jdk8
 choco install gradle --version 4.4.1
 ```
-I'd recommend running the Powershell variant.
 
 ### OSX
-Use [Homebrew](https://brew.sh/), and install everything like so:
+
+#### Using [Homebrew](https://brew.sh/)
 ```bash
+# Installs Apple's Command Line Utilities automatically, which includes Git
 brew cask install java
 brew install gradle --version 4.4.1
 ```
-If you don't have Apple's Command Line Utilities installed before installing Homebrew, they will be installed automatically.
-Be sure you're using an Administrator account if this is the case.
 
 ---
 
