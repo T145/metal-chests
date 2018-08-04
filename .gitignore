@@ -9,18 +9,40 @@
 _MACOSX
 *.db
 
-# Don't ignore GitHub documentation
+# Don't ignore GitHub files
 !.github
+!.gitignore
+!.gitattributes
 
-# Ignore Gradle output
+# Ignore Eclipse files
 /bin/
-/build/
-/minecraftSrc/
-/release/
-/run/
-/classes/
-/out/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
 *.launch
+
+# Ignore IntelliJ IDEA files
+*.iml
+*.ipr
+*.iws
+/out/
+atlassian-ide-plugin.xml
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Ignore NetBeans files
+nbproject/private/
+/build/
+nbbuild/
+/dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
 
 # Ignore Forge documents
 *fml.txt
@@ -30,12 +52,24 @@ MinecraftForge*.txt
 # Ignore JVM crash logs
 hs_err_pid*
 
-# IDEA files
-*.iml
-*.ipr
-*.iws
+# Ignore generic & archive binaries
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.class
 
-# Project-specific dependencies
-/eclipse/
+# Ignore Gradle output
+minecraftSrc/
+release/
+/run/
+classes/
+eclipse/
 /lib/
-*.ase

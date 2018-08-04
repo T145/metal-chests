@@ -73,6 +73,9 @@ For most people it takes about 10 minutes.
 
 After that just run either `gradle eclipse` or `gradle idea`, depending on your IDE.
 
+> If you're using IntelliJ's IDEA, be sure it recognizes the included `api` folder in the `src` directory,
+> because it does not do so automatically.
+
 ---
 
 ## License
