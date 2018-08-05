@@ -23,8 +23,8 @@ import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
-import T145.metalchests.items.ItemMetalUpgrade;
-import T145.metalchests.items.ItemMetalUpgrade.UpgradeType;
+import T145.metalchests.items.ItemStructureUpgrade;
+import T145.metalchests.items.ItemStructureUpgrade.ChestUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -57,8 +57,8 @@ public class ModLoader {
 	@ObjectHolder(BlockMetalChest.NAME)
 	public static final Block METAL_CHEST = new BlockMetalChest();
 
-	@ObjectHolder(ItemMetalUpgrade.NAME)
-	public static final Item METAL_UPGRADE = new ItemMetalUpgrade();
+	@ObjectHolder(ItemStructureUpgrade.NAME)
+	public static final Item METAL_UPGRADE = new ItemStructureUpgrade();
 
 	@EventBusSubscriber(modid = MetalChests.MOD_ID)
 	static class ServerLoader {
@@ -127,7 +127,7 @@ public class ModLoader {
 				registerModel(METAL_CHEST, type.ordinal(), getVariantName(type));
 			}
 
-			for (UpgradeType type : UpgradeType.values()) {
+			for (ChestUpgrade type : ChestUpgrade.values()) {
 				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
 			}
 

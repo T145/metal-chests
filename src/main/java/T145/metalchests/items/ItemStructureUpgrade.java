@@ -37,32 +37,32 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 
-public class ItemMetalUpgrade extends ItemMod {
+public class ItemStructureUpgrade extends ItemMod {
 
-	public enum UpgradeType implements IStringSerializable {
+	public enum ChestUpgrade implements IStringSerializable {
 
-		CHEST_WOOD_COPPER(ChestType.COPPER), CHEST_WOOD_IRON(ChestType.IRON), CHEST_WOOD_SILVER(ChestType.SILVER),
-		CHEST_WOOD_GOLD(ChestType.GOLD), CHEST_WOOD_DIAMOND(ChestType.DIAMOND), CHEST_WOOD_OBSIDIAN(ChestType.OBSIDIAN),
-		CHEST_COPPER_IRON(ChestType.COPPER, ChestType.IRON), CHEST_COPPER_SILVER(ChestType.COPPER, ChestType.SILVER),
-		CHEST_COPPER_GOLD(ChestType.COPPER, ChestType.GOLD), CHEST_COPPER_DIAMOND(ChestType.COPPER, ChestType.DIAMOND),
-		CHEST_COPPER_OBSIDIAN(ChestType.COPPER, ChestType.OBSIDIAN),
-		CHEST_IRON_SILVER(ChestType.IRON, ChestType.SILVER), CHEST_IRON_GOLD(ChestType.IRON, ChestType.GOLD),
-		CHEST_IRON_DIAMOND(ChestType.IRON, ChestType.DIAMOND), CHEST_IRON_OBSIDIAN(ChestType.IRON, ChestType.OBSIDIAN),
-		CHEST_SILVER_GOLD(ChestType.SILVER, ChestType.GOLD), CHEST_SILVER_DIAMOND(ChestType.SILVER, ChestType.DIAMOND),
-		CHEST_SILVER_OBSIDIAN(ChestType.SILVER, ChestType.OBSIDIAN),
-		CHEST_GOLD_DIAMOND(ChestType.GOLD, ChestType.DIAMOND), CHEST_GOLD_OBSIDIAN(ChestType.GOLD, ChestType.OBSIDIAN),
-		CHEST_DIAMOND_OBSIDIAN(ChestType.DIAMOND, ChestType.OBSIDIAN);
+		WOOD_COPPER(ChestType.COPPER), WOOD_IRON(ChestType.IRON), WOOD_SILVER(ChestType.SILVER),
+		WOOD_GOLD(ChestType.GOLD), WOOD_DIAMOND(ChestType.DIAMOND), WOOD_OBSIDIAN(ChestType.OBSIDIAN),
+		COPPER_IRON(ChestType.COPPER, ChestType.IRON), COPPER_SILVER(ChestType.COPPER, ChestType.SILVER),
+		COPPER_GOLD(ChestType.COPPER, ChestType.GOLD), COPPER_DIAMOND(ChestType.COPPER, ChestType.DIAMOND),
+		COPPER_OBSIDIAN(ChestType.COPPER, ChestType.OBSIDIAN),
+		IRON_SILVER(ChestType.IRON, ChestType.SILVER), IRON_GOLD(ChestType.IRON, ChestType.GOLD),
+		IRON_DIAMOND(ChestType.IRON, ChestType.DIAMOND), IRON_OBSIDIAN(ChestType.IRON, ChestType.OBSIDIAN),
+		SILVER_GOLD(ChestType.SILVER, ChestType.GOLD), SILVER_DIAMOND(ChestType.SILVER, ChestType.DIAMOND),
+		SILVER_OBSIDIAN(ChestType.SILVER, ChestType.OBSIDIAN),
+		GOLD_DIAMOND(ChestType.GOLD, ChestType.DIAMOND), GOLD_OBSIDIAN(ChestType.GOLD, ChestType.OBSIDIAN),
+		DIAMOND_OBSIDIAN(ChestType.DIAMOND, ChestType.OBSIDIAN);
 
 		@Nullable
 		private ChestType chestBase;
 		private ChestType chestUpgrade;
 
-		UpgradeType(ChestType chestBase, ChestType chestUpgrade) {
+		ChestUpgrade(ChestType chestBase, ChestType chestUpgrade) {
 			this.chestBase = chestBase;
 			this.chestUpgrade = chestUpgrade;
 		}
 
-		UpgradeType(ChestType chestUpgrade) {
+		ChestUpgrade(ChestType chestUpgrade) {
 			this(null, chestUpgrade);
 		}
 
@@ -74,11 +74,7 @@ public class ItemMetalUpgrade extends ItemMod {
 			return chestUpgrade;
 		}
 
-		public boolean isUpgrade() {
-			return ordinal() <= CHEST_WOOD_OBSIDIAN.ordinal();
-		}
-
-		public static UpgradeType byMetadata(int meta) {
+		public static ChestUpgrade byMetadata(int meta) {
 			return values()[meta];
 		}
 
@@ -88,10 +84,10 @@ public class ItemMetalUpgrade extends ItemMod {
 		}
 	}
 
-	public static final String NAME = "metal_upgrade";
+	public static final String NAME = "structure_upgrade";
 
-	public ItemMetalUpgrade() {
-		super(NAME, UpgradeType.values());
+	public ItemStructureUpgrade() {
+		super(NAME, ChestUpgrade.values());
 		setMaxStackSize(1);
 	}
 
@@ -102,7 +98,7 @@ public class ItemMetalUpgrade extends ItemMod {
 		}
 
 		ItemStack stack = player.getHeldItem(hand);
-		UpgradeType upgrade = UpgradeType.byMetadata(stack.getItemDamage());
+		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest && ((TileMetalChest) te).getType() == upgrade.getBase()) {
@@ -145,9 +141,9 @@ public class ItemMetalUpgrade extends ItemMod {
 		world.setBlockToAir(pos);
 		world.setTileEntity(pos, newChest);
 
-		IBlockState newState = ModLoader.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getType());
-		world.setBlockState(pos, newState, 3);
-		world.notifyBlockUpdate(pos, newState, newState, 3);
+		IBlockState state = ModLoader.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getType());
+		world.setBlockState(pos, state, 3);
+		world.notifyBlockUpdate(pos, state, state, 3);
 
 		TileEntity tile = world.getTileEntity(pos);
 
