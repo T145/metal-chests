@@ -57,7 +57,14 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 
 	public TileMetalChest(ChestType type) {
 		this.type = type;
-		this.inventory = new ItemStackHandler(type.getInventorySize());
+		this.inventory = new ItemStackHandler(type.getInventorySize()) {
+
+			@Override
+			protected void onContentsChanged(int slot) {
+				super.onContentsChanged(slot);
+				TileMetalChest.this.markDirty();
+			}
+		};
 		this.setFront(EnumFacing.EAST);
 	}
 
@@ -71,6 +78,14 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 
 	public ItemStackHandler getInventory() {
 		return inventory;
+	}
+
+	public void setInventory(IItemHandler stacks) {
+		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
+			if (slot < type.getInventorySize()) {
+				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
+			}
+		}
 	}
 
 	public void setFront(EnumFacing front) {
@@ -194,7 +209,6 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	public boolean receiveClientEvent(int id, int data) {
 		if (id == 1) {
 			numPlayersUsing = data;
-			markDirty(); // make doubly sure that this thing is synchronizing
 			return true;
 		} else {
 			return super.receiveClientEvent(id, data);

@@ -1,0 +1,20 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "TTT",
+        "TTT",
+        "ETT"
+    ],
+    "key": {
+        "T": {
+            "item": "#OBSIDIAN"
+        },
+        "E": {
+            "item": "#DIAMOND"
+        }
+    },
+    "result": {
+        "item": "metalchests:structure_upgrade",
+        "data": 20
+    }
+}

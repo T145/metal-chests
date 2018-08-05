@@ -1,0 +1,21 @@
+{
+    "type": "forge:ore_shaped",
+    "pattern": [
+        "TTT",
+        "TTT",
+        "ETT"
+    ],
+    "key": {
+        "T": {
+            "item": "#DIAMOND"
+        },
+        "E": {
+            "item": "metalchests:structure_upgrade",
+            "data": 3
+        }
+    },
+    "result": {
+        "item": "metalchests:structure_upgrade",
+        "data": 4
+    }
+}

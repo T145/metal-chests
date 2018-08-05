@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright 2018 T145
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
  * of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
@@ -23,8 +23,6 @@ import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
-import T145.metalchests.items.ItemMetalMinecart;
-import T145.metalchests.items.ItemMetalMinecart.MinecartType;
 import T145.metalchests.items.ItemMetalUpgrade;
 import T145.metalchests.items.ItemMetalUpgrade.UpgradeType;
 import T145.metalchests.tiles.TileMetalChest;
@@ -62,9 +60,6 @@ public class ModLoader {
 	@ObjectHolder(ItemMetalUpgrade.NAME)
 	public static final Item METAL_UPGRADE = new ItemMetalUpgrade();
 
-	@ObjectHolder(ItemMetalMinecart.NAME)
-	public static final Item METAL_MINECART = new ItemMetalMinecart();
-
 	@EventBusSubscriber(modid = MetalChests.MOD_ID)
 	static class ServerLoader {
 
@@ -84,7 +79,6 @@ public class ModLoader {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 			registerItemBlock(registry, METAL_CHEST, ChestType.class);
 			registry.register(METAL_UPGRADE);
-			registry.register(METAL_MINECART);
 		}
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -135,10 +129,6 @@ public class ModLoader {
 
 			for (UpgradeType type : UpgradeType.values()) {
 				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
-			}
-
-			for (MinecartType type : MinecartType.values()) {
-				registerModel(METAL_MINECART, "item_minecart", type.ordinal(), "item=" + type.getName());
 			}
 
 			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
