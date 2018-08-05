@@ -36,14 +36,14 @@ In order to get started with Minecraft mod development in this workspace, a few 
 scoop install git
 scoop bucket add java
 scoop install oraclejdk8
-scoop install gradle --version 4.4.1
+scoop install gradle
 ```
 
 #### Using [Chocolatey](https://chocolatey.org/install)
 ```bash
 choco install git
 choco install jdk8
-choco install gradle --version 4.4.1
+choco install gradle
 ```
 
 ### OSX
@@ -52,7 +52,7 @@ choco install gradle --version 4.4.1
 ```bash
 # Installs Apple's Command Line Utilities automatically, which includes Git
 brew cask install java
-brew install gradle --version 4.4.1
+brew install gradle
 ```
 
 ---
