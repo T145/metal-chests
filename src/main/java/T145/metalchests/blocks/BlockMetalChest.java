@@ -348,6 +348,31 @@ public class BlockMetalChest extends Block {
 	}
 
 	@Override
+	public EnumFacing[] getValidRotations(World world, BlockPos pos) {
+		return EnumFacing.Plane.VERTICAL.facings();
+	}
+
+	@Override
+	public boolean rotateBlock(World world, BlockPos pos, EnumFacing axis) {
+		if (world.isRemote) {
+			return false;
+		}
+
+		if (axis.getAxis().isVertical()) {
+			TileEntity te = world.getTileEntity(pos);
+
+			if (te instanceof TileMetalChest) {
+				TileMetalChest chest = (TileMetalChest) te;
+				chest.setFront(chest.getFront().rotateY());
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(VARIANT, ChestType.values()[meta]);
 	}
