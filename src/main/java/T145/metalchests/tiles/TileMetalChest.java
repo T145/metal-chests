@@ -161,20 +161,18 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 				numPlayersUsing = 0;
 			}
 
-			++numPlayersUsing;
-			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+			world.addBlockEvent(pos, getBlockType(), 1, ++numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-			world.playSound(null, pos, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			world.playSound(player, pos, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player) {
 		if (!player.isSpectator()) {
-			--numPlayersUsing;
-			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+			world.addBlockEvent(pos, getBlockType(), 1, --numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-			world.playSound(null, pos, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			world.playSound(player, pos, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 	}
 
