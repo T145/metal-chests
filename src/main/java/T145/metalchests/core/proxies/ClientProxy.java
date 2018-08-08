@@ -13,41 +13,25 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.proxies;
+package T145.metalchests.core.proxies;
 
-import T145.metalchests.client.gui.GuiMetalChest;
-import T145.metalchests.containers.ContainerMetalChest;
-import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends ServerProxy {
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		pos.setPos(x, y, z);
-
-		switch (ID) {
-		case 0:
-			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos);
-			ContainerMetalChest container = new ContainerMetalChest(chest, player, chest.getType());
-			return new GuiMetalChest(container);
-		default:
-			return null;
-		}
-	}
-
 	public void preInit(FMLPreInitializationEvent event) {
 		super.preInit(event);
 	}
 
+	@Override
 	public void init(FMLInitializationEvent event) {
 		super.init(event);
 	}
 
+	@Override
 	public void postInit(FMLPostInitializationEvent event) {
 		super.postInit(event);
 	}

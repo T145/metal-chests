@@ -13,12 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.core.proxies;
 
-public class SupportedMods {
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-	public static final String INVTWEAKS = "invtweaks";
-	public static final String QUARK = "quark";
-	public static final String HOLOINVENTORY = "holoinventory";
-	public static final String RAILCRAFT = "railcraft";
+public interface IProxy {
+
+	void preInit(FMLPreInitializationEvent event);
+
+	void init(FMLInitializationEvent event);
+
+	void postInit(FMLPostInitializationEvent event);
 }

@@ -18,7 +18,8 @@ package T145.metalchests.core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import T145.metalchests.proxies.CommonProxy;
+import T145.metalchests.core.proxies.IProxy;
+import T145.metalchests.core.proxies.ServerProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
@@ -34,15 +35,19 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod(modid = MetalChests.MOD_ID, name = MetalChests.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON)
-public class MetalChests {
+public class MetalChests implements IProxy {
 
 	public static final String MOD_ID = "metalchests";
 	public static final String MOD_NAME = "MetalChests";
+
 	static final String VERSION = "@VERSION@";
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
-	private static final String COMMON_PROXY = "T145.metalchests.proxies.CommonProxy";
-	private static final String CLIENT_PROXY = "T145.metalchests.proxies.ClientProxy";
+
+	private static final String COMMON_PROXY = "T145.metalchests.core.proxies.CommonProxy";
+	private static final String CLIENT_PROXY = "T145.metalchests.core.proxies.ClientProxy";
+
 	public static final Logger LOG = LogManager.getLogger(MOD_ID);
+
 	public static final CreativeTabs TAB = new CreativeTabs(MOD_ID) {
 
 		@Override
@@ -62,11 +67,12 @@ public class MetalChests {
 	public static MetalChests instance;
 
 	@SidedProxy(serverSide = COMMON_PROXY, clientSide = CLIENT_PROXY)
-	public static CommonProxy proxy;
+	public static ServerProxy proxy;
 
 	@Metadata
 	private ModMetadata meta;
 
+	@Override
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		meta.authorList.add("T145");
@@ -82,11 +88,13 @@ public class MetalChests {
 		proxy.preInit(event);
 	}
 
+	@Override
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		proxy.init(event);
 	}
 
+	@Override
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		proxy.postInit(event);

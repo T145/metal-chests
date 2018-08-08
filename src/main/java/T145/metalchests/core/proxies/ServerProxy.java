@@ -13,57 +13,34 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.proxies;
+package T145.metalchests.core.proxies;
 
-import T145.metalchests.containers.ContainerMetalChest;
+import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPos.MutableBlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
-public class CommonProxy implements IGuiHandler {
-
-	final MutableBlockPos pos = new MutableBlockPos(BlockPos.ORIGIN);
+public class ServerProxy implements IProxy {
 
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		pos.setPos(x, y, z);
-
-		switch (ID) {
-		case 0:
-			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos);
-			return new ContainerMetalChest(chest, player, chest.getType());
-		default:
-			return null;
-		}
-	}
-
-	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		return null;
-	}
-
 	public void preInit(FMLPreInitializationEvent event) {
 		OreDictionary.registerOre("blockGlass", Blocks.GLASS);
-		OreDictionary.registerOre("blockObsidian", Blocks.OBSIDIAN);
 	}
 
+	@Override
 	public void init(FMLInitializationEvent event) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, this);
+		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 		TileMetalChest.registerFixes(fixer);
 	}
 
+	@Override
 	public void postInit(FMLPostInitializationEvent event) {}
 }

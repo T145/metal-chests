@@ -13,14 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.containers;
 
-public class SupportedInterfaces {
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 
-	public static final String CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
-	public static final String FLUID_CART = "mods.railcraft.api.carts.IFluidCart";
-	public static final String ITEM_CART = "mods.railcraft.api.carts.IItemCart";
-	public static final String NAMED_ITEM_HANDLER = "net.dries007.holoInventory.api.INamedItemHandler";
-	public static final String CHEST_BUTTON_CALLBACK = "vazkii.quark.api.IChestButtonCallback";
-	public static final String DROPOFF_MANAGER = "vazkii.quark.api.IDropoffManager";
+public interface IContainer {
+
+	Container getContainer(EntityPlayer player);
+
+	GuiContainer getGui(EntityPlayer player);
 }

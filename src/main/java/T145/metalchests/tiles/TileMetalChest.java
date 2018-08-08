@@ -20,11 +20,14 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.IInventoryHandler;
-import T145.metalchests.api.SupportedInterfaces;
-import T145.metalchests.api.SupportedMods;
+import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.containers.IContainer;
+import T145.metalchests.api.containers.IInventoryHandler;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.client.gui.GuiMetalChest;
+import T145.metalchests.containers.ContainerMetalChest;
 import net.dries007.holoInventory.api.INamedItemHandler;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,10 +45,10 @@ import net.minecraftforge.items.ItemStackHandler;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = SupportedMods.HOLOINVENTORY, iface = SupportedInterfaces.NAMED_ITEM_HANDLER, striprefs = true),
-	@Optional.Interface(modid = SupportedMods.QUARK, iface = SupportedInterfaces.DROPOFF_MANAGER, striprefs = true)
+	@Optional.Interface(modid = ModSupport.HoloInventory.MOD_ID, iface = ModSupport.HoloInventory.NAMED_ITEM_HANDLER, striprefs = true),
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.DROPOFF_MANAGER, striprefs = true)
 })
-public class TileMetalChest extends TileMod implements ITickable, IInventoryHandler, IDropoffManager, INamedItemHandler {
+public class TileMetalChest extends TileMod implements ITickable, IInventoryHandler, IContainer, IDropoffManager, INamedItemHandler {
 
 	public float lidAngle;
 	public float prevLidAngle;
@@ -133,19 +136,19 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 		return tag;
 	}
 
-	@Optional.Method(modid = SupportedMods.HOLOINVENTORY)
+	@Optional.Method(modid = ModSupport.HoloInventory.MOD_ID)
 	@Override
 	public String getItemHandlerName() {
 		return "tile.metalchests:metal_chest." + type.getName() + ".name";
 	}
 
-	@Optional.Method(modid = SupportedMods.QUARK)
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
 	@Override
 	public boolean acceptsDropoff(EntityPlayer player) {
 		return true;
 	}
 
-	@Optional.Method(modid = SupportedMods.QUARK)
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
 	@Override
 	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return inventory;
@@ -161,7 +164,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 			++numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-			world.playSound(null, getPos(), SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			world.playSound(null, pos, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 	}
 
@@ -171,13 +174,23 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 			--numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-			world.playSound(null, getPos(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			world.playSound(null, pos, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 	}
 
 	@Override
 	public boolean isUsableByPlayer(EntityPlayer player) {
 		return world.getTileEntity(pos) == this && player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
+	}
+
+	@Override
+	public ContainerMetalChest getContainer(EntityPlayer player) {
+		return new ContainerMetalChest(this, player, type);
+	}
+
+	@Override
+	public GuiContainer getGui(EntityPlayer player) {
+		return new GuiMetalChest(getContainer(player));
 	}
 
 	/**
@@ -193,7 +206,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	@Override
 	public void update() {
 		if (!world.isRemote && world.getTotalWorldTime() % 20 == 0) {
-			world.addBlockEvent(getPos(), getBlockType(), 1, numPlayersUsing);
+			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 
