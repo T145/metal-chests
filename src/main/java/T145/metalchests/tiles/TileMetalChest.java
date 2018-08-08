@@ -63,6 +63,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 			protected void onContentsChanged(int slot) {
 				super.onContentsChanged(slot);
 				TileMetalChest.this.markDirty();
+				world.updateComparatorOutputLevel(pos, getBlockType());
 			}
 		};
 		this.setFront(EnumFacing.EAST);
@@ -160,6 +161,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 			++numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
+			world.playSound(null, getPos(), SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 	}
 
@@ -169,7 +171,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 			--numPlayersUsing;
 			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, getBlockType(), false);
-			receiveClientEvent(1, numPlayersUsing); // ensure that numPlayersUsing syncs across the client and server
+			world.playSound(null, getPos(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
 	}
 
@@ -197,12 +199,6 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 
 		prevLidAngle = lidAngle;
 		lidAngle = approachLinear(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
-
-		if (prevLidAngle >= 0.5 && lidAngle < 0.5) {
-			world.playSound(null, getPos(), SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-		} else if (prevLidAngle == 0 && lidAngle > 0) {
-			world.playSound(null, getPos(), SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-		}
 	}
 
 	@Override
