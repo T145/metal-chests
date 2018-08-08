@@ -31,8 +31,6 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod(modid = MetalChests.MOD_ID, name = MetalChests.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON)
 public class MetalChests implements IProxy {
@@ -51,15 +49,8 @@ public class MetalChests implements IProxy {
 	public static final CreativeTabs TAB = new CreativeTabs(MOD_ID) {
 
 		@Override
-		@SideOnly(Side.CLIENT)
-		public ItemStack getIconItemStack() {
+		public ItemStack createIcon() {
 			return new ItemStack(ModLoader.METAL_CHEST, 1, 1);
-		}
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ItemStack getTabIconItem() {
-			return getIconItemStack();
 		}
 	};
 

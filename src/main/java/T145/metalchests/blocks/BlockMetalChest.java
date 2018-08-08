@@ -180,8 +180,8 @@ public class BlockMetalChest extends Block {
 	public BlockMetalChest() {
 		super(Material.IRON);
 		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, NAME));
+		setTranslationKey("metalchests:" + NAME);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, ChestType.IRON));
-		setUnlocalizedName("metalchests:" + NAME);
 		setHardness(3F);
 		setCreativeTab(MetalChests.TAB);
 	}
@@ -280,8 +280,7 @@ public class BlockMetalChest extends Block {
 
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
-			EnumFacing front = EnumFacing.getHorizontal(MathHelper.floor((placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
-			chest.setFront(front);
+			chest.setFront(EnumFacing.byHorizontalIndex(MathHelper.floor((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite());
 		}
 	}
 

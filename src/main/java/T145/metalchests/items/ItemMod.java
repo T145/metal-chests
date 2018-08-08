@@ -32,7 +32,7 @@ public class ItemMod extends Item {
 	public ItemMod(String name, Enum<? extends IStringSerializable>[] types) {
 		this.types = types;
 		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, name));
-		setUnlocalizedName(MetalChests.MOD_ID + ':' + name);
+		setTranslationKey(MetalChests.MOD_ID + ':' + name);
 		setHasSubtypes(types != null);
 		setCreativeTab(MetalChests.TAB);
 	}
@@ -46,11 +46,11 @@ public class ItemMod extends Item {
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
+	public String getTranslationKey(ItemStack stack) {
 		if (hasSubtypes) {
-			return super.getUnlocalizedName() + "." + ((IStringSerializable) types[stack.getMetadata()]).getName();
+			return super.getTranslationKey() + "." + ((IStringSerializable) types[stack.getMetadata()]).getName();
 		}
-		return super.getUnlocalizedName(stack);
+		return super.getTranslationKey(stack);
 	}
 
 	@Override

@@ -40,8 +40,8 @@ public class BlockModItem extends ItemBlock {
 	}
 
 	@Override
-	public String getUnlocalizedName(ItemStack stack) {
-		StringBuilder name = new StringBuilder(super.getUnlocalizedName());
+	public String getTranslationKey(ItemStack stack) {
+		StringBuilder name = new StringBuilder(super.getTranslationKey());
 
 		if (hasSubtypes) {
 			name.append('.').append(blockTypes.getEnumConstants()[stack.getMetadata()].name().toLowerCase());
