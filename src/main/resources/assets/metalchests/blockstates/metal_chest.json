@@ -8,38 +8,38 @@
         "variant": {
             "copper": {
                 "textures": {
-                    "particle": "metalchests:blocks/chest_copper",
-                    "chest": "metalchests:entity/chest_copper"
+                    "particle": "metalchests:blocks/chest/copper",
+                    "chest": "metalchests:entity/chest/copper"
                 }
             },
             "iron": {
                 "textures": {
-                    "particle": "metalchests:blocks/chest_iron",
-                    "chest": "metalchests:entity/chest_iron"
+                    "particle": "metalchests:blocks/chest/iron",
+                    "chest": "metalchests:entity/chest/iron"
                 }
             },
             "silver": {
                 "textures": {
-                    "particle": "metalchests:blocks/chest_silver",
-                    "chest": "metalchests:entity/chest_silver"
+                    "particle": "metalchests:blocks/chest/silver",
+                    "chest": "metalchests:entity/chest/silver"
                 }
             },
             "gold": {
                 "textures": {
-                    "particle": "metalchests:blocks/chest_gold",
-                    "chest": "metalchests:entity/chest_gold"
+                    "particle": "metalchests:blocks/chest/gold",
+                    "chest": "metalchests:entity/chest/gold"
                 }
             },
             "diamond": {
                 "textures": {
-                    "particle": "metalchests:blocks/chest_diamond",
-                    "chest": "metalchests:entity/chest_diamond"
+                    "particle": "metalchests:blocks/chest/diamond",
+                    "chest": "metalchests:entity/chest/diamond"
                 }
             },
             "obsidian": {
                 "textures": {
-                    "particle": "metalchests:blocks/chest_obsidian",
-                    "chest": "metalchests:entity/chest_obsidian"
+                    "particle": "metalchests:blocks/chest/obsidian",
+                    "chest": "metalchests:entity/chest/obsidian"
                 }
             }
         }
