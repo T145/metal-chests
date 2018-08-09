@@ -147,13 +147,10 @@ public class ModLoader {
 		}
 
 		private static void registerModel(Item item, String customDomain, int meta, String... variants) {
-			StringBuilder variantPath = new StringBuilder();
+			StringBuilder variantPath = new StringBuilder(variants[0]);
 
-			for (int i = 0; i < variants.length; ++i) {
-				if (i > 0) {
-					variantPath.append(',');
-				}
-				variantPath.append(variants[i]);
+			for (int i = 1; i < variants.length; ++i) {
+				variantPath.append(',').append(variants[i]);
 			}
 
 			ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
