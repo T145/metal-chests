@@ -15,6 +15,11 @@ buildscript {
     }
 }
 
+plugins {
+    id 'de.undercouch.download' version '3.4.3'
+    id 'org.ajoberstar.grgit' version '2.2.1'
+}
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -22,11 +27,6 @@ repositories {
     maven {
         url "https://minecraft.curseforge.com/api/maven/"
     }
-}
-
-plugins {
-    id 'de.undercouch.download' version '3.4.3'
-    id 'org.ajoberstar.grgit' version '2.2.1'
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
