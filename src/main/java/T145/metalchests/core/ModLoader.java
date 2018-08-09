@@ -21,11 +21,13 @@ import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
+import T145.metalchests.compat.chesttransporter.TransportableChestMetal;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemStructureUpgrade;
 import T145.metalchests.items.ItemStructureUpgrade.ChestUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
+import cubex2.mods.chesttransporter.api.TransportableChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -114,6 +116,15 @@ public class ModLoader {
 					ocelot.tasks.removeTask(task.action);
 					ocelot.tasks.addTask(task.priority, new EntityAIOcelotSitOnChest(ocelot, 0.4F));
 				}
+			}
+		}
+
+		@SubscribeEvent
+		public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
+			final IForgeRegistry<TransportableChest> registry = event.getRegistry();
+
+			for (ChestType type : ChestType.values()) {
+				registry.register(new TransportableChestMetal(METAL_CHEST, type.ordinal(), type == ChestType.SILVER ? "tin" : type.getName()));
 			}
 		}
 	}

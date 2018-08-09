@@ -274,13 +274,17 @@ public class BlockMetalChest extends Block {
 		super.breakBlock(world, pos, state);
 	}
 
+	public EnumFacing getFrontFromEntity(EntityLivingBase placer) {
+		return EnumFacing.byHorizontalIndex(MathHelper.floor((placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
+	}
+
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
-			chest.setFront(EnumFacing.byHorizontalIndex(MathHelper.floor((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite());
+			chest.setFront(getFrontFromEntity(placer));
 		}
 	}
 
