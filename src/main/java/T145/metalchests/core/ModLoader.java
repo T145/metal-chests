@@ -17,11 +17,15 @@ package T145.metalchests.core;
 
 import java.util.HashSet;
 
+import T145.metalchests.api.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
 import T145.metalchests.compat.chesttransporter.TransportableChestMetal;
+import T145.metalchests.compat.thaumcraft.BlockHungryMetalChest;
+import T145.metalchests.compat.thaumcraft.RenderHungryMetalChest;
+import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemStructureUpgrade;
@@ -59,6 +63,9 @@ public class ModLoader {
 	@ObjectHolder(BlockMetalChest.NAME)
 	public static final Block METAL_CHEST = new BlockMetalChest();
 
+	@ObjectHolder(BlockHungryMetalChest.NAME)
+	public static final Block HUNGRY_METAL_CHEST = new BlockHungryMetalChest();
+
 	@ObjectHolder(ItemStructureUpgrade.NAME)
 	public static final Item METAL_UPGRADE = new ItemStructureUpgrade();
 
@@ -68,8 +75,14 @@ public class ModLoader {
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
+
 			registry.register(METAL_CHEST);
 			registerTileEntity(TileMetalChest.class);
+
+			if (ModSupport.hasThaumcraft()) {
+				registry.register(HUNGRY_METAL_CHEST);
+				registerTileEntity(TileHungryMetalChest.class); // register these to Thaumcraft's id?
+			}
 		}
 
 		private static void registerTileEntity(Class tileClass) {
@@ -79,6 +92,7 @@ public class ModLoader {
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
+
 			registerItemBlock(registry, METAL_CHEST, ChestType.class);
 			registry.register(METAL_UPGRADE);
 		}
@@ -138,11 +152,19 @@ public class ModLoader {
 				registerModel(METAL_CHEST, type.ordinal(), getVariantName(type));
 			}
 
+			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
+
+			if (ModSupport.hasThaumcraft()) {
+				for (ChestType type : ChestType.values()) {
+					registerModel(HUNGRY_METAL_CHEST, type.ordinal(), getVariantName(type));
+				}
+
+				registerTileRenderer(TileHungryMetalChest.class, new RenderHungryMetalChest());
+			}
+
 			for (ChestUpgrade type : ChestUpgrade.values()) {
 				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
 			}
-
-			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
 		}
 
 		private static String getVariantName(IStringSerializable variant) {

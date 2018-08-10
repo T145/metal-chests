@@ -39,7 +39,7 @@ public class TileMod extends TileEntity {
 
 	@Override
 	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
+		return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
 	}
 
 	@Override

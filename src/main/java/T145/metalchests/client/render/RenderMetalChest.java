@@ -17,6 +17,7 @@ package T145.metalchests.client.render;
 
 import org.lwjgl.opengl.GL11;
 
+import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.model.ModelChest;
@@ -45,6 +46,10 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		}
 	}
 
+	protected ResourceLocation getActiveResource(ChestType type) {
+		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/" + type.getName() + ".png");
+	}
+
 	@Override
 	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (destroyStage >= 0) {
@@ -55,7 +60,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		} else {
-			bindTexture(new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/" + chest.getType().getName() + ".png"));
+			bindTexture(getActiveResource(chest.getType()));
 		}
 
 		GlStateManager.pushMatrix();

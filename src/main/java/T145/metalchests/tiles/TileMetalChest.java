@@ -214,11 +214,12 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 
 	@Override
 	public boolean receiveClientEvent(int id, int data) {
-		if (id == 1) {
+		switch (id) {
+		case 1:
 			numPlayersUsing = data;
 			return true;
-		} else {
-			return super.receiveClientEvent(id, data);
+		default:
+			return false;
 		}
 	}
 
