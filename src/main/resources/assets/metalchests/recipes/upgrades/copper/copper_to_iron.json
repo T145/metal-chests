@@ -9,18 +9,18 @@
     "pattern": [
         "TTT",
         "TTT",
-        "ETT"
+        "STT"
     ],
     "key": {
         "T": {
             "item": "#IRON"
         },
-        "E": {
+        "S": {
             "item": "#COPPER"
         }
     },
     "result": {
-        "item": "metalchests:structure_upgrade",
+        "item": "metalchests:chest_upgrade",
         "data": 6
     }
 }

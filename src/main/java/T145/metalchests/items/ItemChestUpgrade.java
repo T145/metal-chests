@@ -37,7 +37,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
 
-public class ItemStructureUpgrade extends ItemMod {
+public class ItemChestUpgrade extends ItemMod {
 
 	public enum ChestUpgrade implements IStringSerializable {
 
@@ -94,9 +94,9 @@ public class ItemStructureUpgrade extends ItemMod {
 		}
 	}
 
-	public static final String NAME = "structure_upgrade";
+	public static final String NAME = "chest_upgrade";
 
-	public ItemStructureUpgrade() {
+	public ItemChestUpgrade() {
 		super(NAME, ChestUpgrade.values());
 		setMaxStackSize(1);
 	}

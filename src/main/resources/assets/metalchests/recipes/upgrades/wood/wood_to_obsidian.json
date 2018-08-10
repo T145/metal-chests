@@ -10,12 +10,12 @@
             "item": "#OBSIDIAN"
         },
         "E": {
-            "item": "metalchests:structure_upgrade",
+            "item": "metalchests:chest_upgrade",
             "data": 4
         }
     },
     "result": {
-        "item": "metalchests:structure_upgrade",
+        "item": "metalchests:chest_upgrade",
         "data": 5
     }
 }

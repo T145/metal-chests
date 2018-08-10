@@ -31,13 +31,16 @@ public class TileHungryMetalChest extends TileMetalChest {
 	@Override
 	public boolean receiveClientEvent(int id, int data) {
 		switch (id) {
+		case 1:
+			numPlayersUsing = data;
+			return true;
 		case 2:
 			if (lidAngle < data / 10F) {
 				lidAngle = data / 10F;
 			}
 			return true;
 		default:
-			return super.receiveClientEvent(id, data);
+			return false;
 		}
 	}
 }

@@ -28,8 +28,8 @@ import T145.metalchests.compat.thaumcraft.RenderHungryMetalChest;
 import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
-import T145.metalchests.items.ItemStructureUpgrade;
-import T145.metalchests.items.ItemStructureUpgrade.ChestUpgrade;
+import T145.metalchests.items.ItemChestUpgrade;
+import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import net.minecraft.block.Block;
@@ -66,8 +66,8 @@ public class ModLoader {
 	@ObjectHolder(BlockHungryMetalChest.NAME)
 	public static final Block HUNGRY_METAL_CHEST = new BlockHungryMetalChest();
 
-	@ObjectHolder(ItemStructureUpgrade.NAME)
-	public static final Item METAL_UPGRADE = new ItemStructureUpgrade();
+	@ObjectHolder(ItemChestUpgrade.NAME)
+	public static final Item METAL_UPGRADE = new ItemChestUpgrade();
 
 	@EventBusSubscriber(modid = MetalChests.MOD_ID)
 	static class ServerLoader {
@@ -81,7 +81,7 @@ public class ModLoader {
 
 			if (ModSupport.hasThaumcraft()) {
 				registry.register(HUNGRY_METAL_CHEST);
-				registerTileEntity(TileHungryMetalChest.class); // register these to Thaumcraft's id?
+				registerTileEntity(TileHungryMetalChest.class);
 			}
 		}
 
@@ -94,6 +94,11 @@ public class ModLoader {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
 			registerItemBlock(registry, METAL_CHEST, ChestType.class);
+
+			if (ModSupport.hasThaumcraft()) {
+				registerItemBlock(registry, HUNGRY_METAL_CHEST, ChestType.class);
+			}
+
 			registry.register(METAL_UPGRADE);
 		}
 
@@ -113,7 +118,7 @@ public class ModLoader {
 		}
 
 		@SubscribeEvent
-		public void changeSittingTaskForOcelots(LivingUpdateEvent event) {
+		public static void changeSittingTaskForOcelots(LivingUpdateEvent event) {
 			EntityLivingBase creature = event.getEntityLiving();
 
 			if (creature instanceof EntityOcelot && creature.ticksExisted < 5) {
