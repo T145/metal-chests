@@ -1,10 +1,6 @@
 {
     "conditions": [
         {
-            "type": "metalchests:ore_exists",
-            "ore": "ingotIron"
-        },
-        {
             "type": "metalchests:ore_null",
             "ore": "ingotCopper"
         }

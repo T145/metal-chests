@@ -1,14 +1,4 @@
 {
-    "conditions": [
-        {
-            "type": "metalchests:ore_exists",
-            "ore": "ingotGold"
-        },
-        {
-            "type": "metalchests:ore_exists",
-            "ore": "gemDiamond"
-        }
-    ],
     "type": "forge:ore_shaped",
     "pattern": [
         "TTT",

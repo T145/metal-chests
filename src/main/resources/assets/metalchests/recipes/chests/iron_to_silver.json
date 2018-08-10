@@ -2,10 +2,6 @@
     "conditions": [
         {
             "type": "metalchests:ore_exists",
-            "ore": "ingotIron"
-        },
-        {
-            "type": "metalchests:ore_exists",
             "ore": "ingotSilver"
         }
     ],

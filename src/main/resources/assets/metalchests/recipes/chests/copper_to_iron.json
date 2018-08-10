@@ -3,10 +3,6 @@
         {
             "type": "metalchests:ore_exists",
             "ore": "ingotCopper"
-        },
-        {
-            "type": "metalchests:ore_exists",
-            "ore": "ingotIron"
         }
     ],
     "type": "forge:ore_shaped",
