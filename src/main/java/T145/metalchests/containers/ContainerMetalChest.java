@@ -28,6 +28,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 import vazkii.quark.api.IChestButtonCallback;
 
@@ -41,6 +42,7 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 	public ContainerMetalChest(IInventoryHandler handler, EntityPlayer player, ChestType type) {
 		this.handler = handler;
 		this.type = type;
+
 		handler.openInventory(player);
 
 		for (int chestRow = 0; chestRow < type.getRowCount(); ++chestRow) {
@@ -55,7 +57,6 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 			for (int playerInvCol = 0; playerInvCol < 9; ++playerInvCol) {
 				this.addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, type.getGui().getSizeY() - (4 - playerInvRow) * 18 - 10));
 			}
-
 		}
 
 		for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
@@ -85,37 +86,36 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack stack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
 
-		if (slot != null && slot.getHasStack()) {
-			ItemStack slotStack = slot.getStack();
-			stack = slotStack.copy();
-
-			int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
-
-			if (index < containerSlots) {
-				if (!this.mergeItemStack(slotStack, containerSlots, inventorySlots.size(), true)) {
-					return ItemStack.EMPTY;
-				}
-			} else if (!this.mergeItemStack(slotStack, 0, containerSlots, false)) {
-				return ItemStack.EMPTY;
-			}
-
-			if (slotStack.getCount() == 0) {
-				slot.putStack(ItemStack.EMPTY);
-			} else {
-				slot.onSlotChanged();
-			}
-
-			if (slotStack.getCount() == stack.getCount()) {
-				return ItemStack.EMPTY;
-			}
-
-			slot.onTake(player, slotStack);
+		if (slot == null) {
+			return null;
 		}
 
-		return stack;
+		ItemStack stack = slot.getStack();
+
+		if (stack.isEmpty()) {
+			return ItemStack.EMPTY;
+		}
+
+		ItemStack result = stack.copy();
+		IItemHandler items = handler.getInventory();
+
+		if (index < items.getSlots()) {
+			if (!mergeItemStack(stack, items.getSlots(), inventorySlots.size(), true)) {
+				return ItemStack.EMPTY;
+			}
+		} else if (!mergeItemStack(stack, 0, items.getSlots(), false)) {
+			return ItemStack.EMPTY;
+		}
+
+		if (stack.isEmpty()) {
+			slot.putStack(ItemStack.EMPTY);
+		} else {
+			slot.onSlotChanged();
+		}
+
+		return result;
 	}
 
 	@ChestContainer.RowSizeCallback
