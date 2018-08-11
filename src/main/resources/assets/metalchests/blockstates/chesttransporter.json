@@ -1,0 +1,71 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "item": {
+            "copper": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/copper"
+                }
+            },
+            "iron": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/iron"
+                }
+            },
+            "silver": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/silver"
+                }
+            },
+            "gold": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/gold"
+                }
+            },
+            "diamond": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/diamond"
+                }
+            },
+            "obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/obsidian"
+                }
+            },
+            "hungry_copper": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/hungry/copper"
+                }
+            },
+            "hungry_iron": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/hungry/iron"
+                }
+            },
+            "hungry_silver": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/hungry/silver"
+                }
+            },
+            "hungry_gold": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/hungry/gold"
+                }
+            },
+            "hungry_diamond": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/hungry/diamond"
+                }
+            },
+            "hungry_obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/chesttransporter/hungry/obsidian"
+                }
+            }
+        }
+    }
+}

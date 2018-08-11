@@ -15,18 +15,57 @@
  ******************************************************************************/
 package T145.metalchests.compat.chesttransporter;
 
-import cubex2.mods.chesttransporter.chests.TransportableChestImpl;
+import java.util.Collection;
+import java.util.Collections;
+
+import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import cubex2.mods.chesttransporter.api.TransportableChest;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TransportableMetalChest extends TransportableChestImpl {
+public class TransportableMetalChest extends TransportableChest {
 
-	public TransportableMetalChest(Block chestBlock, int chestMeta, String name) {
-		super(chestBlock, chestMeta, name);
+	private final Block chestBlock;
+	private final ChestType type;
+	private final ResourceLocation resource;
+
+	public TransportableMetalChest(Block chestBlock, ChestType type, ResourceLocation resource) {
+		this.chestBlock = chestBlock;
+		this.type = type;
+		this.resource = resource;
+		setRegistryName(resource);
+	}
+
+	@Override
+	public boolean canGrabChest(World world, BlockPos pos, IBlockState state, EntityPlayer player, ItemStack transporter) {
+		Block block = state.getBlock();
+		return block == chestBlock && block.getMetaFromState(state) == type.ordinal();
+	}
+
+	@Override
+	public boolean canPlaceChest(World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
+		return true;
+	}
+
+	@Override
+	public ItemStack createChestStack(ItemStack transporter) {
+		return new ItemStack(chestBlock, 1, type.ordinal());
+	}
+
+	@Override
+	public Collection<ResourceLocation> getChestModels() {
+		return Collections.singleton(resource);
+	}
+
+	@Override
+	public ResourceLocation getChestModel(ItemStack stack) {
+		return resource;
 	}
 
 	@Override
@@ -35,8 +74,8 @@ public class TransportableMetalChest extends TransportableChestImpl {
 	}
 
 	@Override
-	public NBTTagCompound modifyTileCompound(NBTTagCompound nbt, World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
-		nbt.setString("Front", player.getHorizontalFacing().getOpposite().toString());
-		return super.modifyTileCompound(nbt, world, pos, player, transporter);
+	public NBTTagCompound modifyTileCompound(NBTTagCompound tag, World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
+		tag.setString("Front", player.getHorizontalFacing().getOpposite().toString());
+		return super.modifyTileCompound(tag, world, pos, player, transporter);
 	}
 }

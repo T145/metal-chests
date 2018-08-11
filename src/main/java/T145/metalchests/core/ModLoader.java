@@ -145,14 +145,14 @@ public class ModLoader {
 			final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
 			for (ChestType type : ChestType.values()) {
-				registry.register(new TransportableMetalChest(METAL_CHEST, type.ordinal(), type == ChestType.SILVER ? "tin" : type.getName()));
+				registry.register(new TransportableMetalChest(METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/" + type.getName())));
 			}
 
 			if (ModSupport.hasThaumcraft()) {
 				registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
 
 				for (ChestType type : ChestType.values()) {
-					//registry.register(new TransportableMetalChest(HUNGRY_METAL_CHEST, type.ordinal(), type == ChestType.SILVER ? "tin" : type.getName()));
+					registry.register(new TransportableMetalChest(HUNGRY_METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
 				}
 			}
 		}
