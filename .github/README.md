@@ -4,8 +4,8 @@
 
 The better alternative to IronChests!
 
-[![DownloadCount](http://cf.way2muchnoise.eu/metalchests.svg)](https://minecraft.curseforge.com/projects/metalchests)
-[![SupportedVersions](http://cf.way2muchnoise.eu/versions/For%20MC%20_290145_all.svg)](https://minecraft.curseforge.com/projects/metalchests)
+[![DownloadCount](http://cf.way2muchnoise.eu/full_metalchests_downloads.svg)](https://minecraft.curseforge.com/projects/metalchests)
+[![SupportedVersions](http://cf.way2muchnoise.eu/versions/228756_latest.svg)](https://minecraft.curseforge.com/projects/metalchests)
 
 ---
 **_Table of Contents_**
