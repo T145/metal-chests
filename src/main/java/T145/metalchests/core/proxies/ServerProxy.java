@@ -15,10 +15,17 @@
  ******************************************************************************/
 package T145.metalchests.core.proxies;
 
+import java.io.IOException;
+
+import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializer;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -29,9 +36,33 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ServerProxy implements IProxy {
 
+	public static final DataSerializer<ChestType> CHEST_TYPE = new DataSerializer<ChestType>() {
+
+		@Override
+		public void write(PacketBuffer buf, ChestType value) {
+			buf.writeEnumValue(value);
+		}
+
+		@Override
+		public ChestType read(PacketBuffer buf) throws IOException {
+			return buf.readEnumValue(ChestType.class);
+		}
+
+		@Override
+		public DataParameter<ChestType> createKey(int id) {
+			return new DataParameter<ChestType>(id, this);
+		}
+
+		@Override
+		public ChestType copyValue(ChestType value) {
+			return value;
+		}
+	};
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		OreDictionary.registerOre("blockGlass", Blocks.GLASS);
+		DataSerializers.registerSerializer(CHEST_TYPE);
 	}
 
 	@Override
@@ -42,5 +73,6 @@ public class ServerProxy implements IProxy {
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {}
+	public void postInit(FMLPostInitializationEvent event) {
+	}
 }

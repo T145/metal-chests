@@ -80,6 +80,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 		return type;
 	}
 
+	@Override
 	public ItemStackHandler getInventory() {
 		return inventory;
 	}

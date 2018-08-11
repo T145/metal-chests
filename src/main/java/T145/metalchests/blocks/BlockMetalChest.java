@@ -135,6 +135,10 @@ public class BlockMetalChest extends Block {
 			return GUI.byType(this);
 		}
 
+		public String getGuiId() {
+			return "metalchests:" + getName() + "_chest";
+		}
+
 		public enum GUI {
 
 			COPPER(184),
