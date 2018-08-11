@@ -22,7 +22,7 @@ import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
-import T145.metalchests.compat.chesttransporter.TransportableChestMetal;
+import T145.metalchests.compat.chesttransporter.TransportableMetalChest;
 import T145.metalchests.compat.thaumcraft.BlockHungryMetalChest;
 import T145.metalchests.compat.thaumcraft.RenderHungryMetalChest;
 import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
@@ -32,6 +32,7 @@ import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
+import cubex2.mods.chesttransporter.chests.TransportableChestOld;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -56,6 +57,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.IForgeRegistry;
+import thaumcraft.api.blocks.BlocksTC;
 
 @ObjectHolder(MetalChests.MOD_ID)
 public class ModLoader {
@@ -143,7 +145,15 @@ public class ModLoader {
 			final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
 			for (ChestType type : ChestType.values()) {
-				registry.register(new TransportableChestMetal(METAL_CHEST, type.ordinal(), type == ChestType.SILVER ? "tin" : type.getName()));
+				registry.register(new TransportableMetalChest(METAL_CHEST, type.ordinal(), type == ChestType.SILVER ? "tin" : type.getName()));
+			}
+
+			if (ModSupport.hasThaumcraft()) {
+				registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
+
+				for (ChestType type : ChestType.values()) {
+					//registry.register(new TransportableMetalChest(HUNGRY_METAL_CHEST, type.ordinal(), type == ChestType.SILVER ? "tin" : type.getName()));
+				}
 			}
 		}
 	}

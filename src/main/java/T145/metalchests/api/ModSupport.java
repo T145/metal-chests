@@ -15,7 +15,6 @@
  ******************************************************************************/
 package T145.metalchests.api;
 
-import T145.metalchests.core.MetalChests;
 import net.minecraftforge.fml.common.Loader;
 
 public enum ModSupport {
@@ -29,7 +28,6 @@ public enum ModSupport {
 	 */;
 
 	public static boolean hasThaumcraft() {
-		MetalChests.LOG.info("Loading Thaumcraft support...");
 		return Loader.isModLoaded(Thaumcraft.MOD_ID);
 	}
 

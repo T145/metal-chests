@@ -23,9 +23,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class TransportableChestMetal extends TransportableChestImpl {
+public class TransportableMetalChest extends TransportableChestImpl {
 
-	public TransportableChestMetal(Block chestBlock, int chestMeta, String name) {
+	public TransportableMetalChest(Block chestBlock, int chestMeta, String name) {
 		super(chestBlock, chestMeta, name);
 	}
 
