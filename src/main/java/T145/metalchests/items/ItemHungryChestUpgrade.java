@@ -17,18 +17,16 @@ package T145.metalchests.items;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.compat.thaumcraft.BlockHungryMetalChest;
 import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.core.ModLoader;
-import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -37,10 +35,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.IItemHandler;
+import thaumcraft.common.tiles.devices.TileHungryChest;
 
-public class ItemChestUpgrade extends ItemMod {
+public class ItemHungryChestUpgrade extends ItemMod {
 
-	public enum ChestUpgrade implements IStringSerializable {
+	public enum HungryChestUpgrade implements IStringSerializable {
 
 		WOOD_COPPER(ChestType.COPPER),
 		WOOD_IRON(ChestType.IRON),
@@ -68,12 +67,12 @@ public class ItemChestUpgrade extends ItemMod {
 		private ChestType base;
 		private ChestType upgrade;
 
-		ChestUpgrade(ChestType base, ChestType upgrade) {
+		HungryChestUpgrade(ChestType base, ChestType upgrade) {
 			this.base = base;
 			this.upgrade = upgrade;
 		}
 
-		ChestUpgrade(ChestType upgrade) {
+		HungryChestUpgrade(ChestType upgrade) {
 			this(null, upgrade);
 		}
 
@@ -85,7 +84,7 @@ public class ItemChestUpgrade extends ItemMod {
 			return upgrade;
 		}
 
-		public static ChestUpgrade byMetadata(int meta) {
+		public static HungryChestUpgrade byMetadata(int meta) {
 			return values()[meta];
 		}
 
@@ -95,10 +94,10 @@ public class ItemChestUpgrade extends ItemMod {
 		}
 	}
 
-	public static final String NAME = "chest_upgrade";
+	public static final String NAME = "hungry_chest_upgrade";
 
-	public ItemChestUpgrade() {
-		super(NAME, ChestUpgrade.values());
+	public ItemHungryChestUpgrade() {
+		super(NAME, HungryChestUpgrade.values());
 		setMaxStackSize(1);
 	}
 
@@ -109,25 +108,25 @@ public class ItemChestUpgrade extends ItemMod {
 		}
 
 		ItemStack stack = player.getHeldItem(hand);
-		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
+		HungryChestUpgrade upgrade = HungryChestUpgrade.byMetadata(stack.getItemDamage());
 		TileEntity te = world.getTileEntity(pos);
 
-		if (te instanceof TileMetalChest && ((TileMetalChest) te).getType() == upgrade.getBase()) {
-			TileMetalChest chest = (TileMetalChest) te;
+		if (te instanceof TileHungryMetalChest && ((TileHungryMetalChest) te).getType() == upgrade.getBase()) {
+			TileHungryMetalChest chest = (TileHungryMetalChest) te;
 
 			if (chest.numPlayersUsing > 0) {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
-		} else if (te instanceof TileEntityChest) {
-			TileEntityChest chest = (TileEntityChest) te;
+			upgradeChest(world, pos, te, new TileHungryMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+		} else if (te instanceof TileHungryChest) {
+			TileHungryChest chest = (TileHungryChest) te;
 
 			if (chest.numPlayersUsing > 0) {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
+			upgradeChest(world, pos, te, new TileHungryMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
 		} else {
 			return EnumActionResult.PASS;
 		}
@@ -141,25 +140,25 @@ public class ItemChestUpgrade extends ItemMod {
 		return EnumActionResult.SUCCESS;
 	}
 
-	private void upgradeChest(World world, BlockPos pos, TileEntity te, TileMetalChest newChest, IItemHandler inventory, EnumFacing front) {
+	private void upgradeChest(World world, BlockPos pos, TileEntity te, TileHungryMetalChest newChest, IItemHandler inventory, EnumFacing front) {
 		te.updateContainingBlockInfo();
 
-		if (te instanceof TileEntityChest) {
-			((TileEntityChest) te).checkForAdjacentChests();
+		if (te instanceof TileHungryChest) {
+			((TileHungryChest) te).checkForAdjacentChests();
 		}
 
 		world.removeTileEntity(pos);
 		world.setBlockToAir(pos);
 		world.setTileEntity(pos, newChest);
 
-		IBlockState state = ModLoader.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getType());
+		IBlockState state = ModLoader.HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockHungryMetalChest.VARIANT, newChest.getType());
 		world.setBlockState(pos, state, 3);
 		world.notifyBlockUpdate(pos, state, state, 3);
 
 		TileEntity tile = world.getTileEntity(pos);
 
-		if (tile instanceof TileMetalChest) {
-			TileMetalChest chest = (TileMetalChest) tile;
+		if (tile instanceof TileHungryMetalChest) {
+			TileHungryMetalChest chest = (TileHungryMetalChest) tile;
 			chest.setInventory(inventory);
 			chest.setFront(front);
 		}

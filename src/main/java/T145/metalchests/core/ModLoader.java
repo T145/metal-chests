@@ -32,6 +32,8 @@ import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import T145.metalchests.items.ItemHungryChestUpgrade;
+import T145.metalchests.items.ItemHungryChestUpgrade.HungryChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.tiles.TileMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
@@ -76,7 +78,10 @@ public class ModLoader {
 	public static final Block HUNGRY_METAL_CHEST = new BlockHungryMetalChest();
 
 	@ObjectHolder(ItemChestUpgrade.NAME)
-	public static final Item METAL_UPGRADE = new ItemChestUpgrade();
+	public static final Item CHEST_UPGRADE = new ItemChestUpgrade();
+
+	@ObjectHolder(ItemHungryChestUpgrade.NAME)
+	public static final Item HUNGRY_CHEST_UPGRADE = new ItemHungryChestUpgrade();
 
 	@ObjectHolder(ItemMetalMinecart.NAME)
 	public static final Item MINECART_METAL_CHEST = new ItemMetalMinecart();
@@ -106,12 +111,13 @@ public class ModLoader {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
 			registerItemBlock(registry, METAL_CHEST, ChestType.class);
+			registry.register(CHEST_UPGRADE);
 
 			if (ModSupport.hasThaumcraft()) {
 				registerItemBlock(registry, HUNGRY_METAL_CHEST, ChestType.class);
+				registry.register(HUNGRY_CHEST_UPGRADE);
 			}
 
-			registry.register(METAL_UPGRADE);
 			registry.register(MINECART_METAL_CHEST);
 		}
 
@@ -196,16 +202,20 @@ public class ModLoader {
 
 			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
+			for (ChestUpgrade type : ChestUpgrade.values()) {
+				registerModel(CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), "item=" + type.getName());
+			}
+
 			if (ModSupport.hasThaumcraft()) {
 				for (ChestType type : ChestType.values()) {
 					registerModel(HUNGRY_METAL_CHEST, type.ordinal(), getVariantName(type));
 				}
 
 				registerTileRenderer(TileHungryMetalChest.class, new RenderHungryMetalChest());
-			}
 
-			for (ChestUpgrade type : ChestUpgrade.values()) {
-				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
+				for (HungryChestUpgrade type : HungryChestUpgrade.values()) {
+					registerModel(HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());
+				}
 			}
 
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));

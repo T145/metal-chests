@@ -1,0 +1,137 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "builtin/generated",
+        "transform": "forge:default-item"
+    },
+    "variants": {
+        "item": {
+            "wood_copper": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_wood",
+                    "layer1": "metalchests:items/upgrades/arrow_copper"
+                }
+            },
+            "wood_iron": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_wood",
+                    "layer1": "metalchests:items/upgrades/arrow_iron"
+                }
+            },
+            "wood_silver": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_wood",
+                    "layer1": "metalchests:items/upgrades/arrow_silver"
+                }
+            },
+            "wood_gold": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_wood",
+                    "layer1": "metalchests:items/upgrades/arrow_gold"
+                }
+            },
+            "wood_diamond": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_wood",
+                    "layer1": "metalchests:items/upgrades/arrow_diamond"
+                }
+            },
+            "wood_obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_wood",
+                    "layer1": "metalchests:items/upgrades/arrow_obsidian"
+                }
+            },
+            "copper_iron": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_copper",
+                    "layer1": "metalchests:items/upgrades/arrow_iron"
+                }
+            },
+            "copper_silver": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_copper",
+                    "layer1": "metalchests:items/upgrades/arrow_silver"
+                }
+            },
+            "copper_gold": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_copper",
+                    "layer1": "metalchests:items/upgrades/arrow_gold"
+                }
+            },
+            "copper_diamond": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_copper",
+                    "layer1": "metalchests:items/upgrades/arrow_diamond"
+                }
+            },
+            "copper_obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_copper",
+                    "layer1": "metalchests:items/upgrades/arrow_obsidian"
+                }
+            },
+            "iron_silver": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_iron",
+                    "layer1": "metalchests:items/upgrades/arrow_silver"
+                }
+            },
+            "iron_gold": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_iron",
+                    "layer1": "metalchests:items/upgrades/arrow_gold"
+                }
+            },
+            "iron_diamond": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_iron",
+                    "layer1": "metalchests:items/upgrades/arrow_diamond"
+                }
+            },
+            "iron_obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_iron",
+                    "layer1": "metalchests:items/upgrades/arrow_obsidian"
+                }
+            },
+            "silver_gold": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_silver",
+                    "layer1": "metalchests:items/upgrades/arrow_gold"
+                }
+            },
+            "silver_diamond": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_silver",
+                    "layer1": "metalchests:items/upgrades/arrow_diamond"
+                }
+            },
+            "silver_obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_silver",
+                    "layer1": "metalchests:items/upgrades/arrow_obsidian"
+                }
+            },
+            "gold_diamond": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_gold",
+                    "layer1": "metalchests:items/upgrades/arrow_diamond"
+                }
+            },
+            "gold_obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_gold",
+                    "layer1": "metalchests:items/upgrades/arrow_obsidian"
+                }
+            },
+            "diamond_obsidian": {
+                "textures": {
+                    "layer0": "metalchests:items/upgrades/hungry_diamond",
+                    "layer1": "metalchests:items/upgrades/arrow_obsidian"
+                }
+            }
+        }
+    }
+}
