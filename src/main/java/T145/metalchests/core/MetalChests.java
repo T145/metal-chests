@@ -19,7 +19,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import T145.metalchests.core.proxies.IProxy;
-import T145.metalchests.core.proxies.ServerProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.Mod;
@@ -41,7 +40,7 @@ public class MetalChests implements IProxy {
 	static final String VERSION = "@VERSION@";
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 
-	private static final String COMMON_PROXY = "T145.metalchests.core.proxies.CommonProxy";
+	private static final String SERVER_PROXY = "T145.metalchests.core.proxies.ServerProxy";
 	private static final String CLIENT_PROXY = "T145.metalchests.core.proxies.ClientProxy";
 
 	public static final Logger LOG = LogManager.getLogger(MOD_ID);
@@ -57,8 +56,8 @@ public class MetalChests implements IProxy {
 	@Instance(MOD_ID)
 	public static MetalChests instance;
 
-	@SidedProxy(serverSide = COMMON_PROXY, clientSide = CLIENT_PROXY)
-	public static ServerProxy proxy;
+	@SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
+	public static IProxy proxy;
 
 	@Metadata
 	private ModMetadata meta;

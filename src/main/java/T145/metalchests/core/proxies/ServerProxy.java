@@ -27,6 +27,8 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -69,7 +71,11 @@ public class ServerProxy implements IProxy {
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
-		TileMetalChest.registerFixes(fixer);
+		registerChestFixes(TileMetalChest.class, fixer);
+	}
+
+	public static void registerChestFixes(Class chestClass, DataFixer fixer) {
+		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(chestClass, new String[] { "Items" }));
 	}
 
 	@Override

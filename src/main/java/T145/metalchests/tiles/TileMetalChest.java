@@ -34,9 +34,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -99,10 +96,6 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 
 	public EnumFacing getFront() {
 		return front;
-	}
-
-	public static void registerFixes(DataFixer fixer) {
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileMetalChest.class, new String[] { "Items" }));
 	}
 
 	@Override
