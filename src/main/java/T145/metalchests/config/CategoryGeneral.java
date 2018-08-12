@@ -19,6 +19,10 @@ import net.minecraftforge.common.config.Config;
 
 public class CategoryGeneral {
 
-	@Config.Comment("Whether or not you want to recieve an in-game notification if an update is available")
+	@Config.Comment("Whether or not you want to recieve an in-game notification if an update is available.")
 	public boolean checkForUpdates = true;
+
+	@Config.Comment("If Thaumcraft is installed, whether or not you want to enable the Hungry Metal Chests and their upgrades.")
+	@Config.RequiresMcRestart
+	public boolean enableHungryMetalChests = true;
 }

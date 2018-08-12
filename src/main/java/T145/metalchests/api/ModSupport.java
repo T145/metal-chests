@@ -15,6 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.api;
 
+import T145.metalchests.config.ModConfig;
 import net.minecraftforge.fml.common.Loader;
 
 public enum ModSupport {
@@ -28,7 +29,7 @@ public enum ModSupport {
 	 */;
 
 	public static boolean hasThaumcraft() {
-		return Loader.isModLoaded(Thaumcraft.MOD_ID);
+		return ModConfig.GENERAL.enableHungryMetalChests && Loader.isModLoaded(Thaumcraft.MOD_ID);
 	}
 
 	public class InvTweaks {
