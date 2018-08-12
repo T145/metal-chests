@@ -62,10 +62,9 @@ item.metalchests:hungry_chest_upgrade.gold_diamond.name=Gold to Diamond Hungry C
 item.metalchests:hungry_chest_upgrade.gold_obsidian.name=Gold to Obsidian Hungry Chest Upgrade
 item.metalchests:hungry_chest_upgrade.diamond_obsidian.name=Diamond to Obsidian Hungry Chest Upgrade
 
-
-item.metalchests:minecart_with_metal_chest.copper.name=Minecart with Copper Chest
-item.metalchests:minecart_with_metal_chest.iron.name=Minecart with Iron Chest
-item.metalchests:minecart_with_metal_chest.silver.name=Minecart with Silver Chest
-item.metalchests:minecart_with_metal_chest.gold.name=Minecart with Gold Chest
-item.metalchests:minecart_with_metal_chest.diamond.name=Minecart with Diamond Chest
-item.metalchests:minecart_with_metal_chest.obsidian.name=Minecart with Obsidian Chest
+item.metalchests:minecart_metal_chest.copper.name=Minecart with Copper Chest
+item.metalchests:minecart_metal_chest.iron.name=Minecart with Iron Chest
+item.metalchests:minecart_metal_chest.silver.name=Minecart with Silver Chest
+item.metalchests:minecart_metal_chest.gold.name=Minecart with Gold Chest
+item.metalchests:minecart_metal_chest.diamond.name=Minecart with Diamond Chest
+item.metalchests:minecart_metal_chest.obsidian.name=Minecart with Obsidian Chest

@@ -89,7 +89,7 @@ public class ItemMetalMinecart extends ItemMod {
 		}
 	};
 
-	public static final String NAME = "minecart_with_metal_chest";
+	public static final String NAME = "minecart_metal_chest";
 
 	public ItemMetalMinecart() {
 		super(NAME, ChestType.values());
