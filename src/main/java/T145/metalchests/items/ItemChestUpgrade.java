@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
@@ -111,7 +112,15 @@ public class ItemChestUpgrade extends ItemMod {
 		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 		TileEntity te = world.getTileEntity(pos);
 
-		if (te instanceof TileMetalChest && ((TileMetalChest) te).getType() == upgrade.getBase()) {
+		if (te instanceof TileHungryMetalChest && ((TileHungryMetalChest) te).getType() == upgrade.getBase()) {
+			TileHungryMetalChest chest = (TileHungryMetalChest) te;
+
+			if (chest.numPlayersUsing > 0) {
+				return EnumActionResult.PASS;
+			}
+
+			upgradeChest(world, pos, te, new TileHungryMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+		} else if (te instanceof TileMetalChest && ((TileMetalChest) te).getType() == upgrade.getBase()) {
 			TileMetalChest chest = (TileMetalChest) te;
 
 			if (chest.numPlayersUsing > 0) {
