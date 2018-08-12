@@ -31,6 +31,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> {
 
+	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
+
 	private final ModelChest model = new ModelChest();
 
 	private int getFrontAngle(EnumFacing front) {

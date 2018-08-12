@@ -22,6 +22,7 @@ import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
+import T145.metalchests.client.render.RenderMinecartMetalChest;
 import T145.metalchests.compat.chesttransporter.TransportableMetalChest;
 import T145.metalchests.compat.thaumcraft.BlockHungryMetalChest;
 import T145.metalchests.compat.thaumcraft.RenderHungryMetalChest;
@@ -53,6 +54,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
@@ -192,7 +194,7 @@ public class ModLoader {
 				registerModel(MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
 			}
 
-			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
+			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 			if (ModSupport.hasThaumcraft()) {
 				for (ChestType type : ChestType.values()) {
@@ -205,6 +207,8 @@ public class ModLoader {
 			for (ChestUpgrade type : ChestUpgrade.values()) {
 				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
 			}
+
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
 		}
 
 		private static String getVariantName(IStringSerializable variant) {

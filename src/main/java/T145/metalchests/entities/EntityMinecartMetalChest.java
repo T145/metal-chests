@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2018 T145
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
 package T145.metalchests.entities;
 
 import javax.annotation.Nullable;
@@ -13,6 +28,7 @@ import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import T145.metalchests.tiles.TileMetalChest;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -57,7 +73,10 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 
 	public void setChestType(ChestType type) {
 		dataManager.set(CHEST_TYPE, type);
-		inventory.setSize(type.getInventorySize());
+	}
+
+	public TileMetalChest getMetalChest() {
+		return new TileMetalChest(getChestType());
 	}
 
 	public void setInventory(IItemHandler stacks) {
@@ -71,7 +90,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		dataManager.register(CHEST_TYPE, ChestType.IRON);
+		dataManager.register(CHEST_TYPE, ChestType.OBSIDIAN);
 	}
 
 	@Override
@@ -152,14 +171,15 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag) {
 		super.writeEntityToNBT(tag);
+		tag.setString("Type", getChestType().toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag) {
 		super.readEntityFromNBT(tag);
+		setChestType(ChestType.valueOf(tag.getString("Type")));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-		inventory.setSize(getChestType().getInventorySize());
 	}
 
 	@Override
