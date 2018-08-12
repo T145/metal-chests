@@ -19,7 +19,6 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
