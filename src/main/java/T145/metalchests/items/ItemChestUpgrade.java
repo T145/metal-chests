@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.core.ModLoader;
+import T145.metalchests.lib.items.ItemMod;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;

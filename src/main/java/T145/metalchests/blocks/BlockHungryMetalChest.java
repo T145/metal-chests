@@ -13,13 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.compat.thaumcraft;
+package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.lib.InventoryManager;
+import T145.metalchests.lib.containers.InventoryManager;
+import T145.metalchests.tiles.TileHungryMetalChest;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;

@@ -17,10 +17,11 @@ package T145.metalchests.items;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.blocks.BlockHungryMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.compat.thaumcraft.BlockHungryMetalChest;
-import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.core.ModLoader;
+import T145.metalchests.lib.items.ItemMod;
+import T145.metalchests.tiles.TileHungryMetalChest;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

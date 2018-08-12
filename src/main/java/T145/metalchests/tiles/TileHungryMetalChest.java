@@ -13,20 +13,17 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.compat.thaumcraft;
+package T145.metalchests.tiles;
 
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.client.render.RenderMetalChest;
-import T145.metalchests.core.MetalChests;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
-public class RenderHungryMetalChest extends RenderMetalChest {
+public class TileHungryMetalChest extends TileMetalChest {
 
-	@Override
-	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+	public TileHungryMetalChest(ChestType type) {
+		super(type);
+	}
+
+	public TileHungryMetalChest() {
+		super();
 	}
 }

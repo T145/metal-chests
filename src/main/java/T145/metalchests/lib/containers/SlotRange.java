@@ -13,18 +13,32 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.compat.thaumcraft;
+package T145.metalchests.lib.containers;
 
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.tiles.TileMetalChest;
+import net.minecraftforge.items.IItemHandler;
 
-public class TileHungryMetalChest extends TileMetalChest {
+public class SlotRange {
 
-	public TileHungryMetalChest(ChestType type) {
-		super(type);
+	public final int first;
+	public final int lastInc;
+	public final int lastExc;
+
+	public SlotRange(IItemHandler inv) {
+		this(0, inv.getSlots());
 	}
 
-	public TileHungryMetalChest() {
-		super();
+	public SlotRange(int start, int numSlots) {
+		first = start;
+		lastInc = start + numSlots - 1;
+		lastExc = start + numSlots;
+	}
+
+	public boolean contains(int slot) {
+		return slot >= first && slot <= lastInc;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("SlotRange: {first: %d, lastInc: %d, lastExc: %d}", first, lastInc, lastExc);
 	}
 }

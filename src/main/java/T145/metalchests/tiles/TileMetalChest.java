@@ -26,6 +26,7 @@ import T145.metalchests.api.containers.IInventoryHandler;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.client.gui.GuiMetalChest;
 import T145.metalchests.containers.ContainerMetalChest;
+import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.player.EntityPlayer;

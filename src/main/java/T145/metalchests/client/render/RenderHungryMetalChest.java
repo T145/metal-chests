@@ -13,32 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.lib;
+package T145.metalchests.client.render;
 
-import net.minecraftforge.items.IItemHandler;
+import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.core.MetalChests;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SlotRange {
-
-	public final int first;
-	public final int lastInc;
-	public final int lastExc;
-
-	public SlotRange(IItemHandler inv) {
-		this(0, inv.getSlots());
-	}
-
-	public SlotRange(int start, int numSlots) {
-		first = start;
-		lastInc = start + numSlots - 1;
-		lastExc = start + numSlots;
-	}
-
-	public boolean contains(int slot) {
-		return slot >= first && slot <= lastInc;
-	}
+@SideOnly(Side.CLIENT)
+public class RenderHungryMetalChest extends RenderMetalChest {
 
 	@Override
-	public String toString() {
-		return String.format("SlotRange: {first: %d, lastInc: %d, lastExc: %d}", first, lastInc, lastExc);
+	protected ResourceLocation getActiveResource(ChestType type) {
+		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
 	}
 }
