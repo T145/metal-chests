@@ -73,3 +73,4 @@ release/
 classes/
 eclipse/
 /lib/
+*.ase

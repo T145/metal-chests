@@ -16,12 +16,12 @@
             "item": "#IRON"
         },
         "E": {
-            "item": "metalchests:structure_upgrade",
+            "item": "metalchests:chest_upgrade",
             "data": 0
         }
     },
     "result": {
-        "item": "metalchests:structure_upgrade",
+        "item": "metalchests:chest_upgrade",
         "data": 1
     }
 }

@@ -44,7 +44,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -136,6 +135,10 @@ public class BlockMetalChest extends Block {
 			return GUI.byType(this);
 		}
 
+		public String getGuiId() {
+			return "metalchests:" + getName() + "_chest";
+		}
+
 		public enum GUI {
 
 			COPPER(184),
@@ -177,8 +180,12 @@ public class BlockMetalChest extends Block {
 	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
 	public static final String NAME = "metal_chest";
 
+	public BlockMetalChest(Material iron) {
+		super(iron);
+	}
+
 	public BlockMetalChest() {
-		super(Material.IRON);
+		this(Material.IRON);
 		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, NAME));
 		setTranslationKey("metalchests:" + NAME);
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, ChestType.IRON));
@@ -234,8 +241,14 @@ public class BlockMetalChest extends Block {
 	}
 
 	@Override
-	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-		return Blocks.CHEST.getBoundingBox(state, source, pos);
+	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return Blocks.ENDER_CHEST.getBoundingBox(state, world, pos);
+	}
+
+	@Nullable
+	@Override
+	public AxisAlignedBB getCollisionBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
+		return getBoundingBox(state, world, pos);
 	}
 
 	@Override
@@ -274,17 +287,13 @@ public class BlockMetalChest extends Block {
 		super.breakBlock(world, pos, state);
 	}
 
-	public EnumFacing getFrontFromEntity(EntityLivingBase placer) {
-		return EnumFacing.byHorizontalIndex(MathHelper.floor((placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
-	}
-
 	@Override
 	public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
-			chest.setFront(getFrontFromEntity(placer));
+			chest.setFront(placer.getHorizontalFacing().getOpposite());
 		}
 	}
 
@@ -377,7 +386,7 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(VARIANT, ChestType.values()[meta]);
+		return getDefaultState().withProperty(VARIANT, ChestType.byMetadata(meta));
 	}
 
 	@Override

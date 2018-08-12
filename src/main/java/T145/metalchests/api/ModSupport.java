@@ -15,6 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.api;
 
+import net.minecraftforge.fml.common.Loader;
+
 public enum ModSupport {
 
 	/*
@@ -24,6 +26,10 @@ public enum ModSupport {
 	 * 
 	 * - T145
 	 */;
+
+	public static boolean hasThaumcraft() {
+		return Loader.isModLoaded(Thaumcraft.MOD_ID);
+	}
 
 	public class InvTweaks {
 		public static final String MOD_ID = "invtweaks";
@@ -45,5 +51,9 @@ public enum ModSupport {
 		public static final String MOD_ID = "railcraft";
 		public static final String FLUID_CART = "mods.railcraft.api.carts.IFluidCart";
 		public static final String ITEM_CART = "mods.railcraft.api.carts.IItemCart";
+	}
+
+	public class Thaumcraft { // have this be an @ObjectHolder?
+		public static final String MOD_ID = "thaumcraft";
 	}
 }

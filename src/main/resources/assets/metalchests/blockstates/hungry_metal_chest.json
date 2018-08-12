@@ -1,0 +1,47 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-block",
+        "model": "metalchests:chest"
+    },
+    "variants": {
+        "variant": {
+            "copper": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/copper",
+                    "chest": "metalchests:entity/chest/hungry/copper"
+                }
+            },
+            "iron": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/iron",
+                    "chest": "metalchests:entity/chest/hungry/iron"
+                }
+            },
+            "silver": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/silver",
+                    "chest": "metalchests:entity/chest/hungry/silver"
+                }
+            },
+            "gold": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/gold",
+                    "chest": "metalchests:entity/chest/hungry/gold"
+                }
+            },
+            "diamond": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/diamond",
+                    "chest": "metalchests:entity/chest/hungry/diamond"
+                }
+            },
+            "obsidian": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/obsidian",
+                    "chest": "metalchests:entity/chest/hungry/obsidian"
+                }
+            }
+        }
+    }
+}

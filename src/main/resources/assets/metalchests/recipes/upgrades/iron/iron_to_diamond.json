@@ -10,12 +10,12 @@
             "item": "#DIAMOND"
         },
         "E": {
-            "item": "metalchests:structure_upgrade",
+            "item": "metalchests:chest_upgrade",
             "data": 12
         }
     },
     "result": {
-        "item": "metalchests:structure_upgrade",
+        "item": "metalchests:chest_upgrade",
         "data": 13
     }
 }

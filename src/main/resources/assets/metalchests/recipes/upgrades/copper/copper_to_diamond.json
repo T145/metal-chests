@@ -9,19 +9,19 @@
     "pattern": [
         "TTT",
         "TTT",
-        "ETT"
+        "STT"
     ],
     "key": {
         "T": {
             "item": "#DIAMOND"
         },
-        "E": {
-            "item": "metalchests:structure_upgrade",
+        "S": {
+            "item": "metalchests:chest_upgrade",
             "data": 8
         }
     },
     "result": {
-        "item": "metalchests:structure_upgrade",
+        "item": "metalchests:chest_upgrade",
         "data": 9
     }
 }

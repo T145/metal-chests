@@ -15,8 +15,12 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
+import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
@@ -31,21 +35,35 @@ public class GuiHandler implements IGuiHandler {
 	}
 
 	@Override
-	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public Container getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 		case 0:
 			return getChest(world, x, y, z).getContainer(player);
 		default:
+			Entity entity = world.getEntityByID(ID);
+
+			if (entity instanceof EntityMinecartMetalChest) {
+				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
+				return cart.getContainer(player);
+			}
+
 			return null;
 		}
 	}
 
 	@Override
-	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public GuiContainer getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 		case 0:
 			return getChest(world, x, y, z).getGui(player);
 		default:
+			Entity entity = world.getEntityByID(ID);
+
+			if (entity instanceof EntityMinecartMetalChest) {
+				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
+				return cart.getGui(player);
+			}
+
 			return null;
 		}
 	}

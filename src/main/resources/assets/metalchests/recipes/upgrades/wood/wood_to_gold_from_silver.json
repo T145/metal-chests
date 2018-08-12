@@ -16,12 +16,12 @@
             "item": "#GOLD"
         },
         "E": {
-            "item": "metalchests:structure_upgrade",
+            "item": "metalchests:chest_upgrade",
             "data": 2
         }
     },
     "result": {
-        "item": "metalchests:structure_upgrade",
+        "item": "metalchests:chest_upgrade",
         "data": 3
     }
 }

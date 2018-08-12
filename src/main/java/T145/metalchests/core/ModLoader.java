@@ -17,20 +17,29 @@ package T145.metalchests.core;
 
 import java.util.HashSet;
 
+import T145.metalchests.api.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.RenderMetalChest;
-import T145.metalchests.compat.chesttransporter.TransportableChestMetal;
+import T145.metalchests.client.render.RenderMinecartMetalChest;
+import T145.metalchests.compat.chesttransporter.TransportableMetalChest;
+import T145.metalchests.compat.thaumcraft.BlockHungryMetalChest;
+import T145.metalchests.compat.thaumcraft.RenderHungryMetalChest;
+import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.config.ModConfig;
+import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
-import T145.metalchests.items.ItemStructureUpgrade;
-import T145.metalchests.items.ItemStructureUpgrade.ChestUpgrade;
+import T145.metalchests.items.ItemChestUpgrade;
+import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.tiles.TileMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
+import cubex2.mods.chesttransporter.chests.TransportableChestOld;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -45,13 +54,17 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.IForgeRegistry;
+import thaumcraft.api.blocks.BlocksTC;
 
 @ObjectHolder(MetalChests.MOD_ID)
 public class ModLoader {
@@ -59,8 +72,14 @@ public class ModLoader {
 	@ObjectHolder(BlockMetalChest.NAME)
 	public static final Block METAL_CHEST = new BlockMetalChest();
 
-	@ObjectHolder(ItemStructureUpgrade.NAME)
-	public static final Item METAL_UPGRADE = new ItemStructureUpgrade();
+	@ObjectHolder(BlockHungryMetalChest.NAME)
+	public static final Block HUNGRY_METAL_CHEST = new BlockHungryMetalChest();
+
+	@ObjectHolder(ItemChestUpgrade.NAME)
+	public static final Item METAL_UPGRADE = new ItemChestUpgrade();
+
+	@ObjectHolder(ItemMetalMinecart.NAME)
+	public static final Item MINECART_METAL_CHEST = new ItemMetalMinecart();
 
 	@EventBusSubscriber(modid = MetalChests.MOD_ID)
 	static class ServerLoader {
@@ -68,8 +87,14 @@ public class ModLoader {
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
+
 			registry.register(METAL_CHEST);
 			registerTileEntity(TileMetalChest.class);
+
+			if (ModSupport.hasThaumcraft()) {
+				registry.register(HUNGRY_METAL_CHEST);
+				registerTileEntity(TileHungryMetalChest.class);
+			}
 		}
 
 		private static void registerTileEntity(Class tileClass) {
@@ -79,8 +104,15 @@ public class ModLoader {
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
+
 			registerItemBlock(registry, METAL_CHEST, ChestType.class);
+
+			if (ModSupport.hasThaumcraft()) {
+				registerItemBlock(registry, HUNGRY_METAL_CHEST, ChestType.class);
+			}
+
 			registry.register(METAL_UPGRADE);
+			registry.register(MINECART_METAL_CHEST);
 		}
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -92,6 +124,21 @@ public class ModLoader {
 		}
 
 		@SubscribeEvent
+		public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
+			final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+
+			registry.register(createBuilder("MinecartMetalChest").entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
+		}
+
+		private static int entityID = 0;
+
+		private static <E extends Entity> EntityEntryBuilder<E> createBuilder(final String name) {
+			final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
+			final ResourceLocation registryName = new ResourceLocation(MetalChests.MOD_ID, name);
+			return builder.id(registryName, entityID++).name(MetalChests.MOD_ID + ":" + name);
+		}
+
+		@SubscribeEvent
 		public static void onPlayerLogIn(PlayerLoggedInEvent event) {
 			if (ModConfig.GENERAL.checkForUpdates && UpdateChecker.hasUpdate()) {
 				event.player.sendMessage(UpdateChecker.getUpdateNotification());
@@ -99,7 +146,7 @@ public class ModLoader {
 		}
 
 		@SubscribeEvent
-		public void changeSittingTaskForOcelots(LivingUpdateEvent event) {
+		public static void changeSittingTaskForOcelots(LivingUpdateEvent event) {
 			EntityLivingBase creature = event.getEntityLiving();
 
 			if (creature instanceof EntityOcelot && creature.ticksExisted < 5) {
@@ -124,7 +171,15 @@ public class ModLoader {
 			final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
 			for (ChestType type : ChestType.values()) {
-				registry.register(new TransportableChestMetal(METAL_CHEST, type.ordinal(), type == ChestType.SILVER ? "tin" : type.getName()));
+				registry.register(new TransportableMetalChest(METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/" + type.getName())));
+			}
+
+			if (ModSupport.hasThaumcraft()) {
+				registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
+
+				for (ChestType type : ChestType.values()) {
+					registry.register(new TransportableMetalChest(HUNGRY_METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
+				}
 			}
 		}
 	}
@@ -136,13 +191,24 @@ public class ModLoader {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (ChestType type : ChestType.values()) {
 				registerModel(METAL_CHEST, type.ordinal(), getVariantName(type));
+				registerModel(MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
+			}
+
+			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
+
+			if (ModSupport.hasThaumcraft()) {
+				for (ChestType type : ChestType.values()) {
+					registerModel(HUNGRY_METAL_CHEST, type.ordinal(), getVariantName(type));
+				}
+
+				registerTileRenderer(TileHungryMetalChest.class, new RenderHungryMetalChest());
 			}
 
 			for (ChestUpgrade type : ChestUpgrade.values()) {
 				registerModel(METAL_UPGRADE, "item_upgrade", type.ordinal(), "item=" + type.getName());
 			}
 
-			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
+			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
 		}
 
 		private static String getVariantName(IStringSerializable variant) {
