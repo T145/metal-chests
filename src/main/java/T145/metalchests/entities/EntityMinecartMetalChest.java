@@ -37,17 +37,17 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 @Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
-public class EntityMetalMinecart extends EntityMinecart implements IInventoryHandler, IContainer, IItemCart {
+public class EntityMinecartMetalChest extends EntityMinecart implements IInventoryHandler, IContainer, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.proxy.CHEST_TYPE);
 
-	private ItemStackHandler inventory = new ItemStackHandler();
+	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
-	public EntityMetalMinecart(World world) {
+	public EntityMinecartMetalChest(World world) {
 		super(world);
 	}
 
-	public EntityMetalMinecart(World world, double x, double y, double z) {
+	public EntityMinecartMetalChest(World world, double x, double y, double z) {
 		super(world, x, y, z);
 	}
 
@@ -56,12 +56,11 @@ public class EntityMetalMinecart extends EntityMinecart implements IInventoryHan
 	}
 
 	public void setChestType(ChestType type) {
-		this.dataManager.set(CHEST_TYPE, type);
+		dataManager.set(CHEST_TYPE, type);
+		inventory.setSize(type.getInventorySize());
 	}
 
 	public void setInventory(IItemHandler stacks) {
-		inventory = new ItemStackHandler(getChestType().getInventorySize());
-
 		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
 			if (slot < getChestType().getInventorySize()) {
 				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
@@ -72,14 +71,13 @@ public class EntityMetalMinecart extends EntityMinecart implements IInventoryHan
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataManager.register(CHEST_TYPE, ChestType.IRON);
-		inventory = new ItemStackHandler(getChestType().getInventorySize()); // just in case
+		dataManager.register(CHEST_TYPE, ChestType.IRON);
 	}
 
-	/*@Override
+	@Override
 	public ItemStack getCartItem() {
 		return new ItemStack(ModLoader.MINECART_METAL_CHEST, 1, getChestType().ordinal());
-	}*/
+	}
 
 	@Override
 	public void killMinecart(DamageSource source) {
@@ -108,18 +106,18 @@ public class EntityMetalMinecart extends EntityMinecart implements IInventoryHan
 			ItemStack stack = player.getHeldItem(hand);
 
 			if (stack.getItem() instanceof ItemChestUpgrade) {
-				ItemChestUpgrade upgradeItem = (ItemChestUpgrade) stack.getItem();
 				ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
+				// we may not even need to make a new cart entity, just change its data
 				if (getChestType() == upgrade.getBase()) {
-					EntityMetalMinecart newCart = new EntityMetalMinecart(world, posX, posY, posZ);
-					newCart.setChestType(upgrade.getUpgrade());
-					newCart.setInventory(inventory);
+					EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, posX, posY, posZ);
+					cart.setChestType(upgrade.getUpgrade());
+					cart.setInventory(inventory);
 
 					setDropItemsWhenDead(false);
 					setDead();
 
-					world.spawnEntity(newCart);
+					world.spawnEntity(cart);
 
 					if (!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
@@ -129,7 +127,7 @@ public class EntityMetalMinecart extends EntityMinecart implements IInventoryHan
 				}
 			}
 		} else {
-			player.openGui(MetalChests.MOD_ID, 2, world, 0, 0, 0);
+			player.openGui(MetalChests.MOD_ID, hashCode(), world, 0, 0, 0);
 		}
 
 		return true;
@@ -161,6 +159,7 @@ public class EntityMetalMinecart extends EntityMinecart implements IInventoryHan
 	protected void readEntityFromNBT(NBTTagCompound tag) {
 		super.readEntityFromNBT(tag);
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+		inventory.setSize(getChestType().getInventorySize());
 	}
 
 	@Override

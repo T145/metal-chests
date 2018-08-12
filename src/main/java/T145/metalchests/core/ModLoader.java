@@ -27,15 +27,18 @@ import T145.metalchests.compat.thaumcraft.BlockHungryMetalChest;
 import T145.metalchests.compat.thaumcraft.RenderHungryMetalChest;
 import T145.metalchests.compat.thaumcraft.TileHungryMetalChest;
 import T145.metalchests.config.ModConfig;
+import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.tiles.TileMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -53,6 +56,8 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.Side;
@@ -70,6 +75,9 @@ public class ModLoader {
 
 	@ObjectHolder(ItemChestUpgrade.NAME)
 	public static final Item METAL_UPGRADE = new ItemChestUpgrade();
+
+	@ObjectHolder(ItemMetalMinecart.NAME)
+	public static final Item MINECART_METAL_CHEST = new ItemMetalMinecart();
 
 	@EventBusSubscriber(modid = MetalChests.MOD_ID)
 	static class ServerLoader {
@@ -102,6 +110,7 @@ public class ModLoader {
 			}
 
 			registry.register(METAL_UPGRADE);
+			registry.register(MINECART_METAL_CHEST);
 		}
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -110,6 +119,21 @@ public class ModLoader {
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block, Class types) {
 			registry.register(new BlockModItem(block, types).setRegistryName(block.getRegistryName()));
+		}
+
+		@SubscribeEvent
+		public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
+			final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+
+			registry.register(createBuilder("MinecartMetalChest").entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
+		}
+
+		private static int entityID = 0;
+
+		private static <E extends Entity> EntityEntryBuilder<E> createBuilder(final String name) {
+			final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
+			final ResourceLocation registryName = new ResourceLocation(MetalChests.MOD_ID, name);
+			return builder.id(registryName, entityID++).name(MetalChests.MOD_ID + ":" + name);
 		}
 
 		@SubscribeEvent
@@ -165,6 +189,7 @@ public class ModLoader {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (ChestType type : ChestType.values()) {
 				registerModel(METAL_CHEST, type.ordinal(), getVariantName(type));
+				registerModel(MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
 			}
 
 			registerTileRenderer(TileMetalChest.class, new RenderMetalChest());
