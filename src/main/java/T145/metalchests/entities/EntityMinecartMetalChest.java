@@ -28,6 +28,7 @@ import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import T145.metalchests.lib.DataSerializers;
 import T145.metalchests.tiles.TileMetalChest;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
@@ -55,7 +56,7 @@ import net.minecraftforge.items.ItemStackHandler;
 @Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IInventoryHandler, IContainer, IItemCart {
 
-	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.proxy.CHEST_TYPE);
+	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, DataSerializers.CHEST_TYPE);
 
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
