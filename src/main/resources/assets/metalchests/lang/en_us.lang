@@ -1,6 +1,10 @@
 
 itemGroup.metalchests=MetalChests
 
+research.HUNGRYMETALCHEST.title=Hungry Metal Chests
+research.HUNGRYMETALCHEST.stage.1=After developing the Hungry Chest, I have turned my attention to improving it. Perhaps tinkering with its structural attributes can improve storage ability?
+research.HUNGRYMETALCHEST.stage.2=My experiments have succeeded! It would appear metals create the desired miracle. Cascading chest upgrades yield an increase in storage space. But surely there is a better way to upgrade these chests...
+
 metalchests.client.update.prefix=MetalChests
 metalchests.client.update= has an update! Download 
 

@@ -1,15 +1,15 @@
 {
     "entries": [
         {
-            "key": "HUNGRYMETALCHEST",
+            "key": "HUNGRYMETALCHESTS",
             "name": "research.HUNGRYMETALCHEST.title",
             "icons": [
                 "thaumcraft:hungry_chest"
             ],
             "category": "HUNGRYMETALCHESTS",
             "location": [
-                1,
-                1
+                0,
+                0
             ],
             "parents": [
                 "HUNGRYCHEST"
@@ -21,8 +21,7 @@
                         "OBSERVATION;GOLEMANCY;1"
                     ],
                     "required_item": [
-                        "minecraft:chest",
-                        "minecraft:hopper"
+                        "thaumcraft:hungry_chest"
                     ]
                 },
                 {
@@ -34,6 +33,14 @@
                         "metalchests:HungryGoldChest",
                         "metalchests:HungryDiamondChest",
                         "metalchests:HungryObsidianChest"
+                    ]
+                }
+            ],
+            "addenda": [
+                {
+                    "text": "research.HUNGRYMETALCHEST.upgrades",
+                    "required_research": [
+                        "HUNGRYMETALCHESTSUPGRADES"
                     ]
                 }
             ]

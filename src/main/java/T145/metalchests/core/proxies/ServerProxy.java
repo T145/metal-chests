@@ -46,7 +46,7 @@ public class ServerProxy implements IProxy {
 		TileMetalChest.registerFixes(fixer);
 
 		if (ModSupport.hasThaumcraft()) {
-			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MetalChests.MOD_ID, "research/artifice"));
+			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MetalChests.MOD_ID, "research/hungry_metal_chests"));
 
 			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKHUNGRYMETALCHESTS",
 					new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5),
