@@ -15,6 +15,9 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
+import T145.metalchests.api.containers.IInventoryHandler;
+import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -34,17 +37,30 @@ public class GuiHandler implements IGuiHandler {
 		return (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
 	}
 
+	private ContainerMetalChest getContainer(IInventoryHandler inventory, EntityPlayer player, ChestType type) {
+		return new ContainerMetalChest(inventory, player, type);
+	}
+
+	private GuiMetalChest getGui(ContainerMetalChest container) {
+		return new GuiMetalChest(container);
+	}
+
+	private GuiMetalChest getGui(IInventoryHandler inventory, EntityPlayer player, ChestType type) {
+		return getGui(getContainer(inventory, player, type));
+	}
+
 	@Override
 	public Container getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 		case 0:
-			return getChest(world, x, y, z).getContainer(player);
+			TileMetalChest chest = getChest(world, x, y, z);
+			return getContainer(chest, player, chest.getType());
 		default:
 			Entity entity = world.getEntityByID(ID);
 
 			if (entity instanceof EntityMinecartMetalChest) {
 				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
-				return cart.getContainer(player);
+				return getContainer(cart, player, cart.getChestType());
 			}
 
 			return null;
@@ -55,13 +71,14 @@ public class GuiHandler implements IGuiHandler {
 	public GuiContainer getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 		case 0:
-			return getChest(world, x, y, z).getGui(player);
+			TileMetalChest chest = getChest(world, x, y, z);
+			return getGui(chest, player, chest.getType());
 		default:
 			Entity entity = world.getEntityByID(ID);
 
 			if (entity instanceof EntityMinecartMetalChest) {
 				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
-				return cart.getGui(player);
+				return getGui(cart, player, cart.getChestType());
 			}
 
 			return null;

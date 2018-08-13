@@ -18,12 +18,9 @@ package T145.metalchests.entities;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.ModSupport;
-import T145.metalchests.api.containers.IContainer;
 import T145.metalchests.api.containers.IInventoryHandler;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.client.gui.GuiMetalChest;
-import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
@@ -32,7 +29,6 @@ import T145.metalchests.lib.DataSerializers;
 import T145.metalchests.tiles.TileMetalChest;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -54,7 +50,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 @Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
-public class EntityMinecartMetalChest extends EntityMinecart implements IInventoryHandler, IContainer, IItemCart {
+public class EntityMinecartMetalChest extends EntityMinecart implements IInventoryHandler, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, DataSerializers.CHEST_TYPE);
 
@@ -227,16 +223,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 		} else {
 			return player.getDistanceSq(this) <= 64.0D;
 		}
-	}
-
-	@Override
-	public ContainerMetalChest getContainer(EntityPlayer player) {
-		return new ContainerMetalChest(this, player, getChestType());
-	}
-
-	@Override
-	public GuiContainer getGui(EntityPlayer player) {
-		return new GuiMetalChest(getContainer(player));
 	}
 
 	@Optional.Method(modid = ModSupport.Railcraft.MOD_ID)

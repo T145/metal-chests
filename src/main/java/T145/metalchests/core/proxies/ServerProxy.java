@@ -21,8 +21,6 @@ import T145.metalchests.lib.DataSerializers;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -42,11 +40,7 @@ public class ServerProxy implements IProxy {
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
-		registerChestFixes(TileMetalChest.class, fixer);
-	}
-
-	public static void registerChestFixes(Class chestClass, DataFixer fixer) {
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(chestClass, new String[] { "Items" }));
+		TileMetalChest.registerFixes(fixer);
 	}
 
 	@Override
