@@ -41,6 +41,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
@@ -163,6 +164,15 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 	@Override
 	public int getDefaultDisplayTileOffset() {
 		return 8;
+	}
+
+	@Override
+	public String getName() {
+		if (hasCustomName()) {
+			return getCustomNameTag();
+		} else {
+			return I18n.translateToLocal("item.metalchests:minecart_metal_chest." + getChestType().getName() + ".name");
+		}
 	}
 
 	@Override
