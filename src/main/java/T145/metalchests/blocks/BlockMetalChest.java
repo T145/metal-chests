@@ -50,6 +50,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockMetalChest extends Block {
 
@@ -113,6 +114,10 @@ public class BlockMetalChest extends Block {
 
 		public SoundType getSoundType() {
 			return sound;
+		}
+
+		public boolean isRegistered() {
+			return OreDictionary.doesOreNameExist(dictName);
 		}
 
 		public boolean isLarge() {
