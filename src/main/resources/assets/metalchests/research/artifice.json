@@ -1,0 +1,42 @@
+{
+    "entries": [
+        {
+            "key": "HUNGRYMETALCHEST",
+            "name": "research.HUNGRYMETALCHEST.title",
+            "icons": [
+                "thaumcraft:hungry_chest"
+            ],
+            "category": "HUNGRYMETALCHESTS",
+            "location": [
+                1,
+                1
+            ],
+            "parents": [
+                "HUNGRYCHEST"
+            ],
+            "stages": [
+                {
+                    "text": "research.HUNGRYMETALCHEST.stage.1",
+                    "required_knowledge": [
+                        "OBSERVATION;GOLEMANCY;1"
+                    ],
+                    "required_item": [
+                        "minecraft:chest",
+                        "minecraft:hopper"
+                    ]
+                },
+                {
+                    "text": "research.HUNGRYMETALCHEST.stage.2",
+                    "recipes": [
+                        "metalchests:HungryCopperChest",
+                        "metalchests:HungryIronChest",
+                        "metalchests:HungrySilverChest",
+                        "metalchests:HungryGoldChest",
+                        "metalchests:HungryDiamondChest",
+                        "metalchests:HungryObsidianChest"
+                    ]
+                }
+            ]
+        }
+    ]
+}

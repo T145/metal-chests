@@ -48,6 +48,8 @@ import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -66,7 +68,11 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.IForgeRegistry;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
+import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
 @ObjectHolder(MetalChests.MOD_ID)
 public class ModLoader {
@@ -142,6 +148,60 @@ public class ModLoader {
 			final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
 			final ResourceLocation registryName = new ResourceLocation(MetalChests.MOD_ID, name);
 			return builder.id(registryName, entityID++).name(MetalChests.MOD_ID + ":" + name);
+		}
+
+		@SubscribeEvent
+		public static void registerVanillaRecipes(RegistryEvent.Register<IRecipe> event) {
+			if (ModSupport.hasThaumcraft()) {
+				if (ChestType.COPPER.isRegistered()) {
+					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryCopperChest"),
+							new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+									new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 0), "III", "ICI", "III", 'I',
+									"ingotCopper", 'C', new ItemStack(BlocksTC.hungryChest)));
+					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryIronChest"),
+							new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+									new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1), "III", "ICI", "III", 'I',
+									"ingotIron", 'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 0)));
+				} else {
+					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryIronChest"),
+							new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+									new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1), "III", "ICI", "III", 'I',
+									"ingotIron", 'C', new ItemStack(BlocksTC.hungryChest)));
+				}
+
+				if (ChestType.SILVER.isRegistered()) {
+					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungrySilverChest"),
+							new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+									new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 2), "III", "ICI", "III", 'I',
+									"ingotSilver", 'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1)));
+					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryGoldChest"),
+							new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+									new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 3), "III", "ICI", "III", 'I',
+									"ingotGold", 'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 2)));
+				} else {
+					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryGoldChest"),
+							new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+									new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 3), "III", "ICI", "III", 'I',
+									"ingotGold", 'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1)));
+				}
+
+				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryDiamondChest"),
+						new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+								new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+								new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 4), "III", "ICI", "III", 'I', "gemDiamond",
+								'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 3)));
+				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryObsidianChest"),
+						new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
+								new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+								new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 5), "III", "ICI", "III", 'I', "obsidian",
+								'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 4)));
+			}
 		}
 
 		@SubscribeEvent

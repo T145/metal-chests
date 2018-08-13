@@ -16,13 +16,10 @@
 package T145.metalchests.core.proxies;
 
 import T145.metalchests.api.ModSupport;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.core.ModLoader;
 import T145.metalchests.lib.DataSerializers;
 import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -33,8 +30,7 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.crafting.ShapedArcaneRecipe;
+import thaumcraft.api.research.ResearchCategories;
 
 public class ServerProxy implements IProxy {
 
@@ -48,83 +44,18 @@ public class ServerProxy implements IProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 		TileMetalChest.registerFixes(fixer);
+
+		if (ModSupport.hasThaumcraft()) {
+			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MetalChests.MOD_ID, "research/artifice"));
+
+			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKHUNGRYMETALCHESTS",
+					new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5),
+					new ResourceLocation("thaumcraft", "textures/research/cat_artifice.png"),
+					new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"),
+					ModSupport.Thaumcraft.BACK_OVER);
+		}
 	}
 
 	@Override
-	public void postInit(FMLPostInitializationEvent event) {
-		if (ModSupport.hasThaumcraft()) {
-			if (ChestType.COPPER.isRegistered()) {
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryCopperChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-						new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-						new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 0),
-						"III", "ICI", "III",
-						'I', "ingotCopper",
-						'C', new ItemStack(BlocksTC.hungryChest)
-					)
-				);
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryIronChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-						new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-						new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1),
-						"III", "ICI", "III",
-						'I', "ingotIron",
-						'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 0)
-					)
-				);
-			} else {
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryIronChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-						new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-						new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1),
-						"III", "ICI", "III",
-						'I', "ingotIron",
-						'C', new ItemStack(BlocksTC.hungryChest)
-					)
-				);
-			}
-			
-			if (ChestType.SILVER.isRegistered()) {
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungrySilverChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-						new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-						new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 2),
-						"III", "ICI", "III",
-						'I', "ingotSilver",
-						'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1)
-					)
-				);
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryGoldChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-						new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-						new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 3),
-						"III", "ICI", "III",
-						'I', "ingotGold",
-						'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 2)
-					)
-				);
-			} else {
-				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryGoldChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-						new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-						new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 3),
-						"III", "ICI", "III",
-						'I', "ingotGold",
-						'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 1)
-					)
-				);
-			}
-			
-			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryDiamondChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-					new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-					new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 4),
-					"III", "ICI", "III",
-					'I', "gemDiamond",
-					'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 3)
-				)
-			);
-			ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryObsidianChest"), new ShapedArcaneRecipe(new ResourceLocation(""), "HUNGRYCOPPERCHEST", 15,
-					new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-					new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 5),
-					"III", "ICI", "III",
-					'I', "obsidian",
-					'C', new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 4)
-				)
-			);
-		}
-	}
+	public void postInit(FMLPostInitializationEvent event) {}
 }
