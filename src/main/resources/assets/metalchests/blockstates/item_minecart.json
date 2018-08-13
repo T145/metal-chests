@@ -4,7 +4,7 @@
         "model": "builtin/generated",
         "transform": "forge:default-item",
         "textures": {
-            "layer0": "minecraft:items/minecart_normal"
+            "layer0": "metalchests:items/minecarts/base_iron"
         }
     },
     "variants": {
