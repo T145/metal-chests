@@ -1,12 +1,22 @@
 
 itemGroup.metalchests=MetalChests
 
+tc.research_category.HUNGRYMETALCHESTS=Hungry Metal Chests
+
 research.HUNGRYMETALCHEST.title=Hungry Metal Chests
 research.HUNGRYMETALCHEST.stage.1=After developing the Hungry Chest, I have turned my attention to improving it. Perhaps tinkering with its structural attributes can improve storage ability?
 research.HUNGRYMETALCHEST.stage.2=My experiments have succeeded! It would appear metals create the desired miracle. Cascading chest upgrades yield an increase in storage space. But surely there is a better way to upgrade these chests...
+research.HUNGRYMETALCHEST.addendum=... And there certainly is! After some deliberation, the answer was so clear. Instead of manually compounding the chests on my workbench, simply compound the *materials*, and apply them directly! Brilliant!
+
+research.HUNGRYMETALCHESTSUPGRADES.title=Hungry Chest Upgrades
+research.HUNGRYMETALCHESTSUPGRADES.stage.1=Emulating my structural progress with metals and chests should be the key I need to abstract the process to a more convenient medium...
+research.HUNGRYMETALCHESTSUPGRADES.stage.2=Success! I can now upgrade my creations in-place. After all, they seem so happy where they lay. Why disturb that?
 
 metalchests.client.update.prefix=MetalChests
 metalchests.client.update= has an update! Download 
+
+# Since no one seems to do this
+entity.MinecartRideable.name=Minecart
 
 tile.metalchests:metal_chest.copper.name=Copper Chest
 tile.metalchests:metal_chest.iron.name=Iron Chest

@@ -4,7 +4,12 @@
             "key": "HUNGRYMETALCHESTS",
             "name": "research.HUNGRYMETALCHEST.title",
             "icons": [
-                "thaumcraft:hungry_chest"
+                "metalchests:hungry_metal_chest;1;0",
+                "metalchests:hungry_metal_chest;1;1",
+                "metalchests:hungry_metal_chest;1;2",
+                "metalchests:hungry_metal_chest;1;3",
+                "metalchests:hungry_metal_chest;1;4",
+                "metalchests:hungry_metal_chest;1;5"
             ],
             "category": "HUNGRYMETALCHESTS",
             "location": [
@@ -38,9 +43,61 @@
             ],
             "addenda": [
                 {
-                    "text": "research.HUNGRYMETALCHEST.upgrades",
+                    "text": "research.HUNGRYMETALCHEST.addendum",
                     "required_research": [
                         "HUNGRYMETALCHESTSUPGRADES"
+                    ]
+                }
+            ]
+        },
+        {
+            "key": "HUNGRYMETALCHESTSUPGRADES",
+            "name": "research.HUNGRYMETALCHESTSUPGRADES.title",
+            "icons": [
+                "metalchests:hungry_chest_upgrade;1;0",
+                "metalchests:hungry_chest_upgrade;1;1",
+                "metalchests:hungry_chest_upgrade;1;2",
+                "metalchests:hungry_chest_upgrade;1;3",
+                "metalchests:hungry_chest_upgrade;1;4",
+                "metalchests:hungry_chest_upgrade;1;5",
+                "metalchests:hungry_chest_upgrade;1;6",
+                "metalchests:hungry_chest_upgrade;1;7",
+                "metalchests:hungry_chest_upgrade;1;8",
+                "metalchests:hungry_chest_upgrade;1;9",
+                "metalchests:hungry_chest_upgrade;1;10",
+                "metalchests:hungry_chest_upgrade;1;11",
+                "metalchests:hungry_chest_upgrade;1;12",
+                "metalchests:hungry_chest_upgrade;1;13",
+                "metalchests:hungry_chest_upgrade;1;14",
+                "metalchests:hungry_chest_upgrade;1;15",
+                "metalchests:hungry_chest_upgrade;1;16",
+                "metalchests:hungry_chest_upgrade;1;17",
+                "metalchests:hungry_chest_upgrade;1;18",
+                "metalchests:hungry_chest_upgrade;1;19",
+                "metalchests:hungry_chest_upgrade;1;20"
+            ],
+            "category": "HUNGRYMETALCHESTS",
+            "location": [
+                2,
+                -2
+            ],
+            "parents": [
+                "HUNGRYMETALCHESTS"
+            ],
+            "stages": [
+                {
+                    "text": "research.HUNGRYMETALCHESTSUPGRADES.stage.1",
+                    "required_knowledge": [
+                        "OBSERVATION;GOLEMANCY;1"
+                    ],
+                    "required_item": [
+                        "metalchests:hungry_metal_chest"
+                    ]
+                },
+                {
+                    "text": "research.HUNGRYMETALCHESTSUPGRADES.stage.2",
+                    "recipes": [
+                        "thaumcraft:Bellows"
                     ]
                 }
             ]
