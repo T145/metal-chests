@@ -116,6 +116,10 @@ public class BlockMetalChest extends Block {
 			return sound;
 		}
 
+		public String getOreName() {
+			return dictName;
+		}
+
 		public boolean isRegistered() {
 			return OreDictionary.doesOreNameExist(dictName);
 		}

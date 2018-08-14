@@ -48,7 +48,7 @@ public class CommonProxy {
 
 			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE",
 					new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5),
-					new ResourceLocation("thaumcraft", "textures/research/cat_artifice.png"),
+					new ResourceLocation("thaumcraft", "textures/research/rd_chest.png"),
 					new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"),
 					ModSupport.Thaumcraft.BACK_OVER);
 		}

@@ -97,7 +97,12 @@
                 {
                     "text": "research.HUNGRYMETALCHESTSUPGRADES.stage.2",
                     "recipes": [
-                        "thaumcraft:Bellows"
+                        "metalchests:wood_copper_hungry_chest_upgrade",
+                        "metalchests:wood_iron_hungry_chest_upgrade",
+                        "metalchests:wood_silver_hungry_chest_upgrade",
+                        "metalchests:wood_gold_hungry_chest_upgrade",
+                        "metalchests:wood_diamond_chest_upgrade",
+                        "metalchests:wood_obsdian_hungry_chest_upgrade"
                     ]
                 }
             ]
