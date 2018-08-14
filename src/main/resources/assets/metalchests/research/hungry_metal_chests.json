@@ -101,8 +101,23 @@
                         "metalchests:wood_iron_hungry_chest_upgrade",
                         "metalchests:wood_silver_hungry_chest_upgrade",
                         "metalchests:wood_gold_hungry_chest_upgrade",
-                        "metalchests:wood_diamond_chest_upgrade",
-                        "metalchests:wood_obsdian_hungry_chest_upgrade"
+                        "metalchests:wood_diamond_hungry_chest_upgrade",
+                        "metalchests:wood_obsidian_hungry_chest_upgrade",
+                        "metalchests:copper_iron_hungry_chest_upgrade",
+                        "metalchests:copper_silver_hungry_chest_upgrade",
+                        "metalchests:copper_gold_hungry_chest_upgrade",
+                        "metalchests:copper_diamond_hungry_chest_upgrade",
+                        "metalchests:copper_obsidian_hungry_chest_upgrade",
+                        "metalchests:iron_silver_hungry_chest_upgrade",
+                        "metalchests:iron_gold_hungry_chest_upgrade",
+                        "metalchests:iron_diamond_hungry_chest_upgrade",
+                        "metalchests:iron_obsidian_hungry_chest_upgrade",
+                        "metalchests:silver_gold_hungry_chest_upgrade",
+                        "metalchests:silver_diamond_hungry_chest_upgrade",
+                        "metalchests:silver_obsidian_hungry_chest_upgrade",
+                        "metalchests:gold_diamond_hungry_chest_upgrade",
+                        "metalchests:gold_obsidian_hungry_chest_upgrade",
+                        "metalchests:diamond_obsidian_hungry_chest_upgrade"
                     ]
                 }
             ]
