@@ -22,6 +22,7 @@ import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.lib.items.ItemMod;
 import T145.metalchests.tiles.TileMetalChest;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -89,6 +90,10 @@ public class ItemChestUpgrade extends ItemMod {
 			return values()[meta];
 		}
 
+		public boolean isRegistered() {
+			return base == null ? upgrade.isRegistered() : base.isRegistered() && upgrade.isRegistered();
+		}
+
 		@Override
 		public String getName() {
 			return name().toLowerCase();
@@ -97,9 +102,13 @@ public class ItemChestUpgrade extends ItemMod {
 
 	public static final String NAME = "chest_upgrade";
 
-	public ItemChestUpgrade() {
-		super(NAME, ChestUpgrade.values());
+	public ItemChestUpgrade(String name) {
+		super(name, ChestUpgrade.values());
 		setMaxStackSize(1);
+	}
+
+	public ItemChestUpgrade() {
+		this(NAME);
 	}
 
 	@Override
@@ -119,7 +128,7 @@ public class ItemChestUpgrade extends ItemMod {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+			upgradeChest(world, pos, ModLoader.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
 		} else if (te instanceof TileEntityChest) {
 			TileEntityChest chest = (TileEntityChest) te;
 
@@ -127,7 +136,7 @@ public class ItemChestUpgrade extends ItemMod {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, te, new TileMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
+			upgradeChest(world, pos, ModLoader.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
 		} else {
 			return EnumActionResult.PASS;
 		}
@@ -141,7 +150,7 @@ public class ItemChestUpgrade extends ItemMod {
 		return EnumActionResult.SUCCESS;
 	}
 
-	private void upgradeChest(World world, BlockPos pos, TileEntity te, TileMetalChest newChest, IItemHandler inventory, EnumFacing front) {
+	protected void upgradeChest(World world, BlockPos pos, Block block, TileEntity te, TileMetalChest newChest, IItemHandler inventory, EnumFacing front) {
 		te.updateContainingBlockInfo();
 
 		if (te instanceof TileEntityChest) {
@@ -152,7 +161,7 @@ public class ItemChestUpgrade extends ItemMod {
 		world.setBlockToAir(pos);
 		world.setTileEntity(pos, newChest);
 
-		IBlockState state = ModLoader.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getType());
+		IBlockState state = block.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getType());
 		world.setBlockState(pos, state, 3);
 		world.notifyBlockUpdate(pos, state, state, 3);
 

@@ -31,7 +31,6 @@ import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import T145.metalchests.items.ItemHungryChestUpgrade;
-import T145.metalchests.items.ItemHungryChestUpgrade.HungryChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.lib.items.BlockModItem;
 import T145.metalchests.tiles.TileHungryMetalChest;
@@ -151,14 +150,14 @@ public class ModLoader {
 		}
 
 		@SubscribeEvent
-		public static void registerVanillaRecipes(RegistryEvent.Register<IRecipe> event) {
+		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasThaumcraft()) {
 				if (ChestType.COPPER.isRegistered()) {
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryCopperChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
 									new ItemStack(ModLoader.HUNGRY_METAL_CHEST, 1, 0), "III", "ICI", "III", 'I', "ingotCopper", 'C', new ItemStack(BlocksTC.hungryChest)));
-					
+
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryIronChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
@@ -230,7 +229,8 @@ public class ModLoader {
 			final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
 			for (ChestType type : ChestType.values()) {
-				registry.register(new TransportableMetalChest(METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/" + type.getName())));
+				registry.register(getTransportableChest(type));
+				//ChestRegistry.registerMinecart(EntityMinecartMetalChest.class, getTransportableChest(type));
 			}
 
 			if (ModSupport.hasThaumcraft()) {
@@ -240,6 +240,10 @@ public class ModLoader {
 					registry.register(new TransportableMetalChest(HUNGRY_METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
 				}
 			}
+		}
+
+		private static TransportableMetalChest getTransportableChest(ChestType type) {
+			return new TransportableMetalChest(METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/" + type.getName()));
 		}
 	}
 
@@ -266,7 +270,7 @@ public class ModLoader {
 
 				registerTileRenderer(TileHungryMetalChest.class, new RenderHungryMetalChest());
 
-				for (HungryChestUpgrade type : HungryChestUpgrade.values()) {
+				for (ChestUpgrade type : ChestUpgrade.values()) {
 					registerModel(HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());
 				}
 			}
