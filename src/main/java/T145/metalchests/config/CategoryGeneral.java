@@ -25,4 +25,7 @@ public class CategoryGeneral {
 	@Config.Comment("If Thaumcraft is installed, whether or not you want to enable the Hungry Metal Chests and their upgrades.")
 	@Config.RequiresMcRestart
 	public boolean enableHungryMetalChests = true;
+
+	@Config.Comment("Whether or not to show blocks and items whose recipes include metals that are not present.")
+	public boolean showOnlyRegisteredMetals = true;
 }

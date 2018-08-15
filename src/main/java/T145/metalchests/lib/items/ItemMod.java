@@ -27,7 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMod extends Item {
 
-	private final Enum<? extends IStringSerializable>[] types;
+	protected final Enum<? extends IStringSerializable>[] types;
 
 	public ItemMod(String name, Enum<? extends IStringSerializable>[] types) {
 		this.types = types;

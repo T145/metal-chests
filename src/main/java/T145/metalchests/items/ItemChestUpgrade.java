@@ -19,12 +19,15 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.config.ModConfig;
+import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.lib.items.ItemMod;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -34,9 +37,12 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 
 public class ItemChestUpgrade extends ItemMod {
@@ -175,6 +181,22 @@ public class ItemChestUpgrade extends ItemMod {
 			TileMetalChest chest = (TileMetalChest) tile;
 			chest.setInventory(inventory);
 			chest.setFront(front);
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if (tab == MetalChests.TAB) {
+			if (hasSubtypes) {
+				for (ChestUpgrade upgrade : ChestUpgrade.values()) {
+					if (!ModConfig.GENERAL.showOnlyRegisteredMetals || upgrade.isRegistered()) {
+						items.add(new ItemStack(this, 1, upgrade.ordinal()));
+					}
+				}
+			} else {
+				items.add(new ItemStack(this));
+			}
 		}
 	}
 }
