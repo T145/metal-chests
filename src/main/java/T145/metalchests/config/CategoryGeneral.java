@@ -27,5 +27,5 @@ public class CategoryGeneral {
 	public boolean enableHungryMetalChests = true;
 
 	@Config.Comment("Whether or not to show blocks and items whose recipes include metals that are not present.")
-	public boolean showOnlyRegisteredMetals = true;
+	public boolean showEverthingInCreative = true;
 }

@@ -365,7 +365,7 @@ public class BlockMetalChest extends Block {
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
 		for (ChestType type : ChestType.values()) {
-			if (!ModConfig.GENERAL.showOnlyRegisteredMetals || type.isRegistered()) {
+			if (!ModConfig.GENERAL.showEverthingInCreative || type.isRegistered()) {
 				items.add(new ItemStack(this, 1, type.ordinal()));
 			}
 		}

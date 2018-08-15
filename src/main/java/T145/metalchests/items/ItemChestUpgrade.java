@@ -190,7 +190,7 @@ public class ItemChestUpgrade extends ItemMod {
 		if (tab == MetalChests.TAB) {
 			if (hasSubtypes) {
 				for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-					if (!ModConfig.GENERAL.showOnlyRegisteredMetals || upgrade.isRegistered()) {
+					if (!ModConfig.GENERAL.showEverthingInCreative || upgrade.isRegistered()) {
 						items.add(new ItemStack(this, 1, upgrade.ordinal()));
 					}
 				}

@@ -1,5 +1,8 @@
 package cubex2.mods.chesttransporter.chests;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -8,9 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.util.Collection;
-import java.util.Collections;
 
 public class TransportableChestImpl extends TransportableChest
 {
