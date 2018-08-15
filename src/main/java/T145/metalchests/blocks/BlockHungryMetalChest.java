@@ -20,7 +20,6 @@ import javax.annotation.Nullable;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.lib.containers.InventoryManager;
 import T145.metalchests.tiles.TileHungryMetalChest;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -34,14 +33,10 @@ import net.minecraft.world.World;
 public class BlockHungryMetalChest extends BlockMetalChest {
 
 	public static final String NAME = "hungry_metal_chest";
+	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(MetalChests.MOD_ID, "hungry_metal_chest");
 
 	public BlockHungryMetalChest() {
-		super(Material.IRON);
-		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, NAME));
-		setTranslationKey("metalchests:" + NAME);
-		setDefaultState(blockState.getBaseState().withProperty(VARIANT, ChestType.IRON));
-		setHardness(3F);
-		setCreativeTab(MetalChests.TAB);
+		super(REGISTRY_NAME);
 	}
 
 	@Nullable

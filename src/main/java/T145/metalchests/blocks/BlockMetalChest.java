@@ -187,17 +187,18 @@ public class BlockMetalChest extends Block {
 		}
 	}
 
-	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
 	public static final String NAME = "metal_chest";
-
-	public BlockMetalChest(Material iron) {
-		super(iron);
-	}
+	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(MetalChests.MOD_ID, "metal_chest");
+	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
 
 	public BlockMetalChest() {
-		this(Material.IRON);
-		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, NAME));
-		setTranslationKey("metalchests:" + NAME);
+		this(REGISTRY_NAME);
+	}
+
+	public BlockMetalChest(ResourceLocation registryName) {
+		super(Material.IRON);
+		setRegistryName(registryName);
+		setTranslationKey(registryName.toString());
 		setDefaultState(blockState.getBaseState().withProperty(VARIANT, ChestType.IRON));
 		setHardness(3F);
 		setCreativeTab(MetalChests.TAB);
