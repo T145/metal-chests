@@ -19,6 +19,7 @@ import T145.metalchests.api.ModSupport;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.lib.DataSerializers;
+import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
@@ -42,6 +43,7 @@ public class CommonProxy {
 		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 		TileMetalChest.registerFixes(fixer);
+		TileHungryMetalChest.registerFixes(fixer);
 
 		if (ModSupport.hasThaumcraft()) {
 			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MetalChests.MOD_ID, "research/hungry_metal_chests"));
