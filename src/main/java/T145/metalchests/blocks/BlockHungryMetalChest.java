@@ -57,6 +57,7 @@ public class BlockHungryMetalChest extends BlockMetalChest {
 
 			if (leftovers == null || leftovers.getCount() != stack.getCount()) {
 				entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
+				world.addBlockEvent(pos, this, 2, 2);
 			}
 
 			if (leftovers != null) {

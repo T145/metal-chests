@@ -411,4 +411,11 @@ public class BlockMetalChest extends Block {
 	protected BlockStateContainer createBlockState() {
 		return new BlockStateContainer(this, VARIANT);
 	}
+
+	@Override
+	public boolean eventReceived(IBlockState state, World world, BlockPos pos, int id, int param) {
+		super.eventReceived(state, world, pos, id, param);
+		TileEntity te = world.getTileEntity(pos);
+		return te != null && te.receiveClientEvent(id, param);
+	}
 }

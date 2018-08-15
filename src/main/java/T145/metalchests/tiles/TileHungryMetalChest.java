@@ -33,4 +33,17 @@ public class TileHungryMetalChest extends TileMetalChest {
 	public static void registerFixes(DataFixer fixer) {
 		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileHungryMetalChest.class, new String[] { "Items" }));
 	}
+
+	@Override
+	public boolean receiveClientEvent(int id, int data) {
+		switch (id) {
+		case 2:
+			if (lidAngle < data / 10F) {
+				lidAngle = data / 10F;
+			}
+			return true;
+		default:
+			return super.receiveClientEvent(id, data);
+		}
+	}
 }
