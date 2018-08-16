@@ -13,19 +13,29 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.render;
+package T145.metalchests.client.render.blocks;
 
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.core.MetalChests;
+import T145.metalchests.core.ModLoader;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderHungryMetalChest extends RenderMetalChest {
+public class RenderSortingHungryMetalChest extends RenderSortingMetalChest {
+
+	public RenderSortingHungryMetalChest() {
+		super(ModLoader.SORTING_HUNGRY_METAL_CHEST);
+	}
 
 	@Override
 	protected ResourceLocation getActiveResource(ChestType type) {
 		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+	}
+
+	@Override
+	protected ResourceLocation getActiveOverlay(ChestType type) {
+		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
 	}
 }

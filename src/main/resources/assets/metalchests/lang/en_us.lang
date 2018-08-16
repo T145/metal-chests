@@ -68,6 +68,13 @@ tile.metalchests:hungry_metal_chest.gold.name=Hungry Gold Chest
 tile.metalchests:hungry_metal_chest.diamond.name=Hungry Diamond Chest
 tile.metalchests:hungry_metal_chest.obsidian.name=Hungry Obsidian Chest
 
+tile.metalchests:sorting_hungry_metal_chest.copper.name=Sorting Hungry Copper Chest
+tile.metalchests:sorting_hungry_metal_chest.iron.name=Sorting Hungry Iron Chest
+tile.metalchests:sorting_hungry_metal_chest.silver.name=Sorting Hungry Silver Chest
+tile.metalchests:sorting_hungry_metal_chest.gold.name=Sorting Hungry Gold Chest
+tile.metalchests:sorting_hungry_metal_chest.diamond.name=Sorting Hungry Diamond Chest
+tile.metalchests:sorting_hungry_metal_chest.obsidian.name=Sorting Hungry Obsidian Chest
+
 item.metalchests:hungry_chest_upgrade.wood_copper.name=Wood to Copper Hungry Chest Upgrade
 item.metalchests:hungry_chest_upgrade.wood_iron.name=Wood to Iron Hungry Chest Upgrade
 item.metalchests:hungry_chest_upgrade.wood_silver.name=Wood to Silver Hungry Chest Upgrade

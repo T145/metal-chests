@@ -21,11 +21,13 @@ import T145.metalchests.api.ModSupport;
 import T145.metalchests.blocks.BlockHungryMetalChest;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.blocks.BlockSortingHungryMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
-import T145.metalchests.client.render.RenderHungryMetalChest;
-import T145.metalchests.client.render.RenderMetalChest;
-import T145.metalchests.client.render.RenderMinecartMetalChest;
-import T145.metalchests.client.render.RenderSortingMetalChest;
+import T145.metalchests.client.render.blocks.RenderHungryMetalChest;
+import T145.metalchests.client.render.blocks.RenderMetalChest;
+import T145.metalchests.client.render.blocks.RenderSortingHungryMetalChest;
+import T145.metalchests.client.render.blocks.RenderSortingMetalChest;
+import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
 import T145.metalchests.compat.chesttransporter.TransportableMetalChest;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityMinecartMetalChest;
@@ -37,6 +39,7 @@ import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.lib.items.BlockModItem;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileSortingHungryMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
@@ -88,6 +91,9 @@ public class ModLoader {
 	@ObjectHolder(BlockSortingMetalChest.NAME)
 	public static final Block SORTING_METAL_CHEST = new BlockSortingMetalChest();
 
+	@ObjectHolder(BlockSortingHungryMetalChest.NAME)
+	public static final Block SORTING_HUNGRY_METAL_CHEST = new BlockSortingHungryMetalChest();
+
 	@ObjectHolder(ItemChestUpgrade.NAME)
 	public static final Item CHEST_UPGRADE = new ItemChestUpgrade();
 
@@ -116,6 +122,11 @@ public class ModLoader {
 				registry.register(SORTING_METAL_CHEST);
 				registerTileEntity(TileSortingMetalChest.class);
 			}
+
+			if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
+				registry.register(SORTING_HUNGRY_METAL_CHEST);
+				registerTileEntity(TileSortingHungryMetalChest.class);
+			}
 		}
 
 		private static void registerTileEntity(Class tileClass) {
@@ -136,6 +147,10 @@ public class ModLoader {
 
 			if (ModSupport.hasRefinedRelocation()) {
 				registerItemBlock(registry, SORTING_METAL_CHEST, ChestType.class);
+			}
+
+			if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
+				registerItemBlock(registry, SORTING_HUNGRY_METAL_CHEST, ChestType.class);
 			}
 
 			registry.register(MINECART_METAL_CHEST);
@@ -366,6 +381,14 @@ public class ModLoader {
 				}
 
 				registerTileRenderer(TileSortingMetalChest.class, new RenderSortingMetalChest());
+			}
+
+			if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
+				for (ChestType type : ChestType.values()) {
+					registerModel(SORTING_HUNGRY_METAL_CHEST, type.ordinal(), getVariantName(type));
+				}
+
+				registerTileRenderer(TileSortingHungryMetalChest.class, new RenderSortingHungryMetalChest());
 			}
 
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));

@@ -1,0 +1,53 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-block",
+        "model": "metalchests:sorting_chest"
+    },
+    "variants": {
+        "variant": {
+            "copper": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/copper",
+                    "chest": "metalchests:entity/chest/hungry/copper",
+                    "overlay": "metalchests:entity/chest/hungry/overlay/copper"
+                }
+            },
+            "iron": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/iron",
+                    "chest": "metalchests:entity/chest/hungry/iron",
+                    "overlay": "metalchests:entity/chest/hungry/overlay/iron"
+                }
+            },
+            "silver": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/silver",
+                    "chest": "metalchests:entity/chest/hungry/silver",
+                    "overlay": "metalchests:entity/chest/hungry/overlay/silver"
+                }
+            },
+            "gold": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/gold",
+                    "chest": "metalchests:entity/chest/hungry/gold",
+                    "overlay": "metalchests:entity/chest/hungry/overlay/gold"
+                }
+            },
+            "diamond": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/diamond",
+                    "chest": "metalchests:entity/chest/hungry/diamond",
+                    "overlay": "metalchests:entity/chest/hungry/overlay/diamond"
+                }
+            },
+            "obsidian": {
+                "textures": {
+                    "particle": "metalchests:blocks/chest/hungry/obsidian",
+                    "chest": "metalchests:entity/chest/hungry/obsidian",
+                    "overlay": "metalchests:entity/chest/hungry/overlay/obsidian"
+                }
+            }
+        }
+    }
+}

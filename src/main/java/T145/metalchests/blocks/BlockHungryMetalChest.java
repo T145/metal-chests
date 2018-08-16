@@ -17,9 +17,11 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.lib.containers.InventoryManager;
 import T145.metalchests.tiles.TileHungryMetalChest;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
@@ -45,19 +47,18 @@ public class BlockHungryMetalChest extends BlockMetalChest {
 		return new TileHungryMetalChest(state.getValue(VARIANT));
 	}
 
-	@Override
-	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+	public static void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity, Block receiver) {
 		TileEntity te = world.getTileEntity(pos);
 
-		if (te instanceof TileHungryMetalChest && entity instanceof EntityItem && !entity.isDead) {
-			TileHungryMetalChest chest = (TileHungryMetalChest) te;
+		if (te instanceof IInventoryHandler && entity instanceof EntityItem && !entity.isDead) {
+			IInventoryHandler chest = (IInventoryHandler) te;
 			EntityItem item = (EntityItem) entity;
 			ItemStack stack = item.getItem();
 			ItemStack leftovers = InventoryManager.tryInsertItemStackToInventory(chest.getInventory(), stack);
 
 			if (leftovers == null || leftovers.getCount() != stack.getCount()) {
 				entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
-				world.addBlockEvent(pos, this, 2, 2);
+				world.addBlockEvent(pos, receiver, 2, 2);
 			}
 
 			if (leftovers != null) {
@@ -66,5 +67,10 @@ public class BlockHungryMetalChest extends BlockMetalChest {
 				entity.setDead();
 			}
 		}
+	}
+
+	@Override
+	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+		onEntityCollision(world, pos, state, entity, this);
 	}
 }

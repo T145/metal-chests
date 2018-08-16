@@ -21,6 +21,7 @@ import T145.metalchests.core.MetalChests;
 import T145.metalchests.lib.DataSerializers;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileSortingHungryMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
@@ -47,15 +48,13 @@ public class CommonProxy {
 
 		TileMetalChest.registerFixes(fixer);
 
-		if (ModSupport.hasThaumcraft()) {
-			TileHungryMetalChest.registerFixes(fixer);
-		}
-
 		if (ModSupport.hasRefinedRelocation()) {
 			TileSortingMetalChest.registerFixes(fixer);
 		}
 
 		if (ModSupport.hasThaumcraft()) {
+			TileHungryMetalChest.registerFixes(fixer);
+
 			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MetalChests.MOD_ID, "research/hungry_metal_chests"));
 
 			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE",
@@ -63,6 +62,10 @@ public class CommonProxy {
 					new ResourceLocation("thaumcraft", "textures/research/rd_chest.png"),
 					new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"),
 					ModSupport.Thaumcraft.BACK_OVER);
+		}
+
+		if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
+			TileSortingHungryMetalChest.registerFixes(fixer);
 		}
 	}
 

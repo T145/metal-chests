@@ -13,8 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.render;
+package T145.metalchests.client.render.entities;
 
+import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.entity.RenderManager;
