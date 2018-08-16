@@ -9,6 +9,7 @@ import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
+import net.blay09.mods.refinedrelocation.client.render.ModelLidOverlay;
 import net.blay09.mods.refinedrelocation.client.render.SafeTESR;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.model.ModelChest;
@@ -21,6 +22,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 
 	private final ModelChest model = new ModelChest();
+	private final ModelLidOverlay chestLid = new ModelLidOverlay();
 
 	public RenderSortingMetalChest() {
 		super(ModLoader.SORTING_METAL_CHEST);
@@ -72,7 +74,8 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 		if (destroyStage == -1) {
 			bindTexture(getActiveOverlay(chest.getType()));
 			GlStateManager.translate(0f, -0.001f, 0f);
-			model.renderAll();
+			chestLid.chestLid.rotateAngleX = model.chestLid.rotateAngleX;
+			chestLid.renderAll();
 		}
 
 		GlStateManager.disableRescaleNormal();
