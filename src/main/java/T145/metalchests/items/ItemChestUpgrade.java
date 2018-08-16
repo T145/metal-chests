@@ -24,6 +24,7 @@ import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.lib.items.ItemMod;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileSortingMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
@@ -138,7 +139,11 @@ public class ItemChestUpgrade extends ItemMod {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, ModLoader.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+			if (te instanceof TileSortingMetalChest) {
+				upgradeChest(world, pos, ModLoader.SORTING_METAL_CHEST, te, new TileSortingMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+			} else {
+				upgradeChest(world, pos, ModLoader.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+			}
 		} else if (te instanceof TileEntityChest) {
 			TileEntityChest chest = (TileEntityChest) te;
 
