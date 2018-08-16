@@ -84,3 +84,9 @@ task setupEclipseWorkspace(type: Download, dependsOn: setupDecompWorkspace) {
         project.file('forge').deleteDir()
     }
 }
+
+jar {
+    manifest {
+        attributes 'FMLAT': mod_id + '_at.cfg'
+    }
+}
