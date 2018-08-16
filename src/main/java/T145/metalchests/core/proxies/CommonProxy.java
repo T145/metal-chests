@@ -42,10 +42,18 @@ public class CommonProxy {
 
 	public void init(FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
+
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
+
 		TileMetalChest.registerFixes(fixer);
-		TileHungryMetalChest.registerFixes(fixer);
-		TileSortingMetalChest.registerFixes(fixer);
+
+		if (ModSupport.hasThaumcraft()) {
+			TileHungryMetalChest.registerFixes(fixer);
+		}
+
+		if (ModSupport.hasRefinedRelocation()) {
+			TileSortingMetalChest.registerFixes(fixer);
+		}
 
 		if (ModSupport.hasThaumcraft()) {
 			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MetalChests.MOD_ID, "research/hungry_metal_chests"));
