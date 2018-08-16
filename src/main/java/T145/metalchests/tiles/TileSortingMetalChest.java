@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Strings;
 
+import T145.metalchests.api.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -38,9 +39,14 @@ import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
+@Optional.Interface(
+		modid = ModSupport.RefinedRelocation.MOD_ID,
+		iface = ModSupport.RefinedRelocation.NAMEABLE,
+		striprefs = false)
 public class TileSortingMetalChest extends TileMetalChest implements INameable {
 
 	private final ISortingInventory sortingInventory = Capabilities.getDefaultInstance(Capabilities.SORTING_INVENTORY);
@@ -147,21 +153,25 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 		return "tile.metalchests:sorting_metal_chest." + type.getName() + ".name";
 	}
 
+	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public void setCustomName(String customName) {
 		this.customName = customName;
 	}
 
+	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public String getCustomName() {
 		return customName;
 	}
 
+	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public boolean hasCustomName() {
 		return !Strings.isNullOrEmpty(customName);
 	}
 
+	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public String getUnlocalizedName() {
 		return getItemHandlerName();
