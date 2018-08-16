@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.containers;
+package T145.metalchests.api;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.items.IItemHandler;

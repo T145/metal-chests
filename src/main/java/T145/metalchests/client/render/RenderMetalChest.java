@@ -33,9 +33,9 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 
 	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
 
-	private final ModelChest model = new ModelChest();
+	protected final ModelChest model = new ModelChest();
 
-	private int getFrontAngle(EnumFacing front) {
+	public static int getFrontAngle(EnumFacing front) {
 		switch (front) {
 		case NORTH:
 			return 180;

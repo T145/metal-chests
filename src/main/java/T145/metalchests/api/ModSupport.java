@@ -33,6 +33,10 @@ public enum ModSupport {
 		return ModConfig.GENERAL.enableHungryMetalChests && Loader.isModLoaded(Thaumcraft.MOD_ID);
 	}
 
+	public static boolean hasRefinedRelocation() {
+		return ModConfig.GENERAL.enableSortingMetalChests && Loader.isModLoaded(RefinedRelocation.MOD_ID);
+	}
+
 	public static class InvTweaks {
 		public static final String MOD_ID = "invtweaks";
 		public static final String CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
@@ -59,5 +63,9 @@ public enum ModSupport {
 		public static final String MOD_ID = "thaumcraft";
 		public static final ResourceLocation DEFAULT_GROUP = new ResourceLocation("");
 		public static final ResourceLocation BACK_OVER = new ResourceLocation(MOD_ID, "textures/gui/gui_research_back_over.png");
+	}
+
+	public static class RefinedRelocation {
+		public static final String MOD_ID = "refinedrelocation";
 	}
 }

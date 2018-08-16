@@ -26,6 +26,10 @@ public class CategoryGeneral {
 	@Config.RequiresMcRestart
 	public boolean enableHungryMetalChests = true;
 
+	@Config.Comment("If Refined Relocation 2 is installed, whether or not you want to enable the Hungry Sorting Chests.")
+	@Config.RequiresMcRestart
+	public boolean enableSortingMetalChests = true;
+
 	@Config.Comment("Whether or not to show blocks and items whose recipes include metals that are not present.")
 	public boolean showEverthingInCreative = true;
 }

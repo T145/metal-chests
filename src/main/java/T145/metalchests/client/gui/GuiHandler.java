@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
-import T145.metalchests.api.containers.IInventoryHandler;
+import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
