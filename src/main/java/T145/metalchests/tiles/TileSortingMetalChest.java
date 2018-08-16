@@ -2,6 +2,10 @@ package T145.metalchests.tiles;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.google.common.base.Strings;
+
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -10,6 +14,7 @@ import net.blay09.mods.refinedrelocation.capability.CapabilityRootFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySimpleFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingGridMember;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingInventory;
+import net.blay09.mods.refinedrelocation.tile.INameable;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumFacing;
@@ -18,10 +23,12 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TileSortingMetalChest extends TileMetalChest {
+public class TileSortingMetalChest extends TileMetalChest implements INameable {
 
 	private final ISortingInventory sortingInventory = Capabilities.getDefaultInstance(Capabilities.SORTING_INVENTORY);
 	private final IRootFilter rootFilter = Capabilities.getDefaultInstance(Capabilities.ROOT_FILTER);
+
+	private String customName = StringUtils.EMPTY;
 
 	public TileSortingMetalChest(ChestType type) {
 		super(type);
@@ -65,6 +72,7 @@ public class TileSortingMetalChest extends TileMetalChest {
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 
+		customName = compound.getString("CustomName");
 		sortingInventory.deserializeNBT(compound.getCompoundTag("SortingInventory"));
 
 		if (compound.getTagId("RootFilter") == Constants.NBT.TAG_LIST) {
@@ -81,6 +89,7 @@ public class TileSortingMetalChest extends TileMetalChest {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
+		compound.setString("CustomName", customName);
 		compound.setTag("SortingInventory", sortingInventory.serializeNBT());
 		compound.setTag("RootFilter", rootFilter.serializeNBT());
 		return compound;
@@ -105,5 +114,30 @@ public class TileSortingMetalChest extends TileMetalChest {
 			return (T) rootFilter;
 		}
 		return super.getCapability(capability, facing);
+	}
+
+	@Override
+	public String getItemHandlerName() {
+		return "tile.metalchests:sorting_metal_chest." + type.getName() + ".name";
+	}
+
+	@Override
+	public void setCustomName(String customName) {
+		this.customName = customName;
+	}
+
+	@Override
+	public String getCustomName() {
+		return customName;
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return !Strings.isNullOrEmpty(customName);
+	}
+
+	@Override
+	public String getUnlocalizedName() {
+		return getItemHandlerName();
 	}
 }

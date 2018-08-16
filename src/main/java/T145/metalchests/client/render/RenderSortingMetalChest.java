@@ -61,8 +61,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 		GlStateManager.translate(x, y + 1, z + 1);
 		GlStateManager.scale(1f, -1f, -1f);
 		GlStateManager.translate(0.5f, 0.5f, 0.5f);
-		float angle = state != null ? RenderMetalChest.getFrontAngle(chest.getFront()) : 0f;
-		GlStateManager.rotate(angle, 0f, 1f, 0f);
+		GlStateManager.rotate(RenderMetalChest.getFrontAngle(chest.getFront()), 0f, 1f, 0f);
 		GlStateManager.translate(-0.5f, -0.5f, -0.5f);
 		float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
 		f = 1.0F - f;
@@ -85,5 +84,10 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 			GlStateManager.popMatrix();
 			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		}
+	}
+
+	@Override
+	protected boolean shouldRenderNameTag(TileSortingMetalChest chest) {
+		return chest.hasCustomName() && RefinedRelocationConfig.renderChestNameTags;
 	}
 }
