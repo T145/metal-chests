@@ -23,6 +23,7 @@ import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.lib.items.ItemMod;
+import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.minecraft.block.Block;
@@ -128,9 +129,14 @@ public class ItemChestUpgrade extends ItemMod {
 			return EnumActionResult.PASS;
 		}
 
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof TileHungryMetalChest) {
+			return EnumActionResult.FAIL;
+		}
+
 		ItemStack stack = player.getHeldItem(hand);
 		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
-		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest && ((TileMetalChest) te).getType() == upgrade.getBase()) {
 			TileMetalChest chest = (TileMetalChest) te;
