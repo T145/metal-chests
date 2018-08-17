@@ -15,14 +15,23 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
+import T145.metalchests.api.ModSupport;
 import T145.metalchests.containers.ContainerMetalChest;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.quark.api.IChestButtonCallback;
+import vazkii.quark.api.IItemSearchBar;
 
+@Optional.InterfaceList({
+		@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.CHEST_BUTTON_CALLBACK, striprefs = true),
+		@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.SEARCH_BAR, striprefs = true) })
 @SideOnly(Side.CLIENT)
-public class GuiMetalChest extends GuiContainer {
+public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {
 
 	private final ContainerMetalChest inventory;
 
@@ -48,5 +57,20 @@ public class GuiMetalChest extends GuiContainer {
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+	}
+
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Override
+	public boolean onAddChestButton(GuiButton button, int buttonType) {
+		return true;
+	}
+
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Override
+	public void onSearchBarAdded(GuiTextField bar) {
+		int xOffset = this.getXSize() - 95;
+		bar.y = this.getGuiTop() - 4;
+		xOffset -= 4;
+		bar.x = this.getGuiLeft() + xOffset;
 	}
 }

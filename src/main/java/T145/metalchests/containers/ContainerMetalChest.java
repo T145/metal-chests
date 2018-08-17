@@ -18,23 +18,17 @@ package T145.metalchests.containers;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.IInventoryHandler;
-import T145.metalchests.api.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockMetalChest.ChestType.GUI;
 import invtweaks.api.container.ChestContainer;
-import net.minecraft.client.gui.GuiButton;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
-import vazkii.quark.api.IChestButtonCallback;
 
 @ChestContainer(isLargeChest = true)
-@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.CHEST_BUTTON_CALLBACK, striprefs = true)
-public class ContainerMetalChest extends Container implements IChestButtonCallback {
+public class ContainerMetalChest extends Container {
 
 	private final IInventoryHandler handler;
 	private final ChestType type;
@@ -122,11 +116,5 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 	@ChestContainer.RowSizeCallback
 	public int getNumColumns() {
 		return type.getRowLength();
-	}
-
-	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
-	@Override
-	public boolean onAddChestButton(GuiButton button, int buttonType) {
-		return true;
 	}
 }

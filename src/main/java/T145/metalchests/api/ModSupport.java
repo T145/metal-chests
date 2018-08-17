@@ -46,6 +46,7 @@ public enum ModSupport {
 		public static final String MOD_ID = "quark";
 		public static final String CHEST_BUTTON_CALLBACK = "vazkii.quark.api.IChestButtonCallback";
 		public static final String DROPOFF_MANAGER = "vazkii.quark.api.IDropoffManager";
+		public static final String SEARCH_BAR = "vazkii.quark.api.IItemSearchBar";
 	}
 
 	public static class HoloInventory {
