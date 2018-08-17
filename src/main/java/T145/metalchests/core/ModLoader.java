@@ -336,8 +336,9 @@ public class ModLoader {
 			final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
 			for (ChestType type : ChestType.values()) {
-				registry.register(new TransportableMetalChest(METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/" + type.getName())));
-				//ChestRegistry.registerMinecart(EntityMinecartMetalChest.class, getTransportableChest(type));
+				TransportableMetalChest chest = new TransportableMetalChest(METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/" + type.getName()));
+				registry.register(chest);
+				//ChestRegistry.registerMinecart(EntityMinecartMetalChest.class, chest);
 			}
 
 			if (ModSupport.hasThaumcraft()) {
