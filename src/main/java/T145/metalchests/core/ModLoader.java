@@ -154,7 +154,9 @@ public class ModLoader {
 				registerItemBlock(registry, SORTING_HUNGRY_METAL_CHEST, ChestType.class);
 			}
 
-			registry.register(MINECART_METAL_CHEST);
+			if (ModConfig.GENERAL.enableMinecarts) {
+				registry.register(MINECART_METAL_CHEST);
+			}
 		}
 
 		private static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -358,7 +360,10 @@ public class ModLoader {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (ChestType type : ChestType.values()) {
 				registerModel(METAL_CHEST, type.ordinal(), getVariantName(type));
-				registerModel(MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
+
+				if (ModConfig.GENERAL.enableMinecarts) {
+					registerModel(MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
+				}
 			}
 
 			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
