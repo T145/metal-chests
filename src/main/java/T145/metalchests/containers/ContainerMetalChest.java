@@ -86,36 +86,37 @@ public class ContainerMetalChest extends Container implements IChestButtonCallba
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+		ItemStack stack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
 
-		if (slot == null) {
-			return null;
-		}
+		if (slot != null && slot.getHasStack()) {
+			ItemStack slotStack = slot.getStack();
+			stack = slotStack.copy();
 
-		ItemStack stack = slot.getStack();
+			int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
 
-		if (stack.isEmpty()) {
-			return ItemStack.EMPTY;
-		}
-
-		ItemStack result = stack.copy();
-		IItemHandler items = handler.getInventory();
-
-		if (index < items.getSlots()) {
-			if (!mergeItemStack(stack, items.getSlots(), inventorySlots.size(), true)) {
+			if (index < containerSlots) {
+				if (!this.mergeItemStack(slotStack, containerSlots, inventorySlots.size(), true)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (!this.mergeItemStack(slotStack, 0, containerSlots, false)) {
 				return ItemStack.EMPTY;
 			}
-		} else if (!mergeItemStack(stack, 0, items.getSlots(), false)) {
-			return ItemStack.EMPTY;
+
+			if (slotStack.isEmpty()) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
+			}
+
+			if (slotStack.getCount() == stack.getCount()) {
+				return ItemStack.EMPTY;
+			}
+
+			slot.onTake(player, slotStack);
 		}
 
-		if (stack.isEmpty()) {
-			slot.putStack(ItemStack.EMPTY);
-		} else {
-			slot.onSlotChanged();
-		}
-
-		return result;
+		return stack;
 	}
 
 	@ChestContainer.RowSizeCallback
