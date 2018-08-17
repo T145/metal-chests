@@ -60,6 +60,10 @@ public enum ModSupport {
 		public static final String ITEM_CART = "mods.railcraft.api.carts.IItemCart";
 	}
 
+	public static class ChestTransporter {
+		public static final String MOD_ID = "chesttransporter";
+	}
+
 	public static class Thaumcraft { // have this be an @ObjectHolder?
 		public static final String MOD_ID = "thaumcraft";
 		public static final ResourceLocation DEFAULT_GROUP = new ResourceLocation("");
