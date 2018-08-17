@@ -15,15 +15,11 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
-import T145.metalchests.api.IInventoryHandler;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
@@ -35,34 +31,18 @@ public class GuiHandler implements IGuiHandler {
 
 	private final MutableBlockPos pos = new MutableBlockPos(BlockPos.ORIGIN);
 
-	private TileMetalChest getChest(World world, int x, int y, int z) {
-		return (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
-	}
-
-	private ContainerMetalChest getContainer(IInventoryHandler inventory, EntityPlayer player, ChestType type) {
-		return new ContainerMetalChest(inventory, player, type);
-	}
-
-	private GuiMetalChest getGui(ContainerMetalChest container) {
-		return new GuiMetalChest(container);
-	}
-
-	private GuiMetalChest getGui(IInventoryHandler inventory, EntityPlayer player, ChestType type) {
-		return getGui(getContainer(inventory, player, type));
-	}
-
 	@Override
-	public Container getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+	public ContainerMetalChest getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 		case 0:
-			TileMetalChest chest = getChest(world, x, y, z);
-			return getContainer(chest, player, chest.getType());
+			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
+			return new ContainerMetalChest(chest, player, chest.getType());
 		default:
 			Entity entity = world.getEntityByID(ID);
 
 			if (entity instanceof EntityMinecartMetalChest) {
 				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
-				return getContainer(cart, player, cart.getChestType());
+				return new ContainerMetalChest(cart, player, cart.getChestType());
 			}
 
 			return null;
@@ -71,20 +51,8 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public GuiContainer getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		switch (ID) {
-		case 0:
-			TileMetalChest chest = getChest(world, x, y, z);
-			return getGui(chest, player, chest.getType());
-		default:
-			Entity entity = world.getEntityByID(ID);
-
-			if (entity instanceof EntityMinecartMetalChest) {
-				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
-				return getGui(cart, player, cart.getChestType());
-			}
-
-			return null;
-		}
+	public GuiMetalChest getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GuiMetalChest(getServerGuiElement(ID, player, world, x, y, z));
 	}
 }
+
