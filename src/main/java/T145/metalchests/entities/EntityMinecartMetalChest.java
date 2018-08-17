@@ -32,6 +32,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,6 +42,9 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -51,10 +55,9 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 @Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
-public class EntityMinecartMetalChest extends EntityMinecart implements IInventoryHandler, IItemCart {
+public class EntityMinecartMetalChest extends EntityMinecart implements IInventory, IInventoryHandler, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, DataSerializers.CHEST_TYPE);
-
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
 	public EntityMinecartMetalChest(World world) {
@@ -85,6 +88,11 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 		}
 	}
 
+	public static void addDataFixers(DataFixer fixer) {
+		EntityMinecart.registerFixesMinecart(fixer, EntityMinecartMetalChest.class);
+		fixer.registerWalker(FixTypes.ENTITY, new ItemStackDataLists(EntityMinecartMetalChest.class, new String[] { "Items" }));
+	}
+
 	@Override
 	protected void entityInit() {
 		super.entityInit();
@@ -92,8 +100,17 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 	}
 
 	@Override
-	public ItemStack getCartItem() {
-		return new ItemStack(ModLoader.MINECART_METAL_CHEST, 1, getChestType().ordinal());
+	protected void writeEntityToNBT(NBTTagCompound tag) {
+		super.writeEntityToNBT(tag);
+		tag.setString("Type", getChestType().toString());
+		tag.setTag("Inventory", inventory.serializeNBT());
+	}
+
+	@Override
+	protected void readEntityFromNBT(NBTTagCompound tag) {
+		super.readEntityFromNBT(tag);
+		setChestType(ChestType.valueOf(tag.getString("Type")));
+		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 	}
 
 	@Override
@@ -143,6 +160,104 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 		return true;
 	}
 
+	@Override
+	protected void applyDrag() {
+		float f = 0.98F;
+
+		int i = 15 - ItemHandlerHelper.calcRedstoneFromInventory(inventory);
+		f += (float) i * 0.001F;
+
+		this.motionX *= (double) f;
+		this.motionY *= 0.0D;
+		this.motionZ *= (double) f;
+	}
+
+	@Override
+	public ItemStack getCartItem() {
+		return new ItemStack(ModLoader.MINECART_METAL_CHEST, 1, getChestType().ordinal());
+	}
+
+	@Override
+	public int getSizeInventory() {
+		return inventory.getSlots();
+	}
+
+	@Override
+	public boolean isEmpty() {
+		for (int slot = 0; slot < this.getSizeInventory(); ++slot) {
+			ItemStack stack = this.getStackInSlot(slot);
+
+			if (!stack.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int index) {
+		return inventory.getStackInSlot(index);
+	}
+
+	@Override
+	public ItemStack decrStackSize(int index, int count) {
+		return inventory.extractItem(index, count, false);
+	}
+
+	@Override
+	public ItemStack removeStackFromSlot(int index) {
+		return this.decrStackSize(index, this.getStackInSlot(index).getCount());
+	}
+
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stack) {
+		inventory.setStackInSlot(index, stack);
+	}
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
+	}
+
+	@Override
+	public void markDirty() {}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return !this.isDead && player.getDistanceSq(this) <= 64.0D;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public boolean isItemValidForSlot(int index, ItemStack stack) {
+		return inventory.isItemValid(index, stack);
+	}
+
+	@Override
+	public int getField(int id) {
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {}
+
+	@Override
+	public int getFieldCount() {
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		for (int slot = 0; slot < this.getSizeInventory(); ++slot) {
+			this.setInventorySlotContents(slot, ItemStack.EMPTY);
+		}
+	}
 
 	@Override
 	public EntityMinecart.Type getType() {
@@ -169,29 +284,8 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 	}
 
 	@Override
-	protected void writeEntityToNBT(NBTTagCompound tag) {
-		super.writeEntityToNBT(tag);
-		tag.setString("Type", getChestType().toString());
-		tag.setTag("Inventory", inventory.serializeNBT());
-	}
-
-	@Override
-	protected void readEntityFromNBT(NBTTagCompound tag) {
-		super.readEntityFromNBT(tag);
-		setChestType(ChestType.valueOf(tag.getString("Type")));
-		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-	}
-
-	@Override
-	protected void applyDrag() {
-		float f = 0.98F;
-
-		int i = 15 - ItemHandlerHelper.calcRedstoneFromInventory(inventory);
-		f += (float) i * 0.001F;
-
-		motionX *= f;
-		motionY *= 0.0D;
-		motionZ *= f;
+	public IItemHandler getInventory() {
+		return this.inventory;
 	}
 
 	@Override
@@ -206,26 +300,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 	@Override
 	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
 		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
-	}
-
-	@Override
-	public IItemHandler getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public void openInventory(EntityPlayer player) {}
-
-	@Override
-	public void closeInventory(EntityPlayer player) {}
-
-	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
-		if (isDead) {
-			return false;
-		} else {
-			return player.getDistanceSq(this) <= 64.0D;
-		}
 	}
 
 	@Optional.Method(modid = ModSupport.Railcraft.MOD_ID)
