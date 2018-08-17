@@ -125,22 +125,15 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 			if (stack.getItem() instanceof ItemChestUpgrade) {
 				ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
-				// we may not even need to make a new cart entity, just change its data
 				if (getChestType() == upgrade.getBase()) {
-					EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, posX, posY, posZ);
-					cart.setChestType(upgrade.getUpgrade());
-					cart.setInventory(inventory);
-
-					setDropItemsWhenDead(false);
-					setDead();
-
-					world.spawnEntity(cart);
+					setChestType(upgrade.getUpgrade());
+					setInventory(inventory);
 
 					if (!player.capabilities.isCreativeMode) {
 						stack.shrink(1);
 					}
 
-					world.playSound(player, getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+					player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
 				}
 			}
 		} else {
