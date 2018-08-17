@@ -18,7 +18,6 @@ package T145.metalchests.core.proxies;
 import T145.metalchests.api.ModSupport;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.lib.DataSerializers;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
@@ -48,7 +47,6 @@ public class CommonProxy {
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
 		TileMetalChest.registerFixes(fixer);
-		EntityMinecartMetalChest.registerFixes(fixer);
 
 		if (ModSupport.hasRefinedRelocation()) {
 			TileSortingMetalChest.registerFixes(fixer);
