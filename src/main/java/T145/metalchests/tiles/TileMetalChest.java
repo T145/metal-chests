@@ -47,7 +47,7 @@ import vazkii.quark.api.IDropoffManager;
 	@Optional.Interface(
 			modid = ModSupport.HoloInventory.MOD_ID,
 			iface = ModSupport.HoloInventory.NAMED_ITEM_HANDLER,
-			striprefs = false),
+			striprefs = true),
 	@Optional.Interface(
 			modid = ModSupport.Quark.MOD_ID,
 			iface = ModSupport.Quark.DROPOFF_MANAGER,
@@ -142,15 +142,19 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 		return tag;
 	}
 
+	public String getTranslationKey() {
+		return "tile.metalchests:metal_chest." + type.getName() + ".name";
+	}
+
 	@Optional.Method(modid = ModSupport.HoloInventory.MOD_ID)
 	@Override
 	public String getItemHandlerName() {
-		return "tile.metalchests:metal_chest." + type.getName() + ".name";
+		return getTranslationKey();
 	}
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation(getItemHandlerName());
+		return new TextComponentTranslation(getTranslationKey());
 	}
 
 	@Optional.Method(modid = ModSupport.Quark.MOD_ID)

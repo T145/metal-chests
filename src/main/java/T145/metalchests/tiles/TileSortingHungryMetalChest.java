@@ -35,7 +35,7 @@ public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 	}
 
 	@Override
-	public String getItemHandlerName() {
+	public String getTranslationKey() {
 		return "tile.metalchests:sorting_hungry_metal_chest." + type.getName() + ".name";
 	}
 

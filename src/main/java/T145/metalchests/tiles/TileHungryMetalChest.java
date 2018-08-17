@@ -35,6 +35,11 @@ public class TileHungryMetalChest extends TileMetalChest {
 	}
 
 	@Override
+	public String getTranslationKey() {
+		return "tile.metalchests:hungry_metal_chest." + type.getName() + ".name";
+	}
+
+	@Override
 	public boolean receiveClientEvent(int id, int data) {
 		switch (id) {
 		case 2:

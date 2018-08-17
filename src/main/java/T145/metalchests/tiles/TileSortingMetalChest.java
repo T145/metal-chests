@@ -43,10 +43,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-@Optional.Interface(
-		modid = ModSupport.RefinedRelocation.MOD_ID,
-		iface = ModSupport.RefinedRelocation.NAMEABLE,
-		striprefs = false)
+@Optional.Interface(modid = ModSupport.RefinedRelocation.MOD_ID, iface = ModSupport.RefinedRelocation.NAMEABLE, striprefs = false)
 public class TileSortingMetalChest extends TileMetalChest implements INameable {
 
 	private final ISortingInventory sortingInventory = Capabilities.getDefaultInstance(Capabilities.SORTING_INVENTORY);
@@ -149,7 +146,7 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 	}
 
 	@Override
-	public String getItemHandlerName() {
+	public String getTranslationKey() {
 		return "tile.metalchests:sorting_metal_chest." + type.getName() + ".name";
 	}
 
