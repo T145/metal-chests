@@ -43,7 +43,9 @@ import T145.metalchests.tiles.TileSortingHungryMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
+import net.blay09.mods.refinedrelocation.item.ItemSortingUpgrade;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
@@ -55,13 +57,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -348,6 +354,54 @@ public class ModLoader {
 
 				for (ChestType type : ChestType.values()) {
 					registry.register(new TransportableMetalChest(HUNGRY_METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
+				}
+			}
+		}
+
+		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
+		@SubscribeEvent
+		public static void processInitialInteract(PlayerInteractEvent event) {
+			if (event.getWorld().isRemote) {
+				return;
+			}
+
+			ItemStack stack = event.getItemStack();
+
+			if (stack.getItem() instanceof ItemSortingUpgrade) {
+				World world = event.getWorld();
+				BlockPos pos = event.getPos();
+				TileEntity te = world.getTileEntity(pos);
+
+				if (te instanceof TileMetalChest) {
+					TileMetalChest oldChest = (TileMetalChest) te;
+					TileMetalChest newChest;
+					Block block;
+
+					if (te instanceof TileHungryMetalChest) {
+						block = SORTING_HUNGRY_METAL_CHEST;
+						newChest = new TileSortingHungryMetalChest(oldChest.getType());
+					} else {
+						block = SORTING_METAL_CHEST;
+						newChest = new TileSortingMetalChest(oldChest.getType());
+					}
+
+					te.updateContainingBlockInfo();
+
+					world.removeTileEntity(pos);
+					world.setBlockToAir(pos);
+					world.setTileEntity(pos, newChest);
+
+					IBlockState state = block.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getType());
+					world.setBlockState(pos, state, 3);
+					world.notifyBlockUpdate(pos, state, state, 3);
+
+					TileEntity tile = world.getTileEntity(pos);
+
+					if (tile instanceof TileMetalChest) {
+						TileMetalChest chest = (TileMetalChest) tile;
+						chest.setInventory(oldChest.getInventory());
+						chest.setFront(oldChest.getFront());
+					}
 				}
 			}
 		}
