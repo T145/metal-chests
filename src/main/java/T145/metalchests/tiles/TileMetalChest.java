@@ -210,7 +210,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	public void update() {
 		if (!world.isRemote && world.getTotalWorldTime() % 20 == 0) {
 			world.addBlockEvent(pos, blockType, 1, numPlayersUsing);
-			world.notifyNeighborsOfStateChange(pos, blockType, true);
+			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
 		}
 
 		prevLidAngle = lidAngle;
