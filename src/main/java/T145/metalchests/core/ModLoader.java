@@ -42,6 +42,7 @@ import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -52,6 +53,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -128,13 +130,6 @@ public class ModLoader {
 
 			registry.register(BlocksMetalChests.METAL_CHEST = new BlockMetalChest());
 			registerTileEntity(TileMetalChest.class);
-
-			OreDictionary.registerOre("chestCopper", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 0));
-			OreDictionary.registerOre("chestIron", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 1));
-			OreDictionary.registerOre("chestSilver", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 2));
-			OreDictionary.registerOre("chestGold", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 3));
-			OreDictionary.registerOre("chestDiamond", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 4));
-			OreDictionary.registerOre("chestObsidian", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 5));
 		}
 
 		@SubscribeEvent
@@ -164,6 +159,16 @@ public class ModLoader {
 			final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
 			final ResourceLocation registryName = new ResourceLocation(MetalChests.MOD_ID, name);
 			return builder.id(registryName, entityID++).name(MetalChests.MOD_ID + ":" + name);
+		}
+
+		@SubscribeEvent(priority = EventPriority.HIGHEST)
+		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+			OreDictionary.registerOre("chestCopper", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 0));
+			OreDictionary.registerOre("chestIron", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 1));
+			OreDictionary.registerOre("chestSilver", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 2));
+			OreDictionary.registerOre("chestGold", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 3));
+			OreDictionary.registerOre("chestDiamond", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 4));
+			OreDictionary.registerOre("chestObsidian", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 5));
 		}
 
 		@SubscribeEvent

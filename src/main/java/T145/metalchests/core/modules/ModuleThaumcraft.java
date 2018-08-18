@@ -20,6 +20,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
@@ -43,13 +44,6 @@ class ModuleThaumcraft {
 			if (ModSupport.hasThaumcraft()) {
 				registry.register(BlocksMetalChests.HUNGRY_METAL_CHEST = new BlockHungryMetalChest());
 				ModLoader.registerTileEntity(TileHungryMetalChest.class);
-
-				OreDictionary.registerOre("chestHungryCopper", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 0));
-				OreDictionary.registerOre("chestHungryIron", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 1));
-				OreDictionary.registerOre("chestHungrySilver", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 2));
-				OreDictionary.registerOre("chestHungryGold", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 3));
-				OreDictionary.registerOre("chestHungryDiamond", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 4));
-				OreDictionary.registerOre("chestHungryObsidian", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 5));
 			}
 		}
 
@@ -65,9 +59,16 @@ class ModuleThaumcraft {
 		}
 
 		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
-		@SubscribeEvent
+		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasThaumcraft()) {
+				OreDictionary.registerOre("chestHungryCopper", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 0));
+				OreDictionary.registerOre("chestHungryIron", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 1));
+				OreDictionary.registerOre("chestHungrySilver", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 2));
+				OreDictionary.registerOre("chestHungryGold", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 3));
+				OreDictionary.registerOre("chestHungryDiamond", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 4));
+				OreDictionary.registerOre("chestHungryObsidian", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 5));
+
 				if (ChestType.COPPER.isRegistered()) {
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryCopperChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
