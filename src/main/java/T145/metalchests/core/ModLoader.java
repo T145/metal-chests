@@ -41,6 +41,7 @@ import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -58,6 +59,7 @@ import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModLoader {
@@ -126,6 +128,13 @@ public class ModLoader {
 
 			registry.register(BlocksMetalChests.METAL_CHEST = new BlockMetalChest());
 			registerTileEntity(TileMetalChest.class);
+
+			OreDictionary.registerOre("chestCopper", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 0));
+			OreDictionary.registerOre("chestIron", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 1));
+			OreDictionary.registerOre("chestSilver", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 2));
+			OreDictionary.registerOre("chestGold", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 3));
+			OreDictionary.registerOre("chestDiamond", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 4));
+			OreDictionary.registerOre("chestObsidian", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 5));
 		}
 
 		@SubscribeEvent

@@ -29,6 +29,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModuleRefinedRelocation {
@@ -45,9 +46,23 @@ public class ModuleRefinedRelocation {
 				registry.register(BlocksMetalChests.SORTING_METAL_CHEST = new BlockSortingMetalChest());
 				ModLoader.registerTileEntity(TileSortingMetalChest.class);
 
+				OreDictionary.registerOre("chestSortingCopper", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 0));
+				OreDictionary.registerOre("chestSortingIron", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 1));
+				OreDictionary.registerOre("chestSortingSilver", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 2));
+				OreDictionary.registerOre("chestSortingGold", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 3));
+				OreDictionary.registerOre("chestSortingDiamond", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 4));
+				OreDictionary.registerOre("chestSortingObsidian", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 5));
+
 				if (ModSupport.hasThaumcraft()) {
 					registry.register(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST = new BlockSortingHungryMetalChest());
 					ModLoader.registerTileEntity(TileSortingHungryMetalChest.class);
+
+					OreDictionary.registerOre("chestSortingHungryCopper", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 0));
+					OreDictionary.registerOre("chestSortingHungryIron", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 1));
+					OreDictionary.registerOre("chestSortingHungrySilver", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 2));
+					OreDictionary.registerOre("chestSortingHungryGold", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 3));
+					OreDictionary.registerOre("chestSortingHungryDiamond", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 4));
+					OreDictionary.registerOre("chestSortingHungryObsidian", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 5));
 				}
 			}
 		}
