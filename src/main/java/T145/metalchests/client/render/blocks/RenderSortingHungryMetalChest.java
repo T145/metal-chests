@@ -15,9 +15,9 @@
  ******************************************************************************/
 package T145.metalchests.client.render.blocks;
 
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.core.ModLoader;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderSortingHungryMetalChest extends RenderSortingMetalChest {
 
 	public RenderSortingHungryMetalChest() {
-		super(ModLoader.SORTING_HUNGRY_METAL_CHEST);
+		super(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST);
 	}
 
 	@Override

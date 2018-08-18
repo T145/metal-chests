@@ -19,9 +19,9 @@ import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
 
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.core.ModLoader;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
 import net.blay09.mods.refinedrelocation.client.render.ModelLidOverlay;
@@ -45,7 +45,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 	}
 
 	public RenderSortingMetalChest() {
-		super(ModLoader.SORTING_METAL_CHEST);
+		super(BlocksMetalChests.SORTING_METAL_CHEST);
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {

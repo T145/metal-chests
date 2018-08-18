@@ -18,6 +18,7 @@ package T145.metalchests.core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.core.proxies.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -30,7 +31,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
-@Mod(modid = MetalChests.MOD_ID, name = MetalChests.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON)
+@Mod(modid = MetalChests.MOD_ID, name = MetalChests.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft;after:refinedrelocation")
 public class MetalChests {
 
 	public static final String MOD_ID = "metalchests";
@@ -48,7 +49,7 @@ public class MetalChests {
 
 		@Override
 		public ItemStack createIcon() {
-			return new ItemStack(ModLoader.METAL_CHEST, 1, 1);
+			return new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 1);
 		}
 	};
 

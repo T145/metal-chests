@@ -17,11 +17,11 @@ package T145.metalchests.items;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.core.ModLoader;
 import T145.metalchests.lib.items.ItemMod;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
@@ -146,9 +146,9 @@ public class ItemChestUpgrade extends ItemMod {
 			}
 
 			if (te instanceof TileSortingMetalChest) {
-				upgradeChest(world, pos, ModLoader.SORTING_METAL_CHEST, te, new TileSortingMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+				upgradeChest(world, pos, BlocksMetalChests.SORTING_METAL_CHEST, te, new TileSortingMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
 			} else {
-				upgradeChest(world, pos, ModLoader.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+				upgradeChest(world, pos, BlocksMetalChests.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
 			}
 		} else if (te instanceof TileEntityChest) {
 			TileEntityChest chest = (TileEntityChest) te;
@@ -157,7 +157,7 @@ public class ItemChestUpgrade extends ItemMod {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, ModLoader.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
+			upgradeChest(world, pos, BlocksMetalChests.METAL_CHEST, te, new TileMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
 		} else {
 			return EnumActionResult.PASS;
 		}

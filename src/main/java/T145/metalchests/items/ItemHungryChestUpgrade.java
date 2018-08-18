@@ -15,8 +15,9 @@
  ******************************************************************************/
 package T145.metalchests.items;
 
-import T145.metalchests.core.ModLoader;
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.tiles.TileHungryMetalChest;
+import T145.metalchests.tiles.TileSortingHungryMetalChest;
 import net.minecraft.block.BlockChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -55,7 +56,7 @@ public class ItemHungryChestUpgrade extends ItemChestUpgrade {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, ModLoader.HUNGRY_METAL_CHEST, te, new TileHungryMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
+			upgradeChest(world, pos, BlocksMetalChests.HUNGRY_METAL_CHEST, te, new TileHungryMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
 		} else if (te instanceof TileHungryChest) {
 			TileHungryChest chest = (TileHungryChest) te;
 
@@ -63,7 +64,15 @@ public class ItemHungryChestUpgrade extends ItemChestUpgrade {
 				return EnumActionResult.PASS;
 			}
 
-			upgradeChest(world, pos, ModLoader.HUNGRY_METAL_CHEST, te, new TileHungryMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
+			upgradeChest(world, pos, BlocksMetalChests.HUNGRY_METAL_CHEST, te, new TileHungryMetalChest(upgrade.getUpgrade()), chest.getSingleChestHandler(), world.getBlockState(pos).getValue(BlockChest.FACING));
+		} else if (te instanceof TileSortingHungryMetalChest && ((TileSortingHungryMetalChest) te).getType() == upgrade.getBase()) {
+			TileSortingHungryMetalChest chest = (TileSortingHungryMetalChest) te;
+
+			if (chest.numPlayersUsing > 0) {
+				return EnumActionResult.PASS;
+			}
+
+			upgradeChest(world, pos, BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, te, new TileSortingHungryMetalChest(upgrade.getUpgrade()), chest.getInventory(), chest.getFront());
 		} else {
 			return EnumActionResult.PASS;
 		}

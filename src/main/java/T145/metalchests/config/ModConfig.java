@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @EventBusSubscriber(modid = MetalChests.MOD_ID)
-@Config(modid = MetalChests.MOD_ID, category = "", name = "T145/" + MetalChests.MOD_ID + "/" + MetalChests.MOD_NAME)
+@Config(modid = MetalChests.MOD_ID, category = "", name = "T145/" + MetalChests.MOD_NAME)
 @Config.LangKey(MetalChests.MOD_ID)
 public class ModConfig {
 
