@@ -66,5 +66,12 @@
                 "ore": "blockObsidian"
             }
         ]
+    },
+    {
+        "name": "REDSTONE",
+        "ingredient": {
+            "type": "forge:ore_dict",
+            "ore": "dustRedstone"
+        }
     }
 ]
