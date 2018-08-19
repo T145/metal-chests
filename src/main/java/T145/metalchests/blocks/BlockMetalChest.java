@@ -148,7 +148,7 @@ public class BlockMetalChest extends Block {
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
 
-			if (chest.getType() == ChestType.OBSIDIAN) {
+			if (chest.getChestType() == ChestType.OBSIDIAN) {
 				return 10000F;
 			}
 		}

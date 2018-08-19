@@ -20,14 +20,20 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.chests.IFacing;
 import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.chests.IUpgradeableChest;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -44,70 +50,86 @@ import net.minecraftforge.items.ItemStackHandler;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({
-	@Optional.Interface(
-			modid = ModSupport.HoloInventory.MOD_ID,
-			iface = ModSupport.HoloInventory.NAMED_ITEM_HANDLER,
-			striprefs = true),
-	@Optional.Interface(
-			modid = ModSupport.Quark.MOD_ID,
-			iface = ModSupport.Quark.DROPOFF_MANAGER,
-			striprefs = true)
+	@Optional.Interface(modid = ModSupport.HoloInventory.MOD_ID, iface = ModSupport.HoloInventory.NAMED_ITEM_HANDLER, striprefs = true),
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.DROPOFF_MANAGER, striprefs = true)
 })
-public class TileMetalChest extends TileMod implements ITickable, IInventoryHandler, IDropoffManager, INamedItemHandler {
+public class TileMetalChest extends TileMod implements IUpgradeableChest, IFacing, IInventoryHandler, ITickable, INamedItemHandler, IDropoffManager {
 
 	public float lidAngle;
 	public float prevLidAngle;
 	public int numPlayersUsing;
 
-	protected ChestType type;
-	protected ItemStackHandler inventory;
+	protected ChestType chestType;
 	protected EnumFacing front;
+	protected ItemStackHandler inventory;
 
-	public TileMetalChest(ChestType type) {
-		this.type = type;
-		this.inventory = new ItemStackHandler(type.getInventorySize()) {
-
-			@Override
-			protected void onContentsChanged(int slot) {
-				super.onContentsChanged(slot);
-				TileMetalChest.this.markDirty();
-				world.updateComparatorOutputLevel(pos, blockType);
-			}
-		};
+	public TileMetalChest(ChestType chestType) {
+		this.setChestType(chestType);
 		this.setFront(EnumFacing.EAST);
+		this.inventory = this.initInventory();
 	}
 
 	public TileMetalChest() {
 		this(ChestType.IRON);
 	}
 
-	public ChestType getType() {
-		return type;
+	public static void registerFixes(DataFixer fixer) {
+		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileMetalChest.class, new String[] { "Items" }));
+	}
+
+	protected ItemStackHandler initInventory() {
+		return new ItemStackHandler(chestType.getInventorySize()) {
+
+			@Override
+			protected void onContentsChanged(int slot) {
+				TileMetalChest.this.markDirty();
+				world.updateComparatorOutputLevel(pos, getBlockType());
+			}
+		};
 	}
 
 	@Override
-	public ItemStackHandler getInventory() {
-		return inventory;
+	public ChestType getChestType() {
+		return chestType;
 	}
 
-	public void setInventory(IItemHandler stacks) {
-		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
-			if (slot < type.getInventorySize()) {
-				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
-			}
-		}
+	@Override
+	public void setChestType(ChestType chestType) {
+		this.chestType = chestType;
 	}
 
-	public void setFront(EnumFacing front) {
-		this.front = front;
+	@Override
+	public IBlockState createBlockState() {
+		return BlocksMetalChests.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
 	}
 
+	@Override
+	public TileEntity createTileEntity() {
+		return new TileMetalChest();
+	}
+
+	@Override
 	public EnumFacing getFront() {
 		return front;
 	}
 
-	public static void registerFixes(DataFixer fixer) {
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileMetalChest.class, new String[] { "Items" }));
+	@Override
+	public void setFront(EnumFacing front) {
+		this.front = front;
+	}
+
+	@Override
+	public IItemHandler getInventory() {
+		return inventory;
+	}
+
+	@Override
+	public void setInventory(IItemHandler inventory) {
+		assert(this.inventory.getSlots() >= inventory.getSlots());
+
+		for (int slot = 0; slot < inventory.getSlots(); ++slot) {
+			this.inventory.setStackInSlot(slot, inventory.getStackInSlot(slot));
+		}
 	}
 
 	@Override
@@ -124,59 +146,13 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	}
 
 	@Override
-	@OverridingMethodsMustInvokeSuper
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		front = EnumFacing.byName(tag.getString("Front"));
-		type = ChestType.valueOf(tag.getString("Type"));
-		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-	}
-
-	@Override
-	@OverridingMethodsMustInvokeSuper
-	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-		tag = super.writeToNBT(tag);
-		tag.setString("Front", front.toString());
-		tag.setString("Type", type.toString());
-		tag.setTag("Inventory", inventory.serializeNBT());
-		return tag;
-	}
-
-	public String getTranslationKey() {
-		return "tile.metalchests:metal_chest." + type.getName() + ".name";
-	}
-
-	@Optional.Method(modid = ModSupport.HoloInventory.MOD_ID)
-	@Override
-	public String getItemHandlerName() {
-		return getTranslationKey();
-	}
-
-	@Override
-	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation(getTranslationKey());
-	}
-
-	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
-	@Override
-	public boolean acceptsDropoff(EntityPlayer player) {
-		return true;
-	}
-
-	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
-	@Override
-	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
-		return inventory;
-	}
-
-	@Override
 	public void openInventory(EntityPlayer player) {
 		if (!player.isSpectator()) {
 			if (numPlayersUsing < 0) {
 				numPlayersUsing = 0;
 			}
 
-			world.addBlockEvent(pos, blockType, 1, ++numPlayersUsing);
+			world.addBlockEvent(pos, getBlockType(), 1, ++numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, blockType, false);
 			world.playSound(player, pos, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
@@ -185,7 +161,7 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	@Override
 	public void closeInventory(EntityPlayer player) {
 		if (!player.isSpectator()) {
-			world.addBlockEvent(pos, blockType, 1, --numPlayersUsing);
+			world.addBlockEvent(pos, getBlockType(), 1, --numPlayersUsing);
 			world.notifyNeighborsOfStateChange(pos, blockType, false);
 			world.playSound(player, pos, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
 		}
@@ -209,12 +185,31 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	@Override
 	public void update() {
 		if (!world.isRemote && world.getTotalWorldTime() % 20 == 0) {
-			world.addBlockEvent(pos, blockType, 1, numPlayersUsing);
-			world.notifyNeighborsOfStateChange(pos, getBlockType(), true);
+			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
+			world.notifyNeighborsOfStateChange(pos, blockType, true);
 		}
 
 		prevLidAngle = lidAngle;
 		lidAngle = approachLinear(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
+	}
+
+	@Override
+	@OverridingMethodsMustInvokeSuper
+	public void readFromNBT(NBTTagCompound tag) {
+		super.readFromNBT(tag);
+		this.setChestType(ChestType.valueOf(tag.getString("ChestType")));
+		this.setFront(EnumFacing.byName(tag.getString("Front")));
+		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+	}
+
+	@Override
+	@OverridingMethodsMustInvokeSuper
+	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
+		tag = super.writeToNBT(tag);
+		tag.setString("ChestType", chestType.toString());
+		tag.setString("Front", front.toString());
+		tag.setTag("Inventory", inventory.serializeNBT());
+		return tag;
 	}
 
 	@Override
@@ -232,5 +227,32 @@ public class TileMetalChest extends TileMod implements ITickable, IInventoryHand
 	public void invalidate() {
 		updateContainingBlockInfo();
 		super.invalidate();
+	}
+
+	public String getTranslationKey() {
+		return "tile.metalchests:metal_chest." + chestType.getName() + ".name";
+	}
+
+	@Override
+	public ITextComponent getDisplayName() {
+		return new TextComponentTranslation(getTranslationKey());
+	}
+
+	@Optional.Method(modid = ModSupport.HoloInventory.MOD_ID)
+	@Override
+	public String getItemHandlerName() {
+		return getTranslationKey();
+	}
+
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Override
+	public boolean acceptsDropoff(EntityPlayer player) {
+		return true;
+	}
+
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Override
+	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
+		return inventory;
 	}
 }

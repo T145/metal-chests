@@ -15,15 +15,19 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.blocks.BlockMetalChest;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 
 public class TileHungryMetalChest extends TileMetalChest {
 
-	public TileHungryMetalChest(ChestType type) {
-		super(type);
+	public TileHungryMetalChest(ChestType chestType) {
+		super(chestType);
 	}
 
 	public TileHungryMetalChest() {
@@ -35,8 +39,13 @@ public class TileHungryMetalChest extends TileMetalChest {
 	}
 
 	@Override
-	public String getTranslationKey() {
-		return "tile.metalchests:hungry_metal_chest." + type.getName() + ".name";
+	public IBlockState createBlockState() {
+		return BlocksMetalChests.HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+	}
+
+	@Override
+	public TileEntity createTileEntity() {
+		return new TileHungryMetalChest();
 	}
 
 	@Override
@@ -50,5 +59,10 @@ public class TileHungryMetalChest extends TileMetalChest {
 		default:
 			return super.receiveClientEvent(id, data);
 		}
+	}
+
+	@Override
+	public String getTranslationKey() {
+		return "tile.metalchests:hungry_metal_chest." + chestType.getName() + ".name";
 	}
 }

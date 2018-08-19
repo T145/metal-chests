@@ -22,6 +22,7 @@ import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.ModSupport;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ItemNames;
 import T145.metalchests.blocks.BlockHungryMetalChest;
 import T145.metalchests.client.render.blocks.RenderHungryMetalChest;
 import T145.metalchests.core.MetalChests;
@@ -75,7 +76,7 @@ class ModuleThaumcraft {
 				ModLoader.registerItemBlock(registry, BlocksMetalChests.HUNGRY_METAL_CHEST, ChestType.class);
 				Map<Block, TileEntity> defaultChests = new HashMap<>();
 				defaultChests.put(BlocksTC.hungryChest, new TileHungryMetalChest());
-				registry.register(ItemsMetalChests.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(defaultChests));
+				registry.register(ItemsMetalChests.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(ItemNames.HUNGRY_CHEST_UPGRADE, defaultChests));
 			}
 		}
 

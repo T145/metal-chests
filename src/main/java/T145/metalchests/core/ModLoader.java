@@ -23,6 +23,7 @@ import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.ModSupport;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ItemNames;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
@@ -152,7 +153,7 @@ public class ModLoader {
 				defaultChests.put(ModBlocks.sortingChest, new TileSortingMetalChest());
 			}
 
-			registry.register(ItemsMetalChests.CHEST_UPGRADE = new ItemChestUpgrade(defaultChests));
+			registry.register(ItemsMetalChests.CHEST_UPGRADE = new ItemChestUpgrade(ItemNames.CHEST_UPGRADE, defaultChests));
 
 			if (ModConfig.GENERAL.enableMinecarts) {
 				registry.register(ItemsMetalChests.MINECART_METAL_CHEST = new ItemMetalMinecart());

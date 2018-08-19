@@ -15,15 +15,19 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.blocks.BlockMetalChest;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 
 public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 
-	public TileSortingHungryMetalChest(ChestType type) {
-		super(type);
+	public TileSortingHungryMetalChest(ChestType chestType) {
+		super(chestType);
 	}
 
 	public TileSortingHungryMetalChest() {
@@ -35,8 +39,13 @@ public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 	}
 
 	@Override
-	public String getTranslationKey() {
-		return "tile.metalchests:sorting_hungry_metal_chest." + type.getName() + ".name";
+	public IBlockState createBlockState() {
+		return BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+	}
+
+	@Override
+	public TileEntity createTileEntity() {
+		return new TileSortingHungryMetalChest();
 	}
 
 	@Override
@@ -50,5 +59,10 @@ public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 		default:
 			return super.receiveClientEvent(id, data);
 		}
+	}
+
+	@Override
+	public String getTranslationKey() {
+		return "tile.metalchests:sorting_hungry_metal_chest." + chestType.getName() + ".name";
 	}
 }

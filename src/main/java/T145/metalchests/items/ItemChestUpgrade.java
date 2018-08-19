@@ -112,12 +112,10 @@ public class ItemChestUpgrade extends ItemMod {
 		}
 	}
 
-	public static final String NAME = "chest_upgrade";
-
 	private final Map<Block, TileEntity> defaultChests;
 
-	public ItemChestUpgrade(Map<Block, TileEntity> defaultChests) {
-		super(NAME, ChestUpgrade.values());
+	public ItemChestUpgrade(String name, Map<Block, TileEntity> defaultChests) {
+		super(name, ChestUpgrade.values());
 		this.defaultChests = defaultChests;
 		setMaxStackSize(1);
 	}
@@ -129,6 +127,7 @@ public class ItemChestUpgrade extends ItemMod {
 		}
 
 		TileEntity te = world.getTileEntity(pos);
+		Block block = te.getBlockType();
 		ItemStack stack = player.getHeldItem(hand);
 		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
@@ -140,7 +139,7 @@ public class ItemChestUpgrade extends ItemMod {
 			} else {
 				return EnumActionResult.FAIL;
 			}
-		} else if (defaultChests.containsKey(te.getBlockType()) && defaultChests.get(te.getBlockType()) instanceof IUpgradeableChest) {
+		} else if (defaultChests.containsKey(block) && defaultChests.get(block) instanceof IUpgradeableChest) {
 			EnumFacing front = getFrontFromProperties(world, pos);
 
 			te.updateContainingBlockInfo();
@@ -151,7 +150,7 @@ public class ItemChestUpgrade extends ItemMod {
 
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
-			world.setTileEntity(pos, ((IUpgradeableChest) te).createTileEntity());
+			world.setTileEntity(pos, ((IUpgradeableChest) defaultChests.get(block)).createTileEntity());
 
 			TileEntity tile = world.getTileEntity(pos);
 

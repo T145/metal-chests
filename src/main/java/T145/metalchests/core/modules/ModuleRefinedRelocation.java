@@ -127,10 +127,10 @@ public class ModuleRefinedRelocation {
 
 					if (te instanceof TileHungryMetalChest) {
 						block = BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST;
-						newChest = new TileSortingHungryMetalChest(oldChest.getType());
+						newChest = new TileSortingHungryMetalChest(oldChest.getChestType());
 					} else {
 						block = BlocksMetalChests.SORTING_METAL_CHEST;
-						newChest = new TileSortingMetalChest(oldChest.getType());
+						newChest = new TileSortingMetalChest(oldChest.getChestType());
 					}
 
 					te.updateContainingBlockInfo();
@@ -139,7 +139,7 @@ public class ModuleRefinedRelocation {
 					world.setBlockToAir(pos);
 					world.setTileEntity(pos, newChest);
 
-					IBlockState state = block.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getType());
+					IBlockState state = block.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getChestType());
 					world.setBlockState(pos, state, 3);
 					world.notifyBlockUpdate(pos, state, state, 3);
 
