@@ -15,26 +15,21 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.ModSupport;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ItemNames;
 import T145.metalchests.blocks.BlockHungryMetalChest;
 import T145.metalchests.client.render.blocks.RenderHungryMetalChest;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
-import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import T145.metalchests.items.ItemHungryChestUpgrade;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
@@ -74,9 +69,7 @@ class ModuleThaumcraft {
 
 			if (ModSupport.hasThaumcraft()) {
 				ModLoader.registerItemBlock(registry, BlocksMetalChests.HUNGRY_METAL_CHEST, ChestType.class);
-				Map<Block, TileEntity> defaultChests = new HashMap<>();
-				defaultChests.put(BlocksTC.hungryChest, new TileHungryMetalChest());
-				registry.register(ItemsMetalChests.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(ItemNames.HUNGRY_CHEST_UPGRADE, defaultChests));
+				registry.register(ItemsMetalChests.HUNGRY_CHEST_UPGRADE = new ItemHungryChestUpgrade());
 			}
 		}
 
