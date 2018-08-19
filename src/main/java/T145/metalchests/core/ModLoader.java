@@ -15,10 +15,13 @@
  ******************************************************************************/
 package T145.metalchests.core;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ItemsMetalChests;
+import T145.metalchests.api.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
@@ -31,6 +34,8 @@ import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.lib.items.BlockModItem;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileSortingMetalChest;
+import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -39,10 +44,12 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -137,7 +144,15 @@ public class ModLoader {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
 			registerItemBlock(registry, BlocksMetalChests.METAL_CHEST, ChestType.class);
-			registry.register(ItemsMetalChests.CHEST_UPGRADE = new ItemChestUpgrade());
+
+			Map<Block, TileEntity> defaultChests = new HashMap<>();
+			defaultChests.put(Blocks.CHEST, new TileMetalChest());
+
+			if (ModSupport.hasRefinedRelocation()) {
+				defaultChests.put(ModBlocks.sortingChest, new TileSortingMetalChest());
+			}
+
+			registry.register(ItemsMetalChests.CHEST_UPGRADE = new ItemChestUpgrade(defaultChests));
 
 			if (ModConfig.GENERAL.enableMinecarts) {
 				registry.register(ItemsMetalChests.MINECART_METAL_CHEST = new ItemMetalMinecart());

@@ -22,6 +22,8 @@ public interface IInventoryHandler {
 
 	IItemHandler getInventory();
 
+	void setInventory(IItemHandler inventory);
+
 	void openInventory(EntityPlayer player);
 
 	void closeInventory(EntityPlayer player);
