@@ -1,6 +1,6 @@
-package T145.metalchests.api;
+package T145.metalchests.api.chests;
 
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.tileentity.TileEntity;
 

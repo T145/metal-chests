@@ -16,7 +16,7 @@
 package T145.metalchests.client.render.blocks;
 
 import T145.metalchests.api.BlocksMetalChests;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.core.MetalChests;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;

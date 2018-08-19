@@ -17,9 +17,9 @@ package T145.metalchests.containers;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.IInventoryHandler;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
-import T145.metalchests.blocks.BlockMetalChest.ChestType.GUI;
+import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ChestType.GUI;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

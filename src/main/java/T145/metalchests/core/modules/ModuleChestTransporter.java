@@ -17,7 +17,7 @@ package T145.metalchests.core.modules;
 
 import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ModSupport;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.compat.chesttransporter.TransportableMetalChest;
 import T145.metalchests.core.MetalChests;
 import cubex2.mods.chesttransporter.api.TransportableChest;

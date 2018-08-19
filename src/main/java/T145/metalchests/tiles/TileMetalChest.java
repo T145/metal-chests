@@ -20,9 +20,9 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.api.ModSupport;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.entity.player.EntityPlayer;

@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;

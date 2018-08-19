@@ -1,4 +1,4 @@
-package T145.metalchests.api;
+package T145.metalchests.api.chests;
 
 import net.minecraft.util.EnumFacing;
 

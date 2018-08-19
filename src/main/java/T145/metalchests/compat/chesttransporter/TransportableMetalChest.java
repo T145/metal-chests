@@ -18,7 +18,7 @@ package T145.metalchests.compat.chesttransporter;
 import java.util.Collection;
 import java.util.Collections;
 
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

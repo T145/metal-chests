@@ -17,8 +17,8 @@ package T145.metalchests.core.modules;
 
 import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.blocks.BlockSortingHungryMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingHungryMetalChest;

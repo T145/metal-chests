@@ -22,7 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.google.common.base.Strings;
 
 import T145.metalchests.api.ModSupport;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;

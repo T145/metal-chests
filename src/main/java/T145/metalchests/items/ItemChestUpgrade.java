@@ -19,10 +19,10 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.IFacing;
-import T145.metalchests.api.IInventoryHandler;
-import T145.metalchests.api.IUpgradeableChest;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.chests.IFacing;
+import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.chests.IUpgradeableChest;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.lib.items.ItemMod;
