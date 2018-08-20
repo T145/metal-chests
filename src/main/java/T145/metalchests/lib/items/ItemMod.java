@@ -29,16 +29,16 @@ public class ItemMod extends Item {
 
 	protected final Enum<? extends IStringSerializable>[] types;
 
-	public ItemMod(String name, Enum<? extends IStringSerializable>[] types) {
+	public ItemMod(ResourceLocation registryName, Enum<? extends IStringSerializable>[] types) {
 		this.types = types;
-		setRegistryName(new ResourceLocation(MetalChests.MOD_ID, name));
-		setTranslationKey(MetalChests.MOD_ID + ':' + name);
+		setRegistryName(registryName);
+		setTranslationKey(registryName.toString());
 		setHasSubtypes(types != null);
 		setCreativeTab(MetalChests.TAB);
 	}
 
-	public ItemMod(String name) {
-		this(name, null);
+	public ItemMod(ResourceLocation registryName) {
+		this(registryName, null);
 	}
 
 	public Enum<? extends IStringSerializable>[] getTypes() {

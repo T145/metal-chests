@@ -92,7 +92,7 @@ public class ItemMetalMinecart extends ItemMod {
 	};
 
 	public ItemMetalMinecart() {
-		super(ItemsMC.KEY_METAL_MINECART, ChestType.values());
+		super(ItemsMC.REGISTRY_METAL_MINECART, ChestType.values());
 		this.setMaxStackSize(1);
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, MINECART_DISPENSER_BEHAVIOR);
 	}
