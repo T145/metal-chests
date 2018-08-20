@@ -43,7 +43,7 @@ public class TileHungryMetalChest extends TileMetalChest {
 
 	@Override
 	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
-		return upgrade.getBase() == chestType && chest instanceof TileHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
+		return chest instanceof TileHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
 	}
 
 	@Override

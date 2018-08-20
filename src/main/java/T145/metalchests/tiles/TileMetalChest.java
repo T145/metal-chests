@@ -103,7 +103,7 @@ public class TileMetalChest extends TileMod implements IUpgradeableChest, IFacin
 
 	@Override
 	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
-		return upgrade.getBase() == chestType && chest instanceof TileMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
+		return chest instanceof TileMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 
 	@Override

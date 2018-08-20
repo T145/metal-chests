@@ -71,19 +71,24 @@ public class ItemChestUpgrade extends ItemMod {
 		ItemStack stack = player.getHeldItem(hand);
 		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
-		if (te instanceof IUpgradeableChest && ((IUpgradeableChest) te).canApplyUpgrade(upgrade, te, stack) && te instanceof IInventoryHandler) {
+		if (te instanceof IUpgradeableChest && te instanceof IInventoryHandler) {
 			IUpgradeableChest chest = (IUpgradeableChest) te;
-			IInventoryHandler invHandler = (IInventoryHandler) te;
-			ItemStackHandler oldInventory = (ItemStackHandler) invHandler.getInventory();
 
-			chest.setChestType(upgrade.getUpgrade());
-			te.markDirty();
+			if (chest.getChestType() == upgrade.getBase() && chest.canApplyUpgrade(upgrade, te, stack)) {
+				IInventoryHandler invHandler = (IInventoryHandler) te;
+				ItemStackHandler oldInventory = (ItemStackHandler) invHandler.getInventory();
 
-			IBlockState state = chest.createBlockState(upgrade.getUpgrade());
-			world.setBlockState(pos, state, 3);
-			world.notifyBlockUpdate(pos, state, state, 3);
+				chest.setChestType(upgrade.getUpgrade());
+				te.markDirty();
 
-			invHandler.setInventory(oldInventory);
+				IBlockState state = chest.createBlockState(upgrade.getUpgrade());
+				world.setBlockState(pos, state, 3);
+				world.notifyBlockUpdate(pos, state, state, 3);
+
+				invHandler.setInventory(oldInventory);
+			} else {
+				return EnumActionResult.FAIL;
+			}
 		} else if (defaultChests.containsKey(te.getClass())) {
 			IUpgradeableChest chest = defaultChests.get(te.getClass());
 			EnumFacing front = getFrontFromProperties(world, pos);

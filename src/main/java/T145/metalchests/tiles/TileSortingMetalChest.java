@@ -80,7 +80,7 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 
 	@Override
 	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
-		return upgrade.getBase() == chestType && chest instanceof TileSortingMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
+		return chest instanceof TileSortingMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 
 	@Override
