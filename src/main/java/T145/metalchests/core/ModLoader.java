@@ -17,11 +17,11 @@ package T145.metalchests.core;
 
 import java.util.HashSet;
 
-import T145.metalchests.api.ModSupport;
 import T145.metalchests.api.immutable.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ItemsMC;
+import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;

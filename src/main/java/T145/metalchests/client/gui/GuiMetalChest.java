@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
-import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.containers.ContainerMetalChest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.immutable;
 
 import T145.metalchests.config.ModConfig;
 import net.minecraft.util.ResourceLocation;

@@ -20,7 +20,6 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.ModSupport;
 import T145.metalchests.api.chests.IFacing;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IUpgradeableChest;
@@ -28,6 +27,7 @@ import T145.metalchests.api.immutable.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ItemsMC;
+import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;

@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.core.proxies;
 
-import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.entities.EntityMinecartMetalChest;
