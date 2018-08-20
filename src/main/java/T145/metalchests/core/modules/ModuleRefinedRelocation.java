@@ -15,12 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
-<<<<<<< HEAD
-import T145.metalchests.api.immutable.BlocksMC;
-=======
-import T145.metalchests.api.BlocksMetalChests;
-import T145.metalchests.api.ModSupport;
->>>>>>> parent of e893474... Updated the API
+import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
@@ -65,11 +60,11 @@ public class ModuleRefinedRelocation {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 
 			if (ModSupport.hasRefinedRelocation()) {
-				registry.register(BlocksMetalChests.SORTING_METAL_CHEST = new BlockSortingMetalChest());
+				registry.register(BlocksMC.SORTING_METAL_CHEST = new BlockSortingMetalChest());
 				ModLoader.registerTileEntity(TileSortingMetalChest.class);
 
 				if (ModSupport.hasThaumcraft()) {
-					registry.register(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST = new BlockSortingHungryMetalChest());
+					registry.register(BlocksMC.SORTING_HUNGRY_METAL_CHEST = new BlockSortingHungryMetalChest());
 					ModLoader.registerTileEntity(TileSortingHungryMetalChest.class);
 				}
 			}
@@ -81,10 +76,10 @@ public class ModuleRefinedRelocation {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
 			if (ModSupport.hasRefinedRelocation()) {
-				ModLoader.registerItemBlock(registry, BlocksMetalChests.SORTING_METAL_CHEST, ChestType.class);
+				ModLoader.registerItemBlock(registry, BlocksMC.SORTING_METAL_CHEST, ChestType.class);
 
 				if (ModSupport.hasThaumcraft()) {
-					ModLoader.registerItemBlock(registry, BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, ChestType.class);
+					ModLoader.registerItemBlock(registry, BlocksMC.SORTING_HUNGRY_METAL_CHEST, ChestType.class);
 				}
 			}
 		}
@@ -93,20 +88,20 @@ public class ModuleRefinedRelocation {
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasRefinedRelocation()) {
-				OreDictionary.registerOre("chestSortingCopper", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 0));
-				OreDictionary.registerOre("chestSortingIron", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 1));
-				OreDictionary.registerOre("chestSortingSilver", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 2));
-				OreDictionary.registerOre("chestSortingGold", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 3));
-				OreDictionary.registerOre("chestSortingDiamond", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 4));
-				OreDictionary.registerOre("chestSortingObsidian", new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, 5));
+				OreDictionary.registerOre("chestSortingCopper", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 0));
+				OreDictionary.registerOre("chestSortingIron", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 1));
+				OreDictionary.registerOre("chestSortingSilver", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 2));
+				OreDictionary.registerOre("chestSortingGold", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 3));
+				OreDictionary.registerOre("chestSortingDiamond", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 4));
+				OreDictionary.registerOre("chestSortingObsidian", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 5));
 
 				if (ModSupport.hasThaumcraft()) {
-					OreDictionary.registerOre("chestSortingHungryCopper", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 0));
-					OreDictionary.registerOre("chestSortingHungryIron", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 1));
-					OreDictionary.registerOre("chestSortingHungrySilver", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 2));
-					OreDictionary.registerOre("chestSortingHungryGold", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 3));
-					OreDictionary.registerOre("chestSortingHungryDiamond", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 4));
-					OreDictionary.registerOre("chestSortingHungryObsidian", new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, 5));
+					OreDictionary.registerOre("chestSortingHungryCopper", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 0));
+					OreDictionary.registerOre("chestSortingHungryIron", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 1));
+					OreDictionary.registerOre("chestSortingHungrySilver", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 2));
+					OreDictionary.registerOre("chestSortingHungryGold", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 3));
+					OreDictionary.registerOre("chestSortingHungryDiamond", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 4));
+					OreDictionary.registerOre("chestSortingHungryObsidian", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 5));
 				}
 			}
 		}
@@ -131,10 +126,10 @@ public class ModuleRefinedRelocation {
 					Block block;
 
 					if (te instanceof TileHungryMetalChest) {
-						block = BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST;
+						block = BlocksMC.SORTING_HUNGRY_METAL_CHEST;
 						newChest = new TileSortingHungryMetalChest(oldChest.getChestType());
 					} else {
-						block = BlocksMetalChests.SORTING_METAL_CHEST;
+						block = BlocksMC.SORTING_METAL_CHEST;
 						newChest = new TileSortingMetalChest(oldChest.getChestType());
 					}
 
@@ -168,14 +163,14 @@ public class ModuleRefinedRelocation {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			if (ModSupport.hasRefinedRelocation()) {
 				for (ChestType type : ChestType.values()) {
-					ModLoader.registerModel(BlocksMetalChests.SORTING_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+					ModLoader.registerModel(BlocksMC.SORTING_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
 				}
 
 				ModLoader.registerTileRenderer(TileSortingMetalChest.class, new RenderSortingMetalChest());
 
 				if (ModSupport.hasThaumcraft()) {
 					for (ChestType type : ChestType.values()) {
-						ModLoader.registerModel(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+						ModLoader.registerModel(BlocksMC.SORTING_HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
 					}
 
 					ModLoader.registerTileRenderer(TileSortingHungryMetalChest.class, new RenderSortingHungryMetalChest());

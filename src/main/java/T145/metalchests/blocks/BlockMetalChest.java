@@ -17,6 +17,7 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
@@ -54,8 +55,6 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 public class BlockMetalChest extends Block {
 
-	public static final String NAME = "metal_chest";
-	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(MetalChests.MOD_ID, "metal_chest");
 	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
 
 	public BlockMetalChest(Material iron) {
@@ -72,7 +71,7 @@ public class BlockMetalChest extends Block {
 	}
 
 	public BlockMetalChest() {
-		this(REGISTRY_NAME);
+		this(RegistryMC.RESOURCE_METAL_CHEST);
 	}
 
 	protected void registerBlock(ResourceLocation resource) {

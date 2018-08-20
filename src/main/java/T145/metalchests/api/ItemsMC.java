@@ -15,28 +15,20 @@
  ******************************************************************************/
 package T145.metalchests.api;
 
-import T145.metalchests.blocks.BlockHungryMetalChest;
-import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockSortingHungryMetalChest;
-import T145.metalchests.blocks.BlockSortingMetalChest;
-import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
 @ObjectHolder("metalchests")
-public class BlocksMetalChests {
+public class ItemsMC {
 
-	private BlocksMetalChests() {}
+	private ItemsMC() {}
 
-	@ObjectHolder(BlockMetalChest.NAME)
-	public static Block METAL_CHEST;
+	@ObjectHolder(RegistryMC.KEY_CHEST_UPGRADE)
+	public static Item CHEST_UPGRADE;
 
-	@ObjectHolder(BlockHungryMetalChest.NAME)
-	public static Block HUNGRY_METAL_CHEST;
+	@ObjectHolder(RegistryMC.KEY_HUNGRY_CHEST_UPGRADE)
+	public static Item HUNGRY_CHEST_UPGRADE;
 
-	@ObjectHolder(BlockSortingMetalChest.NAME)
-	public static Block SORTING_METAL_CHEST;
-
-	@ObjectHolder(BlockSortingHungryMetalChest.NAME)
-	public static Block SORTING_HUNGRY_METAL_CHEST;
-
+	@ObjectHolder(RegistryMC.KEY_MINECART_METAL_CHEST)
+	public static Item MINECART_METAL_CHEST;
 }

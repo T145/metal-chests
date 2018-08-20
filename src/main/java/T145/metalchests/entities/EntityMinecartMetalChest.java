@@ -17,20 +17,12 @@ package T145.metalchests.entities;
 
 import javax.annotation.Nullable;
 
-<<<<<<< HEAD
-=======
-import T145.metalchests.api.BlocksMetalChests;
-import T145.metalchests.api.ItemsMetalChests;
-import T145.metalchests.api.ModSupport;
->>>>>>> parent of e893474... Updated the API
+import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-<<<<<<< HEAD
-import T145.metalchests.api.immutable.ItemsMC;
 import T145.metalchests.api.immutable.ModSupport;
-=======
->>>>>>> parent of e893474... Updated the API
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
@@ -135,7 +127,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 				}
 			}
 
-			entityDropItem(new ItemStack(BlocksMetalChests.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
+			entityDropItem(new ItemStack(BlocksMC.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
 		}
 	}
 
@@ -183,7 +175,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 
 	@Override
 	public ItemStack getCartItem() {
-		return new ItemStack(ItemsMetalChests.MINECART_METAL_CHEST, 1, getChestType().ordinal());
+		return new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, getChestType().ordinal());
 	}
 
 	@Override
@@ -275,7 +267,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 
 	@Override
 	public IBlockState getDefaultDisplayTile() {
-		return BlocksMetalChests.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+		return BlocksMC.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
 	}
 
 	@Override

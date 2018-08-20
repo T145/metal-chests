@@ -17,20 +17,12 @@ package T145.metalchests.core;
 
 import java.util.HashSet;
 
-<<<<<<< HEAD
-import T145.metalchests.api.immutable.BlocksMC;
+import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.ItemsMC;
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.api.immutable.ItemsMC;
 import T145.metalchests.api.immutable.ModSupport;
-=======
-import T145.metalchests.api.BlocksMetalChests;
-import T145.metalchests.api.ItemsMetalChests;
-import T145.metalchests.api.ModSupport;
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.api.immutable.ItemNames;
->>>>>>> parent of e893474... Updated the API
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
@@ -141,7 +133,7 @@ public class ModLoader {
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 
-			registry.register(BlocksMetalChests.METAL_CHEST = new BlockMetalChest());
+			registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
 			registerTileEntity(TileMetalChest.class);
 		}
 
@@ -149,24 +141,20 @@ public class ModLoader {
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
-			registerItemBlock(registry, BlocksMetalChests.METAL_CHEST, ChestType.class);
+			registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
 
-<<<<<<< HEAD
-			ItemChestUpgrade upgrade = new ItemChestUpgrade(ItemsMC.REGISTRY_CHEST_UPGRADE);
-=======
-			ItemChestUpgrade upgrade = new ItemChestUpgrade(ItemNames.CHEST_UPGRADE);
->>>>>>> parent of e893474... Updated the API
+			ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE);
 			upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
 
 			if (ModSupport.hasRefinedRelocation()) {
 				upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
 			}
 
-			ItemsMetalChests.CHEST_UPGRADE = upgrade;
-			registry.register(ItemsMetalChests.CHEST_UPGRADE);
+			ItemsMC.CHEST_UPGRADE = upgrade;
+			registry.register(ItemsMC.CHEST_UPGRADE);
 
 			if (ModConfig.GENERAL.enableMinecarts) {
-				registry.register(ItemsMetalChests.MINECART_METAL_CHEST = new ItemMetalMinecart());
+				registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
 			}
 		}
 
@@ -189,12 +177,12 @@ public class ModLoader {
 
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-			OreDictionary.registerOre("chestCopper", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 0));
-			OreDictionary.registerOre("chestIron", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 1));
-			OreDictionary.registerOre("chestSilver", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 2));
-			OreDictionary.registerOre("chestGold", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 3));
-			OreDictionary.registerOre("chestDiamond", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 4));
-			OreDictionary.registerOre("chestObsidian", new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 5));
+			OreDictionary.registerOre("chestCopper", new ItemStack(BlocksMC.METAL_CHEST, 1, 0));
+			OreDictionary.registerOre("chestIron", new ItemStack(BlocksMC.METAL_CHEST, 1, 1));
+			OreDictionary.registerOre("chestSilver", new ItemStack(BlocksMC.METAL_CHEST, 1, 2));
+			OreDictionary.registerOre("chestGold", new ItemStack(BlocksMC.METAL_CHEST, 1, 3));
+			OreDictionary.registerOre("chestDiamond", new ItemStack(BlocksMC.METAL_CHEST, 1, 4));
+			OreDictionary.registerOre("chestObsidian", new ItemStack(BlocksMC.METAL_CHEST, 1, 5));
 		}
 
 		@SubscribeEvent
@@ -232,17 +220,17 @@ public class ModLoader {
 		@SubscribeEvent
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			for (ChestType type : ChestType.values()) {
-				registerModel(BlocksMetalChests.METAL_CHEST, type.ordinal(), getVariantName(type));
+				registerModel(BlocksMC.METAL_CHEST, type.ordinal(), getVariantName(type));
 
 				if (ModConfig.GENERAL.enableMinecarts) {
-					registerModel(ItemsMetalChests.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
+					registerModel(ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
 				}
 			}
 
 			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 			for (ChestUpgrade type : ChestUpgrade.values()) {
-				registerModel(ItemsMetalChests.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), "item=" + type.getName());
+				registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), "item=" + type.getName());
 			}
 
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
