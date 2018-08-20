@@ -28,8 +28,9 @@ import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.api.IItemSearchBar;
 
 @Optional.InterfaceList({
-		@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.CHEST_BUTTON_CALLBACK, striprefs = true),
-		@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.SEARCH_BAR, striprefs = true) })
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.CHEST_BUTTON_CALLBACK, striprefs = true),
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.SEARCH_BAR, striprefs = true)
+})
 @SideOnly(Side.CLIENT)
 public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {
 
