@@ -47,8 +47,8 @@ public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 	}
 
 	@Override
-	public IBlockState createBlockState() {
-		return BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+	public IBlockState createBlockState(ChestType chestType) {
+		return BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
 	}
 
 	@Override

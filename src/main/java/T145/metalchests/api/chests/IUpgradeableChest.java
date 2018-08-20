@@ -29,7 +29,7 @@ public interface IUpgradeableChest {
 
 	boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
 
-	IBlockState createBlockState();
+	IBlockState createBlockState(ChestType chestType);
 
 	TileEntity createTileEntity(ChestType chestType);
 }

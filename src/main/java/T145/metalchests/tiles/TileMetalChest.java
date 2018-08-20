@@ -107,8 +107,8 @@ public class TileMetalChest extends TileMod implements IUpgradeableChest, IFacin
 	}
 
 	@Override
-	public IBlockState createBlockState() {
-		return BlocksMetalChests.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+	public IBlockState createBlockState(ChestType chestType) {
+		return BlocksMetalChests.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
 	}
 
 	@Override

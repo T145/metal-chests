@@ -143,7 +143,7 @@ public class ItemChestUpgrade extends ItemMod {
 			chest.setChestType(upgrade.getUpgrade());
 			te.markDirty();
 
-			IBlockState state = chest.createBlockState();
+			IBlockState state = chest.createBlockState(upgrade.getUpgrade());
 			world.setBlockState(pos, state, 3);
 			world.notifyBlockUpdate(pos, state, state, 3);
 
@@ -163,7 +163,7 @@ public class ItemChestUpgrade extends ItemMod {
 			world.setBlockToAir(pos);
 			world.setTileEntity(pos, chest.createTileEntity(upgrade.getUpgrade()));
 
-			IBlockState state = chest.createBlockState();
+			IBlockState state = chest.createBlockState(upgrade.getUpgrade());
 			world.setBlockState(pos, state, 3);
 			world.notifyBlockUpdate(pos, state, state, 3);
 

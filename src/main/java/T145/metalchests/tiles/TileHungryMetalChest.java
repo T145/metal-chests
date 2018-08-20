@@ -47,8 +47,8 @@ public class TileHungryMetalChest extends TileMetalChest {
 	}
 
 	@Override
-	public IBlockState createBlockState() {
-		return BlocksMetalChests.HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+	public IBlockState createBlockState(ChestType chestType) {
+		return BlocksMetalChests.HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
 	}
 
 	@Override

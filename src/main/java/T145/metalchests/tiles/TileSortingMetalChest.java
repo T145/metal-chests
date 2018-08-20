@@ -84,8 +84,8 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 	}
 
 	@Override
-	public IBlockState createBlockState() {
-		return BlocksMetalChests.SORTING_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
+	public IBlockState createBlockState(ChestType chestType) {
+		return BlocksMetalChests.SORTING_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
 	}
 
 	@Override
