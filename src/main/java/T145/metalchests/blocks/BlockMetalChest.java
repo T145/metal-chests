@@ -17,6 +17,7 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
@@ -40,7 +41,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -51,141 +51,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.oredict.OreDictionary;
 
 public class BlockMetalChest extends Block {
-
-	enum InventorySize {
-		COPPER(45),
-		IRON(54),
-		SILVER(72),
-		GOLD(81),
-		DIAMOND(108);
-
-		private final int size;
-
-		InventorySize(int size) {
-			this.size = size;
-		}
-	}
-
-	public enum ChestType implements IStringSerializable {
-
-		COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper"),
-		IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
-		SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
-		GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
-		DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-		OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian");
-
-		private final InventorySize invSize;
-		private final Material material;
-		private final MapColor color;
-		private final SoundType sound;
-		private final String dictName;
-
-		ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String dictName) {
-			this.invSize = invSize;
-			this.material = material;
-			this.color = color;
-			this.sound = sound;
-			this.dictName = dictName;
-		}
-
-		ChestType(InventorySize invSize, MapColor color, SoundType sound, String dictName) {
-			this(invSize, Material.IRON, color, sound, dictName);
-		}
-
-		@Override
-		public String getName() {
-			return name().toLowerCase();
-		}
-
-		public int getInventorySize() {
-			return invSize.size;
-		}
-
-		public Material getMaterial() {
-			return material;
-		}
-
-		public MapColor getMapColor() {
-			return color;
-		}
-
-		public SoundType getSoundType() {
-			return sound;
-		}
-
-		public String getOreName() {
-			return dictName;
-		}
-
-		public boolean isRegistered() {
-			return OreDictionary.doesOreNameExist(dictName);
-		}
-
-		public boolean isLarge() {
-			return getInventorySize() > 100;
-		}
-
-		public int getRowLength() {
-			return isLarge() ? 12 : 9;
-		}
-
-		public int getRowCount() {
-			return getInventorySize() / getRowLength();
-		}
-
-		public static ChestType byMetadata(int meta) {
-			return values()[meta]; 
-		}
-
-		public GUI getGui() {
-			return GUI.byType(this);
-		}
-
-		public String getGuiId() {
-			return "metalchests:" + getName() + "_chest";
-		}
-
-		public enum GUI {
-
-			COPPER(184),
-			IRON(202),
-			SILVER(238),
-			GOLD(256),
-			DIAMOND(256),
-			OBSIDIAN(256);
-
-			private final int ySize;
-
-			GUI(int ySize) {
-				this.ySize = ySize;
-			}
-
-			public int getSizeX() {
-				return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
-			}
-
-			public int getSizeY() {
-				return ySize;
-			}
-
-			public static GUI byMetadata(int meta) {
-				return values()[meta];
-			}
-
-			public static GUI byType(ChestType type) {
-				return byMetadata(type.ordinal());
-			}
-
-			public ResourceLocation getGuiTexture() {
-				ChestType type = ChestType.byMetadata(ordinal());
-				return new ResourceLocation(MetalChests.MOD_ID, "textures/gui/" + (type.isLarge() ? "diamond" : type.getName()) + "_container.png");
-			}
-		}
-	}
 
 	public static final String NAME = "metal_chest";
 	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(MetalChests.MOD_ID, "metal_chest");
@@ -281,7 +148,7 @@ public class BlockMetalChest extends Block {
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
 
-			if (chest.getType() == ChestType.OBSIDIAN) {
+			if (chest.getChestType() == ChestType.OBSIDIAN) {
 				return 10000F;
 			}
 		}

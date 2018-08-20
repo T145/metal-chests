@@ -17,7 +17,7 @@ package T145.metalchests.client.render.blocks;
 
 import org.lwjgl.opengl.GL11;
 
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.model.ModelChest;
@@ -62,7 +62,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		} else {
-			bindTexture(getActiveResource(chest.getType()));
+			bindTexture(getActiveResource(chest.getChestType()));
 		}
 
 		GlStateManager.pushMatrix();

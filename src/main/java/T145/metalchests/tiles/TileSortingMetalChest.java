@@ -21,8 +21,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Strings;
 
-import T145.metalchests.api.ModSupport;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.BlocksMetalChests;
+import T145.metalchests.api.ItemsMetalChests;
+import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
@@ -31,38 +34,27 @@ import net.blay09.mods.refinedrelocation.capability.CapabilitySimpleFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingGridMember;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingInventory;
 import net.blay09.mods.refinedrelocation.tile.INameable;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
-import net.minecraftforge.fml.common.Optional;
-import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
-@Optional.Interface(modid = ModSupport.RefinedRelocation.MOD_ID, iface = ModSupport.RefinedRelocation.NAMEABLE, striprefs = false)
 public class TileSortingMetalChest extends TileMetalChest implements INameable {
 
-	private final ISortingInventory sortingInventory = Capabilities.getDefaultInstance(Capabilities.SORTING_INVENTORY);
-	private final IRootFilter rootFilter = Capabilities.getDefaultInstance(Capabilities.ROOT_FILTER);
+	protected ISortingInventory sortingInventory = Capabilities.getDefaultInstance(Capabilities.SORTING_INVENTORY);
+	protected IRootFilter rootFilter = Capabilities.getDefaultInstance(Capabilities.ROOT_FILTER);
+	protected String customName = StringUtils.EMPTY;
 
-	private String customName = StringUtils.EMPTY;
-
-	public TileSortingMetalChest(ChestType type) {
-		super(type);
-		this.inventory = new ItemStackHandler(type.getInventorySize()) {
-
-			@Override
-			protected void onContentsChanged(int slot) {
-				super.onContentsChanged(slot);
-				TileSortingMetalChest.this.markDirty();
-				sortingInventory.onSlotChanged(slot);
-				world.updateComparatorOutputLevel(pos, blockType);
-			}
-		};
+	public TileSortingMetalChest(ChestType chestType) {
+		super(chestType);
 	}
 
 	public TileSortingMetalChest() {
@@ -71,6 +63,34 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 
 	public static void registerFixes(DataFixer fixer) {
 		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileSortingMetalChest.class, new String[] { "Items" }));
+	}
+
+	@Override
+	protected ItemStackHandler initInventory() {
+		return new ItemStackHandler(chestType.getInventorySize()) {
+
+			@Override
+			protected void onContentsChanged(int slot) {
+				TileSortingMetalChest.this.markDirty();
+				sortingInventory.onSlotChanged(slot);
+				world.updateComparatorOutputLevel(pos, getBlockType());
+			}
+		};
+	}
+
+	@Override
+	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
+		return upgrade.getBase() == chestType && chest instanceof TileSortingMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMetalChests.CHEST_UPGRADE.getRegistryName());
+	}
+
+	@Override
+	public IBlockState createBlockState(ChestType chestType) {
+		return BlocksMetalChests.SORTING_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
+	}
+
+	@Override
+	public TileEntity createTileEntity(ChestType chestType) {
+		return new TileSortingMetalChest(chestType);
 	}
 
 	@Override
@@ -98,10 +118,33 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 	}
 
 	@Override
+	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
+		return capability == CapabilitySortingInventory.CAPABILITY || capability == CapabilitySortingGridMember.CAPABILITY || capability == CapabilityRootFilter.CAPABILITY || capability == CapabilitySimpleFilter.CAPABILITY || super.hasCapability(capability, facing);
+	}
+
+	@Override
+	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
+		if (capability == CapabilitySortingInventory.CAPABILITY || capability == CapabilitySortingGridMember.CAPABILITY) {
+			return (T) sortingInventory;
+		} else if (capability == CapabilityRootFilter.CAPABILITY || capability == CapabilitySimpleFilter.CAPABILITY) {
+			return (T) rootFilter;
+		}
+		return super.getCapability(capability, facing);
+	}
+
+	@Override
+	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+		super.writeToNBT(compound);
+		compound.setTag("SortingInventory", sortingInventory.serializeNBT());
+		compound.setTag("RootFilter", rootFilter.serializeNBT());
+		setCustomName(compound.getString("CustomName"));
+		return compound;
+	}
+
+	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
 
-		customName = compound.getString("CustomName");
 		sortingInventory.deserializeNBT(compound.getCompoundTag("SortingInventory"));
 
 		if (compound.getTagId("RootFilter") == Constants.NBT.TAG_LIST) {
@@ -113,64 +156,31 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 		}
 
 		rootFilter.deserializeNBT(compound.getCompoundTag("RootFilter"));
-	}
-
-	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-		super.writeToNBT(compound);
-		compound.setString("CustomName", customName);
-		compound.setTag("SortingInventory", sortingInventory.serializeNBT());
-		compound.setTag("RootFilter", rootFilter.serializeNBT());
-		return compound;
-	}
-
-	@Override
-	public boolean hasCapability(Capability<?> capability, @Nullable EnumFacing facing) {
-		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY
-				|| capability == CapabilitySortingInventory.CAPABILITY
-				|| capability == CapabilitySortingGridMember.CAPABILITY || capability == CapabilityRootFilter.CAPABILITY
-				|| capability == CapabilitySimpleFilter.CAPABILITY || super.hasCapability(capability, facing);
-	}
-
-	@Override
-	public <T> T getCapability(Capability<T> capability, @Nullable EnumFacing facing) {
-		if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-			return (T) inventory;
-		} else if (capability == CapabilitySortingInventory.CAPABILITY
-				|| capability == CapabilitySortingGridMember.CAPABILITY) {
-			return (T) sortingInventory;
-		} else if (capability == CapabilityRootFilter.CAPABILITY || capability == CapabilitySimpleFilter.CAPABILITY) {
-			return (T) rootFilter;
-		}
-		return super.getCapability(capability, facing);
+		customName = compound.getString("CustomName");
 	}
 
 	@Override
 	public String getTranslationKey() {
-		return "tile.metalchests:sorting_metal_chest." + type.getName() + ".name";
+		return "tile.metalchests:sorting_metal_chest." + chestType.getName() + ".name";
 	}
 
-	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public void setCustomName(String customName) {
 		this.customName = customName;
 	}
 
-	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public String getCustomName() {
 		return customName;
 	}
 
-	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public boolean hasCustomName() {
 		return !Strings.isNullOrEmpty(customName);
 	}
 
-	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@Override
 	public String getUnlocalizedName() {
-		return getItemHandlerName();
+		return getTranslationKey();
 	}
 }

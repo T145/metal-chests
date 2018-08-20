@@ -17,7 +17,7 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.IInventoryHandler;
+import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.lib.containers.InventoryManager;
 import T145.metalchests.tiles.TileHungryMetalChest;

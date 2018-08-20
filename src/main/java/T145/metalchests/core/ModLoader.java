@@ -19,8 +19,10 @@ import java.util.HashSet;
 
 import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ItemsMetalChests;
+import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ItemNames;
 import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
 import T145.metalchests.config.ModConfig;
@@ -31,6 +33,8 @@ import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.lib.items.BlockModItem;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.metalchests.tiles.TileSortingMetalChest;
+import net.blay09.mods.refinedrelocation.tile.TileSortingChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -43,6 +47,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -137,7 +142,16 @@ public class ModLoader {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
 			registerItemBlock(registry, BlocksMetalChests.METAL_CHEST, ChestType.class);
-			registry.register(ItemsMetalChests.CHEST_UPGRADE = new ItemChestUpgrade());
+
+			ItemChestUpgrade upgrade = new ItemChestUpgrade(ItemNames.CHEST_UPGRADE);
+			upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
+
+			if (ModSupport.hasRefinedRelocation()) {
+				upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
+			}
+
+			ItemsMetalChests.CHEST_UPGRADE = upgrade;
+			registry.register(ItemsMetalChests.CHEST_UPGRADE);
 
 			if (ModConfig.GENERAL.enableMinecarts) {
 				registry.register(ItemsMetalChests.MINECART_METAL_CHEST = new ItemMetalMinecart());

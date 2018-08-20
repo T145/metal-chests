@@ -15,15 +15,22 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.BlocksMetalChests;
+import T145.metalchests.api.ItemsMetalChests;
+import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 
 public class TileHungryMetalChest extends TileMetalChest {
 
-	public TileHungryMetalChest(ChestType type) {
-		super(type);
+	public TileHungryMetalChest(ChestType chestType) {
+		super(chestType);
 	}
 
 	public TileHungryMetalChest() {
@@ -35,8 +42,18 @@ public class TileHungryMetalChest extends TileMetalChest {
 	}
 
 	@Override
-	public String getTranslationKey() {
-		return "tile.metalchests:hungry_metal_chest." + type.getName() + ".name";
+	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
+		return upgrade.getBase() == chestType && chest instanceof TileHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMetalChests.HUNGRY_CHEST_UPGRADE.getRegistryName());
+	}
+
+	@Override
+	public IBlockState createBlockState(ChestType chestType) {
+		return BlocksMetalChests.HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
+	}
+
+	@Override
+	public TileEntity createTileEntity(ChestType chestType) {
+		return new TileHungryMetalChest(chestType);
 	}
 
 	@Override
@@ -50,5 +67,10 @@ public class TileHungryMetalChest extends TileMetalChest {
 		default:
 			return super.receiveClientEvent(id, data);
 		}
+	}
+
+	@Override
+	public String getTranslationKey() {
+		return "tile.metalchests:hungry_metal_chest." + chestType.getName() + ".name";
 	}
 }

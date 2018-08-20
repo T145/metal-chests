@@ -36,7 +36,7 @@ public class GuiHandler implements IGuiHandler {
 		switch (ID) {
 		case 0:
 			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
-			return new ContainerMetalChest(chest, player, chest.getType());
+			return new ContainerMetalChest(chest, player, chest.getChestType());
 		default:
 			Entity entity = world.getEntityByID(ID);
 
@@ -55,4 +55,3 @@ public class GuiHandler implements IGuiHandler {
 		return new GuiMetalChest(getServerGuiElement(ID, player, world, x, y, z));
 	}
 }
-

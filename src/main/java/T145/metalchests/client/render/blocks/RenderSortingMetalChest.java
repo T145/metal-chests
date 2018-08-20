@@ -20,7 +20,7 @@ import javax.annotation.Nullable;
 import org.lwjgl.opengl.GL11;
 
 import T145.metalchests.api.BlocksMetalChests;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
@@ -70,7 +70,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 			GlStateManager.translate(0.0625f, 0.0625f, 0.0625f);
 			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		} else {
-			bindTexture(getActiveResource(chest.getType()));
+			bindTexture(getActiveResource(chest.getChestType()));
 		}
 
 		GlStateManager.pushMatrix();
@@ -92,7 +92,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 		model.renderAll();
 
 		if (destroyStage == -1) {
-			bindTexture(getActiveOverlay(chest.getType()));
+			bindTexture(getActiveOverlay(chest.getChestType()));
 			GlStateManager.translate(0f, -0.001f, 0f);
 			chestLid.chestLid.rotateAngleX = model.chestLid.rotateAngleX;
 			chestLid.renderAll();

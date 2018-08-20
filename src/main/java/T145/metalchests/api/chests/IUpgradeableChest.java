@@ -13,18 +13,23 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.chests;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraftforge.items.IItemHandler;
+import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 
-public interface IInventoryHandler {
+public interface IUpgradeableChest {
 
-	IItemHandler getInventory();
+	ChestType getChestType();
 
-	void openInventory(EntityPlayer player);
+	void setChestType(ChestType chestType);
 
-	void closeInventory(EntityPlayer player);
+	boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
 
-	boolean isUsableByPlayer(EntityPlayer player);
+	IBlockState createBlockState(ChestType chestType);
+
+	TileEntity createTileEntity(ChestType chestType);
 }

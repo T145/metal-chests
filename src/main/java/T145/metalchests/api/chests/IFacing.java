@@ -13,24 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.chests;
 
-import T145.metalchests.api.immutable.ItemNames;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraft.util.EnumFacing;
 
-@ObjectHolder("metalchests")
-public class ItemsMetalChests {
+public interface IFacing {
 
-	private ItemsMetalChests() {}
+	EnumFacing getFront();
 
-	@ObjectHolder(ItemNames.CHEST_UPGRADE)
-	public static Item CHEST_UPGRADE;
-
-	@ObjectHolder(ItemNames.HUNGRY_CHEST_UPGRADE)
-	public static Item HUNGRY_CHEST_UPGRADE;
-
-	@ObjectHolder(ItemNames.METAL_MINECART)
-	public static Item MINECART_METAL_CHEST;
-
+	void setFront(EnumFacing front);
 }

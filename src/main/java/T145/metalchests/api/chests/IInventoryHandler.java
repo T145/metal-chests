@@ -13,24 +13,20 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.chests;
 
-import T145.metalchests.api.immutable.ItemNames;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraftforge.items.IItemHandler;
 
-@ObjectHolder("metalchests")
-public class ItemsMetalChests {
+public interface IInventoryHandler {
 
-	private ItemsMetalChests() {}
+	IItemHandler getInventory();
 
-	@ObjectHolder(ItemNames.CHEST_UPGRADE)
-	public static Item CHEST_UPGRADE;
+	void setInventory(IItemHandler inventory);
 
-	@ObjectHolder(ItemNames.HUNGRY_CHEST_UPGRADE)
-	public static Item HUNGRY_CHEST_UPGRADE;
+	void openInventory(EntityPlayer player);
 
-	@ObjectHolder(ItemNames.METAL_MINECART)
-	public static Item MINECART_METAL_CHEST;
+	void closeInventory(EntityPlayer player);
 
+	boolean isUsableByPlayer(EntityPlayer player);
 }

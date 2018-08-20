@@ -18,11 +18,11 @@ package T145.metalchests.entities;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMetalChests;
-import T145.metalchests.api.IInventoryHandler;
 import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockMetalChest.ChestType;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
