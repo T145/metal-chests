@@ -18,11 +18,11 @@ package T145.metalchests.core;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import T145.metalchests.api.BlocksMetalChests;
-import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.immutable.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
+import T145.metalchests.api.immutable.ItemsMC;
 import T145.metalchests.core.proxies.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -63,43 +63,43 @@ public class MetalChests {
 		@Override
 		@SideOnly(Side.CLIENT)
 		public ItemStack createIcon() {
-			return new ItemStack(BlocksMetalChests.METAL_CHEST, 1, 1);
+			return new ItemStack(BlocksMC.METAL_CHEST, 1, 1);
 		}
 
 		@SideOnly(Side.CLIENT)
 		public void displayAllRelevantItems(NonNullList<ItemStack> items) {
 			for (ChestType type : ChestType.values()) {
-				items.add(new ItemStack(BlocksMetalChests.METAL_CHEST, 1, type.ordinal()));
+				items.add(new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
 			}
 
 			for (ChestUpgrade type : ChestUpgrade.values()) {
-				items.add(new ItemStack(ItemsMetalChests.CHEST_UPGRADE, 1, type.ordinal()));
+				items.add(new ItemStack(ItemsMC.CHEST_UPGRADE, 1, type.ordinal()));
 			}
 
 			if (ModSupport.hasThaumcraft()) {
 				for (ChestType type : ChestType.values()) {
-					items.add(new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, type.ordinal()));
+					items.add(new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
 				}
 
 				for (ChestUpgrade type : ChestUpgrade.values()) {
-					items.add(new ItemStack(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()));
+					items.add(new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()));
 				}
 			}
 
 			if (ModSupport.hasRefinedRelocation()) {
 				for (ChestType type : ChestType.values()) {
-					items.add(new ItemStack(BlocksMetalChests.SORTING_METAL_CHEST, 1, type.ordinal()));
+					items.add(new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
 				}
 			}
 
 			if (ModSupport.hasRefinedRelocation() && ModSupport.hasThaumcraft()) {
 				for (ChestType type : ChestType.values()) {
-					items.add(new ItemStack(BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
+					items.add(new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
 				}
 			}
 
 			for (ChestType type : ChestType.values()) {
-				items.add(new ItemStack(ItemsMetalChests.MINECART_METAL_CHEST, 1, type.ordinal()));
+				items.add(new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()));
 			}
 		}
 	}.setBackgroundImageName("item_search.png");

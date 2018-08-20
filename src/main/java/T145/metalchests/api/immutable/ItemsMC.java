@@ -13,24 +13,33 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.immutable;
 
-import T145.metalchests.api.immutable.ItemNames;
+import T145.metalchests.core.MetalChests;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-@ObjectHolder("metalchests")
-public class ItemsMetalChests {
+@ObjectHolder(MetalChests.MOD_ID)
+public class ItemsMC {
 
-	private ItemsMetalChests() {}
+	private ItemsMC() {}
 
-	@ObjectHolder(ItemNames.CHEST_UPGRADE)
+	public static final String KEY_CHEST_UPGRADE = "chest_upgrade";
+	public static final String KEY_HUNGRY_CHEST_UPGRADE = "hungry_chest_upgrade";
+	public static final String KEY_METAL_MINECART = "minecart_metal_chest";
+
+	public static final ResourceLocation REGISTRY_CHEST_UPGRADE = new ResourceLocation(MetalChests.MOD_ID, KEY_CHEST_UPGRADE);
+	public static final ResourceLocation REGISTRY_HUNGRY_CHEST_UPGRADE = new ResourceLocation(MetalChests.MOD_ID, KEY_CHEST_UPGRADE);
+	public static final ResourceLocation REGISTRY_METAL_MINECART = new ResourceLocation(MetalChests.MOD_ID, KEY_CHEST_UPGRADE);
+
+	@ObjectHolder(KEY_CHEST_UPGRADE)
 	public static Item CHEST_UPGRADE;
 
-	@ObjectHolder(ItemNames.HUNGRY_CHEST_UPGRADE)
+	@ObjectHolder(KEY_HUNGRY_CHEST_UPGRADE)
 	public static Item HUNGRY_CHEST_UPGRADE;
 
-	@ObjectHolder(ItemNames.METAL_MINECART)
+	@ObjectHolder(KEY_METAL_MINECART)
 	public static Item MINECART_METAL_CHEST;
 
 }

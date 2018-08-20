@@ -17,7 +17,7 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.core.MetalChests;
+import T145.metalchests.api.immutable.BlocksMC;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
@@ -38,16 +38,13 @@ import net.minecraft.world.World;
 
 public class BlockSortingMetalChest extends BlockMetalChest {
 
-	public static final String NAME = "sorting_metal_chest";
-	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(MetalChests.MOD_ID, "sorting_metal_chest");
-
 	public BlockSortingMetalChest(ResourceLocation registryName) {
 		super(Material.IRON);
 		registerBlock(registryName);
 	}
 
 	public BlockSortingMetalChest() {
-		this(REGISTRY_NAME);
+		this(BlocksMC.REGISTRY_SORTING_METAL_CHEST);
 	}
 
 	@Nullable
