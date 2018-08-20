@@ -20,9 +20,7 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.chests.IFacing;
-import T145.metalchests.api.chests.IInventoryHandler;
-import T145.metalchests.api.chests.IUpgradeableChest;
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
@@ -56,9 +54,9 @@ public class ItemChestUpgrade extends ItemMod {
 		setMaxStackSize(1);
 	}
 
-	private final Map<Class, IUpgradeableChest> defaultChests = new HashMap<>();
+	private final Map<Class, IMetalChest> defaultChests = new HashMap<>();
 
-	public void addDefaultChest(Class tileClass, IUpgradeableChest tileUpgrade) {
+	public void addDefaultChest(Class tileClass, IMetalChest tileUpgrade) {
 		defaultChests.put(tileClass, tileUpgrade);
 	}
 
@@ -72,12 +70,11 @@ public class ItemChestUpgrade extends ItemMod {
 		ItemStack stack = player.getHeldItem(hand);
 		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
-		if (te instanceof IUpgradeableChest && te instanceof IInventoryHandler) {
-			IUpgradeableChest chest = (IUpgradeableChest) te;
+		if (te instanceof IMetalChest) {
+			IMetalChest chest = (IMetalChest) te;
 
 			if (chest.getChestType() == upgrade.getBase() && chest.canApplyUpgrade(upgrade, te, stack)) {
-				IInventoryHandler invHandler = (IInventoryHandler) te;
-				ItemStackHandler oldInventory = (ItemStackHandler) invHandler.getInventory();
+				ItemStackHandler oldInventory = (ItemStackHandler) chest.getInventory();
 
 				chest.setChestType(upgrade.getUpgrade());
 				te.markDirty();
@@ -86,12 +83,12 @@ public class ItemChestUpgrade extends ItemMod {
 				world.setBlockState(pos, state, 3);
 				world.notifyBlockUpdate(pos, state, state, 3);
 
-				invHandler.setInventory(oldInventory);
+				chest.setInventory(oldInventory);
 			} else {
 				return EnumActionResult.FAIL;
 			}
 		} else if (defaultChests.containsKey(te.getClass())) {
-			IUpgradeableChest chest = defaultChests.get(te.getClass());
+			IMetalChest chest = defaultChests.get(te.getClass());
 			EnumFacing front = getFrontFromProperties(world, pos);
 			IItemHandler inventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
 
@@ -111,14 +108,10 @@ public class ItemChestUpgrade extends ItemMod {
 
 			TileEntity tile = world.getTileEntity(pos);
 
-			if (tile instanceof IInventoryHandler) {
-				IInventoryHandler invHandler = (IInventoryHandler) tile;
-				invHandler.setInventory(inventory);
-			}
-
-			if (tile instanceof IFacing) {
-				IFacing orientable = (IFacing) tile;
-				orientable.setFront(front);
+			if (tile instanceof IMetalChest) {
+				IMetalChest metalChest = (IMetalChest) tile;
+				metalChest.setInventory(inventory);
+				metalChest.setFront(front);
 			}
 		} else {
 			return EnumActionResult.PASS;

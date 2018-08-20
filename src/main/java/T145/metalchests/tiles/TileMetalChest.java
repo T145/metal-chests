@@ -22,9 +22,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
-import T145.metalchests.api.chests.IFacing;
-import T145.metalchests.api.chests.IInventoryHandler;
-import T145.metalchests.api.chests.IUpgradeableChest;
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
@@ -56,7 +54,7 @@ import vazkii.quark.api.IDropoffManager;
 	@Optional.Interface(modid = ModSupport.HoloInventory.MOD_ID, iface = ModSupport.HoloInventory.NAMED_ITEM_HANDLER, striprefs = true),
 	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.DROPOFF_MANAGER, striprefs = true)
 })
-public class TileMetalChest extends TileMod implements IUpgradeableChest, IFacing, IInventoryHandler, ITickable, INamedItemHandler, IDropoffManager {
+public class TileMetalChest extends TileMod implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
 	public float lidAngle;
 	public float prevLidAngle;
