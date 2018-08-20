@@ -16,7 +16,7 @@
 package T145.metalchests.items;
 
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ItemsMC;
+import T145.metalchests.api.immutable.ItemNames;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.lib.items.ItemMod;
 import net.minecraft.block.Block;
@@ -92,7 +92,11 @@ public class ItemMetalMinecart extends ItemMod {
 	};
 
 	public ItemMetalMinecart() {
+<<<<<<< HEAD
 		super(ItemsMC.REGISTRY_METAL_MINECART, ChestType.values());
+=======
+		super(ItemNames.METAL_MINECART, ChestType.values());
+>>>>>>> parent of e893474... Updated the API
 		this.setMaxStackSize(1);
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, MINECART_DISPENSER_BEHAVIOR);
 	}

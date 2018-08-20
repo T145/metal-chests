@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 
 import org.lwjgl.opengl.GL11;
 
-import T145.metalchests.api.immutable.BlocksMC;
+import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileSortingMetalChest;
@@ -45,7 +45,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 	}
 
 	public RenderSortingMetalChest() {
-		super(BlocksMC.SORTING_METAL_CHEST);
+		super(BlocksMetalChests.SORTING_METAL_CHEST);
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {

@@ -15,10 +15,10 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
-import T145.metalchests.api.immutable.BlocksMC;
+import T145.metalchests.api.BlocksMetalChests;
+import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.api.immutable.ItemsMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
@@ -43,12 +43,16 @@ public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 
 	@Override
 	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
+<<<<<<< HEAD
 		return chest instanceof TileSortingHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
+=======
+		return upgrade.getBase() == chestType && chest instanceof TileSortingHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMetalChests.HUNGRY_CHEST_UPGRADE.getRegistryName());
+>>>>>>> parent of e893474... Updated the API
 	}
 
 	@Override
 	public IBlockState createBlockState(ChestType chestType) {
-		return BlocksMC.SORTING_HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
+		return BlocksMetalChests.SORTING_HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
 	}
 
 	@Override

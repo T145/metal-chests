@@ -15,11 +15,20 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
+<<<<<<< HEAD
 import T145.metalchests.api.immutable.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ItemsMC;
 import T145.metalchests.api.immutable.ModSupport;
+=======
+import T145.metalchests.api.BlocksMetalChests;
+import T145.metalchests.api.ItemsMetalChests;
+import T145.metalchests.api.ModSupport;
+import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ChestUpgrade;
+import T145.metalchests.api.immutable.ItemNames;
+>>>>>>> parent of e893474... Updated the API
 import T145.metalchests.blocks.BlockHungryMetalChest;
 import T145.metalchests.client.render.blocks.RenderHungryMetalChest;
 import T145.metalchests.core.MetalChests;
@@ -58,7 +67,7 @@ class ModuleThaumcraft {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 
 			if (ModSupport.hasThaumcraft()) {
-				registry.register(BlocksMC.HUNGRY_METAL_CHEST = new BlockHungryMetalChest());
+				registry.register(BlocksMetalChests.HUNGRY_METAL_CHEST = new BlockHungryMetalChest());
 				ModLoader.registerTileEntity(TileHungryMetalChest.class);
 			}
 		}
@@ -69,12 +78,16 @@ class ModuleThaumcraft {
 			final IForgeRegistry<Item> registry = event.getRegistry();
 
 			if (ModSupport.hasThaumcraft()) {
-				ModLoader.registerItemBlock(registry, BlocksMC.HUNGRY_METAL_CHEST, ChestType.class);
+				ModLoader.registerItemBlock(registry, BlocksMetalChests.HUNGRY_METAL_CHEST, ChestType.class);
 
+<<<<<<< HEAD
 				ItemChestUpgrade upgrade = new ItemChestUpgrade(ItemsMC.REGISTRY_HUNGRY_CHEST_UPGRADE);
+=======
+				ItemChestUpgrade upgrade = new ItemChestUpgrade(ItemNames.HUNGRY_CHEST_UPGRADE);
+>>>>>>> parent of e893474... Updated the API
 				upgrade.addDefaultChest(TileHungryChest.class, new TileHungryMetalChest());
-				ItemsMC.HUNGRY_CHEST_UPGRADE = upgrade;
-				registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE);
+				ItemsMetalChests.HUNGRY_CHEST_UPGRADE = upgrade;
+				registry.register(ItemsMetalChests.HUNGRY_CHEST_UPGRADE);
 			}
 		}
 
@@ -82,33 +95,33 @@ class ModuleThaumcraft {
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasThaumcraft()) {
-				OreDictionary.registerOre("chestHungryCopper", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 0));
-				OreDictionary.registerOre("chestHungryIron", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 1));
-				OreDictionary.registerOre("chestHungrySilver", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 2));
-				OreDictionary.registerOre("chestHungryGold", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 3));
-				OreDictionary.registerOre("chestHungryDiamond", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 4));
-				OreDictionary.registerOre("chestHungryObsidian", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 5));
+				OreDictionary.registerOre("chestHungryCopper", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 0));
+				OreDictionary.registerOre("chestHungryIron", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 1));
+				OreDictionary.registerOre("chestHungrySilver", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 2));
+				OreDictionary.registerOre("chestHungryGold", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 3));
+				OreDictionary.registerOre("chestHungryDiamond", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 4));
+				OreDictionary.registerOre("chestHungryObsidian", new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 5));
 
 				if (ChestType.COPPER.isRegistered()) {
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryCopperChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-									new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 0),
+									new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 0),
 									"III", "ICI", "III",
 									'I', "ingotCopper",
 									'C', new ItemStack(BlocksTC.hungryChest)));
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryIronChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-									new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 1),
+									new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 1),
 									"III", "ICI", "III",
 									'I', "ingotIron",
-									'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 0)));
+									'C', new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 0)));
 				} else {
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryIronChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-									new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 1),
+									new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 1),
 									"III", "ICI", "III",
 									'I', "ingotIron",
 									'C', new ItemStack(BlocksTC.hungryChest)));
@@ -118,41 +131,41 @@ class ModuleThaumcraft {
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungrySilverChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-									new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 2),
+									new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 2),
 									"III", "ICI", "III",
 									'I', "ingotSilver",
-									'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 1)));
+									'C', new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 1)));
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryGoldChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-									new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 3),
+									new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 3),
 									"III", "ICI", "III",
 									'I', "ingotGold",
-									'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 2)));
+									'C', new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 2)));
 				} else {
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryGoldChest"),
 							new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 									new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-									new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 3),
+									new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 3),
 									"III", "ICI", "III",
 									'I', "ingotGold",
-									'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 1)));
+									'C', new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 1)));
 				}
 
 				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryDiamondChest"),
 						new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 								new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-								new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 4),
+								new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 4),
 								"III", "ICI", "III",
 								'I', "gemDiamond",
-								'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 3)));
+								'C', new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 3)));
 				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryObsidianChest"),
 						new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15,
 								new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-								new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 5),
+								new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 5),
 								"III", "ICI", "III",
 								'I', "obsidian",
-								'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 4)));
+								'C', new ItemStack(BlocksMetalChests.HUNGRY_METAL_CHEST, 1, 4)));
 
 				for (ChestUpgrade upgrade : ChestUpgrade.values()) {
 					switch (upgrade) {
@@ -160,25 +173,25 @@ class ModuleThaumcraft {
 						ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
 								new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15,
 										new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-										new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
+										new ItemStack(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
 										"III", "III", "CII",
 										'I', upgrade.getUpgrade().getOreName(),
-										'C', new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, ChestType.SILVER.isRegistered() ? upgrade.getPriorUpgrade().ordinal() : upgrade.getPriorUpgrade().getPriorUpgrade().ordinal())));
+										'C', new ItemStack(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, 1, ChestType.SILVER.isRegistered() ? upgrade.getPriorUpgrade().ordinal() : upgrade.getPriorUpgrade().getPriorUpgrade().ordinal())));
 						break;
 					case WOOD_IRON:
 						ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
 								new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15,
 										new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-										new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
+										new ItemStack(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
 										"III", "III", "CII",
 										'I', upgrade.getUpgrade().getOreName(),
-										'C', ChestType.COPPER.isRegistered() ? new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.getPriorUpgrade().ordinal()) : new ItemStack(BlocksTC.plankGreatwood)));
+										'C', ChestType.COPPER.isRegistered() ? new ItemStack(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, 1, upgrade.getPriorUpgrade().ordinal()) : new ItemStack(BlocksTC.plankGreatwood)));
 						break;
 					default:
 						ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
 								new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15,
 										new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-										new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
+										new ItemStack(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
 										"III", "III", "CII",
 										'I', upgrade.getUpgrade().getOreName(),
 										'C', getBaseIngredient(upgrade)));
@@ -198,7 +211,7 @@ class ModuleThaumcraft {
 				if (prior.getBase() != upgrade.getBase()) {
 					return upgrade.getBase().getOreName();
 				} else {
-					return new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, priorIndex);
+					return new ItemStack(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, 1, priorIndex);
 				}
 			}
 		}
@@ -212,13 +225,13 @@ class ModuleThaumcraft {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			if (ModSupport.hasThaumcraft()) {
 				for (ChestType type : ChestType.values()) {
-					ModLoader.registerModel(BlocksMC.HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+					ModLoader.registerModel(BlocksMetalChests.HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
 				}
 
 				ModLoader.registerTileRenderer(TileHungryMetalChest.class, new RenderHungryMetalChest());
 
 				for (ChestUpgrade type : ChestUpgrade.values()) {
-					ModLoader.registerModel(ItemsMC.HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());
+					ModLoader.registerModel(ItemsMetalChests.HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());
 				}
 			}
 		}

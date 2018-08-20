@@ -17,18 +17,22 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.immutable.BlocksMC;
+import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileSortingHungryMetalChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockSortingHungryMetalChest extends BlockSortingMetalChest {
 
+	public static final String NAME = "sorting_hungry_metal_chest";
+	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(MetalChests.MOD_ID, "sorting_hungry_metal_chest");
+
 	public BlockSortingHungryMetalChest() {
-		super(BlocksMC.REGISTRY_SORTING_METAL_CHEST);
+		super(REGISTRY_NAME);
 	}
 
 	@Nullable

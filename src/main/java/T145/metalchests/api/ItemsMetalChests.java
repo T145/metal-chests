@@ -13,16 +13,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.immutable;
+package T145.metalchests.api;
 
-import T145.metalchests.core.MetalChests;
+import T145.metalchests.api.immutable.ItemNames;
 import net.minecraft.item.Item;
+<<<<<<< HEAD:src/main/java/T145/metalchests/api/immutable/ItemsMC.java
 import net.minecraft.util.ResourceLocation;
 
 public class ItemsMC {
+=======
+import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-	private ItemsMC() {}
+@ObjectHolder("metalchests")
+public class ItemsMetalChests {
+>>>>>>> parent of e893474... Updated the API:src/main/java/T145/metalchests/api/ItemsMetalChests.java
 
+	private ItemsMetalChests() {}
+
+<<<<<<< HEAD:src/main/java/T145/metalchests/api/immutable/ItemsMC.java
 	public static final String KEY_CHEST_UPGRADE = "chest_upgrade";
 	public static final String KEY_HUNGRY_CHEST_UPGRADE = "hungry_chest_upgrade";
 	public static final String KEY_METAL_MINECART = "minecart_metal_chest";
@@ -33,6 +41,15 @@ public class ItemsMC {
 
 	public static Item CHEST_UPGRADE;
 	public static Item HUNGRY_CHEST_UPGRADE;
+=======
+	@ObjectHolder(ItemNames.CHEST_UPGRADE)
+	public static Item CHEST_UPGRADE;
+
+	@ObjectHolder(ItemNames.HUNGRY_CHEST_UPGRADE)
+	public static Item HUNGRY_CHEST_UPGRADE;
+
+	@ObjectHolder(ItemNames.METAL_MINECART)
+>>>>>>> parent of e893474... Updated the API:src/main/java/T145/metalchests/api/ItemsMetalChests.java
 	public static Item MINECART_METAL_CHEST;
 
 }

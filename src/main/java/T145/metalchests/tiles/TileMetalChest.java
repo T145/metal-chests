@@ -20,14 +20,22 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+<<<<<<< HEAD
+=======
+import T145.metalchests.api.BlocksMetalChests;
+import T145.metalchests.api.ItemsMetalChests;
+import T145.metalchests.api.ModSupport;
+>>>>>>> parent of e893474... Updated the API
 import T145.metalchests.api.chests.IFacing;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IUpgradeableChest;
-import T145.metalchests.api.immutable.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
+<<<<<<< HEAD
 import T145.metalchests.api.immutable.ItemsMC;
 import T145.metalchests.api.immutable.ModSupport;
+=======
+>>>>>>> parent of e893474... Updated the API
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
@@ -103,12 +111,16 @@ public class TileMetalChest extends TileMod implements IUpgradeableChest, IFacin
 
 	@Override
 	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
+<<<<<<< HEAD
 		return chest instanceof TileMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
+=======
+		return upgrade.getBase() == chestType && chest instanceof TileMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMetalChests.CHEST_UPGRADE.getRegistryName());
+>>>>>>> parent of e893474... Updated the API
 	}
 
 	@Override
 	public IBlockState createBlockState(ChestType chestType) {
-		return BlocksMC.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
+		return BlocksMetalChests.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
 	}
 
 	@Override

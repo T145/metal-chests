@@ -21,10 +21,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Strings;
 
-import T145.metalchests.api.immutable.BlocksMC;
+import T145.metalchests.api.BlocksMetalChests;
+import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.api.immutable.ItemsMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -80,12 +80,16 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 
 	@Override
 	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
+<<<<<<< HEAD
 		return chest instanceof TileSortingMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
+=======
+		return upgrade.getBase() == chestType && chest instanceof TileSortingMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMetalChests.CHEST_UPGRADE.getRegistryName());
+>>>>>>> parent of e893474... Updated the API
 	}
 
 	@Override
 	public IBlockState createBlockState(ChestType chestType) {
-		return BlocksMC.SORTING_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
+		return BlocksMetalChests.SORTING_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
 	}
 
 	@Override

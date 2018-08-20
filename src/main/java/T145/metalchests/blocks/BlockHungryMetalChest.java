@@ -18,7 +18,7 @@ package T145.metalchests.blocks;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.chests.IInventoryHandler;
-import T145.metalchests.api.immutable.BlocksMC;
+import T145.metalchests.core.MetalChests;
 import T145.metalchests.lib.containers.InventoryManager;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import net.minecraft.block.Block;
@@ -28,13 +28,17 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class BlockHungryMetalChest extends BlockMetalChest {
 
+	public static final String NAME = "hungry_metal_chest";
+	public static final ResourceLocation REGISTRY_NAME = new ResourceLocation(MetalChests.MOD_ID, "hungry_metal_chest");
+
 	public BlockHungryMetalChest() {
-		super(BlocksMC.REGISTRY_HUNGRY_METAL_CHEST);
+		super(REGISTRY_NAME);
 	}
 
 	@Nullable
