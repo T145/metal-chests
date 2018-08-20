@@ -18,9 +18,7 @@ package T145.metalchests.api.immutable;
 import T145.metalchests.core.MetalChests;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-@ObjectHolder(MetalChests.MOD_ID)
 public class ItemsMC {
 
 	private ItemsMC() {}
@@ -33,13 +31,8 @@ public class ItemsMC {
 	public static final ResourceLocation REGISTRY_HUNGRY_CHEST_UPGRADE = new ResourceLocation(MetalChests.MOD_ID, KEY_CHEST_UPGRADE);
 	public static final ResourceLocation REGISTRY_METAL_MINECART = new ResourceLocation(MetalChests.MOD_ID, KEY_CHEST_UPGRADE);
 
-	@ObjectHolder(KEY_CHEST_UPGRADE)
 	public static Item CHEST_UPGRADE;
-
-	@ObjectHolder(KEY_HUNGRY_CHEST_UPGRADE)
 	public static Item HUNGRY_CHEST_UPGRADE;
-
-	@ObjectHolder(KEY_METAL_MINECART)
 	public static Item MINECART_METAL_CHEST;
 
 }

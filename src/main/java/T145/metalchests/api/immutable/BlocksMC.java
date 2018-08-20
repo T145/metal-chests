@@ -18,9 +18,7 @@ package T145.metalchests.api.immutable;
 import T145.metalchests.core.MetalChests;
 import net.minecraft.block.Block;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-@ObjectHolder(MetalChests.MOD_ID)
 public class BlocksMC {
 
 	private BlocksMC() {}
@@ -35,16 +33,9 @@ public class BlocksMC {
 	public static final ResourceLocation REGISTRY_SORTING_METAL_CHEST = new ResourceLocation(MetalChests.MOD_ID, KEY_SORTING_METAL_CHEST);
 	public static final ResourceLocation REGISTRY_SORTING_HUNGRY_METAL_CHEST = new ResourceLocation(MetalChests.MOD_ID, KEY_SORTING_HUNGRY_METAL_CHEST);
 
-	@ObjectHolder(KEY_METAL_CHEST)
 	public static Block METAL_CHEST;
-
-	@ObjectHolder(KEY_HUNGRY_METAL_CHEST)
 	public static Block HUNGRY_METAL_CHEST;
-
-	@ObjectHolder(KEY_SORTING_METAL_CHEST)
 	public static Block SORTING_METAL_CHEST;
-
-	@ObjectHolder(KEY_SORTING_HUNGRY_METAL_CHEST)
 	public static Block SORTING_HUNGRY_METAL_CHEST;
 
 }
