@@ -21,17 +21,20 @@ import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.BlocksMetalChests;
+import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.ModSupport;
 import T145.metalchests.api.chests.IFacing;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IUpgradeableChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -99,13 +102,18 @@ public class TileMetalChest extends TileMod implements IUpgradeableChest, IFacin
 	}
 
 	@Override
+	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
+		return upgrade.getBase() == chestType && chest instanceof TileMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMetalChests.CHEST_UPGRADE.getRegistryName());
+	}
+
+	@Override
 	public IBlockState createBlockState() {
 		return BlocksMetalChests.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, getChestType());
 	}
 
 	@Override
-	public TileEntity createTileEntity() {
-		return new TileMetalChest();
+	public TileEntity createTileEntity(ChestType chestType) {
+		return new TileMetalChest(chestType);
 	}
 
 	@Override
@@ -125,6 +133,8 @@ public class TileMetalChest extends TileMod implements IUpgradeableChest, IFacin
 
 	@Override
 	public void setInventory(IItemHandler inventory) {
+		this.inventory = this.initInventory();
+
 		assert(this.inventory.getSlots() >= inventory.getSlots());
 
 		for (int slot = 0; slot < inventory.getSlots(); ++slot) {

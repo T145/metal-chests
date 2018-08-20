@@ -19,12 +19,13 @@ import T145.metalchests.api.BlocksMetalChests;
 import T145.metalchests.api.ItemsMetalChests;
 import T145.metalchests.api.ModSupport;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ItemNames;
 import T145.metalchests.blocks.BlockHungryMetalChest;
 import T145.metalchests.client.render.blocks.RenderHungryMetalChest;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
+import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
-import T145.metalchests.items.ItemHungryChestUpgrade;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -45,6 +46,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
+import thaumcraft.common.tiles.devices.TileHungryChest;
 
 class ModuleThaumcraft {
 
@@ -69,7 +71,11 @@ class ModuleThaumcraft {
 
 			if (ModSupport.hasThaumcraft()) {
 				ModLoader.registerItemBlock(registry, BlocksMetalChests.HUNGRY_METAL_CHEST, ChestType.class);
-				registry.register(ItemsMetalChests.HUNGRY_CHEST_UPGRADE = new ItemHungryChestUpgrade());
+
+				ItemChestUpgrade upgrade = new ItemChestUpgrade(ItemNames.HUNGRY_CHEST_UPGRADE);
+				upgrade.addDefaultChest(TileHungryChest.class, new TileHungryMetalChest());
+				ItemsMetalChests.HUNGRY_CHEST_UPGRADE = upgrade;
+				registry.register(ItemsMetalChests.HUNGRY_CHEST_UPGRADE);
 			}
 		}
 

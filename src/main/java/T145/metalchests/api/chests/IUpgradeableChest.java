@@ -16,7 +16,9 @@
 package T145.metalchests.api.chests;
 
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
 public interface IUpgradeableChest {
@@ -25,7 +27,9 @@ public interface IUpgradeableChest {
 
 	void setChestType(ChestType chestType);
 
+	boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
+
 	IBlockState createBlockState();
 
-	TileEntity createTileEntity();
+	TileEntity createTileEntity(ChestType chestType);
 }
