@@ -16,7 +16,7 @@
 package T145.metalchests.api.chests;
 
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.items.ItemChestUpgrade.ChestUpgrade;
+import T145.metalchests.api.immutable.ChestUpgrade;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
