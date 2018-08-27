@@ -17,6 +17,8 @@ package T145.metalchests.core;
 
 import java.util.HashSet;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
@@ -177,12 +179,11 @@ public class ModLoader {
 
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-			OreDictionary.registerOre("chestCopper", new ItemStack(BlocksMC.METAL_CHEST, 1, 0));
-			OreDictionary.registerOre("chestIron", new ItemStack(BlocksMC.METAL_CHEST, 1, 1));
-			OreDictionary.registerOre("chestSilver", new ItemStack(BlocksMC.METAL_CHEST, 1, 2));
-			OreDictionary.registerOre("chestGold", new ItemStack(BlocksMC.METAL_CHEST, 1, 3));
-			OreDictionary.registerOre("chestDiamond", new ItemStack(BlocksMC.METAL_CHEST, 1, 4));
-			OreDictionary.registerOre("chestObsidian", new ItemStack(BlocksMC.METAL_CHEST, 1, 5));
+			for (ChestType type : ChestType.values()) {
+				if (type.isRegistered()) {
+					OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
+				}
+			}
 		}
 
 		@SubscribeEvent

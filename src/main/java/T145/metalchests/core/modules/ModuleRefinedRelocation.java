@@ -15,6 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
@@ -83,20 +85,16 @@ public class ModuleRefinedRelocation {
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasRefinedRelocation()) {
-				OreDictionary.registerOre("chestSortingCopper", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 0));
-				OreDictionary.registerOre("chestSortingIron", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 1));
-				OreDictionary.registerOre("chestSortingSilver", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 2));
-				OreDictionary.registerOre("chestSortingGold", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 3));
-				OreDictionary.registerOre("chestSortingDiamond", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 4));
-				OreDictionary.registerOre("chestSortingObsidian", new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, 5));
+				for (ChestType type : ChestType.values()) {
+					if (type.isRegistered()) {
+						String captializedName = WordUtils.capitalize(type.getName());
 
-				if (ModSupport.hasThaumcraft()) {
-					OreDictionary.registerOre("chestSortingHungryCopper", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 0));
-					OreDictionary.registerOre("chestSortingHungryIron", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 1));
-					OreDictionary.registerOre("chestSortingHungrySilver", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 2));
-					OreDictionary.registerOre("chestSortingHungryGold", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 3));
-					OreDictionary.registerOre("chestSortingHungryDiamond", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 4));
-					OreDictionary.registerOre("chestSortingHungryObsidian", new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, 5));
+						OreDictionary.registerOre("chestSorting" + captializedName, new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
+
+						if (ModSupport.hasThaumcraft()) {
+							OreDictionary.registerOre("chestSortingHungry" + captializedName, new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
+						}
+					}
 				}
 			}
 		}

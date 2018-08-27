@@ -15,6 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
@@ -79,12 +81,11 @@ class ModuleThaumcraft {
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasThaumcraft()) {
-				OreDictionary.registerOre("chestHungryCopper", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 0));
-				OreDictionary.registerOre("chestHungryIron", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 1));
-				OreDictionary.registerOre("chestHungrySilver", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 2));
-				OreDictionary.registerOre("chestHungryGold", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 3));
-				OreDictionary.registerOre("chestHungryDiamond", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 4));
-				OreDictionary.registerOre("chestHungryObsidian", new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 5));
+				for (ChestType type : ChestType.values()) {
+					if (type.isRegistered()) {
+						OreDictionary.registerOre("chestHungry" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
+					}
+				}
 
 				if (ChestType.COPPER.isRegistered()) {
 					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(MetalChests.MOD_ID, "HungryCopperChest"),
