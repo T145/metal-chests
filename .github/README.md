@@ -31,7 +31,7 @@ In order to get started with Minecraft mod development in this workspace, a few 
 
 ### Windows
 
-#### Using [Scoop](https://scoop.sh/) *(Highly recommended)*
+#### Using [Scoop](https://scoop.sh/) *([READ THIS](https://github.com/lukesampson/scoop/blob/master/README.md))*
 ```bash
 scoop install git
 scoop bucket add java
