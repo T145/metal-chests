@@ -14,6 +14,9 @@ _MACOSX
 !.gitignore
 !.gitattributes
 
+# or EditorConfig
+!.editorconfig
+
 # Ignore Eclipse files
 /bin/
 tmp/
