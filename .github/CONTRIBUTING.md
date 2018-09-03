@@ -1,4 +1,4 @@
-### Thank you for wanting to contribute to MetalChests!
+### Thank you for wanting to contribute!
 ***
 
 This project is made specifically for the community and mainstream use!

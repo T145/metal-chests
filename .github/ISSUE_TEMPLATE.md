@@ -1,22 +1,17 @@
-<!-- Thank you for your contribution to MetalChests! Please replace {Please write here} with your description -->
+<!-- Thank you for your contribution! -->
 
-### Expected Behavior
+## Error Details
 
-{Please write here}
+<!-- Please detail the problem here, including: -->
+<!-- Expected behavior -->
+<!-- Actual behavior -->
+<!-- Detailed logs of the issue -->
 
-### Actual Behavior
+## Screenshots
 
-{Please write here}
+{Please write here if applicable, else delete this section}
 
-### Steps to Reproduce (including precondition)
-
-{Please write here}
-
-### Screenshot of this Problem
-
-{Please write here if applicable, else delete this block}
-
-### Your Environment
+## Environment
 
 - OS: {Please write here}
 - Full Forge version: {Please write here; include Minecraft version}

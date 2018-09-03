@@ -1,20 +1,16 @@
-<!-- Thank you for your contribution to MetalChests! Please replace {Please write here} with your description -->
+<!-- Thank you for your contribution! Please replace {Please write here} with your description -->
 
-### What was a problem?
-
-{Please write here}
-
-### How this PR fixes the problem?
+## What does this PR change/fix?
 
 {Please write here}
 
-### Check lists (check `x` in `[ ]` of list items)
+## Check lists (check `x` in `[ ]` of list items)
 
 - [ ] Building successful
 - [ ] Proper formatting (indentation, etc)
 
 {Please write here; any other solutions / future goals}
 
-### Additional Comments (if any)
+## Additional Comments
 
-{Please write here; delete this whole block if no comments}
+{Please write here; delete this section if no comments}
