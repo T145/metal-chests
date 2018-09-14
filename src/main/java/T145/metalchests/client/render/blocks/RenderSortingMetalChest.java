@@ -20,8 +20,8 @@ import javax.annotation.Nullable;
 import org.lwjgl.opengl.GL11;
 
 import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
 import net.blay09.mods.refinedrelocation.client.render.ModelLidOverlay;
@@ -49,11 +49,11 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/" + type.getName() + ".png");
 	}
 
 	protected ResourceLocation getActiveOverlay(ChestType type) {
-		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/overlay/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/overlay/" + type.getName() + ".png");
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 		GlStateManager.enableRescaleNormal();
 
 		if (destroyStage < 0) {
-			GlStateManager.color(1f, 1f, 1f, 1f);
+			GlStateManager.color(1F, 1F, 1F, 1F);
 		}
 
 		GlStateManager.translate(x, y + 1, z + 1);

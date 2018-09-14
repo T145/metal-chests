@@ -20,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
@@ -38,11 +39,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-@Mod(modid = MetalChests.MOD_ID, name = MetalChests.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft;after:refinedrelocation")
+@Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft;after:refinedrelocation")
 public class MetalChests {
-
-	public static final String MOD_ID = "metalchests";
-	public static final String MOD_NAME = "MetalChests";
 
 	static final String VERSION = "@VERSION@";
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
@@ -50,9 +48,9 @@ public class MetalChests {
 	private static final String COMMON_PROXY = "T145.metalchests.core.proxies.CommonProxy";
 	private static final String CLIENT_PROXY = "T145.metalchests.core.proxies.ClientProxy";
 
-	public static final Logger LOG = LogManager.getLogger(MOD_ID);
+	public static final Logger LOG = LogManager.getLogger(RegistryMC.MOD_ID);
 
-	public static final CreativeTabs TAB = new CreativeTabs(MOD_ID) {
+	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.MOD_ID) {
 
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -104,7 +102,7 @@ public class MetalChests {
 		}
 	}.setBackgroundImageName("item_search.png");
 
-	@Instance(MOD_ID)
+	@Instance(RegistryMC.MOD_ID)
 	public static MetalChests instance;
 
 	@SidedProxy(serverSide = COMMON_PROXY, clientSide = CLIENT_PROXY)
@@ -118,8 +116,8 @@ public class MetalChests {
 		meta.credits = "The fans!";
 		meta.description = "The better alternative to IronChests";
 		meta.logoFile = "logo.png";
-		meta.modId = MOD_ID;
-		meta.name = MOD_NAME;
+		meta.modId = RegistryMC.MOD_ID;
+		meta.name = RegistryMC.MOD_NAME;
 		meta.url = "https://github.com/T145/metalchests";
 		meta.useDependencyInformation = false;
 		meta.version = VERSION;

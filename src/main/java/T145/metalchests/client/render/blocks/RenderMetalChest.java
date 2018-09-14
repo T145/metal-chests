@@ -17,8 +17,8 @@ package T145.metalchests.client.render.blocks;
 
 import org.lwjgl.opengl.GL11;
 
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
@@ -49,7 +49,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/" + type.getName() + ".png");
 	}
 
 	@Override

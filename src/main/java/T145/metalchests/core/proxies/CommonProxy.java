@@ -17,6 +17,7 @@ package T145.metalchests.core.proxies;
 
 import java.io.IOException;
 
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.client.gui.GuiHandler;
@@ -86,7 +87,7 @@ public class CommonProxy {
 		if (ModSupport.hasThaumcraft()) {
 			TileHungryMetalChest.registerFixes(fixer);
 
-			ThaumcraftApi.registerResearchLocation(new ResourceLocation(MetalChests.MOD_ID, "research/hungry_metal_chests"));
+			ThaumcraftApi.registerResearchLocation(new ResourceLocation(RegistryMC.MOD_ID, "research/hungry_metal_chests"));
 
 			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE",
 					new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5),

@@ -15,6 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.core;
 
+import T145.metalchests.api.RegistryMC;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
@@ -26,7 +27,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 class UpdateChecker {
 
 	private static ForgeVersion.CheckResult getResult() {
-		return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(MetalChests.MOD_ID));
+		return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(RegistryMC.MOD_ID));
 	}
 
 	static boolean hasUpdate() {

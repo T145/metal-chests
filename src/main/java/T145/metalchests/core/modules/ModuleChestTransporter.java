@@ -16,10 +16,10 @@
 package T145.metalchests.core.modules;
 
 import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.compat.chesttransporter.TransportableMetalChest;
-import T145.metalchests.core.MetalChests;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
 import net.minecraft.util.ResourceLocation;
@@ -37,7 +37,7 @@ class ModuleChestTransporter {
 		final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
 		for (ChestType type : ChestType.values()) {
-			TransportableMetalChest chest = new TransportableMetalChest(BlocksMC.METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/" + type.getName()));
+			TransportableMetalChest chest = new TransportableMetalChest(BlocksMC.METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + type.getName()));
 			registry.register(chest);
 			//ChestRegistry.registerMinecart(EntityMinecartMetalChest.class, chest);
 		}
@@ -46,7 +46,7 @@ class ModuleChestTransporter {
 			registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
 
 			for (ChestType type : ChestType.values()) {
-				registry.register(new TransportableMetalChest(BlocksMC.HUNGRY_METAL_CHEST, type, new ResourceLocation(MetalChests.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
+				registry.register(new TransportableMetalChest(BlocksMC.HUNGRY_METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
 			}
 		}
 	}

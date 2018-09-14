@@ -18,7 +18,7 @@ package T145.metalchests.api;
 import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-@ObjectHolder("metalchests")
+@ObjectHolder(RegistryMC.MOD_ID)
 public class BlocksMC {
 
 	private BlocksMC() {}

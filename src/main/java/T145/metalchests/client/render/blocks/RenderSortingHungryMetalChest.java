@@ -16,8 +16,8 @@
 package T145.metalchests.client.render.blocks;
 
 import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.core.MetalChests;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,11 +31,11 @@ public class RenderSortingHungryMetalChest extends RenderSortingMetalChest {
 
 	@Override
 	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
 	}
 
 	@Override
 	protected ResourceLocation getActiveOverlay(ChestType type) {
-		return new ResourceLocation(MetalChests.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
 	}
 }

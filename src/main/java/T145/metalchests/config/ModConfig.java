@@ -15,25 +15,25 @@
  ******************************************************************************/
 package T145.metalchests.config;
 
-import T145.metalchests.core.MetalChests;
+import T145.metalchests.api.RegistryMC;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@EventBusSubscriber(modid = MetalChests.MOD_ID)
-@Config(modid = MetalChests.MOD_ID, category = "", name = "T145/" + MetalChests.MOD_NAME)
-@Config.LangKey(MetalChests.MOD_ID)
+@EventBusSubscriber(modid = RegistryMC.MOD_ID)
+@Config(modid = RegistryMC.MOD_ID, category = "", name = "T145/" + RegistryMC.MOD_NAME)
+@Config.LangKey(RegistryMC.MOD_ID)
 public class ModConfig {
 
-	@Config.LangKey(MetalChests.MOD_ID + ".config.general")
+	@Config.LangKey(RegistryMC.MOD_ID + ".config.general")
 	public static final CategoryGeneral GENERAL = new CategoryGeneral();
 
 	@SubscribeEvent
 	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.getModID().equals(MetalChests.MOD_ID)) {
-			ConfigManager.sync(MetalChests.MOD_ID, Config.Type.INSTANCE);
+		if (event.getModID().equals(RegistryMC.MOD_ID)) {
+			ConfigManager.sync(RegistryMC.MOD_ID, Config.Type.INSTANCE);
 		}
 	}
 }

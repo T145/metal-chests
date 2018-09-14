@@ -74,7 +74,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class ModLoader {
 
 	public static void registerTileEntity(Class tileClass) {
-		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(MetalChests.MOD_ID, tileClass.getSimpleName()));
+		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(RegistryMC.MOD_ID, tileClass.getSimpleName()));
 	}
 
 	public static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -93,7 +93,7 @@ public class ModLoader {
 		if (StringUtils.isNullOrEmpty(customDomain)) {
 			return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
 		} else {
-			return new ModelResourceLocation(MetalChests.MOD_ID + ":" + customDomain, variantPath.toString());
+			return new ModelResourceLocation(RegistryMC.MOD_ID + ":" + customDomain, variantPath.toString());
 		}
 	}
 
@@ -128,7 +128,7 @@ public class ModLoader {
 		ClientRegistry.bindTileEntitySpecialRenderer(tileClass, tileRenderer);
 	}
 
-	@EventBusSubscriber(modid = MetalChests.MOD_ID)
+	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 	static class ServerLoader {
 
 		@SubscribeEvent
@@ -173,8 +173,8 @@ public class ModLoader {
 
 		private static <E extends Entity> EntityEntryBuilder<E> createBuilder(final String name) {
 			final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
-			final ResourceLocation registryName = new ResourceLocation(MetalChests.MOD_ID, name);
-			return builder.id(registryName, entityID++).name(MetalChests.MOD_ID + ":" + name);
+			final ResourceLocation registryName = new ResourceLocation(RegistryMC.MOD_ID, name);
+			return builder.id(registryName, entityID++).name(RegistryMC.MOD_ID + ":" + name);
 		}
 
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -215,7 +215,7 @@ public class ModLoader {
 		}
 	}
 
-	@EventBusSubscriber(modid = MetalChests.MOD_ID, value = Side.CLIENT)
+	@EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
 	static class ClientLoader {
 
 		@SubscribeEvent

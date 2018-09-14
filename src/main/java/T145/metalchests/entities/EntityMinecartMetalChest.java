@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
@@ -154,7 +155,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 				}
 			}
 		} else {
-			player.openGui(MetalChests.MOD_ID, hashCode(), world, 0, 0, 0);
+			player.openGui(RegistryMC.MOD_ID, hashCode(), world, 0, 0, 0);
 		}
 
 		return true;
