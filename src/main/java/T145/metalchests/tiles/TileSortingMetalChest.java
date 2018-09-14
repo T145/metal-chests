@@ -27,13 +27,13 @@ import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.blocks.BlockMetalChest;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
+import net.blay09.mods.refinedrelocation.api.INameTaggable;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
 import net.blay09.mods.refinedrelocation.capability.CapabilityRootFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySimpleFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingGridMember;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingInventory;
-import net.blay09.mods.refinedrelocation.tile.INameable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -47,7 +47,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.ItemStackHandler;
 
-public class TileSortingMetalChest extends TileMetalChest implements INameable {
+public class TileSortingMetalChest extends TileMetalChest implements INameTaggable {
 
 	protected ISortingInventory sortingInventory = Capabilities.getDefaultInstance(Capabilities.SORTING_INVENTORY);
 	protected IRootFilter rootFilter = Capabilities.getDefaultInstance(Capabilities.ROOT_FILTER);
@@ -177,10 +177,5 @@ public class TileSortingMetalChest extends TileMetalChest implements INameable {
 	@Override
 	public boolean hasCustomName() {
 		return !Strings.isNullOrEmpty(customName);
-	}
-
-	@Override
-	public String getUnlocalizedName() {
-		return getTranslationKey();
 	}
 }
