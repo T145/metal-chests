@@ -53,14 +53,19 @@ public class ItemMod extends Item {
 		return super.getTranslationKey(stack);
 	}
 
+	@SideOnly(Side.CLIENT)
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (int meta = 0; meta < types.length; ++meta) {
+			items.add(new ItemStack(this, 1, meta));
+		}
+	}
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
 		if (tab == MetalChests.TAB) {
 			if (hasSubtypes) {
-				for (int meta = 0; meta < types.length; ++meta) {
-					items.add(new ItemStack(this, 1, meta));
-				}
+				prepareCreativeTab(items);
 			} else {
 				items.add(new ItemStack(this));
 			}

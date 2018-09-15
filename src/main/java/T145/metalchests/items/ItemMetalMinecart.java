@@ -17,6 +17,8 @@ package T145.metalchests.items;
 
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ChestUpgrade;
+import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.lib.items.ItemMod;
 import net.minecraft.block.Block;
@@ -33,8 +35,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMetalMinecart extends ItemMod {
 
@@ -123,6 +128,16 @@ public class ItemMetalMinecart extends ItemMod {
 			stack.shrink(1);
 
 			return EnumActionResult.SUCCESS;
+		}
+	}
+
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (ChestType type : ChestType.values()) {
+			if (ModConfig.GENERAL.showEverthingInCreative || type.isRegistered()) {
+				items.add(new ItemStack(this, 1, type.ordinal()));
+			}
 		}
 	}
 }

@@ -23,7 +23,6 @@ import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.core.proxies.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -74,23 +73,25 @@ public class MetalChests {
 				items.add(new ItemStack(ItemsMC.CHEST_UPGRADE, 1, type.ordinal()));
 			}
 
-			if (ModSupport.hasThaumcraft()) {
+			if (BlocksMC.HUNGRY_METAL_CHEST != null) {
 				for (ChestType type : ChestType.values()) {
 					items.add(new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
 				}
+			}
 
+			if (ItemsMC.HUNGRY_CHEST_UPGRADE != null) {
 				for (ChestUpgrade type : ChestUpgrade.values()) {
 					items.add(new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()));
 				}
 			}
 
-			if (ModSupport.hasRefinedRelocation()) {
+			if (BlocksMC.SORTING_METAL_CHEST != null) {
 				for (ChestType type : ChestType.values()) {
 					items.add(new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
 				}
 			}
 
-			if (ModSupport.hasRefinedRelocation() && ModSupport.hasThaumcraft()) {
+			if (BlocksMC.SORTING_HUNGRY_METAL_CHEST != null) {
 				for (ChestType type : ChestType.values()) {
 					items.add(new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
 				}

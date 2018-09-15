@@ -35,5 +35,5 @@ public class CategoryGeneral {
 	public boolean enableSortingMetalChests = true;
 
 	@Config.Comment("Whether or not to show blocks and items whose recipes include metals that are not present.")
-	public boolean showEverthingInCreative = true;
+	public boolean showEverthingInCreative;
 }

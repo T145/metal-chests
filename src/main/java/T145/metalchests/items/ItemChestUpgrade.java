@@ -142,16 +142,10 @@ public class ItemChestUpgrade extends ItemMod {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		if (tab == MetalChests.TAB) {
-			if (hasSubtypes) {
-				for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-					if (!ModConfig.GENERAL.showEverthingInCreative || upgrade.isRegistered()) {
-						items.add(new ItemStack(this, 1, upgrade.ordinal()));
-					}
-				}
-			} else {
-				items.add(new ItemStack(this));
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (ChestUpgrade upgrade : ChestUpgrade.values()) {
+			if (ModConfig.GENERAL.showEverthingInCreative || upgrade.isRegistered()) {
+				items.add(new ItemStack(this, 1, upgrade.ordinal()));
 			}
 		}
 	}
