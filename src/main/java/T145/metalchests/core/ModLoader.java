@@ -73,168 +73,168 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModLoader {
 
-	public static void registerTileEntity(Class tileClass) {
-		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(RegistryMC.MOD_ID, tileClass.getSimpleName()));
-	}
+    public static void registerTileEntity(Class tileClass) {
+        GameRegistry.registerTileEntity(tileClass, new ResourceLocation(RegistryMC.MOD_ID, tileClass.getSimpleName()));
+    }
 
-	public static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
-		registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-	}
+    public static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
+        registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
+    }
 
-	public static void registerItemBlock(IForgeRegistry<Item> registry, Block block, Class types) {
-		registry.register(new BlockModItem(block, types).setRegistryName(block.getRegistryName()));
-	}
+    public static void registerItemBlock(IForgeRegistry<Item> registry, Block block, Class types) {
+        registry.register(new BlockModItem(block, types).setRegistryName(block.getRegistryName()));
+    }
 
-	public static String getVariantName(IStringSerializable variant) {
-		return "variant=" + variant.getName();
-	}
+    public static String getVariantName(IStringSerializable variant) {
+        return "variant=" + variant.getName();
+    }
 
-	public static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
-		if (StringUtils.isNullOrEmpty(customDomain)) {
-			return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
-		} else {
-			return new ModelResourceLocation(RegistryMC.MOD_ID + ":" + customDomain, variantPath.toString());
-		}
-	}
+    public static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
+        if (StringUtils.isNullOrEmpty(customDomain)) {
+            return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
+        } else {
+            return new ModelResourceLocation(RegistryMC.MOD_ID + ":" + customDomain, variantPath.toString());
+        }
+    }
 
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Item item, String customDomain, int meta, String... variants) {
-		StringBuilder variantPath = new StringBuilder(variants[0]);
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Item item, String customDomain, int meta, String... variants) {
+        StringBuilder variantPath = new StringBuilder(variants[0]);
 
-		for (int i = 1; i < variants.length; ++i) {
-			variantPath.append(',').append(variants[i]);
-		}
+        for (int i = 1; i < variants.length; ++i) {
+            variantPath.append(',').append(variants[i]);
+        }
 
-		ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
-	}
+        ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
+    }
 
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Block block, String customDomain, int meta, String... variants) {
-		registerModel(Item.getItemFromBlock(block), customDomain, meta, variants);
-	}
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Block block, String customDomain, int meta, String... variants) {
+        registerModel(Item.getItemFromBlock(block), customDomain, meta, variants);
+    }
 
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Item item, int meta, String... variants) {
-		registerModel(item, null, meta, variants);
-	}
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Item item, int meta, String... variants) {
+        registerModel(item, null, meta, variants);
+    }
 
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Block block, int meta, String... variants) {
-		registerModel(block, null, meta, variants);
-	}
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Block block, int meta, String... variants) {
+        registerModel(block, null, meta, variants);
+    }
 
-	@SideOnly(Side.CLIENT)
-	public static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
-		ClientRegistry.bindTileEntitySpecialRenderer(tileClass, tileRenderer);
-	}
+    @SideOnly(Side.CLIENT)
+    public static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
+        ClientRegistry.bindTileEntitySpecialRenderer(tileClass, tileRenderer);
+    }
 
-	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
-	static class ServerLoader {
+    @EventBusSubscriber(modid = RegistryMC.MOD_ID)
+    static class ServerLoader {
 
-		@SubscribeEvent
-		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-			final IForgeRegistry<Block> registry = event.getRegistry();
+        @SubscribeEvent
+        public static void registerBlocks(final RegistryEvent.Register<Block> event) {
+            final IForgeRegistry<Block> registry = event.getRegistry();
 
-			registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
-			registerTileEntity(TileMetalChest.class);
-		}
+            registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
+            registerTileEntity(TileMetalChest.class);
+        }
 
-		@SubscribeEvent
-		public static void registerItems(final RegistryEvent.Register<Item> event) {
-			final IForgeRegistry<Item> registry = event.getRegistry();
+        @SubscribeEvent
+        public static void registerItems(final RegistryEvent.Register<Item> event) {
+            final IForgeRegistry<Item> registry = event.getRegistry();
 
-			registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
+            registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
 
-			ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE);
-			upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
+            ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE);
+            upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
 
-			if (ModSupport.hasRefinedRelocation()) {
-				upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
-			}
+            if (ModSupport.hasRefinedRelocation()) {
+                upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
+            }
 
-			ItemsMC.CHEST_UPGRADE = upgrade;
-			registry.register(ItemsMC.CHEST_UPGRADE);
+            ItemsMC.CHEST_UPGRADE = upgrade;
+            registry.register(ItemsMC.CHEST_UPGRADE);
 
-			if (ModConfig.GENERAL.enableMinecarts) {
-				registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
-			}
-		}
+            if (ModConfig.GENERAL.enableMinecarts) {
+                registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
+            }
+        }
 
-		@SubscribeEvent
-		public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
-			final IForgeRegistry<EntityEntry> registry = event.getRegistry();
+        @SubscribeEvent
+        public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
+            final IForgeRegistry<EntityEntry> registry = event.getRegistry();
 
-			if (ModConfig.GENERAL.enableMinecarts) {
-				registry.register(createBuilder("MinecartMetalChest").entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
-			}
-		}
+            if (ModConfig.GENERAL.enableMinecarts) {
+                registry.register(createBuilder("MinecartMetalChest").entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
+            }
+        }
 
-		private static int entityID = 0;
+        private static int entityID = 0;
 
-		private static <E extends Entity> EntityEntryBuilder<E> createBuilder(final String name) {
-			final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
-			final ResourceLocation registryName = new ResourceLocation(RegistryMC.MOD_ID, name);
-			return builder.id(registryName, entityID++).name(RegistryMC.MOD_ID + ":" + name);
-		}
+        private static <E extends Entity> EntityEntryBuilder<E> createBuilder(final String name) {
+            final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
+            final ResourceLocation registryName = new ResourceLocation(RegistryMC.MOD_ID, name);
+            return builder.id(registryName, entityID++).name(RegistryMC.MOD_ID + ":" + name);
+        }
 
-		@SubscribeEvent(priority = EventPriority.HIGHEST)
-		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-			for (ChestType type : ChestType.values()) {
-				if (type.isRegistered()) {
-					OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
-				}
-			}
-		}
+        @SubscribeEvent(priority = EventPriority.HIGHEST)
+        public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
+            for (ChestType type : ChestType.values()) {
+                if (type.isRegistered()) {
+                    OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
+                }
+            }
+        }
 
-		@SubscribeEvent
-		public static void onPlayerLogIn(PlayerLoggedInEvent event) {
-			if (ModConfig.GENERAL.checkForUpdates && UpdateChecker.hasUpdate()) {
-				event.player.sendMessage(UpdateChecker.getUpdateNotification());
-			}
-		}
+        @SubscribeEvent
+        public static void onPlayerLogIn(PlayerLoggedInEvent event) {
+            if (ModConfig.GENERAL.checkForUpdates && UpdateChecker.hasUpdate()) {
+                event.player.sendMessage(UpdateChecker.getUpdateNotification());
+            }
+        }
 
-		@SubscribeEvent
-		public static void changeSittingTaskForOcelots(LivingUpdateEvent event) {
-			EntityLivingBase creature = event.getEntityLiving();
+        @SubscribeEvent
+        public static void changeSittingTaskForOcelots(LivingUpdateEvent event) {
+            EntityLivingBase creature = event.getEntityLiving();
 
-			if (creature instanceof EntityOcelot && creature.ticksExisted < 5) {
-				EntityOcelot ocelot = (EntityOcelot) creature;
-				HashSet<EntityAITaskEntry> tasks = new HashSet<EntityAITaskEntry>();
+            if (creature instanceof EntityOcelot && creature.ticksExisted < 5) {
+                EntityOcelot ocelot = (EntityOcelot) creature;
+                HashSet<EntityAITaskEntry> tasks = new HashSet<EntityAITaskEntry>();
 
-				for (EntityAITaskEntry task : ocelot.tasks.taskEntries) {
-					if (task.action.getClass() == EntityAIOcelotSit.class) {
-						tasks.add(task);
-					}
-				}
+                for (EntityAITaskEntry task : ocelot.tasks.taskEntries) {
+                    if (task.action.getClass() == EntityAIOcelotSit.class) {
+                        tasks.add(task);
+                    }
+                }
 
-				for (EntityAITaskEntry task : tasks) {
-					ocelot.tasks.removeTask(task.action);
-					ocelot.tasks.addTask(task.priority, new EntityAIOcelotSitOnChest(ocelot, 0.4F));
-				}
-			}
-		}
-	}
+                for (EntityAITaskEntry task : tasks) {
+                    ocelot.tasks.removeTask(task.action);
+                    ocelot.tasks.addTask(task.priority, new EntityAIOcelotSitOnChest(ocelot, 0.4F));
+                }
+            }
+        }
+    }
 
-	@EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
-	static class ClientLoader {
+    @EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
+    static class ClientLoader {
 
-		@SubscribeEvent
-		public static void onModelRegistration(ModelRegistryEvent event) {
-			for (ChestType type : ChestType.values()) {
-				registerModel(BlocksMC.METAL_CHEST, type.ordinal(), getVariantName(type));
+        @SubscribeEvent
+        public static void onModelRegistration(ModelRegistryEvent event) {
+            for (ChestType type : ChestType.values()) {
+                registerModel(BlocksMC.METAL_CHEST, type.ordinal(), getVariantName(type));
 
-				if (ModConfig.GENERAL.enableMinecarts) {
-					registerModel(ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
-				}
-			}
+                if (ModConfig.GENERAL.enableMinecarts) {
+                    registerModel(ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
+                }
+            }
 
-			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
+            registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
-			for (ChestUpgrade type : ChestUpgrade.values()) {
-				registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), "item=" + type.getName());
-			}
+            for (ChestUpgrade type : ChestUpgrade.values()) {
+                registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), "item=" + type.getName());
+            }
 
-			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
-		}
-	}
+            RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
+        }
+    }
 }

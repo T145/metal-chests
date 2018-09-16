@@ -22,31 +22,31 @@ import net.minecraft.util.IStringSerializable;
 
 public class BlockModItem extends ItemBlock {
 
-	private final Class<? extends Enum<? extends IStringSerializable>> blockTypes;
+    private final Class<? extends Enum<? extends IStringSerializable>> blockTypes;
 
-	public BlockModItem(Block block, Class<? extends Enum<? extends IStringSerializable>> blockTypes) {
-		super(block);
-		this.blockTypes = blockTypes;
-		setHasSubtypes(blockTypes != null);
-	}
+    public BlockModItem(Block block, Class<? extends Enum<? extends IStringSerializable>> blockTypes) {
+        super(block);
+        this.blockTypes = blockTypes;
+        setHasSubtypes(blockTypes != null);
+    }
 
-	public BlockModItem(Block block) {
-		this(block, null);
-	}
+    public BlockModItem(Block block) {
+        this(block, null);
+    }
 
-	@Override
-	public int getMetadata(int meta) {
-		return meta;
-	}
+    @Override
+    public int getMetadata(int meta) {
+        return meta;
+    }
 
-	@Override
-	public String getTranslationKey(ItemStack stack) {
-		StringBuilder name = new StringBuilder(super.getTranslationKey());
+    @Override
+    public String getTranslationKey(ItemStack stack) {
+        StringBuilder name = new StringBuilder(super.getTranslationKey());
 
-		if (hasSubtypes) {
-			name.append('.').append(blockTypes.getEnumConstants()[stack.getMetadata()].name().toLowerCase());
-		}
+        if (hasSubtypes) {
+            name.append('.').append(blockTypes.getEnumConstants()[stack.getMetadata()].name().toLowerCase());
+        }
 
-		return name.toString();
-	}
+        return name.toString();
+    }
 }

@@ -27,13 +27,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Config.LangKey(RegistryMC.MOD_ID)
 public class ModConfig {
 
-	@Config.LangKey(RegistryMC.MOD_ID + ".config.general")
-	public static final CategoryGeneral GENERAL = new CategoryGeneral();
+    @Config.LangKey(RegistryMC.MOD_ID + ".config.general")
+    public static final CategoryGeneral GENERAL = new CategoryGeneral();
 
-	@SubscribeEvent
-	public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-		if (event.getModID().equals(RegistryMC.MOD_ID)) {
-			ConfigManager.sync(RegistryMC.MOD_ID, Config.Type.INSTANCE);
-		}
-	}
+    @SubscribeEvent
+    public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
+        if (event.getModID().equals(RegistryMC.MOD_ID)) {
+            ConfigManager.sync(RegistryMC.MOD_ID, Config.Type.INSTANCE);
+        }
+    }
 }

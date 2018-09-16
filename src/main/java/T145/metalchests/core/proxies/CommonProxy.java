@@ -45,61 +45,61 @@ import thaumcraft.api.research.ResearchCategories;
 
 public class CommonProxy {
 
-	public static final DataSerializer<ChestType> CHEST_TYPE = new DataSerializer<ChestType>() {
+    public static final DataSerializer<ChestType> CHEST_TYPE = new DataSerializer<ChestType>() {
 
-		@Override
-		public void write(PacketBuffer buf, ChestType value) {
-			buf.writeEnumValue(value);
-		}
+        @Override
+        public void write(PacketBuffer buf, ChestType value) {
+            buf.writeEnumValue(value);
+        }
 
-		@Override
-		public ChestType read(PacketBuffer buf) throws IOException {
-			return buf.readEnumValue(ChestType.class);
-		}
+        @Override
+        public ChestType read(PacketBuffer buf) throws IOException {
+            return buf.readEnumValue(ChestType.class);
+        }
 
-		@Override
-		public DataParameter<ChestType> createKey(int id) {
-			return new DataParameter<ChestType>(id, this);
-		}
+        @Override
+        public DataParameter<ChestType> createKey(int id) {
+            return new DataParameter<ChestType>(id, this);
+        }
 
-		@Override
-		public ChestType copyValue(ChestType value) {
-			return value;
-		}
-	};
+        @Override
+        public ChestType copyValue(ChestType value) {
+            return value;
+        }
+    };
 
-	public void preInit(FMLPreInitializationEvent event) {
-		DataSerializers.registerSerializer(CHEST_TYPE);
-	}
+    public void preInit(FMLPreInitializationEvent event) {
+        DataSerializers.registerSerializer(CHEST_TYPE);
+    }
 
-	public void init(FMLInitializationEvent event) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
+    public void init(FMLInitializationEvent event) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
 
-		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
+        DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
-		TileMetalChest.registerFixes(fixer);
-		EntityMinecartMetalChest.registerFixes(fixer);
+        TileMetalChest.registerFixes(fixer);
+        EntityMinecartMetalChest.registerFixes(fixer);
 
-		if (ModSupport.hasRefinedRelocation()) {
-			TileSortingMetalChest.registerFixes(fixer);
-		}
+        if (ModSupport.hasRefinedRelocation()) {
+            TileSortingMetalChest.registerFixes(fixer);
+        }
 
-		if (ModSupport.hasThaumcraft()) {
-			TileHungryMetalChest.registerFixes(fixer);
+        if (ModSupport.hasThaumcraft()) {
+            TileHungryMetalChest.registerFixes(fixer);
 
-			ThaumcraftApi.registerResearchLocation(new ResourceLocation(RegistryMC.MOD_ID, "research/hungry_metal_chests"));
+            ThaumcraftApi.registerResearchLocation(new ResourceLocation(RegistryMC.MOD_ID, "research/hungry_metal_chests"));
 
-			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE",
-					new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5),
-					new ResourceLocation("thaumcraft", "textures/research/rd_chest.png"),
-					new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"),
-					ModSupport.Thaumcraft.BACK_OVER);
-		}
+            ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE",
+                    new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5),
+                    new ResourceLocation("thaumcraft", "textures/research/rd_chest.png"),
+                    new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"),
+                    ModSupport.Thaumcraft.BACK_OVER);
+        }
 
-		if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
-			TileSortingHungryMetalChest.registerFixes(fixer);
-		}
-	}
+        if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
+            TileSortingHungryMetalChest.registerFixes(fixer);
+        }
+    }
 
-	public void postInit(FMLPostInitializationEvent event) {}
+    public void postInit(FMLPostInitializationEvent event) {}
 }

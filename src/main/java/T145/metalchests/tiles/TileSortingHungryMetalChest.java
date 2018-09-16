@@ -29,48 +29,48 @@ import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 
 public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 
-	public TileSortingHungryMetalChest(ChestType chestType) {
-		super(chestType);
-	}
+    public TileSortingHungryMetalChest(ChestType chestType) {
+        super(chestType);
+    }
 
-	public TileSortingHungryMetalChest() {
-		super();
-	}
+    public TileSortingHungryMetalChest() {
+        super();
+    }
 
-	public static void registerFixes(DataFixer fixer) {
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileSortingHungryMetalChest.class, new String[] { "Items" }));
-	}
+    public static void registerFixes(DataFixer fixer) {
+        fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileSortingHungryMetalChest.class, new String[] { "Items" }));
+    }
 
-	@Override
-	public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
-		return chest instanceof TileSortingHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
-	}
+    @Override
+    public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
+        return chest instanceof TileSortingHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
+    }
 
-	@Override
-	public IBlockState createBlockState(ChestType chestType) {
-		return BlocksMC.SORTING_HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
-	}
+    @Override
+    public IBlockState createBlockState(ChestType chestType) {
+        return BlocksMC.SORTING_HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
+    }
 
-	@Override
-	public TileEntity createTileEntity(ChestType chestType) {
-		return new TileSortingHungryMetalChest(chestType);
-	}
+    @Override
+    public TileEntity createTileEntity(ChestType chestType) {
+        return new TileSortingHungryMetalChest(chestType);
+    }
 
-	@Override
-	public boolean receiveClientEvent(int id, int data) {
-		switch (id) {
-		case 2:
-			if (lidAngle < data / 10F) {
-				lidAngle = data / 10F;
-			}
-			return true;
-		default:
-			return super.receiveClientEvent(id, data);
-		}
-	}
+    @Override
+    public boolean receiveClientEvent(int id, int data) {
+        switch (id) {
+        case 2:
+            if (lidAngle < data / 10F) {
+                lidAngle = data / 10F;
+            }
+            return true;
+        default:
+            return super.receiveClientEvent(id, data);
+        }
+    }
 
-	@Override
-	public String getTranslationKey() {
-		return "tile.metalchests:sorting_hungry_metal_chest." + chestType.getName() + ".name";
-	}
+    @Override
+    public String getTranslationKey() {
+        return "tile.metalchests:sorting_hungry_metal_chest." + chestType.getName() + ".name";
+    }
 }

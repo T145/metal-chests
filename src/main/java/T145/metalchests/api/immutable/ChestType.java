@@ -24,132 +24,123 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum ChestType implements IStringSerializable {
 
-	COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper"),
-	IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
-	SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
-	GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
-	DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-	OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian");
+    COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper"),
+    IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
+    SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
+    GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
+    DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
+    OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian");
 
-	enum InventorySize {
-		COPPER(45),
-		IRON(54),
-		SILVER(72),
-		GOLD(81),
-		DIAMOND(108);
+    enum InventorySize {
+        COPPER(45), IRON(54), SILVER(72), GOLD(81), DIAMOND(108);
 
-		private final int size;
+        private final int size;
 
-		InventorySize(int size) {
-			this.size = size;
-		}
-	}
+        InventorySize(int size) {
+            this.size = size;
+        }
+    }
 
-	private final InventorySize invSize;
-	private final Material material;
-	private final MapColor color;
-	private final SoundType sound;
-	private final String dictName;
+    private final InventorySize invSize;
+    private final Material material;
+    private final MapColor color;
+    private final SoundType sound;
+    private final String dictName;
 
-	ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String dictName) {
-		this.invSize = invSize;
-		this.material = material;
-		this.color = color;
-		this.sound = sound;
-		this.dictName = dictName;
-	}
+    ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String dictName) {
+        this.invSize = invSize;
+        this.material = material;
+        this.color = color;
+        this.sound = sound;
+        this.dictName = dictName;
+    }
 
-	ChestType(InventorySize invSize, MapColor color, SoundType sound, String dictName) {
-		this(invSize, Material.IRON, color, sound, dictName);
-	}
+    ChestType(InventorySize invSize, MapColor color, SoundType sound, String dictName) {
+        this(invSize, Material.IRON, color, sound, dictName);
+    }
 
-	@Override
-	public String getName() {
-		return name().toLowerCase();
-	}
+    @Override
+    public String getName() {
+        return name().toLowerCase();
+    }
 
-	public int getInventorySize() {
-		return invSize.size;
-	}
+    public int getInventorySize() {
+        return invSize.size;
+    }
 
-	public Material getMaterial() {
-		return material;
-	}
+    public Material getMaterial() {
+        return material;
+    }
 
-	public MapColor getMapColor() {
-		return color;
-	}
+    public MapColor getMapColor() {
+        return color;
+    }
 
-	public SoundType getSoundType() {
-		return sound;
-	}
+    public SoundType getSoundType() {
+        return sound;
+    }
 
-	public String getOreName() {
-		return dictName;
-	}
+    public String getOreName() {
+        return dictName;
+    }
 
-	public boolean isRegistered() {
-		return OreDictionary.doesOreNameExist(dictName);
-	}
+    public boolean isRegistered() {
+        return OreDictionary.doesOreNameExist(dictName);
+    }
 
-	public boolean isLarge() {
-		return getInventorySize() > 100;
-	}
+    public boolean isLarge() {
+        return getInventorySize() > 100;
+    }
 
-	public int getRowLength() {
-		return isLarge() ? 12 : 9;
-	}
+    public int getRowLength() {
+        return isLarge() ? 12 : 9;
+    }
 
-	public int getRowCount() {
-		return getInventorySize() / getRowLength();
-	}
+    public int getRowCount() {
+        return getInventorySize() / getRowLength();
+    }
 
-	public static ChestType byMetadata(int meta) {
-		return values()[meta]; 
-	}
+    public static ChestType byMetadata(int meta) {
+        return values()[meta];
+    }
 
-	public GUI getGui() {
-		return GUI.byType(this);
-	}
+    public GUI getGui() {
+        return GUI.byType(this);
+    }
 
-	public String getGuiId() {
-		return "metalchests:" + getName() + "_chest";
-	}
+    public String getGuiId() {
+        return "metalchests:" + getName() + "_chest";
+    }
 
-	public enum GUI {
+    public enum GUI {
 
-		COPPER(184),
-		IRON(202),
-		SILVER(238),
-		GOLD(256),
-		DIAMOND(256),
-		OBSIDIAN(256);
+        COPPER(184), IRON(202), SILVER(238), GOLD(256), DIAMOND(256), OBSIDIAN(256);
 
-		private final int ySize;
+        private final int ySize;
 
-		GUI(int ySize) {
-			this.ySize = ySize;
-		}
+        GUI(int ySize) {
+            this.ySize = ySize;
+        }
 
-		public int getSizeX() {
-			return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
-		}
+        public int getSizeX() {
+            return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
+        }
 
-		public int getSizeY() {
-			return ySize;
-		}
+        public int getSizeY() {
+            return ySize;
+        }
 
-		public static GUI byMetadata(int meta) {
-			return values()[meta];
-		}
+        public static GUI byMetadata(int meta) {
+            return values()[meta];
+        }
 
-		public static GUI byType(ChestType type) {
-			return byMetadata(type.ordinal());
-		}
+        public static GUI byType(ChestType type) {
+            return byMetadata(type.ordinal());
+        }
 
-		public ResourceLocation getGuiTexture() {
-			ChestType type = ChestType.byMetadata(ordinal());
-			return new ResourceLocation("metalchests", "textures/gui/" + (type.isLarge() ? "diamond" : type.getName()) + "_container.png");
-		}
-	}
+        public ResourceLocation getGuiTexture() {
+            ChestType type = ChestType.byMetadata(ordinal());
+            return new ResourceLocation("metalchests", "textures/gui/" + (type.isLarge() ? "diamond" : type.getName()) + "_container.png");
+        }
+    }
 }

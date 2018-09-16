@@ -20,13 +20,13 @@ import net.minecraftforge.items.IItemHandler;
 
 public interface IInventoryHandler {
 
-	IItemHandler getInventory();
+    IItemHandler getInventory();
 
-	void setInventory(IItemHandler inventory);
+    void setInventory(IItemHandler inventory);
 
-	void openInventory(EntityPlayer player);
+    void openInventory(EntityPlayer player);
 
-	void closeInventory(EntityPlayer player);
+    void closeInventory(EntityPlayer player);
 
-	boolean isUsableByPlayer(EntityPlayer player);
+    boolean isUsableByPlayer(EntityPlayer player);
 }

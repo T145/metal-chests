@@ -33,40 +33,40 @@ import net.minecraft.world.World;
 
 public class BlockHungryMetalChest extends BlockMetalChest {
 
-	public BlockHungryMetalChest() {
-		super(RegistryMC.RESOURCE_HUNGRY_METAL_CHEST);
-	}
+    public BlockHungryMetalChest() {
+        super(RegistryMC.RESOURCE_HUNGRY_METAL_CHEST);
+    }
 
-	@Nullable
-	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileHungryMetalChest(state.getValue(VARIANT));
-	}
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new TileHungryMetalChest(state.getValue(VARIANT));
+    }
 
-	public static void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity, Block receiver) {
-		TileEntity te = world.getTileEntity(pos);
+    public static void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity, Block receiver) {
+        TileEntity te = world.getTileEntity(pos);
 
-		if (te instanceof IInventoryHandler && entity instanceof EntityItem && !entity.isDead) {
-			IInventoryHandler chest = (IInventoryHandler) te;
-			EntityItem item = (EntityItem) entity;
-			ItemStack stack = item.getItem();
-			ItemStack leftovers = InventoryManager.tryInsertItemStackToInventory(chest.getInventory(), stack);
+        if (te instanceof IInventoryHandler && entity instanceof EntityItem && !entity.isDead) {
+            IInventoryHandler chest = (IInventoryHandler) te;
+            EntityItem item = (EntityItem) entity;
+            ItemStack stack = item.getItem();
+            ItemStack leftovers = InventoryManager.tryInsertItemStackToInventory(chest.getInventory(), stack);
 
-			if (leftovers == null || leftovers.getCount() != stack.getCount()) {
-				entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
-				world.addBlockEvent(pos, receiver, 2, 2);
-			}
+            if (leftovers == null || leftovers.getCount() != stack.getCount()) {
+                entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
+                world.addBlockEvent(pos, receiver, 2, 2);
+            }
 
-			if (leftovers != null) {
-				item.setItem(leftovers);
-			} else {
-				entity.setDead();
-			}
-		}
-	}
+            if (leftovers != null) {
+                item.setItem(leftovers);
+            } else {
+                entity.setDead();
+            }
+        }
+    }
 
-	@Override
-	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-		onEntityCollision(world, pos, state, entity, this);
-	}
+    @Override
+    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+        onEntityCollision(world, pos, state, entity, this);
+    }
 }

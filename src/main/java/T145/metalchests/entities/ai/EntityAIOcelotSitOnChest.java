@@ -27,27 +27,27 @@ import net.minecraft.world.World;
 
 public class EntityAIOcelotSitOnChest extends EntityAIOcelotSit {
 
-	public EntityAIOcelotSitOnChest(EntityOcelot ocelot, double speed) {
-		super(ocelot, speed);
-	}
+    public EntityAIOcelotSitOnChest(EntityOcelot ocelot, double speed) {
+        super(ocelot, speed);
+    }
 
-	@Override
-	protected boolean shouldMoveTo(World world, BlockPos pos) {
-		if (!world.isAirBlock(pos.up())) {
-			return false;
-		} else {
-			IBlockState state = world.getBlockState(pos);
-			Block block = state.getBlock();
+    @Override
+    protected boolean shouldMoveTo(World world, BlockPos pos) {
+        if (!world.isAirBlock(pos.up())) {
+            return false;
+        } else {
+            IBlockState state = world.getBlockState(pos);
+            Block block = state.getBlock();
 
-			if (block instanceof BlockMetalChest) {
-				TileEntity te = world.getTileEntity(pos);
+            if (block instanceof BlockMetalChest) {
+                TileEntity te = world.getTileEntity(pos);
 
-				if (te instanceof TileMetalChest && ((TileMetalChest) te).numPlayersUsing < 1) {
-					return true;
-				}
-			}
+                if (te instanceof TileMetalChest && ((TileMetalChest) te).numPlayersUsing < 1) {
+                    return true;
+                }
+            }
 
-			return super.shouldMoveTo(world, pos);
-		}
-	}
+            return super.shouldMoveTo(world, pos);
+        }
+    }
 }

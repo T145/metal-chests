@@ -26,12 +26,12 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderMinecartMetalChest extends RenderMinecart<EntityMinecartMetalChest> {
 
-	public RenderMinecartMetalChest(RenderManager manager) {
-		super(manager);
-	}
+    public RenderMinecartMetalChest(RenderManager manager) {
+        super(manager);
+    }
 
-	@Override
-	protected void renderCartContents(EntityMinecartMetalChest cart, float partialTicks, IBlockState state) {
-		RenderMetalChest.INSTANCE.render(cart.getMetalChest(), 0, 0, -1, 0, -1, 1);
-	}
+    @Override
+    protected void renderCartContents(EntityMinecartMetalChest cart, float partialTicks, IBlockState state) {
+        RenderMetalChest.INSTANCE.render(cart.getMetalChest(), 0, 0, -1, 0, -1, 1);
+    }
 }

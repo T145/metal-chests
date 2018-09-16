@@ -24,17 +24,17 @@ import net.minecraft.util.EnumFacing;
 
 public interface IMetalChest extends IInventoryHandler {
 
-	ChestType getChestType();
+    ChestType getChestType();
 
-	void setChestType(ChestType chestType);
+    void setChestType(ChestType chestType);
 
-	boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
+    boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
 
-	IBlockState createBlockState(ChestType chestType);
+    IBlockState createBlockState(ChestType chestType);
 
-	TileEntity createTileEntity(ChestType chestType);
+    TileEntity createTileEntity(ChestType chestType);
 
-	EnumFacing getFront();
+    EnumFacing getFront();
 
-	void setFront(EnumFacing front);
+    void setFront(EnumFacing front);
 }

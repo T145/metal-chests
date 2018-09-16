@@ -27,23 +27,23 @@ import net.minecraft.world.World;
 
 public class TileMod extends TileEntity {
 
-	@Override
-	public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
-		return oldState.getBlock() != newState.getBlock();
-	}
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
+        return oldState.getBlock() != newState.getBlock();
+    }
 
-	@Override
-	public NBTTagCompound getUpdateTag() {
-		return writeToNBT(super.getUpdateTag());
-	}
+    @Override
+    public NBTTagCompound getUpdateTag() {
+        return writeToNBT(super.getUpdateTag());
+    }
 
-	@Override
-	public SPacketUpdateTileEntity getUpdatePacket() {
-		return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
-	}
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
+    }
 
-	@Override
-	public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
-		handleUpdateTag(packet.getNbtCompound());
-	}
+    @Override
+    public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
+        handleUpdateTag(packet.getNbtCompound());
+    }
 }

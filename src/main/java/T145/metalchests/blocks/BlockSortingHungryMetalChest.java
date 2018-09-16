@@ -27,18 +27,18 @@ import net.minecraft.world.World;
 
 public class BlockSortingHungryMetalChest extends BlockSortingMetalChest {
 
-	public BlockSortingHungryMetalChest() {
-		super(RegistryMC.RESOURCE_SORTING_HUNGRY_METAL_CHEST);
-	}
+    public BlockSortingHungryMetalChest() {
+        super(RegistryMC.RESOURCE_SORTING_HUNGRY_METAL_CHEST);
+    }
 
-	@Nullable
-	@Override
-	public TileEntity createTileEntity(World world, IBlockState state) {
-		return new TileSortingHungryMetalChest(state.getValue(VARIANT));
-	}
+    @Nullable
+    @Override
+    public TileEntity createTileEntity(World world, IBlockState state) {
+        return new TileSortingHungryMetalChest(state.getValue(VARIANT));
+    }
 
-	@Override
-	public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-		BlockHungryMetalChest.onEntityCollision(world, pos, state, entity, this);
-	}
+    @Override
+    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+        BlockHungryMetalChest.onEntityCollision(world, pos, state, entity, this);
+    }
 }

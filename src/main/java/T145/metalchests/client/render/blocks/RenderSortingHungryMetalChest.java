@@ -25,17 +25,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderSortingHungryMetalChest extends RenderSortingMetalChest {
 
-	public RenderSortingHungryMetalChest() {
-		super(BlocksMC.SORTING_HUNGRY_METAL_CHEST);
-	}
+    public RenderSortingHungryMetalChest() {
+        super(BlocksMC.SORTING_HUNGRY_METAL_CHEST);
+    }
 
-	@Override
-	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
-	}
+    @Override
+    protected ResourceLocation getActiveResource(ChestType type) {
+        return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+    }
 
-	@Override
-	protected ResourceLocation getActiveOverlay(ChestType type) {
-		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
-	}
+    @Override
+    protected ResourceLocation getActiveOverlay(ChestType type) {
+        return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
+    }
 }

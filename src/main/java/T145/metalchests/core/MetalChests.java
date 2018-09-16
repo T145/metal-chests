@@ -41,97 +41,97 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft;after:refinedrelocation")
 public class MetalChests {
 
-	static final String VERSION = "@VERSION@";
-	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
+    static final String VERSION = "@VERSION@";
+    static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 
-	private static final String COMMON_PROXY = "T145.metalchests.core.proxies.CommonProxy";
-	private static final String CLIENT_PROXY = "T145.metalchests.core.proxies.ClientProxy";
+    private static final String COMMON_PROXY = "T145.metalchests.core.proxies.CommonProxy";
+    private static final String CLIENT_PROXY = "T145.metalchests.core.proxies.ClientProxy";
 
-	public static final Logger LOG = LogManager.getLogger(RegistryMC.MOD_ID);
+    public static final Logger LOG = LogManager.getLogger(RegistryMC.MOD_ID);
 
-	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.MOD_ID) {
+    public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.MOD_ID) {
 
-		@Override
-		@SideOnly(Side.CLIENT)
-		public boolean hasSearchBar() {
-			return true;
-		}
+        @Override
+        @SideOnly(Side.CLIENT)
+        public boolean hasSearchBar() {
+            return true;
+        }
 
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ItemStack createIcon() {
-			return new ItemStack(BlocksMC.METAL_CHEST, 1, 1);
-		}
+        @Override
+        @SideOnly(Side.CLIENT)
+        public ItemStack createIcon() {
+            return new ItemStack(BlocksMC.METAL_CHEST, 1, 1);
+        }
 
-		@SideOnly(Side.CLIENT)
-		public void displayAllRelevantItems(NonNullList<ItemStack> items) {
-			for (ChestType type : ChestType.values()) {
-				items.add(new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
-			}
+        @SideOnly(Side.CLIENT)
+        public void displayAllRelevantItems(NonNullList<ItemStack> items) {
+            for (ChestType type : ChestType.values()) {
+                items.add(new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
+            }
 
-			for (ChestUpgrade type : ChestUpgrade.values()) {
-				items.add(new ItemStack(ItemsMC.CHEST_UPGRADE, 1, type.ordinal()));
-			}
+            for (ChestUpgrade type : ChestUpgrade.values()) {
+                items.add(new ItemStack(ItemsMC.CHEST_UPGRADE, 1, type.ordinal()));
+            }
 
-			if (BlocksMC.HUNGRY_METAL_CHEST != null) {
-				for (ChestType type : ChestType.values()) {
-					items.add(new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
-				}
-			}
+            if (BlocksMC.HUNGRY_METAL_CHEST != null) {
+                for (ChestType type : ChestType.values()) {
+                    items.add(new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
+                }
+            }
 
-			if (ItemsMC.HUNGRY_CHEST_UPGRADE != null) {
-				for (ChestUpgrade type : ChestUpgrade.values()) {
-					items.add(new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()));
-				}
-			}
+            if (ItemsMC.HUNGRY_CHEST_UPGRADE != null) {
+                for (ChestUpgrade type : ChestUpgrade.values()) {
+                    items.add(new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()));
+                }
+            }
 
-			if (BlocksMC.SORTING_METAL_CHEST != null) {
-				for (ChestType type : ChestType.values()) {
-					items.add(new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
-				}
-			}
+            if (BlocksMC.SORTING_METAL_CHEST != null) {
+                for (ChestType type : ChestType.values()) {
+                    items.add(new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
+                }
+            }
 
-			if (BlocksMC.SORTING_HUNGRY_METAL_CHEST != null) {
-				for (ChestType type : ChestType.values()) {
-					items.add(new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
-				}
-			}
+            if (BlocksMC.SORTING_HUNGRY_METAL_CHEST != null) {
+                for (ChestType type : ChestType.values()) {
+                    items.add(new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
+                }
+            }
 
-			for (ChestType type : ChestType.values()) {
-				items.add(new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()));
-			}
-		}
-	}.setBackgroundImageName("item_search.png");
+            for (ChestType type : ChestType.values()) {
+                items.add(new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()));
+            }
+        }
+    }.setBackgroundImageName("item_search.png");
 
-	@Instance(RegistryMC.MOD_ID)
-	public static MetalChests instance;
+    @Instance(RegistryMC.MOD_ID)
+    public static MetalChests instance;
 
-	@SidedProxy(serverSide = COMMON_PROXY, clientSide = CLIENT_PROXY)
-	public static CommonProxy proxy;
+    @SidedProxy(serverSide = COMMON_PROXY, clientSide = CLIENT_PROXY)
+    public static CommonProxy proxy;
 
-	@EventHandler
-	public void preInit(FMLPreInitializationEvent event) {
-		ModMetadata meta = event.getModMetadata();
-		meta.authorList.add("T145");
-		meta.autogenerated = false;
-		meta.credits = "The fans!";
-		meta.description = "The better alternative to IronChests";
-		meta.logoFile = "logo.png";
-		meta.modId = RegistryMC.MOD_ID;
-		meta.name = RegistryMC.MOD_NAME;
-		meta.url = "https://github.com/T145/metalchests";
-		meta.useDependencyInformation = false;
-		meta.version = VERSION;
-		proxy.preInit(event);
-	}
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
+        ModMetadata meta = event.getModMetadata();
+        meta.authorList.add("T145");
+        meta.autogenerated = false;
+        meta.credits = "The fans!";
+        meta.description = "The better alternative to IronChests";
+        meta.logoFile = "logo.png";
+        meta.modId = RegistryMC.MOD_ID;
+        meta.name = RegistryMC.MOD_NAME;
+        meta.url = "https://github.com/T145/metalchests";
+        meta.useDependencyInformation = false;
+        meta.version = VERSION;
+        proxy.preInit(event);
+    }
 
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		proxy.init(event);
-	}
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
+        proxy.init(event);
+    }
 
-	@EventHandler
-	public void postInit(FMLPostInitializationEvent event) {
-		proxy.postInit(event);
-	}
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        proxy.postInit(event);
+    }
 }

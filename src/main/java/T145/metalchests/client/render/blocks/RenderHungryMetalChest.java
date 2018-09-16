@@ -24,8 +24,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderHungryMetalChest extends RenderMetalChest {
 
-	@Override
-	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
-	}
+    @Override
+    protected ResourceLocation getActiveResource(ChestType type) {
+        return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+    }
 }

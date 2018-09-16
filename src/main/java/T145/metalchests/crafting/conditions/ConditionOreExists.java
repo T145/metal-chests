@@ -26,8 +26,8 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ConditionOreExists implements IConditionFactory {
 
-	@Override
-	public BooleanSupplier parse(JsonContext context, JsonObject json) {
-		return () -> !OreDictionary.getOres(JsonUtils.getString(json, "ore")).isEmpty();
-	}
+    @Override
+    public BooleanSupplier parse(JsonContext context, JsonObject json) {
+        return () -> !OreDictionary.getOres(JsonUtils.getString(json, "ore")).isEmpty();
+    }
 }

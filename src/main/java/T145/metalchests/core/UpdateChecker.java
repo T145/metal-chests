@@ -26,29 +26,29 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 class UpdateChecker {
 
-	private static ForgeVersion.CheckResult getResult() {
-		return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(RegistryMC.MOD_ID));
-	}
+    private static ForgeVersion.CheckResult getResult() {
+        return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(RegistryMC.MOD_ID));
+    }
 
-	static boolean hasUpdate() {
-		ForgeVersion.CheckResult result = getResult();
+    static boolean hasUpdate() {
+        ForgeVersion.CheckResult result = getResult();
 
-		if (result.status == ForgeVersion.Status.PENDING) {
-			MetalChests.LOG.warn("Cannot check for updates! Found status PENDING!");
-			return false;
-		}
+        if (result.status == ForgeVersion.Status.PENDING) {
+            MetalChests.LOG.warn("Cannot check for updates! Found status PENDING!");
+            return false;
+        }
 
-		return result.status.isAnimated();
-	}
+        return result.status.isAnimated();
+    }
 
-	private static String getLatestVersion() {
-		return getResult().target.toString();
-	}
+    private static String getLatestVersion() {
+        return getResult().target.toString();
+    }
 
-	static ITextComponent getUpdateNotification() {
-		ITextComponent prefix = new TextComponentTranslation("metalchests.client.update.prefix").setStyle(new Style().setColor(TextFormatting.GREEN));
-		ITextComponent base = new TextComponentTranslation("metalchests.client.update").setStyle(new Style().setColor(TextFormatting.GOLD));
-		ITextComponent postfix = new TextComponentString(TextFormatting.AQUA + getLatestVersion() + TextFormatting.GOLD + "!");
-		return prefix.appendSibling(base).appendSibling(postfix);
-	}
+    static ITextComponent getUpdateNotification() {
+        ITextComponent prefix = new TextComponentTranslation("metalchests.client.update.prefix").setStyle(new Style().setColor(TextFormatting.GREEN));
+        ITextComponent base = new TextComponentTranslation("metalchests.client.update").setStyle(new Style().setColor(TextFormatting.GOLD));
+        ITextComponent postfix = new TextComponentString(TextFormatting.AQUA + getLatestVersion() + TextFormatting.GOLD + "!");
+        return prefix.appendSibling(base).appendSibling(postfix);
+    }
 }

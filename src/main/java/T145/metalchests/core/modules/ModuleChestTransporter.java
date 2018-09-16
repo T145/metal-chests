@@ -33,23 +33,23 @@ import thaumcraft.api.blocks.BlocksTC;
 @EventBusSubscriber(modid = RegistryMC.MOD_ID)
 class ModuleChestTransporter {
 
-	@Optional.Method(modid = ModSupport.ChestTransporter.MOD_ID)
-	@SubscribeEvent
-	public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
-		final IForgeRegistry<TransportableChest> registry = event.getRegistry();
+    @Optional.Method(modid = ModSupport.ChestTransporter.MOD_ID)
+    @SubscribeEvent
+    public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
+        final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
-		for (ChestType type : ChestType.values()) {
-			TransportableMetalChest chest = new TransportableMetalChest(BlocksMC.METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + type.getName()));
-			registry.register(chest);
-			//ChestRegistry.registerMinecart(EntityMinecartMetalChest.class, chest);
-		}
+        for (ChestType type : ChestType.values()) {
+            TransportableMetalChest chest = new TransportableMetalChest(BlocksMC.METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + type.getName()));
+            registry.register(chest);
+            // ChestRegistry.registerMinecart(EntityMinecartMetalChest.class, chest);
+        }
 
-		if (ModSupport.hasThaumcraft()) {
-			registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
+        if (ModSupport.hasThaumcraft()) {
+            registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
 
-			for (ChestType type : ChestType.values()) {
-				registry.register(new TransportableMetalChest(BlocksMC.HUNGRY_METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
-			}
-		}
-	}
+            for (ChestType type : ChestType.values()) {
+                registry.register(new TransportableMetalChest(BlocksMC.HUNGRY_METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
+            }
+        }
+    }
 }
