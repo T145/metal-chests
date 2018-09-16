@@ -59,28 +59,34 @@ brew install gradle
 
 ## Workspace Setup
 
-If you plan to use the Eclipse IDE, then execute:
+### Eclipse
 ```bash
 gradle setupEclipseWorkspace
+gradle eclipse
 ```
-else just run the typical:
+
+Next, you'll need to install the [EditorConfig plugin](https://github.com/ncjones/editorconfig-eclipse#readme).
+Navigate to `Help > Eclipse Marketplace`, and search for `editorconfig`.
+There should only be one result; install it and you're all set.
+
+### IntelliJ IDEA
+
 ```bash
 gradle setupDecompWorkspace
+gradle idea
 ```
+> Be sure IDEA recognizes the `src/api/java` directory!
 
 Depending on your internet connection and the processing power of your machine, it may take a while to build.
 For most people it takes about 10 minutes.
-
-After that just run either `gradle eclipse` or `gradle idea`, depending on your IDE.
-
-> If you're using IntelliJ's IDEA, be sure it recognizes the included `api` folder in the `src` directory,
-> because it does not do so automatically.
 
 ---
 
 ## License
 
-Mod source code is licensed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0). The actual workspace license is located in this project. To use any mod assets, you may contatct [myself](https://github.com/T145) or the original creator for permission.
+Mod source code is licensed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0).
+The actual workspace license is located in this project.
+To use any mod assets, you may contatct [myself](https://github.com/T145) or the original creator for permission.
 
 ---
 
