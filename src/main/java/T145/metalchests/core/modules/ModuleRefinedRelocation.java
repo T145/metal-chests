@@ -18,6 +18,7 @@ package T145.metalchests.core.modules;
 import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
@@ -43,6 +44,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -51,9 +53,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 
 public class ModuleRefinedRelocation {
 
-	@EventBusSubscriber(modid = ModSupport.RefinedRelocation.MOD_ID)
+	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 	static class ServerLoader {
 
+		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
@@ -69,6 +72,7 @@ public class ModuleRefinedRelocation {
 			}
 		}
 
+		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
@@ -82,6 +86,7 @@ public class ModuleRefinedRelocation {
 			}
 		}
 
+		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasRefinedRelocation()) {
@@ -99,6 +104,7 @@ public class ModuleRefinedRelocation {
 			}
 		}
 
+		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 		@SubscribeEvent
 		public static void processInitialInteract(PlayerInteractEvent event) {
 			if (event.getWorld().isRemote) {
@@ -147,9 +153,10 @@ public class ModuleRefinedRelocation {
 		}
 	}
 
-	@EventBusSubscriber(modid = ModSupport.RefinedRelocation.MOD_ID, value = Side.CLIENT)
+	@EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
 	static class ClientLoader {
 
+		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 		@SubscribeEvent
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			if (ModSupport.hasRefinedRelocation()) {

@@ -36,6 +36,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -50,9 +51,10 @@ import thaumcraft.common.tiles.devices.TileHungryChest;
 
 class ModuleThaumcraft {
 
-	@EventBusSubscriber(modid = ModSupport.Thaumcraft.MOD_ID)
+	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 	static class ServerLoader {
 
+		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
 		@SubscribeEvent
 		public static void registerBlocks(final RegistryEvent.Register<Block> event) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
@@ -63,6 +65,7 @@ class ModuleThaumcraft {
 			}
 		}
 
+		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
 		@SubscribeEvent
 		public static void registerItems(final RegistryEvent.Register<Item> event) {
 			final IForgeRegistry<Item> registry = event.getRegistry();
@@ -77,6 +80,7 @@ class ModuleThaumcraft {
 			}
 		}
 
+		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasThaumcraft()) {
@@ -201,9 +205,10 @@ class ModuleThaumcraft {
 		}
 	}
 
-	@EventBusSubscriber(modid = ModSupport.Thaumcraft.MOD_ID, value = Side.CLIENT)
+	@EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
 	static class ClientLoader {
 
+		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
 		@SubscribeEvent
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			if (ModSupport.hasThaumcraft()) {

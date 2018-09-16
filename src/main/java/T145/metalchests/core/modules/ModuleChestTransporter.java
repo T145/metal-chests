@@ -25,13 +25,15 @@ import cubex2.mods.chesttransporter.chests.TransportableChestOld;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.blocks.BlocksTC;
 
-@EventBusSubscriber(modid = ModSupport.ChestTransporter.MOD_ID)
+@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 class ModuleChestTransporter {
 
+	@Optional.Method(modid = ModSupport.ChestTransporter.MOD_ID)
 	@SubscribeEvent
 	public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
 		final IForgeRegistry<TransportableChest> registry = event.getRegistry();
