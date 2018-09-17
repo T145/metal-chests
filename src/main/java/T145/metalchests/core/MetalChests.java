@@ -21,8 +21,6 @@ import org.apache.logging.log4j.Logger;
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.core.proxies.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -65,41 +63,26 @@ public class MetalChests {
 
         @SideOnly(Side.CLIENT)
         public void displayAllRelevantItems(NonNullList<ItemStack> items) {
-            for (ChestType type : ChestType.values()) {
-                items.add(new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
-            }
-
-            for (ChestUpgrade type : ChestUpgrade.values()) {
-                items.add(new ItemStack(ItemsMC.CHEST_UPGRADE, 1, type.ordinal()));
-            }
+            BlocksMC.METAL_CHEST.getSubBlocks(this, items);
+            ItemsMC.CHEST_UPGRADE.getSubItems(this, items);
 
             if (BlocksMC.HUNGRY_METAL_CHEST != null) {
-                for (ChestType type : ChestType.values()) {
-                    items.add(new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
-                }
+                BlocksMC.HUNGRY_METAL_CHEST.getSubBlocks(this, items);
             }
 
             if (ItemsMC.HUNGRY_CHEST_UPGRADE != null) {
-                for (ChestUpgrade type : ChestUpgrade.values()) {
-                    items.add(new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()));
-                }
+                ItemsMC.HUNGRY_CHEST_UPGRADE.getSubItems(this, items);
             }
 
             if (BlocksMC.SORTING_METAL_CHEST != null) {
-                for (ChestType type : ChestType.values()) {
-                    items.add(new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
-                }
+                BlocksMC.SORTING_METAL_CHEST.getSubBlocks(this, items);
             }
 
             if (BlocksMC.SORTING_HUNGRY_METAL_CHEST != null) {
-                for (ChestType type : ChestType.values()) {
-                    items.add(new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
-                }
+                BlocksMC.SORTING_HUNGRY_METAL_CHEST.getSubBlocks(this, items);
             }
 
-            for (ChestType type : ChestType.values()) {
-                items.add(new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()));
-            }
+            ItemsMC.MINECART_METAL_CHEST.getSubItems(this, items);
         }
     }.setBackgroundImageName("item_search.png");
 
