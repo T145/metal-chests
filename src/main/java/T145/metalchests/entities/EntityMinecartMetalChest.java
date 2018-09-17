@@ -43,9 +43,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -87,11 +84,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
                 inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
             }
         }
-    }
-
-    public static void addDataFixers(DataFixer fixer) {
-        EntityMinecart.registerFixesMinecart(fixer, EntityMinecartMetalChest.class);
-        fixer.registerWalker(FixTypes.ENTITY, new ItemStackDataLists(EntityMinecartMetalChest.class, new String[] { "Items" }));
     }
 
     @Override

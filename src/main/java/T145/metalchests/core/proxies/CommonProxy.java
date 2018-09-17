@@ -25,7 +25,6 @@ import T145.metalchests.core.MetalChests;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileSortingHungryMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
@@ -33,6 +32,8 @@ import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
+import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -72,20 +73,28 @@ public class CommonProxy {
         DataSerializers.registerSerializer(CHEST_TYPE);
     }
 
+    void registerFixes(DataFixer fixer, Class tileClass) {
+        fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(tileClass, new String[] { "Items" }));
+    }
+
+    void registerEntityFixes(DataFixer fixer, Class entityClass) {
+        fixer.registerWalker(FixTypes.ENTITY, new ItemStackDataLists(entityClass, new String[] { "Items" }));
+    }
+
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
 
         DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
-        TileMetalChest.registerFixes(fixer);
-        EntityMinecartMetalChest.registerFixes(fixer);
+        registerFixes(fixer, TileMetalChest.class);
+        registerEntityFixes(fixer, EntityMinecartMetalChest.class);
 
         if (ModSupport.hasRefinedRelocation()) {
-            TileSortingMetalChest.registerFixes(fixer);
+            registerFixes(fixer, TileSortingMetalChest.class);
         }
 
         if (ModSupport.hasThaumcraft()) {
-            TileHungryMetalChest.registerFixes(fixer);
+            registerFixes(fixer, TileHungryMetalChest.class);
 
             ThaumcraftApi.registerResearchLocation(new ResourceLocation(RegistryMC.MOD_ID, "research/hungry_metal_chests"));
 
@@ -97,7 +106,7 @@ public class CommonProxy {
         }
 
         if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
-            TileSortingHungryMetalChest.registerFixes(fixer);
+            registerFixes(fixer, TileSortingMetalChest.class);
         }
     }
 

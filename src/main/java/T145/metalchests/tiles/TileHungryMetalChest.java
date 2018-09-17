@@ -23,9 +23,6 @@ import T145.metalchests.blocks.BlockMetalChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 
 public class TileHungryMetalChest extends TileMetalChest {
 
@@ -35,10 +32,6 @@ public class TileHungryMetalChest extends TileMetalChest {
 
     public TileHungryMetalChest() {
         super();
-    }
-
-    public static void registerFixes(DataFixer fixer) {
-        fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(TileHungryMetalChest.class, new String[] { "Items" }));
     }
 
     @Override
