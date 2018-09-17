@@ -15,14 +15,23 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
-import T145.metalchests.compat.chesttransporter.TransportableMetalChest;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional;
@@ -32,6 +41,57 @@ import thaumcraft.api.blocks.BlocksTC;
 
 @EventBusSubscriber(modid = RegistryMC.MOD_ID)
 class ModuleChestTransporter {
+
+    static class TransportableMetalChest extends TransportableChest {
+
+        private final Block chestBlock;
+        private final ChestType type;
+        private final ResourceLocation resource;
+
+        public TransportableMetalChest(Block chestBlock, ChestType type, ResourceLocation resource) {
+            this.chestBlock = chestBlock;
+            this.type = type;
+            this.resource = resource;
+            setRegistryName(resource);
+        }
+
+        @Override
+        public boolean canGrabChest(World world, BlockPos pos, IBlockState state, EntityPlayer player, ItemStack transporter) {
+            Block block = state.getBlock();
+            return block == chestBlock && block.getMetaFromState(state) == type.ordinal();
+        }
+
+        @Override
+        public boolean canPlaceChest(World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
+            return true;
+        }
+
+        @Override
+        public ItemStack createChestStack(ItemStack transporter) {
+            return new ItemStack(chestBlock, 1, type.ordinal());
+        }
+
+        @Override
+        public Collection<ResourceLocation> getChestModels() {
+            return Collections.singleton(resource);
+        }
+
+        @Override
+        public ResourceLocation getChestModel(ItemStack stack) {
+            return resource;
+        }
+
+        @Override
+        public boolean copyTileEntity() {
+            return true;
+        }
+
+        @Override
+        public NBTTagCompound modifyTileCompound(NBTTagCompound tag, World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
+            tag.setString("Front", player.getHorizontalFacing().getOpposite().toString());
+            return super.modifyTileCompound(tag, world, pos, player, transporter);
+        }
+    }
 
     @Optional.Method(modid = ModSupport.ChestTransporter.MOD_ID)
     @SubscribeEvent
