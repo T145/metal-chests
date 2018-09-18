@@ -15,17 +15,19 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import cubex2.mods.chesttransporter.api.TransportableChest;
+import cubex2.mods.chesttransporter.chests.TransportableChestImpl;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
+import joptsimple.internal.Strings;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -42,48 +44,49 @@ import thaumcraft.api.blocks.BlocksTC;
 @EventBusSubscriber(modid = RegistryMC.MOD_ID)
 class ModuleChestTransporter {
 
-    static class TransportableMetalChest extends TransportableChest {
+    static class MetalChest extends TransportableChestImpl {
 
-        private final Block chestBlock;
-        private final ChestType type;
-        private final ResourceLocation resource;
+        private final String prefix;
 
-        public TransportableMetalChest(Block chestBlock, ChestType type, ResourceLocation resource) {
-            this.chestBlock = chestBlock;
-            this.type = type;
-            this.resource = resource;
-            setRegistryName(resource);
+        public MetalChest(Block chestBlock, String prefix, String name) {
+            super(chestBlock, -1, name);
+            this.prefix = prefix;
         }
 
-        @Override
-        public boolean canGrabChest(World world, BlockPos pos, IBlockState state, EntityPlayer player, ItemStack transporter) {
-            Block block = state.getBlock();
-            return block == chestBlock && block.getMetaFromState(state) == type.ordinal();
-        }
-
-        @Override
-        public boolean canPlaceChest(World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
-            return true;
-        }
-
-        @Override
-        public ItemStack createChestStack(ItemStack transporter) {
-            return new ItemStack(chestBlock, 1, type.ordinal());
-        }
-
-        @Override
-        public Collection<ResourceLocation> getChestModels() {
-            return Collections.singleton(resource);
-        }
-
-        @Override
-        public ResourceLocation getChestModel(ItemStack stack) {
-            return resource;
+        public MetalChest(Block chestBlock, String name) {
+            this(chestBlock, Strings.EMPTY, name);
         }
 
         @Override
         public boolean copyTileEntity() {
             return true;
+        }
+
+        @Override
+        public ItemStack createChestStack(ItemStack transporter) {
+            ItemStack stack = super.createChestStack(transporter);
+            NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
+            String chestType = tag.getString("ChestType");
+            stack.setItemDamage(ChestType.valueOf(chestType).ordinal());
+            return stack;
+        }
+
+        @Override
+        public ResourceLocation getChestModel(ItemStack transporter) {
+            NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
+            String chestType = tag.getString("ChestType");
+            return new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + chestType.toLowerCase());
+        }
+
+        @Override
+        public Collection<ResourceLocation> getChestModels() {
+            List<ResourceLocation> models = new ArrayList<>();
+
+            for (ChestType type : ChestType.values()) {
+                models.add(new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + type.getName()));
+            }
+
+            return models;
         }
 
         @Override
@@ -98,17 +101,18 @@ class ModuleChestTransporter {
     public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
         final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
-        for (ChestType type : ChestType.values()) {
-            TransportableMetalChest chest = new TransportableMetalChest(BlocksMC.METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + type.getName()));
-            registry.register(chest);
-            // ChestRegistry.registerMinecart(EntityMinecartMetalChest.class, chest);
-        }
+        registry.register(new MetalChest(BlocksMC.METAL_CHEST, RegistryMC.KEY_METAL_CHEST));
 
         if (ModSupport.hasThaumcraft()) {
             registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
+            registry.register(new MetalChest(BlocksMC.HUNGRY_METAL_CHEST, "hungry/", RegistryMC.KEY_HUNGRY_METAL_CHEST));
+        }
 
-            for (ChestType type : ChestType.values()) {
-                registry.register(new TransportableMetalChest(BlocksMC.HUNGRY_METAL_CHEST, type, new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/hungry/" + type.getName())));
+        if (ModSupport.hasRefinedRelocation()) {
+            registry.register(new MetalChest(BlocksMC.SORTING_METAL_CHEST, RegistryMC.KEY_SORTING_METAL_CHEST));
+
+            if (ModSupport.hasThaumcraft()) {
+                registry.register(new MetalChest(BlocksMC.SORTING_HUNGRY_METAL_CHEST, "hungry/", RegistryMC.KEY_SORTING_HUNGRY_METAL_CHEST));
             }
         }
     }
