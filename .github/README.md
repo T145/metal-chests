@@ -50,7 +50,8 @@ choco install gradle
 
 #### Using [Homebrew](https://brew.sh/)
 ```bash
-# Installs Apple's Command Line Utilities automatically, which includes Git
+# Git should be automatically installed alongside
+# Homebrew through Apple's Command Line utilities
 brew cask install java
 brew install gradle
 ```
@@ -67,7 +68,7 @@ gradle eclipse
 
 Next, you'll need to install the [EditorConfig plugin](https://github.com/ncjones/editorconfig-eclipse#readme).
 Navigate to `Help > Eclipse Marketplace`, and search for `editorconfig`.
-There should only be one result; install it and you're all set.
+There should only be one result: install it and you're all set.
 
 ### IntelliJ IDEA
 
@@ -76,9 +77,6 @@ gradle setupDecompWorkspace
 gradle idea
 ```
 > Be sure IDEA recognizes the `src/api/java` directory!
-
-Depending on your internet connection and the processing power of your machine, it may take a while to build.
-For most people it takes about 10 minutes.
 
 ---
 
