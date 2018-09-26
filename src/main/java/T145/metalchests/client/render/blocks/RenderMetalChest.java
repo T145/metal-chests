@@ -50,11 +50,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
     }
 
     protected ResourceLocation getActiveResource(ChestType type) {
-        if (ModConfig.GENERAL.hollowModelTextures) {
-            return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/" + type.getName() + "_h.png");
-        } else {
-            return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/" + type.getName() + ".png");
-        }
+        return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/" + type.getName() + (ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
     }
 
     @Override

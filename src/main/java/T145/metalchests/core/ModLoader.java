@@ -89,45 +89,6 @@ public class ModLoader {
         return "variant=" + variant.getName();
     }
 
-    public static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
-        if (StringUtils.isNullOrEmpty(customDomain)) {
-            return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
-        } else {
-            return new ModelResourceLocation(RegistryMC.MOD_ID + ":" + customDomain, variantPath.toString());
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void registerModel(Item item, String customDomain, int meta, String... variants) {
-        StringBuilder variantPath = new StringBuilder(variants[0]);
-
-        for (int i = 1; i < variants.length; ++i) {
-            variantPath.append(',').append(variants[i]);
-        }
-
-        ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void registerModel(Block block, String customDomain, int meta, String... variants) {
-        registerModel(Item.getItemFromBlock(block), customDomain, meta, variants);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void registerModel(Item item, int meta, String... variants) {
-        registerModel(item, null, meta, variants);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void registerModel(Block block, int meta, String... variants) {
-        registerModel(block, null, meta, variants);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
-        ClientRegistry.bindTileEntitySpecialRenderer(tileClass, tileRenderer);
-    }
-
     @EventBusSubscriber(modid = RegistryMC.MOD_ID)
     static class ServerLoader {
 
@@ -213,6 +174,46 @@ public class ModLoader {
                 }
             }
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
+        if (StringUtils.isNullOrEmpty(customDomain)) {
+            return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
+        } else {
+            return new ModelResourceLocation(RegistryMC.MOD_ID + ":" + customDomain, variantPath.toString());
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Item item, String customDomain, int meta, String... variants) {
+        StringBuilder variantPath = new StringBuilder(variants[0]);
+
+        for (int i = 1; i < variants.length; ++i) {
+            variantPath.append(',').append(variants[i]);
+        }
+
+        ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Block block, String customDomain, int meta, String... variants) {
+        registerModel(Item.getItemFromBlock(block), customDomain, meta, variants);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Item item, int meta, String... variants) {
+        registerModel(item, null, meta, variants);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void registerModel(Block block, int meta, String... variants) {
+        registerModel(block, null, meta, variants);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
+        ClientRegistry.bindTileEntitySpecialRenderer(tileClass, tileRenderer);
     }
 
     @EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
