@@ -71,6 +71,6 @@ public enum ModSupport {
 
     public static class RefinedRelocation {
         public static final String MOD_ID = "refinedrelocation";
-        public static final String NAMEABLE = "net.blay09.mods.refinedrelocation.tile.INameable";
+        public static final String NAMEABLE = "net.blay09.mods.refinedrelocation.api.INameTaggable";
     }
 }
