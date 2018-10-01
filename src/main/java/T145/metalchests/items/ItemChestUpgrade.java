@@ -88,7 +88,12 @@ public class ItemChestUpgrade extends ItemMod {
         } else if (defaultChests.containsKey(te.getClass())) {
             IMetalChest chest = defaultChests.get(te.getClass());
             EnumFacing front = getFrontFromProperties(world, pos);
-            IItemHandler inventory = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+            ItemStackHandler newInv = new ItemStackHandler(upgrade.getUpgrade().getInventorySize());
+
+            for (int slot = 0; slot < inv.getSlots(); ++slot) {
+                newInv.setStackInSlot(slot, inv.getStackInSlot(slot));
+            }
 
             te.updateContainingBlockInfo();
 
@@ -108,7 +113,7 @@ public class ItemChestUpgrade extends ItemMod {
 
             if (tile instanceof IMetalChest) {
                 IMetalChest metalChest = (IMetalChest) tile;
-                metalChest.setInventory(inventory);
+                metalChest.setInventory(newInv);
                 metalChest.setFront(front);
             }
         } else {
