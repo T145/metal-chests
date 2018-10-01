@@ -85,7 +85,7 @@ public class ItemChestUpgrade extends ItemMod {
             } else {
                 return EnumActionResult.FAIL;
             }
-        } else if (defaultChests.containsKey(te.getClass())) {
+        } else if (defaultChests.containsKey(te.getClass()) || te instanceof TileEntityChest) {
             IMetalChest chest = defaultChests.get(te.getClass());
             EnumFacing front = getFrontFromProperties(world, pos);
             IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);

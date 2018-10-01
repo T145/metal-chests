@@ -107,7 +107,6 @@ public class ModLoader {
             registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
 
             ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE);
-            upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
 
             if (ModSupport.hasRefinedRelocation()) {
                 upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
