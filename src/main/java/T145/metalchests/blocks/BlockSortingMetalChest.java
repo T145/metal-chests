@@ -20,9 +20,9 @@ import javax.annotation.Nullable;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileSortingMetalChest;
+import net.blay09.mods.refinedrelocation.api.INameTaggable;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.network.VanillaPacketHandler;
-import net.blay09.mods.refinedrelocation.tile.INameable;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -52,8 +52,8 @@ public class BlockSortingMetalChest extends BlockMetalChest {
         if (!heldItem.isEmpty() && heldItem.getItem() == Items.NAME_TAG && heldItem.hasDisplayName()) {
             TileEntity te = world.getTileEntity(pos);
 
-            if (te instanceof INameable) {
-                ((INameable) te).setCustomName(heldItem.getDisplayName());
+            if (te instanceof INameTaggable) {
+                ((INameTaggable) te).setCustomName(heldItem.getDisplayName());
                 VanillaPacketHandler.sendTileEntityUpdate(te);
 
                 if (!player.capabilities.isCreativeMode) {
