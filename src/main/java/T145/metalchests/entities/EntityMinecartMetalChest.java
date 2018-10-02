@@ -55,7 +55,7 @@ import net.minecraftforge.items.ItemStackHandler;
 @Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IInventory, IInventoryHandler, IItemCart {
 
-    private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.proxy.CHEST_TYPE);
+    private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.CHEST_TYPE);
     private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
     public EntityMinecartMetalChest(World world) {
