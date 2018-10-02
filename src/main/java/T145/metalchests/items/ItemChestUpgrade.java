@@ -20,7 +20,9 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.chests.IMetalChest;
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.lib.items.ItemMod;
@@ -77,7 +79,7 @@ public class ItemChestUpgrade extends ItemMod {
                 chest.setChestType(upgrade.getUpgrade());
                 te.markDirty();
 
-                IBlockState state = chest.createBlockState(upgrade.getUpgrade());
+                IBlockState state = createBlockState(te, upgrade.getUpgrade());
                 world.setBlockState(pos, state, 3);
                 world.notifyBlockUpdate(pos, state, state, 3);
 
@@ -105,7 +107,7 @@ public class ItemChestUpgrade extends ItemMod {
             world.setBlockToAir(pos);
             world.setTileEntity(pos, chest.createTileEntity(upgrade.getUpgrade()));
 
-            IBlockState state = chest.createBlockState(upgrade.getUpgrade());
+            IBlockState state = createBlockState(te, upgrade.getUpgrade());
             world.setBlockState(pos, state, 3);
             world.notifyBlockUpdate(pos, state, state, 3);
 
@@ -127,6 +129,14 @@ public class ItemChestUpgrade extends ItemMod {
         player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
 
         return EnumActionResult.SUCCESS;
+    }
+
+    private IBlockState createBlockState(TileEntity oldTile, ChestType upgrade) {
+        if (oldTile instanceof IMetalChest) {
+            return oldTile.getBlockType().getDefaultState().withProperty(IMetalChest.VARIANT, upgrade);
+        } else {
+            return BlocksMC.METAL_CHEST.getDefaultState().withProperty(IMetalChest.VARIANT, upgrade);
+        }
     }
 
     @Nullable

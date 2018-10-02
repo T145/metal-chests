@@ -15,12 +15,9 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
-import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.blocks.BlockMetalChest;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 
@@ -37,11 +34,6 @@ public class TileHungryMetalChest extends TileMetalChest {
     @Override
     public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
         return chest instanceof TileHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
-    }
-
-    @Override
-    public IBlockState createBlockState(ChestType chestType) {
-        return BlocksMC.HUNGRY_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
     }
 
     @Override

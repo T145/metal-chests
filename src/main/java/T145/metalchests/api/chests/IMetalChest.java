@@ -17,20 +17,20 @@ package T145.metalchests.api.chests;
 
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 
 public interface IMetalChest extends IInventoryHandler {
 
+    public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
+
     ChestType getChestType();
 
     void setChestType(ChestType chestType);
 
     boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
-
-    IBlockState createBlockState(ChestType chestType);
 
     TileEntity createTileEntity(ChestType chestType);
 

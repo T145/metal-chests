@@ -18,6 +18,7 @@ package T145.metalchests.blocks;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.RegistryMC;
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
@@ -26,7 +27,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -55,12 +55,10 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 public class BlockMetalChest extends Block {
 
-    public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
-
     public BlockMetalChest() {
         super(Material.IRON);
         registerResource();
-        setDefaultState(blockState.getBaseState().withProperty(VARIANT, ChestType.IRON));
+        setDefaultState(blockState.getBaseState().withProperty(IMetalChest.VARIANT, ChestType.IRON));
         setHardness(3F);
         setCreativeTab(MetalChests.TAB);
     }
@@ -77,7 +75,7 @@ public class BlockMetalChest extends Block {
     @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileMetalChest(state.getValue(VARIANT));
+        return new TileMetalChest(state.getValue(IMetalChest.VARIANT));
     }
 
     @Override
@@ -92,17 +90,17 @@ public class BlockMetalChest extends Block {
 
     @Override
     public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return state.getValue(VARIANT).getMapColor();
+        return state.getValue(IMetalChest.VARIANT).getMapColor();
     }
 
     @Override
     public Material getMaterial(IBlockState state) {
-        return state.getValue(VARIANT).getMaterial();
+        return state.getValue(IMetalChest.VARIANT).getMaterial();
     }
 
     @Override
     public SoundType getSoundType(IBlockState state, World world, BlockPos pos, @Nullable Entity entity) {
-        return state.getValue(VARIANT).getSoundType();
+        return state.getValue(IMetalChest.VARIANT).getSoundType();
     }
 
     @Override
@@ -230,7 +228,7 @@ public class BlockMetalChest extends Block {
 
     @Override
     public int damageDropped(IBlockState state) {
-        return state.getValue(VARIANT).ordinal();
+        return state.getValue(IMetalChest.VARIANT).ordinal();
     }
 
     @Override
@@ -269,17 +267,17 @@ public class BlockMetalChest extends Block {
 
     @Override
     public IBlockState getStateFromMeta(int meta) {
-        return getDefaultState().withProperty(VARIANT, ChestType.byMetadata(meta));
+        return getDefaultState().withProperty(IMetalChest.VARIANT, ChestType.byMetadata(meta));
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
-        return state.getValue(VARIANT).ordinal();
+        return state.getValue(IMetalChest.VARIANT).ordinal();
     }
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, VARIANT);
+        return new BlockStateContainer(this, IMetalChest.VARIANT);
     }
 
     @Override

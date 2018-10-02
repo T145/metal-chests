@@ -21,11 +21,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Strings;
 
-import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.blocks.BlockMetalChest;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.INameTaggable;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -34,7 +32,6 @@ import net.blay09.mods.refinedrelocation.capability.CapabilityRootFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySimpleFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingGridMember;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingInventory;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -74,11 +71,6 @@ public class TileSortingMetalChest extends TileMetalChest implements INameTaggab
     @Override
     public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
         return chest instanceof TileSortingMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
-    }
-
-    @Override
-    public IBlockState createBlockState(ChestType chestType) {
-        return BlocksMC.SORTING_METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
     }
 
     @Override

@@ -20,16 +20,13 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
-import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -95,11 +92,6 @@ public class TileMetalChest extends TileMod implements IMetalChest, ITickable, I
     @Override
     public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
         return chest instanceof TileMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
-    }
-
-    @Override
-    public IBlockState createBlockState(ChestType chestType) {
-        return BlocksMC.METAL_CHEST.getDefaultState().withProperty(BlockMetalChest.VARIANT, chestType);
     }
 
     @Override
