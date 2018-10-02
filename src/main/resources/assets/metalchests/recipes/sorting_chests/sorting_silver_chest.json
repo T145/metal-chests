@@ -5,6 +5,10 @@
             "modid": "refinedrelocation"
         },
         {
+            "type": "forge:mod_loaded",
+            "modid": "thaumcraft"
+        },
+        {
             "type": "metalchests:ore_exists",
             "ore": "ingotSilver"
         }

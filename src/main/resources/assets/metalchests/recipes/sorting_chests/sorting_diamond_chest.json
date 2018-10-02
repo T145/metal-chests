@@ -3,6 +3,10 @@
         {
             "type": "forge:mod_loaded",
             "modid": "refinedrelocation"
+        },
+        {
+            "type": "forge:mod_loaded",
+            "modid": "thaumcraft"
         }
     ],
     "type": "forge:ore_shaped",
