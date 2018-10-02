@@ -166,7 +166,13 @@ class ModuleThaumcraft {
             if (ModSupport.hasThaumcraft()) {
                 for (ChestType type : ChestType.values()) {
                     if (type.isRegistered()) {
-                        OreDictionary.registerOre("chestHungry" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
+                        String capitalizedName = WordUtils.capitalize(type.getName());
+
+                        OreDictionary.registerOre("chestHungry" + capitalizedName, new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
+
+                        if (ModSupport.hasRefinedRelocation()) {
+                            OreDictionary.registerOre("chestSortingHungry" + capitalizedName, new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
+                        }
                     }
                 }
 

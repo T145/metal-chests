@@ -82,13 +82,7 @@ public class ModuleRefinedRelocation {
             if (ModSupport.hasRefinedRelocation()) {
                 for (ChestType type : ChestType.values()) {
                     if (type.isRegistered()) {
-                        String captializedName = WordUtils.capitalize(type.getName());
-
-                        OreDictionary.registerOre("chestSorting" + captializedName, new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
-
-                        if (ModSupport.hasThaumcraft()) {
-                            OreDictionary.registerOre("chestSortingHungry" + captializedName, new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
-                        }
+                        OreDictionary.registerOre("chestSorting" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
                     }
                 }
             }
