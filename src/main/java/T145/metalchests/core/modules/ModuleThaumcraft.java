@@ -23,6 +23,7 @@ import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
@@ -105,7 +106,7 @@ class ModuleThaumcraft {
                     @Nullable
                     @Override
                     public TileEntity createTileEntity(World world, IBlockState state) {
-                        return new TileHungryMetalChest(state.getValue(VARIANT));
+                        return new TileHungryMetalChest(state.getValue(IMetalChest.VARIANT));
                     }
 
                     @Override
@@ -126,7 +127,7 @@ class ModuleThaumcraft {
                         @Nullable
                         @Override
                         public TileEntity createTileEntity(World world, IBlockState state) {
-                            return new TileSortingHungryMetalChest(state.getValue(VARIANT));
+                            return new TileSortingHungryMetalChest(state.getValue(IMetalChest.VARIANT));
                         }
 
                         @Override

@@ -18,6 +18,7 @@ package T145.metalchests.blocks;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.RegistryMC;
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.api.INameTaggable;
@@ -44,7 +45,7 @@ public class BlockSortingMetalChest extends BlockMetalChest {
     @Nullable
     @Override
     public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileSortingMetalChest(state.getValue(VARIANT));
+        return new TileSortingMetalChest(state.getValue(IMetalChest.VARIANT));
     }
 
     // because blay just couldn't make this `public static`

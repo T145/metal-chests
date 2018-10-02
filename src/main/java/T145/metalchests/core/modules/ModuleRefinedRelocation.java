@@ -19,9 +19,9 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.RegistryMC;
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
-import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingHungryMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingMetalChest;
@@ -127,7 +127,7 @@ public class ModuleRefinedRelocation {
                     world.setBlockToAir(pos);
                     world.setTileEntity(pos, newChest);
 
-                    IBlockState state = block.getDefaultState().withProperty(BlockMetalChest.VARIANT, newChest.getChestType());
+                    IBlockState state = block.getDefaultState().withProperty(IMetalChest.VARIANT, newChest.getChestType());
                     world.setBlockState(pos, state, 3);
                     world.notifyBlockUpdate(pos, state, state, 3);
 
