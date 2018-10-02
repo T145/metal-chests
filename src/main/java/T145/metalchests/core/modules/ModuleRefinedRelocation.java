@@ -22,7 +22,6 @@ import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockSortingHungryMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingHungryMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingMetalChest;
@@ -64,11 +63,6 @@ public class ModuleRefinedRelocation {
             if (ModSupport.hasRefinedRelocation()) {
                 registry.register(BlocksMC.SORTING_METAL_CHEST = new BlockSortingMetalChest());
                 ModLoader.registerTileEntity(TileSortingMetalChest.class);
-
-                if (ModSupport.hasThaumcraft()) {
-                    registry.register(BlocksMC.SORTING_HUNGRY_METAL_CHEST = new BlockSortingHungryMetalChest());
-                    ModLoader.registerTileEntity(TileSortingHungryMetalChest.class);
-                }
             }
         }
 
@@ -79,10 +73,6 @@ public class ModuleRefinedRelocation {
 
             if (ModSupport.hasRefinedRelocation()) {
                 ModLoader.registerItemBlock(registry, BlocksMC.SORTING_METAL_CHEST, ChestType.class);
-
-                if (ModSupport.hasThaumcraft()) {
-                    ModLoader.registerItemBlock(registry, BlocksMC.SORTING_HUNGRY_METAL_CHEST, ChestType.class);
-                }
             }
         }
 

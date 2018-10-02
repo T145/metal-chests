@@ -23,7 +23,6 @@ import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.api.RefinedRelocationAPI;
 import net.blay09.mods.refinedrelocation.network.VanillaPacketHandler;
 import net.blay09.mods.refinedrelocation.tile.INameable;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -31,20 +30,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockSortingMetalChest extends BlockMetalChest {
 
-    public BlockSortingMetalChest(ResourceLocation registryName) {
-        super(Material.IRON);
-        registerBlock(registryName);
-    }
-
-    public BlockSortingMetalChest() {
-        this(RegistryMC.RESOURCE_SORTING_METAL_CHEST);
+    @Override
+    protected void registerResource() {
+        this.registerResource(RegistryMC.RESOURCE_SORTING_METAL_CHEST);
     }
 
     @Nullable

@@ -15,24 +15,37 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
+import javax.annotation.Nullable;
+
 import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
+import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
-import T145.metalchests.blocks.BlockHungryMetalChest;
+import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderHungryMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
+import T145.metalchests.lib.containers.InventoryManager;
 import T145.metalchests.tiles.TileHungryMetalChest;
+import T145.metalchests.tiles.TileSortingHungryMetalChest;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -54,14 +67,76 @@ class ModuleThaumcraft {
     @EventBusSubscriber(modid = RegistryMC.MOD_ID)
     static class ServerLoader {
 
+        private static void tryToEatItem(World world, BlockPos pos, IBlockState state, Entity entity, Block receiver) {
+            TileEntity te = world.getTileEntity(pos);
+
+            if (te instanceof IInventoryHandler && entity instanceof EntityItem && !entity.isDead) {
+                IInventoryHandler chest = (IInventoryHandler) te;
+                EntityItem item = (EntityItem) entity;
+                ItemStack stack = item.getItem();
+                ItemStack leftovers = InventoryManager.tryInsertItemStackToInventory(chest.getInventory(), stack);
+
+                if (leftovers == null || leftovers.getCount() != stack.getCount()) {
+                    entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
+                    world.addBlockEvent(pos, receiver, 2, 2);
+                }
+
+                if (leftovers != null) {
+                    item.setItem(leftovers);
+                } else {
+                    entity.setDead();
+                }
+            }
+        }
+
         @Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> event) {
             final IForgeRegistry<Block> registry = event.getRegistry();
 
             if (ModSupport.hasThaumcraft()) {
-                registry.register(BlocksMC.HUNGRY_METAL_CHEST = new BlockHungryMetalChest());
+                registry.register(BlocksMC.HUNGRY_METAL_CHEST = new BlockMetalChest() {
+
+                    @Override
+                    protected void registerResource() {
+                        this.registerResource(RegistryMC.RESOURCE_HUNGRY_METAL_CHEST);
+                    }
+
+                    @Nullable
+                    @Override
+                    public TileEntity createTileEntity(World world, IBlockState state) {
+                        return new TileHungryMetalChest(state.getValue(VARIANT));
+                    }
+
+                    @Override
+                    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+                        tryToEatItem(world, pos, state, entity, this);
+                    }
+                });
+
                 ModLoader.registerTileEntity(TileHungryMetalChest.class);
+
+                if (ModSupport.hasRefinedRelocation()) {
+                    registry.register(BlocksMC.SORTING_HUNGRY_METAL_CHEST = new BlockSortingMetalChest() {
+
+                        protected void registerResource() {
+                            this.registerResource(RegistryMC.RESOURCE_SORTING_HUNGRY_METAL_CHEST);
+                        }
+
+                        @Nullable
+                        @Override
+                        public TileEntity createTileEntity(World world, IBlockState state) {
+                            return new TileSortingHungryMetalChest(state.getValue(VARIANT));
+                        }
+
+                        @Override
+                        public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+                            tryToEatItem(world, pos, state, entity, this);
+                        }
+                    });
+
+                    ModLoader.registerTileEntity(TileSortingHungryMetalChest.class);
+                }
             }
         }
 
@@ -77,6 +152,10 @@ class ModuleThaumcraft {
                 upgrade.addDefaultChest(TileHungryChest.class, new TileHungryMetalChest());
                 ItemsMC.HUNGRY_CHEST_UPGRADE = upgrade;
                 registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE);
+
+                if (ModSupport.hasRefinedRelocation()) {
+                    ModLoader.registerItemBlock(registry, BlocksMC.SORTING_HUNGRY_METAL_CHEST, ChestType.class);
+                }
             }
         }
 
