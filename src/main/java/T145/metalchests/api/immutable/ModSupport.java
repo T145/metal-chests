@@ -36,6 +36,10 @@ public enum ModSupport {
         return ModConfig.GENERAL.enableSortingMetalChests && Loader.isModLoaded(RefinedRelocation.MOD_ID);
     }
 
+    public static boolean hasQuark() {
+        return Loader.isModLoaded(Quark.MOD_ID);
+    }
+
     public static class InvTweaks {
         public static final String MOD_ID = "invtweaks";
         public static final String CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";

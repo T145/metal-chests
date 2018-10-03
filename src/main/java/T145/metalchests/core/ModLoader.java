@@ -20,6 +20,7 @@ import java.util.HashSet;
 import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.EntitiesMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
@@ -40,7 +41,6 @@ import net.blay09.mods.refinedrelocation.tile.TileSortingChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -59,7 +59,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -108,6 +107,14 @@ public class ModLoader {
 
             registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
 
+            registry.register(ItemsMC.CHEST_UPGRADE = getInitializedUpgrade());
+
+            if (ModConfig.GENERAL.enableMinecarts) {
+                registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
+            }
+        }
+
+        private static ItemChestUpgrade getInitializedUpgrade() {
             ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE);
 
             upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
@@ -116,16 +123,11 @@ public class ModLoader {
                 upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
             }
 
-            if (Loader.isModLoaded(ModSupport.Quark.MOD_ID)) {
+            if (ModSupport.hasQuark()) {
                 upgrade.addDefaultChest(TileCustomChest.class, new TileMetalChest());
             }
 
-            ItemsMC.CHEST_UPGRADE = upgrade;
-            registry.register(ItemsMC.CHEST_UPGRADE);
-
-            if (ModConfig.GENERAL.enableMinecarts) {
-                registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
-            }
+            return upgrade;
         }
 
         @SubscribeEvent
@@ -133,16 +135,8 @@ public class ModLoader {
             final IForgeRegistry<EntityEntry> registry = event.getRegistry();
 
             if (ModConfig.GENERAL.enableMinecarts) {
-                registry.register(createBuilder("MinecartMetalChest").entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
+                registry.register(EntitiesMC.MINECART_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_MINECART_METAL_CHEST, 0).name(RegistryMC.KEY_MINECART_METAL_CHEST).entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
             }
-        }
-
-        private static int entityID = 0;
-
-        private static <E extends Entity> EntityEntryBuilder<E> createBuilder(final String name) {
-            final EntityEntryBuilder<E> builder = EntityEntryBuilder.create();
-            final ResourceLocation registryName = new ResourceLocation(RegistryMC.MOD_ID, name);
-            return builder.id(registryName, entityID++).name(RegistryMC.MOD_ID + ":" + name);
         }
 
         @SubscribeEvent(priority = EventPriority.HIGHEST)
