@@ -49,6 +49,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -58,6 +59,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -69,6 +71,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
+import vazkii.quark.decoration.tile.TileCustomChest;
 
 public class ModLoader {
 
@@ -107,8 +110,14 @@ public class ModLoader {
 
             ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE);
 
+            upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
+
             if (ModSupport.hasRefinedRelocation()) {
                 upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
+            }
+
+            if (Loader.isModLoaded(ModSupport.Quark.MOD_ID)) {
+                upgrade.addDefaultChest(TileCustomChest.class, new TileMetalChest());
             }
 
             ItemsMC.CHEST_UPGRADE = upgrade;

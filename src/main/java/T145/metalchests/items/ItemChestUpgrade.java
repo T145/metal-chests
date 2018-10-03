@@ -26,6 +26,7 @@ import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.lib.items.ItemMod;
+import net.minecraft.block.BlockChest;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -87,7 +88,7 @@ public class ItemChestUpgrade extends ItemMod {
             } else {
                 return EnumActionResult.FAIL;
             }
-        } else if (defaultChests.containsKey(te.getClass()) || te instanceof TileEntityChest) {
+        } else if (defaultChests.containsKey(te.getClass())) {
             IMetalChest chest = defaultChests.get(te.getClass());
             EnumFacing front = getFrontFromProperties(world, pos);
             IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
@@ -100,7 +101,13 @@ public class ItemChestUpgrade extends ItemMod {
             te.updateContainingBlockInfo();
 
             if (te instanceof TileEntityChest) {
-                ((TileEntityChest) te).checkForAdjacentChests();
+                TileEntityChest vanillaChest = (TileEntityChest) te;
+
+                if (vanillaChest.getChestType() == BlockChest.Type.TRAP) {
+                    return EnumActionResult.FAIL;
+                }
+
+                vanillaChest.checkForAdjacentChests();
             }
 
             world.removeTileEntity(pos);
