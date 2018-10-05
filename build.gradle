@@ -5,7 +5,7 @@ buildscript {
     repositories {
         jcenter()
         maven {
-            name = 'MiencraftForge Repo'
+            name = 'MinecraftForge Repo'
             url = 'http://files.minecraftforge.net/maven'
         }
     }
@@ -59,11 +59,16 @@ processResources {
     exclude '**/*.DS_Store'
 }
 
+task migrateSource() {
+    project.file('build/tmp/recompileMc/sources').renameTo(project.file('minecraftSrc'))
+}
+
+migrateSource.mustRunAfter eclipse
+
 build {
     doLast {
         project.file('release').deleteDir()
         project.file('build/libs').renameTo(project.file('release'))
-        project.file('build/tmp/recompileMc/sources').renameTo(project.file('minecraftSrc'))
     }
 }
 
