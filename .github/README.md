@@ -33,10 +33,8 @@ In order to get started with Minecraft mod development in this workspace, a few 
 
 #### Using [Scoop](https://github.com/lukesampson/scoop/blob/master/README.md)
 ```bash
-scoop install git
 scoop bucket add java
-scoop install oraclejdk8
-scoop install gradle
+scoop install git oraclejdk8 gradle
 ```
 
 #### Using [Chocolatey](https://chocolatey.org/install)
