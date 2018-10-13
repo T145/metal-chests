@@ -80,6 +80,16 @@ gradle idea
 
 ---
 
+## Development
+
+To add upgrade compatibility to your own vanilla-like chests, you can just make this call:
+```java
+((ItemChestUpgrade) ItemsMC.CHEST_UPGRADE).addDefaultChest(myBlock);
+```
+> Be sure Metal Chests is loaded after your mod if you do this!
+
+---
+
 ## License
 
 Mod source code is licensed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0).
