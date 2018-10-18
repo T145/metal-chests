@@ -24,7 +24,6 @@ import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.lib.items.ItemMod;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.properties.IProperty;
@@ -164,7 +163,7 @@ public class ItemChestUpgrade extends ItemMod {
     @SideOnly(Side.CLIENT)
     public void prepareCreativeTab(NonNullList<ItemStack> items) {
         for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-            if (ModConfig.GENERAL.showEverthingInCreative || upgrade.isRegistered()) {
+            if (upgrade.isRegistered()) {
                 items.add(new ItemStack(this, 1, upgrade.ordinal()));
             }
         }

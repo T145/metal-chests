@@ -20,7 +20,6 @@ import javax.annotation.Nullable;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;
@@ -234,7 +233,7 @@ public class BlockMetalChest extends Block {
     @Override
     public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
         for (ChestType type : ChestType.values()) {
-            if (ModConfig.GENERAL.showEverthingInCreative || type.isRegistered()) {
+            if (type.isRegistered()) {
                 items.add(new ItemStack(this, 1, type.ordinal()));
             }
         }

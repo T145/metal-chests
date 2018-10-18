@@ -17,7 +17,6 @@ package T145.metalchests.items;
 
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.lib.items.ItemMod;
 import net.minecraft.block.Block;
@@ -134,7 +133,7 @@ public class ItemMetalMinecart extends ItemMod {
     @SideOnly(Side.CLIENT)
     public void prepareCreativeTab(NonNullList<ItemStack> items) {
         for (ChestType type : ChestType.values()) {
-            if (ModConfig.GENERAL.showEverthingInCreative || type.isRegistered()) {
+            if (type.isRegistered()) {
                 items.add(new ItemStack(this, 1, type.ordinal()));
             }
         }
