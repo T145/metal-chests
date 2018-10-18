@@ -56,7 +56,7 @@ import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
 
-@Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON)
+@Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft")
 public class MetalChests {
 
     static final String VERSION = "@VERSION@";
