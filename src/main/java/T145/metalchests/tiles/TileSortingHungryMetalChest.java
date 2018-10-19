@@ -37,11 +37,6 @@ public class TileSortingHungryMetalChest extends TileSortingMetalChest {
     }
 
     @Override
-    public TileEntity createTileEntity(ChestType chestType) {
-        return new TileSortingHungryMetalChest(chestType);
-    }
-
-    @Override
     public boolean receiveClientEvent(int id, int data) {
         switch (id) {
         case 2:

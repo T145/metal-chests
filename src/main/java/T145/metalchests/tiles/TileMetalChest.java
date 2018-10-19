@@ -95,11 +95,6 @@ public class TileMetalChest extends TileMod implements IMetalChest, ITickable, I
     }
 
     @Override
-    public TileEntity createTileEntity(ChestType chestType) {
-        return new TileMetalChest(chestType);
-    }
-
-    @Override
     public EnumFacing getFront() {
         return front;
     }

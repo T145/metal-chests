@@ -74,11 +74,6 @@ public class TileSortingMetalChest extends TileMetalChest implements INameTaggab
     }
 
     @Override
-    public TileEntity createTileEntity(ChestType chestType) {
-        return new TileSortingMetalChest(chestType);
-    }
-
-    @Override
     public void onLoad() {
         super.onLoad();
         sortingInventory.onLoad(this);

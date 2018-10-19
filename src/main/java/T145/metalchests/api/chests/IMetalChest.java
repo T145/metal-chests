@@ -32,8 +32,6 @@ public interface IMetalChest extends IInventoryHandler {
 
     boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
 
-    TileEntity createTileEntity(ChestType chestType);
-
     EnumFacing getFront();
 
     void setFront(EnumFacing front);

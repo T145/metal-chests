@@ -111,7 +111,7 @@ public class ItemChestUpgrade extends ItemMod {
 
             world.removeTileEntity(pos);
             world.setBlockToAir(pos);
-            world.setTileEntity(pos, chest.createTileEntity(upgrade.getUpgrade()));
+            world.setTileEntity(pos, (TileEntity) chest);
 
             IBlockState state = createBlockState(te, upgrade.getUpgrade());
             world.setBlockState(pos, state, 3);
@@ -121,6 +121,7 @@ public class ItemChestUpgrade extends ItemMod {
 
             if (tile instanceof IMetalChest) {
                 IMetalChest metalChest = (IMetalChest) tile;
+                metalChest.setChestType(upgrade.getUpgrade());
                 metalChest.setInventory(newInv);
                 metalChest.setFront(front);
             }
