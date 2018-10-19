@@ -149,10 +149,7 @@ class ModuleThaumcraft {
             if (ModSupport.hasThaumcraft()) {
                 ModLoader.registerItemBlock(registry, BlocksMC.HUNGRY_METAL_CHEST, ChestType.class);
 
-                ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE);
-                upgrade.addDefaultChest(TileHungryChest.class, new TileHungryMetalChest());
-                ItemsMC.HUNGRY_CHEST_UPGRADE = upgrade;
-                registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE);
+                registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE).registerChest(TileHungryChest.class, new TileHungryMetalChest()));
 
                 if (ModSupport.hasRefinedRelocation()) {
                     ModLoader.registerItemBlock(registry, BlocksMC.SORTING_HUNGRY_METAL_CHEST, ChestType.class);

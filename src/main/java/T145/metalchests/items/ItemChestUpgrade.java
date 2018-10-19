@@ -56,8 +56,9 @@ public class ItemChestUpgrade extends ItemMod {
 
     private final Map<Class, IMetalChest> defaultChests = new HashMap<>();
 
-    public void addDefaultChest(Class tileClass, IMetalChest tileUpgrade) {
+    public ItemChestUpgrade registerChest(Class tileClass, IMetalChest tileUpgrade) {
         defaultChests.put(tileClass, tileUpgrade);
+        return this;
     }
 
     @Override
@@ -73,7 +74,7 @@ public class ItemChestUpgrade extends ItemMod {
         if (te instanceof IMetalChest) {
             IMetalChest chest = (IMetalChest) te;
 
-            if (chest.getChestType() == upgrade.getBase() && chest.canApplyUpgrade(upgrade, te, stack)) {
+            if (chest.getChestType() == upgrade.getBase() && chest.isUpgradeApplicable(stack.getItem())) {
                 ItemStackHandler oldInventory = (ItemStackHandler) chest.getInventory();
 
                 chest.setChestType(upgrade.getUpgrade());

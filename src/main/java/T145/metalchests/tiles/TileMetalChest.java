@@ -23,15 +23,13 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
@@ -90,8 +88,8 @@ public class TileMetalChest extends TileMod implements IMetalChest, ITickable, I
     }
 
     @Override
-    public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
-        return chest instanceof TileMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
+    public boolean isUpgradeApplicable(Item upgrade) {
+        return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
     }
 
     @Override

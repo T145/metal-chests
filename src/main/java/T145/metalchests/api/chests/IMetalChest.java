@@ -16,10 +16,8 @@
 package T145.metalchests.api.chests;
 
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 
 public interface IMetalChest extends IInventoryHandler {
@@ -30,9 +28,9 @@ public interface IMetalChest extends IInventoryHandler {
 
     void setChestType(ChestType chestType);
 
-    boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack);
-
     EnumFacing getFront();
 
     void setFront(EnumFacing front);
+
+    boolean isUpgradeApplicable(Item upgrade);
 }

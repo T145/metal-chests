@@ -115,16 +115,14 @@ public class ModLoader {
         }
 
         private static ItemChestUpgrade getInitializedUpgrade() {
-            ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE);
-
-            upgrade.addDefaultChest(TileEntityChest.class, new TileMetalChest());
+            ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE).registerChest(TileEntityChest.class, new TileMetalChest());
 
             if (ModSupport.hasRefinedRelocation()) {
-                upgrade.addDefaultChest(TileSortingChest.class, new TileSortingMetalChest());
+                upgrade.registerChest(TileSortingChest.class, new TileSortingMetalChest());
             }
 
             if (ModSupport.hasQuark()) {
-                upgrade.addDefaultChest(TileCustomChest.class, new TileMetalChest());
+                upgrade.registerChest(TileCustomChest.class, new TileMetalChest());
             }
 
             return upgrade;

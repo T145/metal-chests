@@ -17,9 +17,7 @@ package T145.metalchests.tiles;
 
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+import net.minecraft.item.Item;
 
 public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 
@@ -32,8 +30,8 @@ public class TileSortingHungryMetalChest extends TileSortingMetalChest {
     }
 
     @Override
-    public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
-        return chest instanceof TileSortingHungryMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
+    public boolean isUpgradeApplicable(Item upgrade) {
+        return upgrade.getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
     }
 
     @Override

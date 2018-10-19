@@ -21,9 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.google.common.base.Strings;
 
-import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.INameTaggable;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -32,10 +30,8 @@ import net.blay09.mods.refinedrelocation.capability.CapabilityRootFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySimpleFilter;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingGridMember;
 import net.blay09.mods.refinedrelocation.capability.CapabilitySortingInventory;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
@@ -66,11 +62,6 @@ public class TileSortingMetalChest extends TileMetalChest implements INameTaggab
                 world.updateComparatorOutputLevel(pos, getBlockType());
             }
         };
-    }
-
-    @Override
-    public boolean canApplyUpgrade(ChestUpgrade upgrade, TileEntity chest, ItemStack upgradeStack) {
-        return chest instanceof TileSortingMetalChest && upgradeStack.getItem().getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
     }
 
     @Override
