@@ -58,9 +58,9 @@ public class ModuleRefinedRelocation {
         @Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-            final IForgeRegistry<Block> registry = event.getRegistry();
-
             if (ModSupport.hasRefinedRelocation()) {
+                final IForgeRegistry<Block> registry = event.getRegistry();
+
                 registry.register(BlocksMC.SORTING_METAL_CHEST = new BlockSortingMetalChest());
                 ModLoader.registerTileEntity(TileSortingMetalChest.class);
             }
@@ -69,9 +69,9 @@ public class ModuleRefinedRelocation {
         @Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event) {
-            final IForgeRegistry<Item> registry = event.getRegistry();
-
             if (ModSupport.hasRefinedRelocation()) {
+                final IForgeRegistry<Item> registry = event.getRegistry();
+
                 ModLoader.registerItemBlock(registry, BlocksMC.SORTING_METAL_CHEST, ChestType.class);
             }
         }

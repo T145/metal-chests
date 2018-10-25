@@ -94,9 +94,9 @@ class ModuleThaumcraft {
         @Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
         @SubscribeEvent
         public static void registerBlocks(final RegistryEvent.Register<Block> event) {
-            final IForgeRegistry<Block> registry = event.getRegistry();
-
             if (ModSupport.hasThaumcraft()) {
+                final IForgeRegistry<Block> registry = event.getRegistry();
+
                 registry.register(BlocksMC.HUNGRY_METAL_CHEST = new BlockMetalChest() {
 
                     @Override
@@ -145,9 +145,9 @@ class ModuleThaumcraft {
         @Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
         @SubscribeEvent
         public static void registerItems(final RegistryEvent.Register<Item> event) {
-            final IForgeRegistry<Item> registry = event.getRegistry();
-
             if (ModSupport.hasThaumcraft()) {
+                final IForgeRegistry<Item> registry = event.getRegistry();
+
                 ModLoader.registerItemBlock(registry, BlocksMC.HUNGRY_METAL_CHEST, ChestType.class);
 
                 registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE));
