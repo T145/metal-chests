@@ -82,9 +82,9 @@ gradle idea
 
 To add upgrade compatibility to your own vanilla-like chests, you can just make this call:
 ```java
-((ItemChestUpgrade) ItemsMC.CHEST_UPGRADE).addDefaultChest(myBlock);
+UpgradeRegistry.registerChest((upgrade item resource name), (default chest tile entity class), (block of desired upgrade));
 ```
-> Be sure Metal Chests is loaded after your mod if you do this!
+> The block to upgrade to MUST use the `IMetalChest.VARIANT` property!
 
 ---
 

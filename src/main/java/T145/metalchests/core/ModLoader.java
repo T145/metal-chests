@@ -23,6 +23,7 @@ import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.EntitiesMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
+import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
@@ -36,7 +37,6 @@ import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.lib.items.BlockModItem;
 import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.tile.TileSortingChest;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -106,26 +106,20 @@ public class ModLoader {
             final IForgeRegistry<Item> registry = event.getRegistry();
 
             registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
+            registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
+            UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE.toString(), TileEntityChest.class, BlocksMC.METAL_CHEST);
 
-            registry.register(ItemsMC.CHEST_UPGRADE = getInitializedUpgrade());
+            if (ModSupport.hasRefinedRelocation()) {
+                UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE.toString(), TileSortingChest.class, BlocksMC.SORTING_METAL_CHEST);
+            }
+
+            if (ModSupport.hasQuark()) {
+                UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE.toString(), TileCustomChest.class, BlocksMC.METAL_CHEST);
+            }
 
             if (ModConfig.GENERAL.enableMinecarts) {
                 registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
             }
-        }
-
-        private static ItemChestUpgrade getInitializedUpgrade() {
-            ItemChestUpgrade upgrade = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE).registerChest(TileEntityChest.class, new TileMetalChest());
-
-            if (ModSupport.hasRefinedRelocation()) {
-                upgrade.registerChest(TileSortingChest.class, new TileSortingMetalChest());
-            }
-
-            if (ModSupport.hasQuark()) {
-                upgrade.registerChest(TileCustomChest.class, new TileMetalChest());
-            }
-
-            return upgrade;
         }
 
         @SubscribeEvent

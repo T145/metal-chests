@@ -24,6 +24,7 @@ import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IMetalChest;
+import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
@@ -149,7 +150,8 @@ class ModuleThaumcraft {
             if (ModSupport.hasThaumcraft()) {
                 ModLoader.registerItemBlock(registry, BlocksMC.HUNGRY_METAL_CHEST, ChestType.class);
 
-                registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE).registerChest(TileHungryChest.class, new TileHungryMetalChest()));
+                registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE));
+                UpgradeRegistry.registerChest(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE.toString(), TileHungryChest.class, BlocksMC.HUNGRY_METAL_CHEST);
 
                 if (ModSupport.hasRefinedRelocation()) {
                     ModLoader.registerItemBlock(registry, BlocksMC.SORTING_HUNGRY_METAL_CHEST, ChestType.class);
