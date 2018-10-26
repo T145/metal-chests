@@ -30,7 +30,7 @@ import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
-import T145.metalchests.client.render.blocks.RenderHungryMetalChest;
+import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.lib.containers.InventoryManager;
@@ -295,7 +295,13 @@ class ModuleThaumcraft {
                     ModLoader.registerModel(BlocksMC.HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
                 }
 
-                ModLoader.registerTileRenderer(TileHungryMetalChest.class, new RenderHungryMetalChest());
+                ModLoader.registerTileRenderer(TileHungryMetalChest.class, new RenderMetalChest() {
+
+                    @Override
+                    protected ResourceLocation getActiveResource(ChestType type) {
+                        return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+                    }
+                });
 
                 for (ChestUpgrade type : ChestUpgrade.values()) {
                     ModLoader.registerModel(ItemsMC.HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());

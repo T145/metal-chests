@@ -23,7 +23,6 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.blocks.BlockSortingMetalChest;
-import T145.metalchests.client.render.blocks.RenderSortingHungryMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingMetalChest;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.tiles.TileHungryMetalChest;
@@ -37,6 +36,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -155,7 +155,18 @@ public class ModuleRefinedRelocation {
                         ModLoader.registerModel(BlocksMC.SORTING_HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
                     }
 
-                    ModLoader.registerTileRenderer(TileSortingHungryMetalChest.class, new RenderSortingHungryMetalChest());
+                    ModLoader.registerTileRenderer(TileSortingHungryMetalChest.class, new RenderSortingMetalChest(BlocksMC.SORTING_HUNGRY_METAL_CHEST) {
+
+                        @Override
+                        protected ResourceLocation getActiveResource(ChestType type) {
+                            return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+                        }
+
+                        @Override
+                        protected ResourceLocation getActiveOverlay(ChestType type) {
+                            return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
+                        }
+                    });
                 }
             }
         }
