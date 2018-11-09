@@ -37,7 +37,7 @@ import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.lib.items.BlockModItem;
 import T145.metalchests.tiles.TileMetalChest;
-import net.blay09.mods.refinedrelocation.tile.TileSortingChest;
+import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -49,7 +49,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
@@ -70,7 +69,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
-import vazkii.quark.decoration.tile.TileCustomChest;
 
 public class ModLoader {
 
@@ -107,14 +105,9 @@ public class ModLoader {
 
             registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
             registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
-            UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE.toString(), TileEntityChest.class, BlocksMC.METAL_CHEST);
 
             if (ModSupport.hasRefinedRelocation()) {
-                UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE.toString(), TileSortingChest.class, BlocksMC.SORTING_METAL_CHEST);
-            }
-
-            if (ModSupport.hasQuark()) {
-                UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE.toString(), TileCustomChest.class, BlocksMC.METAL_CHEST);
+                UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE, ModBlocks.sortingChest, BlocksMC.SORTING_METAL_CHEST);
             }
 
             if (ModConfig.GENERAL.enableMinecarts) {

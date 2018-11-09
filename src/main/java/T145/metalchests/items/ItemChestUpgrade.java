@@ -79,7 +79,7 @@ public class ItemChestUpgrade extends ItemMod {
             } else {
                 return EnumActionResult.FAIL;
             }
-        } else if (UpgradeRegistry.hasChest(getRegistryName().toString(), te.getClass())) {
+        } else if (UpgradeRegistry.hasChest(getRegistryName(), te.getBlockType())) {
             EnumFacing front = getFrontFromProperties(world, pos);
             IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
             ItemStackHandler newInv = new ItemStackHandler(upgrade.getUpgrade().getInventorySize());
@@ -100,10 +100,11 @@ public class ItemChestUpgrade extends ItemMod {
                 vanillaChest.checkForAdjacentChests();
             }
 
+            Block chestBlock = UpgradeRegistry.getChest(getRegistryName(), te.getBlockType());
+
             world.removeTileEntity(pos);
             world.setBlockToAir(pos);
 
-            Block chestBlock = UpgradeRegistry.getMetalChestBlock(getRegistryName().toString(), te.getClass());
             IBlockState state = createBlockState(chestBlock, upgrade.getUpgrade());
 
             world.setTileEntity(pos, chestBlock.createTileEntity(world, state));
