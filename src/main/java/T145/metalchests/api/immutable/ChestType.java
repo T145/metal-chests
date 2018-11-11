@@ -85,7 +85,7 @@ public enum ChestType implements IStringSerializable {
     }
 
     public boolean isRegistered() {
-        return OreDictionary.doesOreNameExist(dictName);
+        return OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
     }
 
     public boolean isLarge() {
