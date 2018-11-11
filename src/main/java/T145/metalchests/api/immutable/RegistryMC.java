@@ -23,7 +23,6 @@ public class RegistryMC {
 
     public static final String MOD_ID = "metalchests";
     public static final String MOD_NAME = "MetalChests";
-    public static final ResourceLocation MOD_RESOURCE = new ResourceLocation(RegistryMC.MOD_ID);
 
     public static final String KEY_METAL_CHEST = "metal_chest";
     public static final String KEY_HUNGRY_METAL_CHEST = "hungry_metal_chest";

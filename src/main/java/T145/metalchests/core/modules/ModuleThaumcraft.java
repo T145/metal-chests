@@ -31,6 +31,7 @@ import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
+import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.lib.containers.InventoryManager;
@@ -233,16 +234,14 @@ class ModuleThaumcraft {
 
                 for (ChestUpgrade upgrade : ChestUpgrade.values()) {
                     switch (upgrade) {
-                    case COPPER_GOLD:
-                    case IRON_GOLD:
-                    case WOOD_GOLD:
+                    case COPPER_GOLD: case IRON_GOLD: case WOOD_GOLD:
                         ThaumcraftApi.addArcaneCraftingRecipe(
                                 new ResourceLocation(RegistryMC.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
                                 new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
                                         new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
                                         "III", "III", "CII",
                                         'I', upgrade.getUpgrade().getOreName(),
-                                        'C', new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, ChestType.SILVER.isRegistered() ? upgrade.getPriorUpgrade().ordinal() : upgrade.getPriorUpgrade().getPriorUpgrade().ordinal())));
+                                        'C', upgrade == ChestUpgrade.IRON_GOLD && !ChestType.SILVER.isRegistered() ? "ingotIron" : new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, ChestType.SILVER.isRegistered() ? upgrade.getPriorUpgrade().ordinal() : upgrade.getPriorUpgrade().getPriorUpgrade().ordinal())));
                         break;
                     case WOOD_IRON:
                         ThaumcraftApi.addArcaneCraftingRecipe(
@@ -260,24 +259,9 @@ class ModuleThaumcraft {
                                         new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
                                         "III", "III", "CII",
                                         'I', upgrade.getUpgrade().getOreName(),
-                                        'C', getBaseIngredient(upgrade)));
+                                        'C', MetalChests.getBaseIngredient(BlocksTC.plankGreatwood, ItemsMC.HUNGRY_CHEST_UPGRADE, upgrade)));
                         break;
                     }
-                }
-            }
-        }
-
-        private static Object getBaseIngredient(ChestUpgrade upgrade) {
-            ChestUpgrade prior = upgrade.getPriorUpgrade();
-            int priorIndex = prior.ordinal();
-
-            if (priorIndex == 0) {
-                return new ItemStack(BlocksTC.plankGreatwood);
-            } else {
-                if (prior.getBase() != upgrade.getBase()) {
-                    return upgrade.getBase().getOreName();
-                } else {
-                    return new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, priorIndex);
                 }
             }
         }
