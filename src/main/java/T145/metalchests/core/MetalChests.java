@@ -34,6 +34,7 @@ import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -62,7 +63,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.research.ResearchCategories;
 
 @Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft")
@@ -283,6 +283,28 @@ public class MetalChests {
                         'a', upgrade.getUpgrade().getOreName(),
                         'b', getBaseIngredient("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
                 break;
+            }
+        }
+
+        if (ModSupport.hasRefinedRelocation()) {
+            for (ChestType type : ChestType.values()) {
+                if (type.isRegistered()) {
+                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_chest_" + type.getName()), null, new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()),
+                            " a ", "bcb", " d ",
+                            'a', Items.WRITABLE_BOOK,
+                            'b', Items.REDSTONE,
+                            'c', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
+                            'd', Blocks.HOPPER);
+
+                    if (ModSupport.hasThaumcraft()) {
+                        GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_hungry_chest_" + type.getName()), null, new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()),
+                                " a ", "bcb", " d ",
+                                'a', Items.WRITABLE_BOOK,
+                                'b', Items.REDSTONE,
+                                'c', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()),
+                                'd', Blocks.HOPPER);
+                    }
+                }
             }
         }
     }
