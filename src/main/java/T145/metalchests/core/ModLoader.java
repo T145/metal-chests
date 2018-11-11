@@ -45,6 +45,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -88,6 +90,21 @@ public class ModLoader {
         return "variant=" + variant.getName();
     }
 
+    public static Object getBaseIngredient(Object firstBase, Item upgrade, ChestUpgrade type) {
+        ChestUpgrade prior = type.getPriorUpgrade();
+        int priorIndex = prior.ordinal();
+
+        if (priorIndex == 0) {
+            return firstBase;
+        } else {
+            if (prior.getBase() != type.getBase()) {
+                return type.getBase().getOreName();
+            } else {
+                return new ItemStack(upgrade, 1, priorIndex);
+            }
+        }
+    }
+
     @EventBusSubscriber(modid = RegistryMC.MOD_ID)
     static class ServerLoader {
 
@@ -129,6 +146,101 @@ public class ModLoader {
             for (ChestType type : ChestType.values()) {
                 if (type.isRegistered()) {
                     OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
+                }
+            }
+
+            for (ChestType type : ChestType.values()) {
+                if (type.isRegistered()) {
+                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_minecart_chest_" + type.getName()), null, new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()),
+                            "a", "b",
+                            'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
+                            'b', Items.MINECART);
+                }
+            }
+
+            if (ChestType.COPPER.isRegistered()) {
+                GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.COPPER.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.COPPER.ordinal()),
+                        "aaa", "aba", "aaa",
+                        'a', "ingotCopper",
+                        'b', "chestWood");
+                GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.IRON.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()),
+                        "aaa", "aba", "aaa",
+                        'a', "ingotIron",
+                        'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.COPPER.ordinal()));
+            } else {
+                GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.IRON.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()),
+                        "aaa", "aba", "aaa",
+                        'a', "ingotIron",
+                        'b', "chestWood");
+            }
+
+            if (ChestType.SILVER.isRegistered()) {
+                GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.SILVER.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.SILVER.ordinal()),
+                        "aaa", "aba", "aaa",
+                        'a', "ingotSilver",
+                        'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()));
+                GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.GOLD.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()),
+                        "aaa", "aba", "aaa",
+                        'a', "ingotGold",
+                        'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.SILVER.ordinal()));
+            } else {
+                GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.GOLD.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()),
+                        "aaa", "aba", "aaa",
+                        'a', "ingotGold",
+                        'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()));
+            }
+
+            GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.DIAMOND.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.DIAMOND.ordinal()),
+                    "aaa", "aba", "aaa",
+                    'a', "gemDiamond",
+                    'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()));
+            GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.OBSIDIAN.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.OBSIDIAN.ordinal()),
+                    "aaa", "aba", "aaa",
+                    'a', "obsidian",
+                    'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.DIAMOND.ordinal()));
+
+            for (ChestUpgrade upgrade : ChestUpgrade.values()) {
+                switch (upgrade) {
+                case COPPER_GOLD: case IRON_GOLD: case WOOD_GOLD:
+                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
+                            "aaa", "aaa", "baa",
+                            'a', upgrade.getUpgrade().getOreName(),
+                            'b', upgrade == ChestUpgrade.IRON_GOLD && !ChestType.SILVER.isRegistered() ? "ingotIron" : new ItemStack(ItemsMC.CHEST_UPGRADE, 1, ChestType.SILVER.isRegistered() ? upgrade.getPriorUpgrade().ordinal() : upgrade.getPriorUpgrade().getPriorUpgrade().ordinal()));
+                    break;
+                case WOOD_IRON:
+                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
+                            "aaa", "aaa", "baa",
+                            'a', upgrade.getUpgrade().getOreName(),
+                            'b', ChestType.COPPER.isRegistered() ? new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.getPriorUpgrade().ordinal()) : "plankWood");
+                    break;
+                default:
+                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
+                            "aaa", "aaa", "baa",
+                            'a', upgrade.getUpgrade().getOreName(),
+                            'b', getBaseIngredient("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
+                    break;
+                }
+            }
+
+            if (ModSupport.hasRefinedRelocation()) {
+                for (ChestType type : ChestType.values()) {
+                    if (type.isRegistered()) {
+                        GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_chest_" + type.getName()), null, new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()),
+                                " a ", "bcb", " d ",
+                                'a', Items.WRITABLE_BOOK,
+                                'b', Items.REDSTONE,
+                                'c', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
+                                'd', Blocks.HOPPER);
+
+                        if (ModSupport.hasThaumcraft()) {
+                            GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_hungry_chest_" + type.getName()), null, new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()),
+                                    " a ", "bcb", " d ",
+                                    'a', Items.WRITABLE_BOOK,
+                                    'b', Items.REDSTONE,
+                                    'c', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()),
+                                    'd', Blocks.HOPPER);
+                        }
+                    }
                 }
             }
         }

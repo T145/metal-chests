@@ -31,7 +31,6 @@ import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.lib.containers.InventoryManager;
@@ -259,7 +258,7 @@ class ModuleThaumcraft {
                                         new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
                                         "III", "III", "CII",
                                         'I', upgrade.getUpgrade().getOreName(),
-                                        'C', MetalChests.getBaseIngredient(BlocksTC.plankGreatwood, ItemsMC.HUNGRY_CHEST_UPGRADE, upgrade)));
+                                        'C', ModLoader.getBaseIngredient(BlocksTC.plankGreatwood, ItemsMC.HUNGRY_CHEST_UPGRADE, upgrade)));
                         break;
                     }
                 }
