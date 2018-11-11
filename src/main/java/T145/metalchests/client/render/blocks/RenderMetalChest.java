@@ -17,8 +17,8 @@ package T145.metalchests.client.render.blocks;
 
 import org.lwjgl.opengl.GL11;
 
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.model.ModelChest;

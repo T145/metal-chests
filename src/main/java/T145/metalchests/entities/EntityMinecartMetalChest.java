@@ -19,12 +19,12 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileMetalChest;

@@ -20,9 +20,9 @@ import java.util.Collection;
 import java.util.List;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
+import T145.metalchests.api.immutable.RegistryMC;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestImpl;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;

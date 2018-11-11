@@ -22,10 +22,10 @@ import org.apache.logging.log4j.Logger;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileHungryMetalChest;
@@ -33,6 +33,7 @@ import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
@@ -52,6 +53,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -191,6 +193,15 @@ public class MetalChests {
     public void postInit(FMLPostInitializationEvent event) {
         for (ItemStack stack : OreDictionary.getOres("chestWood")) {
             UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE, Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
+        }
+
+        for (ChestType type : ChestType.values()) {
+            if (type.isRegistered()) {
+                GameRegistry.addShapedRecipe(new ResourceLocation("recipe_minecart_chest_" + type.getName()), RegistryMC.MOD_RESOURCE, new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()),
+                        "a", "b",
+                        'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
+                        'b', Items.MINECART);
+            }
         }
     }
 }

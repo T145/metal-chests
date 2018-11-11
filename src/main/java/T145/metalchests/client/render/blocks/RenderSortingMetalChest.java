@@ -20,8 +20,8 @@ import javax.annotation.Nullable;
 import org.lwjgl.opengl.GL11;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
 import net.blay09.mods.refinedrelocation.client.render.ModelLidOverlay;

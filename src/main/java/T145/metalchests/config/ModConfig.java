@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.config;
 
-import T145.metalchests.api.RegistryMC;
+import T145.metalchests.api.immutable.RegistryMC;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;

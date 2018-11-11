@@ -17,9 +17,9 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.block.Block;

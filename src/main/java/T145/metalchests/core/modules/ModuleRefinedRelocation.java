@@ -18,10 +18,10 @@ package T145.metalchests.core.modules;
 import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingMetalChest;
 import T145.metalchests.core.ModLoader;

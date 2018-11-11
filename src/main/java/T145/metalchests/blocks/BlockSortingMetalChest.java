@@ -17,8 +17,8 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.RegistryMC;
 import T145.metalchests.api.chests.IMetalChest;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.blay09.mods.refinedrelocation.api.INameTaggable;

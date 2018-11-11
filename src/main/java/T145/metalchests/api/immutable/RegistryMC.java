@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.immutable;
 
 import net.minecraft.util.ResourceLocation;
 
@@ -23,6 +23,7 @@ public class RegistryMC {
 
     public static final String MOD_ID = "metalchests";
     public static final String MOD_NAME = "MetalChests";
+    public static final ResourceLocation MOD_RESOURCE = new ResourceLocation(RegistryMC.MOD_ID);
 
     public static final String KEY_METAL_CHEST = "metal_chest";
     public static final String KEY_HUNGRY_METAL_CHEST = "hungry_metal_chest";
