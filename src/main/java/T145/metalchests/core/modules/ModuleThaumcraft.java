@@ -232,35 +232,13 @@ class ModuleThaumcraft {
                                 'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 4)));
 
                 for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-                    switch (upgrade) {
-                    case COPPER_GOLD: case IRON_GOLD: case WOOD_GOLD:
-                        ThaumcraftApi.addArcaneCraftingRecipe(
-                                new ResourceLocation(RegistryMC.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
-                                new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-                                        new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
-                                        "III", "III", "CII",
-                                        'I', upgrade.getUpgrade().getOreName(),
-                                        'C', upgrade == ChestUpgrade.IRON_GOLD && !ChestType.SILVER.isRegistered() ? "ingotIron" : new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, ChestType.SILVER.isRegistered() ? upgrade.getPriorUpgrade().ordinal() : upgrade.getPriorUpgrade().getPriorUpgrade().ordinal())));
-                        break;
-                    case WOOD_IRON:
-                        ThaumcraftApi.addArcaneCraftingRecipe(
-                                new ResourceLocation(RegistryMC.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
-                                new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-                                        new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
-                                        "III", "III", "CII",
-                                        'I', upgrade.getUpgrade().getOreName(),
-                                        'C', ChestType.COPPER.isRegistered() ? new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.getPriorUpgrade().ordinal()) : new ItemStack(BlocksTC.plankGreatwood)));
-                        break;
-                    default:
-                        ThaumcraftApi.addArcaneCraftingRecipe(
-                                new ResourceLocation(RegistryMC.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
-                                new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-                                        new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
-                                        "III", "III", "CII",
-                                        'I', upgrade.getUpgrade().getOreName(),
-                                        'C', ModLoader.getBaseIngredient(BlocksTC.plankGreatwood, ItemsMC.HUNGRY_CHEST_UPGRADE, upgrade)));
-                        break;
-                    }
+                    ThaumcraftApi.addArcaneCraftingRecipe(
+                            new ResourceLocation(RegistryMC.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"),
+                            new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
+                                    new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()),
+                                    "III", "III", "CII",
+                                    'I', upgrade.getUpgrade().getOreName(),
+                                    'C', ModLoader.getUpgradeBase(BlocksTC.plankGreatwood, ItemsMC.HUNGRY_CHEST_UPGRADE, upgrade)));
                 }
             }
         }

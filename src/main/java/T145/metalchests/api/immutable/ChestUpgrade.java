@@ -72,10 +72,6 @@ public enum ChestUpgrade implements IStringSerializable {
         return base == null ? upgrade.isRegistered() : base.isRegistered() && upgrade.isRegistered();
     }
 
-    public ChestUpgrade getPriorUpgrade() {
-        return values()[ordinal() > 0 ? ordinal() - 1 : 0];
-    }
-
     @Override
     public String getName() {
         return name().toLowerCase();

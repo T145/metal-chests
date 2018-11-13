@@ -90,19 +90,40 @@ public class ModLoader {
         return "variant=" + variant.getName();
     }
 
-    public static Object getBaseIngredient(Object firstBase, Item upgrade, ChestUpgrade type) {
-        ChestUpgrade prior = type.getPriorUpgrade();
-        int priorIndex = prior.ordinal();
-
-        if (priorIndex == 0) {
-            return firstBase;
-        } else {
-            if (prior.getBase() != type.getBase()) {
+    public static Object getUpgradeBase(Object base, Item upgrade, ChestUpgrade type) {
+        switch (type) {
+        case WOOD_COPPER:
+            return base;
+        case WOOD_IRON:
+            if (!ChestType.COPPER.isRegistered()) {
+                return base;
+            } else {
+                break;
+            }
+        case WOOD_GOLD:
+            if (!ChestType.SILVER.isRegistered()) {
+                return new ItemStack(upgrade, 1, ChestUpgrade.WOOD_IRON.ordinal());
+            } else {
+                break;
+            }
+        case COPPER_IRON: case IRON_SILVER: case SILVER_GOLD: case GOLD_DIAMOND: case DIAMOND_OBSIDIAN:
+            return type.getBase().getOreName();
+        case COPPER_GOLD:
+            if (!ChestType.SILVER.isRegistered()) {
+                return new ItemStack(upgrade, 1, ChestUpgrade.COPPER_IRON.ordinal());
+            } else {
+                break;
+            }
+        case IRON_GOLD:
+            if (!ChestType.SILVER.isRegistered()) {
                 return type.getBase().getOreName();
             } else {
-                return new ItemStack(upgrade, 1, priorIndex);
+                break;
             }
+        default:
+            break;
         }
+        return new ItemStack(upgrade, 1, type.ordinal() - 1);
     }
 
     @EventBusSubscriber(modid = RegistryMC.MOD_ID)
@@ -200,26 +221,10 @@ public class ModLoader {
                     'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.DIAMOND.ordinal()));
 
             for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-                switch (upgrade) {
-                case COPPER_GOLD: case IRON_GOLD: case WOOD_GOLD:
-                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
-                            "aaa", "aaa", "baa",
-                            'a', upgrade.getUpgrade().getOreName(),
-                            'b', upgrade == ChestUpgrade.IRON_GOLD && !ChestType.SILVER.isRegistered() ? "ingotIron" : new ItemStack(ItemsMC.CHEST_UPGRADE, 1, ChestType.SILVER.isRegistered() ? upgrade.getPriorUpgrade().ordinal() : upgrade.getPriorUpgrade().getPriorUpgrade().ordinal()));
-                    break;
-                case WOOD_IRON:
-                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
-                            "aaa", "aaa", "baa",
-                            'a', upgrade.getUpgrade().getOreName(),
-                            'b', ChestType.COPPER.isRegistered() ? new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.getPriorUpgrade().ordinal()) : "plankWood");
-                    break;
-                default:
-                    GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
-                            "aaa", "aaa", "baa",
-                            'a', upgrade.getUpgrade().getOreName(),
-                            'b', getBaseIngredient("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
-                    break;
-                }
+                GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
+                        "aaa", "aaa", "baa",
+                        'a', upgrade.getUpgrade().getOreName(),
+                        'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
             }
 
             if (ModSupport.hasRefinedRelocation()) {
