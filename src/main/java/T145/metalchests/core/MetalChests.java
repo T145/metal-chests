@@ -27,6 +27,7 @@ import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.client.gui.GuiHandler;
+import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
@@ -103,7 +104,9 @@ public class MetalChests {
                 BlocksMC.SORTING_HUNGRY_METAL_CHEST.getSubBlocks(this, items);
             }
 
-            ItemsMC.MINECART_METAL_CHEST.getSubItems(this, items);
+            if (ModConfig.GENERAL.enableMinecarts) {
+                ItemsMC.MINECART_METAL_CHEST.getSubItems(this, items);
+            }
         }
     }.setBackgroundImageName("item_search.png");
 
