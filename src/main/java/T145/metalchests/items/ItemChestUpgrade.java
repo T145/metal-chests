@@ -21,7 +21,6 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.lib.items.ItemMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.properties.IProperty;
@@ -53,8 +52,7 @@ public class ItemChestUpgrade extends ItemMod {
 	}
 
 	@Override
-	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX,
-			float hitY, float hitZ, EnumHand hand) {
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
 		if (world.isRemote || !player.isSneaking()) {
 			return EnumActionResult.PASS;
 		}

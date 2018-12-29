@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.lib.items;
+package T145.metalchests.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;

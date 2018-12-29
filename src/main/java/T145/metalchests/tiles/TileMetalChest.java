@@ -24,7 +24,6 @@ import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
-import T145.metalchests.lib.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;

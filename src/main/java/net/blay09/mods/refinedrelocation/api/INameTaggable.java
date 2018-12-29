@@ -1,11 +1,11 @@
 package net.blay09.mods.refinedrelocation.api;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.util.INBTSerializable;
-
-import javax.annotation.Nullable;
 
 public interface INameTaggable extends INBTSerializable<NBTTagCompound> {
 	void setCustomName(String displayName);
