@@ -98,31 +98,31 @@ public class ModLoader {
 		case WOOD_COPPER:
 			return base;
 		case WOOD_IRON:
-			if (!ChestType.COPPER.isRegistered()) {
-				return base;
-			} else {
+			if (ChestType.COPPER.isRegistered()) {
 				break;
 			}
+			return base;
 		case WOOD_GOLD:
-			if (!ChestType.SILVER.isRegistered()) {
-				return new ItemStack(upgrade, 1, ChestUpgrade.WOOD_IRON.ordinal());
-			} else {
+			if (ChestType.SILVER.isRegistered()) {
 				break;
 			}
-		case COPPER_IRON: case IRON_SILVER: case SILVER_GOLD: case GOLD_DIAMOND: case DIAMOND_OBSIDIAN:
+			return new ItemStack(upgrade, 1, ChestUpgrade.WOOD_IRON.ordinal());
+		case COPPER_IRON:
+		case IRON_SILVER:
+		case SILVER_GOLD:
+		case GOLD_DIAMOND:
+		case DIAMOND_OBSIDIAN:
 			return type.getBase().getOreName();
 		case COPPER_GOLD:
-			if (!ChestType.SILVER.isRegistered()) {
-				return new ItemStack(upgrade, 1, ChestUpgrade.COPPER_IRON.ordinal());
-			} else {
+			if (ChestType.SILVER.isRegistered()) {
 				break;
 			}
+			return new ItemStack(upgrade, 1, ChestUpgrade.COPPER_IRON.ordinal());
 		case IRON_GOLD:
-			if (!ChestType.SILVER.isRegistered()) {
-				return type.getBase().getOreName();
-			} else {
+			if (ChestType.SILVER.isRegistered()) {
 				break;
 			}
+			return type.getBase().getOreName();
 		default:
 			break;
 		}
@@ -175,65 +175,36 @@ public class ModLoader {
 
 			for (ChestType type : ChestType.values()) {
 				if (type.isRegistered()) {
-					GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_minecart_chest_" + type.getName()), null, new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()),
-							"a", "b",
-							'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
-							'b', Items.MINECART);
+					GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_minecart_chest_" + type.getName()), null, new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()), "a", "b", 'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()), 'b', Items.MINECART);
 				}
 			}
 
 			if (ChestType.COPPER.isRegistered()) {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.COPPER.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.COPPER.ordinal()),
-						"aaa", "aba", "aaa",
-						'a', "ingotCopper",
-						'b', "chestWood");
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.IRON.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()),
-						"aaa", "aba", "aaa",
-						'a', "ingotIron",
-						'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.COPPER.ordinal()));
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.COPPER.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.COPPER.ordinal()), "aaa", "aba", "aaa", 'a', "ingotCopper", 'b', "chestWood");
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.IRON.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()), "aaa", "aba", "aaa", 'a', "ingotIron", 'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.COPPER.ordinal()));
 			} else {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.IRON.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()),
-						"aaa", "aba", "aaa",
-						'a', "ingotIron",
-						'b', "chestWood");
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.IRON.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()), "aaa", "aba", "aaa", 'a', "ingotIron", 'b', "chestWood");
 			}
 
 			if (ChestType.SILVER.isRegistered()) {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.SILVER.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.SILVER.ordinal()),
-						"aaa", "aba", "aaa",
-						'a', "ingotSilver",
-						'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()));
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.GOLD.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()),
-						"aaa", "aba", "aaa",
-						'a', "ingotGold",
-						'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.SILVER.ordinal()));
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.SILVER.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.SILVER.ordinal()), "aaa", "aba", "aaa", 'a', "ingotSilver", 'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()));
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.GOLD.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()), "aaa", "aba", "aaa", 'a', "ingotGold", 'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.SILVER.ordinal()));
 			} else {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.GOLD.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()),
-						"aaa", "aba", "aaa",
-						'a', "ingotGold",
-						'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()));
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.GOLD.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()), "aaa", "aba", "aaa", 'a', "ingotGold", 'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.IRON.ordinal()));
 			}
 
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.DIAMOND.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.DIAMOND.ordinal()),
-					"aaa", "aba", "aaa",
-					'a', "gemDiamond",
-					'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()));
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.OBSIDIAN.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.OBSIDIAN.ordinal()),
-					"aaa", "aba", "aaa",
-					'a', "obsidian",
-					'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.DIAMOND.ordinal()));
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.DIAMOND.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.DIAMOND.ordinal()), "aaa", "aba", "aaa", 'a', "gemDiamond", 'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.GOLD.ordinal()));
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_" + ChestType.OBSIDIAN.getName()), null, new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.OBSIDIAN.ordinal()), "aaa", "aba", "aaa", 'a', "obsidian", 'b', new ItemStack(BlocksMC.METAL_CHEST, 1, ChestType.DIAMOND.ordinal()));
 
 			for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
-						"aaa", "aaa", "baa",
-						'a', upgrade.getUpgrade().getOreName(),
-						'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()), "aaa", "aaa", "baa", 'a', upgrade.getUpgrade().getOreName(), 'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
 			}
 
 			if (ModSupport.hasRefinedRelocation()) {
 				for (ChestType type : ChestType.values()) {
 					if (type.isRegistered()) {
-						GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_chest_" + type.getName()), null, new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()),
+						GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_chest_" + type.getName()), null,
+								new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()),
 								" a ", "bcb", " d ",
 								'a', Items.WRITABLE_BOOK,
 								'b', Items.REDSTONE,
@@ -241,7 +212,8 @@ public class ModLoader {
 								'd', Blocks.HOPPER);
 
 						if (ModSupport.hasThaumcraft()) {
-							GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_hungry_chest_" + type.getName()), null, new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()),
+							GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_hungry_chest_" + type.getName()), null,
+									new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()),
 									" a ", "bcb", " d ",
 									'a', Items.WRITABLE_BOOK,
 									'b', Items.REDSTONE,

@@ -44,76 +44,76 @@ import thaumcraft.api.blocks.BlocksTC;
 @EventBusSubscriber(modid = RegistryMC.MOD_ID)
 class ModuleChestTransporter {
 
-    static class MetalChest extends TransportableChestImpl {
+	static class MetalChest extends TransportableChestImpl {
 
-        private final String prefix;
+		private final String prefix;
 
-        public MetalChest(Block chestBlock, String prefix, String name) {
-            super(chestBlock, -1, name);
-            this.prefix = prefix;
-        }
+		public MetalChest(Block chestBlock, String prefix, String name) {
+			super(chestBlock, -1, name);
+			this.prefix = prefix;
+		}
 
-        public MetalChest(Block chestBlock, String name) {
-            this(chestBlock, Strings.EMPTY, name);
-        }
+		public MetalChest(Block chestBlock, String name) {
+			this(chestBlock, Strings.EMPTY, name);
+		}
 
-        @Override
-        public boolean copyTileEntity() {
-            return true;
-        }
+		@Override
+		public boolean copyTileEntity() {
+			return true;
+		}
 
-        @Override
-        public ItemStack createChestStack(ItemStack transporter) {
-            ItemStack stack = super.createChestStack(transporter);
-            NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
-            String chestType = tag.getString("ChestType");
-            stack.setItemDamage(ChestType.valueOf(chestType).ordinal());
-            return stack;
-        }
+		@Override
+		public ItemStack createChestStack(ItemStack transporter) {
+			ItemStack stack = super.createChestStack(transporter);
+			NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
+			String chestType = tag.getString("ChestType");
+			stack.setItemDamage(ChestType.valueOf(chestType).ordinal());
+			return stack;
+		}
 
-        @Override
-        public ResourceLocation getChestModel(ItemStack transporter) {
-            NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
-            String chestType = tag.getString("ChestType");
-            return new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + chestType.toLowerCase());
-        }
+		@Override
+		public ResourceLocation getChestModel(ItemStack transporter) {
+			NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
+			String chestType = tag.getString("ChestType");
+			return new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + chestType.toLowerCase());
+		}
 
-        @Override
-        public Collection<ResourceLocation> getChestModels() {
-            List<ResourceLocation> models = new ArrayList<>();
+		@Override
+		public Collection<ResourceLocation> getChestModels() {
+			List<ResourceLocation> models = new ArrayList<>();
 
-            for (ChestType type : ChestType.values()) {
-                models.add(new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + type.getName()));
-            }
+			for (ChestType type : ChestType.values()) {
+				models.add(new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + type.getName()));
+			}
 
-            return models;
-        }
+			return models;
+		}
 
-        @Override
-        public NBTTagCompound modifyTileCompound(NBTTagCompound tag, World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
-            tag.setString("Front", player.getHorizontalFacing().getOpposite().toString());
-            return super.modifyTileCompound(tag, world, pos, player, transporter);
-        }
-    }
+		@Override
+		public NBTTagCompound modifyTileCompound(NBTTagCompound tag, World world, BlockPos pos, EntityPlayer player, ItemStack transporter) {
+			tag.setString("Front", player.getHorizontalFacing().getOpposite().toString());
+			return super.modifyTileCompound(tag, world, pos, player, transporter);
+		}
+	}
 
-    @Optional.Method(modid = ModSupport.ChestTransporter.MOD_ID)
-    @SubscribeEvent
-    public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
-        final IForgeRegistry<TransportableChest> registry = event.getRegistry();
+	@Optional.Method(modid = ModSupport.ChestTransporter.MOD_ID)
+	@SubscribeEvent
+	public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
+		final IForgeRegistry<TransportableChest> registry = event.getRegistry();
 
-        registry.register(new MetalChest(BlocksMC.METAL_CHEST, RegistryMC.KEY_METAL_CHEST));
+		registry.register(new MetalChest(BlocksMC.METAL_CHEST, RegistryMC.KEY_METAL_CHEST));
 
-        if (ModSupport.hasThaumcraft()) {
-            registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
-            registry.register(new MetalChest(BlocksMC.HUNGRY_METAL_CHEST, "hungry/", RegistryMC.KEY_HUNGRY_METAL_CHEST));
-        }
+		if (ModSupport.hasThaumcraft()) {
+			registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
+			registry.register(new MetalChest(BlocksMC.HUNGRY_METAL_CHEST, "hungry/", RegistryMC.KEY_HUNGRY_METAL_CHEST));
+		}
 
-        if (ModSupport.hasRefinedRelocation()) {
-            registry.register(new MetalChest(BlocksMC.SORTING_METAL_CHEST, RegistryMC.KEY_SORTING_METAL_CHEST));
+		if (ModSupport.hasRefinedRelocation()) {
+			registry.register(new MetalChest(BlocksMC.SORTING_METAL_CHEST, RegistryMC.KEY_SORTING_METAL_CHEST));
 
-            if (ModSupport.hasThaumcraft()) {
-                registry.register(new MetalChest(BlocksMC.SORTING_HUNGRY_METAL_CHEST, "hungry/", RegistryMC.KEY_SORTING_HUNGRY_METAL_CHEST));
-            }
-        }
-    }
+			if (ModSupport.hasThaumcraft()) {
+				registry.register(new MetalChest(BlocksMC.SORTING_HUNGRY_METAL_CHEST, "hungry/", RegistryMC.KEY_SORTING_HUNGRY_METAL_CHEST));
+			}
+		}
+	}
 }

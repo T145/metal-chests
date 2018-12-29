@@ -41,101 +41,101 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMetalMinecart extends ItemMod {
 
-    private static final IBehaviorDispenseItem MINECART_DISPENSER_BEHAVIOR = new BehaviorDefaultDispenseItem() {
+	private static final IBehaviorDispenseItem MINECART_DISPENSER_BEHAVIOR = new BehaviorDefaultDispenseItem() {
 
-        private final BehaviorDefaultDispenseItem dispenseBehavior = new BehaviorDefaultDispenseItem();
+		private final BehaviorDefaultDispenseItem dispenseBehavior = new BehaviorDefaultDispenseItem();
 
-        private EnumRailDirection getRailDirection(IBlockSource source, BlockPos pos) {
-            IBlockState state = source.getBlockState();
-            Block block = state.getBlock();
+		private EnumRailDirection getRailDirection(IBlockSource source, BlockPos pos) {
+			IBlockState state = source.getBlockState();
+			Block block = state.getBlock();
 
-            if (block instanceof BlockRailBase) {
-                BlockRailBase rail = (BlockRailBase) block;
-                return rail.getRailDirection(source.getWorld(), pos, state, null);
-            } else {
-                return EnumRailDirection.NORTH_SOUTH;
-            }
-        }
+			if (block instanceof BlockRailBase) {
+				BlockRailBase rail = (BlockRailBase) block;
+				return rail.getRailDirection(source.getWorld(), pos, state, null);
+			} else {
+				return EnumRailDirection.NORTH_SOUTH;
+			}
+		}
 
-        @Override
-        public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
-            EnumFacing front = source.getBlockState().getValue(BlockDispenser.FACING);
-            BlockPos pos = source.getBlockPos().offset(front);
-            World world = source.getWorld();
-            IBlockState state = world.getBlockState(pos);
-            double yOffset = 0.0D;
+		@Override
+		public ItemStack dispenseStack(IBlockSource source, ItemStack stack) {
+			EnumFacing front = source.getBlockState().getValue(BlockDispenser.FACING);
+			BlockPos pos = source.getBlockPos().offset(front);
+			World world = source.getWorld();
+			IBlockState state = world.getBlockState(pos);
+			double yOffset = 0.0D;
 
-            if (BlockRailBase.isRailBlock(state)) {
-                yOffset = getRailDirection(source, pos).isAscending() ? 0.6D : 0.1D;
-            } else {
-                if (state.getMaterial() != Material.AIR || !BlockRailBase.isRailBlock(world.getBlockState(pos.down()))) {
-                    return dispenseBehavior.dispense(source, stack);
-                }
+			if (BlockRailBase.isRailBlock(state)) {
+				yOffset = getRailDirection(source, pos).isAscending() ? 0.6D : 0.1D;
+			} else {
+				if (state.getMaterial() != Material.AIR || !BlockRailBase.isRailBlock(world.getBlockState(pos.down()))) {
+					return dispenseBehavior.dispense(source, stack);
+				}
 
-                yOffset -= front != EnumFacing.DOWN && getRailDirection(source, pos.down()).isAscending() ? 0.4D : 0.9D;
-            }
+				yOffset -= front != EnumFacing.DOWN && getRailDirection(source, pos.down()).isAscending() ? 0.4D : 0.9D;
+			}
 
-            yOffset += Math.floor(source.getY()) + front.getYOffset();
+			yOffset += Math.floor(source.getY()) + front.getYOffset();
 
-            double xOffset = source.getX() + front.getXOffset() * 1.125D;
-            double zOffset = source.getZ() + front.getZOffset() * 1.125D;
-            EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, xOffset, yOffset, zOffset);
+			double xOffset = source.getX() + front.getXOffset() * 1.125D;
+			double zOffset = source.getZ() + front.getZOffset() * 1.125D;
+			EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, xOffset, yOffset, zOffset);
 
-            cart.setChestType(ChestType.byMetadata(stack.getItemDamage()));
-            world.spawnEntity(cart);
-            stack.shrink(1);
+			cart.setChestType(ChestType.byMetadata(stack.getItemDamage()));
+			world.spawnEntity(cart);
+			stack.shrink(1);
 
-            return stack;
-        }
+			return stack;
+		}
 
-        @Override
-        protected void playDispenseSound(IBlockSource source) {
-            source.getWorld().playEvent(1000, source.getBlockPos(), 0);
-        }
-    };
+		@Override
+		protected void playDispenseSound(IBlockSource source) {
+			source.getWorld().playEvent(1000, source.getBlockPos(), 0);
+		}
+	};
 
-    public ItemMetalMinecart() {
-        super(RegistryMC.RESOURCE_MINECART_METAL_CHEST, ChestType.values());
-        this.setMaxStackSize(1);
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, MINECART_DISPENSER_BEHAVIOR);
-    }
+	public ItemMetalMinecart() {
+		super(RegistryMC.RESOURCE_MINECART_METAL_CHEST, ChestType.values());
+		this.setMaxStackSize(1);
+		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, MINECART_DISPENSER_BEHAVIOR);
+	}
 
-    @Override
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        IBlockState state = world.getBlockState(pos);
+	@Override
+	public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		IBlockState state = world.getBlockState(pos);
 
-        if (!BlockRailBase.isRailBlock(state)) {
-            return EnumActionResult.FAIL;
-        } else {
-            ItemStack stack = player.getHeldItem(hand);
+		if (!BlockRailBase.isRailBlock(state)) {
+			return EnumActionResult.FAIL;
+		} else {
+			ItemStack stack = player.getHeldItem(hand);
 
-            if (!world.isRemote) {
-                BlockRailBase.EnumRailDirection dir = state.getBlock() instanceof BlockRailBase ? ((BlockRailBase) state.getBlock()).getRailDirection(world, pos, state, null) : BlockRailBase.EnumRailDirection.NORTH_SOUTH;
-                double yOffset = 0.0D;
+			if (!world.isRemote) {
+				BlockRailBase.EnumRailDirection dir = state.getBlock() instanceof BlockRailBase ? ((BlockRailBase) state.getBlock()).getRailDirection(world, pos, state, null) : BlockRailBase.EnumRailDirection.NORTH_SOUTH;
+				double yOffset = 0.0D;
 
-                if (dir.isAscending()) {
-                    yOffset = 0.5D;
-                }
+				if (dir.isAscending()) {
+					yOffset = 0.5D;
+				}
 
-                EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, pos.getX() + 0.5D, pos.getY() + 0.0625D + yOffset, pos.getZ() + 0.5D);
+				EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, pos.getX() + 0.5D, pos.getY() + 0.0625D + yOffset, pos.getZ() + 0.5D);
 
-                cart.setChestType(ChestType.byMetadata(stack.getItemDamage()));
-                world.spawnEntity(cart);
-            }
+				cart.setChestType(ChestType.byMetadata(stack.getItemDamage()));
+				world.spawnEntity(cart);
+			}
 
-            stack.shrink(1);
+			stack.shrink(1);
 
-            return EnumActionResult.SUCCESS;
-        }
-    }
+			return EnumActionResult.SUCCESS;
+		}
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void prepareCreativeTab(NonNullList<ItemStack> items) {
-        for (ChestType type : ChestType.values()) {
-            if (type.isRegistered()) {
-                items.add(new ItemStack(this, 1, type.ordinal()));
-            }
-        }
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (ChestType type : ChestType.values()) {
+			if (type.isRegistered()) {
+				items.add(new ItemStack(this, 1, type.ordinal()));
+			}
+		}
+	}
 }

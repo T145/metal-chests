@@ -27,48 +27,48 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMod extends Item {
 
-    protected final Enum<? extends IStringSerializable>[] types;
+	protected final Enum<? extends IStringSerializable>[] types;
 
-    public ItemMod(ResourceLocation registryName, Enum<? extends IStringSerializable>[] types) {
-        this.types = types;
-        setRegistryName(registryName);
-        setTranslationKey(registryName.toString());
-        setHasSubtypes(types != null);
-        setCreativeTab(MetalChests.TAB);
-    }
+	public ItemMod(ResourceLocation registryName, Enum<? extends IStringSerializable>[] types) {
+		this.types = types;
+		setRegistryName(registryName);
+		setTranslationKey(registryName.toString());
+		setHasSubtypes(types != null);
+		setCreativeTab(MetalChests.TAB);
+	}
 
-    public ItemMod(ResourceLocation registryName) {
-        this(registryName, null);
-    }
+	public ItemMod(ResourceLocation registryName) {
+		this(registryName, null);
+	}
 
-    public Enum<? extends IStringSerializable>[] getTypes() {
-        return types;
-    }
+	public Enum<? extends IStringSerializable>[] getTypes() {
+		return types;
+	}
 
-    @Override
-    public String getTranslationKey(ItemStack stack) {
-        if (hasSubtypes) {
-            return super.getTranslationKey() + "." + ((IStringSerializable) types[stack.getMetadata()]).getName();
-        }
-        return super.getTranslationKey(stack);
-    }
+	@Override
+	public String getTranslationKey(ItemStack stack) {
+		if (hasSubtypes) {
+			return super.getTranslationKey() + "." + ((IStringSerializable) types[stack.getMetadata()]).getName();
+		}
+		return super.getTranslationKey(stack);
+	}
 
-    @SideOnly(Side.CLIENT)
-    public void prepareCreativeTab(NonNullList<ItemStack> items) {
-        for (int meta = 0; meta < types.length; ++meta) {
-            items.add(new ItemStack(this, 1, meta));
-        }
-    }
+	@SideOnly(Side.CLIENT)
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (int meta = 0; meta < types.length; ++meta) {
+			items.add(new ItemStack(this, 1, meta));
+		}
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-        if (tab == MetalChests.TAB) {
-            if (hasSubtypes) {
-                prepareCreativeTab(items);
-            } else {
-                items.add(new ItemStack(this));
-            }
-        }
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
+		if (tab == MetalChests.TAB) {
+			if (hasSubtypes) {
+				prepareCreativeTab(items);
+			} else {
+				items.add(new ItemStack(this));
+			}
+		}
+	}
 }

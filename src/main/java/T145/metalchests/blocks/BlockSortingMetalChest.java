@@ -37,57 +37,57 @@ import net.minecraft.world.World;
 
 public class BlockSortingMetalChest extends BlockMetalChest {
 
-    @Override
-    protected void registerResource() {
-        this.registerResource(RegistryMC.RESOURCE_SORTING_METAL_CHEST);
-    }
+	@Override
+	protected void registerResource() {
+		this.registerResource(RegistryMC.RESOURCE_SORTING_METAL_CHEST);
+	}
 
-    @Nullable
-    @Override
-    public TileEntity createTileEntity(World world, IBlockState state) {
-        return new TileSortingMetalChest(state.getValue(IMetalChest.VARIANT));
-    }
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		return new TileSortingMetalChest(state.getValue(IMetalChest.VARIANT));
+	}
 
-    // because blay just couldn't make this `public static`
-    protected boolean tryNameBlock(EntityPlayer player, ItemStack heldItem, IBlockAccess world, BlockPos pos) {
-        if (!heldItem.isEmpty() && heldItem.getItem() == Items.NAME_TAG && heldItem.hasDisplayName()) {
-            TileEntity te = world.getTileEntity(pos);
+	// because blay just couldn't make this `public static`
+	protected boolean tryNameBlock(EntityPlayer player, ItemStack heldItem, IBlockAccess world, BlockPos pos) {
+		if (!heldItem.isEmpty() && heldItem.getItem() == Items.NAME_TAG && heldItem.hasDisplayName()) {
+			TileEntity te = world.getTileEntity(pos);
 
-            if (te instanceof INameTaggable) {
-                ((INameTaggable) te).setCustomName(heldItem.getDisplayName());
-                VanillaPacketHandler.sendTileEntityUpdate(te);
+			if (te instanceof INameTaggable) {
+				((INameTaggable) te).setCustomName(heldItem.getDisplayName());
+				VanillaPacketHandler.sendTileEntityUpdate(te);
 
-                if (!player.capabilities.isCreativeMode) {
-                    heldItem.shrink(1);
-                }
-            }
+				if (!player.capabilities.isCreativeMode) {
+					heldItem.shrink(1);
+				}
+			}
 
-            return true;
-        }
+			return true;
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (!world.isRemote) {
-            ItemStack stack = player.getHeldItem(hand);
+	@Override
+	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (!world.isRemote) {
+			ItemStack stack = player.getHeldItem(hand);
 
-            if (tryNameBlock(player, stack, world, pos)) {
-                return true;
-            }
+			if (tryNameBlock(player, stack, world, pos)) {
+				return true;
+			}
 
-            if (player.isSneaking() && !(stack.getItem() instanceof ItemChestUpgrade)) {
-                TileEntity te = world.getTileEntity(pos);
+			if (player.isSneaking() && !(stack.getItem() instanceof ItemChestUpgrade)) {
+				TileEntity te = world.getTileEntity(pos);
 
-                if (te != null) {
-                    RefinedRelocationAPI.openRootFilterGui(player, te);
-                }
-            }
+				if (te != null) {
+					RefinedRelocationAPI.openRootFilterGui(player, te);
+				}
+			}
 
-            return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
-        }
+			return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+		}
 
-        return true;
-    }
+		return true;
+	}
 }

@@ -8,26 +8,26 @@ import net.minecraftforge.common.util.INBTSerializable;
 import javax.annotation.Nullable;
 
 public interface INameTaggable extends INBTSerializable<NBTTagCompound> {
-    void setCustomName(String displayName);
+	void setCustomName(String displayName);
 
-    String getCustomName();
+	String getCustomName();
 
-    boolean hasCustomName();
+	boolean hasCustomName();
 
-    @Nullable
-    default ITextComponent getDisplayName() {
-        return hasCustomName() ? new TextComponentString(getCustomName()) : null;
-    }
+	@Nullable
+	default ITextComponent getDisplayName() {
+		return hasCustomName() ? new TextComponentString(getCustomName()) : null;
+	}
 
-    @Override
-    default NBTTagCompound serializeNBT() {
-        NBTTagCompound compound = new NBTTagCompound();
-        compound.setString("CustomName", getCustomName());
-        return compound;
-    }
+	@Override
+	default NBTTagCompound serializeNBT() {
+		NBTTagCompound compound = new NBTTagCompound();
+		compound.setString("CustomName", getCustomName());
+		return compound;
+	}
 
-    @Override
-    default void deserializeNBT(NBTTagCompound compound) {
-        setCustomName(compound.getString("CustomName"));
-    }
+	@Override
+	default void deserializeNBT(NBTTagCompound compound) {
+		setCustomName(compound.getString("CustomName"));
+	}
 }

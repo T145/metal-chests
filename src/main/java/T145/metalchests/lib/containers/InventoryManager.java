@@ -22,33 +22,33 @@ import net.minecraftforge.items.IItemHandler;
 
 public class InventoryManager {
 
-    private InventoryManager() {}
+	private InventoryManager() {}
 
-    public static ItemStack tryInsertItemStackToInventory(IItemHandler inv, @Nonnull ItemStack stack) {
-        return tryInsertItemStackToInventoryWithinSlotRange(inv, stack, new SlotRange(inv));
-    }
+	public static ItemStack tryInsertItemStackToInventory(IItemHandler inv, @Nonnull ItemStack stack) {
+		return tryInsertItemStackToInventoryWithinSlotRange(inv, stack, new SlotRange(inv));
+	}
 
-    public static ItemStack tryInsertItemStackToInventoryWithinSlotRange(IItemHandler inv, @Nonnull ItemStack stack, SlotRange slotRange) {
-        final int lastSlot = Math.min(slotRange.lastInc, inv.getSlots() - 1);
+	public static ItemStack tryInsertItemStackToInventoryWithinSlotRange(IItemHandler inv, @Nonnull ItemStack stack, SlotRange slotRange) {
+		final int lastSlot = Math.min(slotRange.lastInc, inv.getSlots() - 1);
 
-        for (int slot = slotRange.first; slot <= lastSlot; slot++) {
-            if (inv.getStackInSlot(slot).isEmpty() == false) {
-                stack = inv.insertItem(slot, stack, false);
+		for (int slot = slotRange.first; slot <= lastSlot; slot++) {
+			if (inv.getStackInSlot(slot).isEmpty() == false) {
+				stack = inv.insertItem(slot, stack, false);
 
-                if (stack.isEmpty()) {
-                    return ItemStack.EMPTY;
-                }
-            }
-        }
+				if (stack.isEmpty()) {
+					return ItemStack.EMPTY;
+				}
+			}
+		}
 
-        for (int slot = slotRange.first; slot <= lastSlot; slot++) {
-            stack = inv.insertItem(slot, stack, false);
+		for (int slot = slotRange.first; slot <= lastSlot; slot++) {
+			stack = inv.insertItem(slot, stack, false);
 
-            if (stack.isEmpty()) {
-                return ItemStack.EMPTY;
-            }
-        }
+			if (stack.isEmpty()) {
+				return ItemStack.EMPTY;
+			}
+		}
 
-        return stack;
-    }
+		return stack;
+	}
 }

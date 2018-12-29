@@ -28,50 +28,50 @@ import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.api.IItemSearchBar;
 
 @Optional.InterfaceList({
-    @Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.CHEST_BUTTON_CALLBACK, striprefs = true),
-    @Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.SEARCH_BAR, striprefs = true)
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.CHEST_BUTTON_CALLBACK, striprefs = true),
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.SEARCH_BAR, striprefs = true)
 })
 @SideOnly(Side.CLIENT)
 public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {
 
-    private final ContainerMetalChest inventory;
+	private final ContainerMetalChest inventory;
 
-    public GuiMetalChest(ContainerMetalChest inventory) {
-        super(inventory);
-        this.inventory = inventory;
-        this.xSize = inventory.getGui().getSizeX();
-        this.ySize = inventory.getGui().getSizeY();
-        this.allowUserInput = false;
-    }
+	public GuiMetalChest(ContainerMetalChest inventory) {
+		super(inventory);
+		this.inventory = inventory;
+		this.xSize = inventory.getGui().getSizeX();
+		this.ySize = inventory.getGui().getSizeY();
+		this.allowUserInput = false;
+	}
 
-    @Override
-    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        drawDefaultBackground();
-        super.drawScreen(mouseX, mouseY, partialTicks);
-        renderHoveredToolTip(mouseX, mouseY);
-    }
+	@Override
+	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+		drawDefaultBackground();
+		super.drawScreen(mouseX, mouseY, partialTicks);
+		renderHoveredToolTip(mouseX, mouseY);
+	}
 
-    @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        mc.getTextureManager().bindTexture(inventory.getGui().getGuiTexture());
-        int x = (width - xSize) / 2;
-        int y = (height - ySize) / 2;
-        drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
-    }
+	@Override
+	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+		mc.getTextureManager().bindTexture(inventory.getGui().getGuiTexture());
+		int x = (width - xSize) / 2;
+		int y = (height - ySize) / 2;
+		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
+	}
 
-    @Optional.Method(modid = ModSupport.Quark.MOD_ID)
-    @Override
-    public boolean onAddChestButton(GuiButton button, int buttonType) {
-        return true;
-    }
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Override
+	public boolean onAddChestButton(GuiButton button, int buttonType) {
+		return true;
+	}
 
-    @Optional.Method(modid = ModSupport.Quark.MOD_ID)
-    @Override
-    public void onSearchBarAdded(GuiTextField bar) {
-        int xOffset = this.getXSize() - 95;
-        bar.y = this.getGuiTop() - 4;
-        xOffset -= 4;
-        bar.x = this.getGuiLeft() + xOffset;
-    }
+	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Override
+	public void onSearchBarAdded(GuiTextField bar) {
+		int xOffset = this.getXSize() - 95;
+		bar.y = this.getGuiTop() - 4;
+		xOffset -= 4;
+		bar.x = this.getGuiLeft() + xOffset;
+	}
 }

@@ -21,34 +21,34 @@ import net.minecraft.item.Item;
 
 public class TileSortingHungryMetalChest extends TileSortingMetalChest {
 
-    public TileSortingHungryMetalChest(ChestType chestType) {
-        super(chestType);
-    }
+	public TileSortingHungryMetalChest(ChestType chestType) {
+		super(chestType);
+	}
 
-    public TileSortingHungryMetalChest() {
-        super();
-    }
+	public TileSortingHungryMetalChest() {
+		super();
+	}
 
-    @Override
-    public boolean isUpgradeApplicable(Item upgrade) {
-        return upgrade.getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
-    }
+	@Override
+	public boolean isUpgradeApplicable(Item upgrade) {
+		return upgrade.getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
+	}
 
-    @Override
-    public boolean receiveClientEvent(int id, int data) {
-        switch (id) {
-        case 2:
-            if (lidAngle < data / 10F) {
-                lidAngle = data / 10F;
-            }
-            return true;
-        default:
-            return super.receiveClientEvent(id, data);
-        }
-    }
+	@Override
+	public boolean receiveClientEvent(int id, int data) {
+		switch (id) {
+		case 2:
+			if (lidAngle < data / 10F) {
+				lidAngle = data / 10F;
+			}
+			return true;
+		default:
+			return super.receiveClientEvent(id, data);
+		}
+	}
 
-    @Override
-    public String getTranslationKey() {
-        return "tile.metalchests:sorting_hungry_metal_chest." + chestType.getName() + ".name";
-    }
+	@Override
+	public String getTranslationKey() {
+		return "tile.metalchests:sorting_hungry_metal_chest." + chestType.getName() + ".name";
+	}
 }

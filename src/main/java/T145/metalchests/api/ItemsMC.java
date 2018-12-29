@@ -22,14 +22,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 @ObjectHolder(RegistryMC.MOD_ID)
 public class ItemsMC {
 
-    private ItemsMC() {}
+	private ItemsMC() {}
 
-    @ObjectHolder(RegistryMC.KEY_CHEST_UPGRADE)
-    public static Item CHEST_UPGRADE;
+	@ObjectHolder(RegistryMC.KEY_CHEST_UPGRADE)
+	public static Item CHEST_UPGRADE;
 
-    @ObjectHolder(RegistryMC.KEY_HUNGRY_CHEST_UPGRADE)
-    public static Item HUNGRY_CHEST_UPGRADE;
+	@ObjectHolder(RegistryMC.KEY_HUNGRY_CHEST_UPGRADE)
+	public static Item HUNGRY_CHEST_UPGRADE;
 
-    @ObjectHolder(RegistryMC.KEY_MINECART_METAL_CHEST)
-    public static Item MINECART_METAL_CHEST;
+	@ObjectHolder(RegistryMC.KEY_MINECART_METAL_CHEST)
+	public static Item MINECART_METAL_CHEST;
 }

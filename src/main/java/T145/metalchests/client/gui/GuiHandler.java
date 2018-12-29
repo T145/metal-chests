@@ -29,29 +29,29 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class GuiHandler implements IGuiHandler {
 
-    private final MutableBlockPos pos = new MutableBlockPos(BlockPos.ORIGIN);
+	private final MutableBlockPos pos = new MutableBlockPos(BlockPos.ORIGIN);
 
-    @Override
-    public ContainerMetalChest getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        switch (ID) {
-        case 0:
-            TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
-            return new ContainerMetalChest(chest, player, chest.getChestType());
-        default:
-            Entity entity = world.getEntityByID(ID);
+	@Override
+	public ContainerMetalChest getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		switch (ID) {
+		case 0:
+			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
+			return new ContainerMetalChest(chest, player, chest.getChestType());
+		default:
+			Entity entity = world.getEntityByID(ID);
 
-            if (entity instanceof EntityMinecartMetalChest) {
-                EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
-                return new ContainerMetalChest(cart, player, cart.getChestType());
-            }
+			if (entity instanceof EntityMinecartMetalChest) {
+				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
+				return new ContainerMetalChest(cart, player, cart.getChestType());
+			}
 
-            return null;
-        }
-    }
+			return null;
+		}
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public GuiMetalChest getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-        return new GuiMetalChest(getServerGuiElement(ID, player, world, x, y, z));
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public GuiMetalChest getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GuiMetalChest(getServerGuiElement(ID, player, world, x, y, z));
+	}
 }

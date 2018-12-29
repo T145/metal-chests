@@ -47,117 +47,118 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class ItemChestUpgrade extends ItemMod {
 
-    public ItemChestUpgrade(ResourceLocation registryName) {
-        super(registryName, ChestUpgrade.values());
-        setMaxStackSize(1);
-    }
+	public ItemChestUpgrade(ResourceLocation registryName) {
+		super(registryName, ChestUpgrade.values());
+		setMaxStackSize(1);
+	}
 
-    @Override
-    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-        if (world.isRemote || !player.isSneaking()) {
-            return EnumActionResult.PASS;
-        }
+	@Override
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX,
+			float hitY, float hitZ, EnumHand hand) {
+		if (world.isRemote || !player.isSneaking()) {
+			return EnumActionResult.PASS;
+		}
 
-        TileEntity te = world.getTileEntity(pos);
-        ItemStack stack = player.getHeldItem(hand);
-        ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
+		TileEntity te = world.getTileEntity(pos);
+		ItemStack stack = player.getHeldItem(hand);
+		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
-        if (te instanceof IMetalChest) {
-            IMetalChest chest = (IMetalChest) te;
+		if (te instanceof IMetalChest) {
+			IMetalChest chest = (IMetalChest) te;
 
-            if (chest.getChestType() == upgrade.getBase() && chest.isUpgradeApplicable(stack.getItem())) {
-                ItemStackHandler oldInventory = (ItemStackHandler) chest.getInventory();
+			if (chest.getChestType() == upgrade.getBase() && chest.isUpgradeApplicable(stack.getItem())) {
+				ItemStackHandler oldInventory = (ItemStackHandler) chest.getInventory();
 
-                chest.setChestType(upgrade.getUpgrade());
-                te.markDirty();
+				chest.setChestType(upgrade.getUpgrade());
+				te.markDirty();
 
-                IBlockState state = createBlockState(te.getBlockType(), upgrade.getUpgrade());
-                world.setBlockState(pos, state, 3);
-                world.notifyBlockUpdate(pos, state, state, 3);
+				IBlockState state = createBlockState(te.getBlockType(), upgrade.getUpgrade());
+				world.setBlockState(pos, state, 3);
+				world.notifyBlockUpdate(pos, state, state, 3);
 
-                chest.setInventory(oldInventory);
-            } else {
-                return EnumActionResult.FAIL;
-            }
-        } else if (UpgradeRegistry.hasChest(getRegistryName(), te.getBlockType())) {
-            EnumFacing front = getFrontFromProperties(world, pos);
-            IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-            ItemStackHandler newInv = new ItemStackHandler(upgrade.getUpgrade().getInventorySize());
+				chest.setInventory(oldInventory);
+			} else {
+				return EnumActionResult.FAIL;
+			}
+		} else if (UpgradeRegistry.hasChest(getRegistryName(), te.getBlockType())) {
+			EnumFacing front = getFrontFromProperties(world, pos);
+			IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+			ItemStackHandler newInv = new ItemStackHandler(upgrade.getUpgrade().getInventorySize());
 
-            for (int slot = 0; slot < inv.getSlots(); ++slot) {
-                newInv.setStackInSlot(slot, inv.getStackInSlot(slot));
-            }
+			for (int slot = 0; slot < inv.getSlots(); ++slot) {
+				newInv.setStackInSlot(slot, inv.getStackInSlot(slot));
+			}
 
-            te.updateContainingBlockInfo();
+			te.updateContainingBlockInfo();
 
-            if (te instanceof TileEntityChest) {
-                TileEntityChest vanillaChest = (TileEntityChest) te;
+			if (te instanceof TileEntityChest) {
+				TileEntityChest vanillaChest = (TileEntityChest) te;
 
-                if (vanillaChest.getChestType() == BlockChest.Type.TRAP) {
-                    return EnumActionResult.FAIL;
-                }
+				if (vanillaChest.getChestType() == BlockChest.Type.TRAP) {
+					return EnumActionResult.FAIL;
+				}
 
-                vanillaChest.checkForAdjacentChests();
-            }
+				vanillaChest.checkForAdjacentChests();
+			}
 
-            Block chestBlock = UpgradeRegistry.getChest(getRegistryName(), te.getBlockType());
+			Block chestBlock = UpgradeRegistry.getChest(getRegistryName(), te.getBlockType());
 
-            world.removeTileEntity(pos);
-            world.setBlockToAir(pos);
+			world.removeTileEntity(pos);
+			world.setBlockToAir(pos);
 
-            IBlockState state = createBlockState(chestBlock, upgrade.getUpgrade());
+			IBlockState state = createBlockState(chestBlock, upgrade.getUpgrade());
 
-            world.setTileEntity(pos, chestBlock.createTileEntity(world, state));
-            world.setBlockState(pos, state, 3);
-            world.notifyBlockUpdate(pos, state, state, 3);
+			world.setTileEntity(pos, chestBlock.createTileEntity(world, state));
+			world.setBlockState(pos, state, 3);
+			world.notifyBlockUpdate(pos, state, state, 3);
 
-            TileEntity tile = world.getTileEntity(pos);
+			TileEntity tile = world.getTileEntity(pos);
 
-            if (tile instanceof IMetalChest) {
-                IMetalChest metalChest = (IMetalChest) tile;
-                metalChest.setChestType(upgrade.getUpgrade());
-                metalChest.setInventory(newInv);
-                metalChest.setFront(front);
-                tile.markDirty();
-            }
-        } else {
-            return EnumActionResult.PASS;
-        }
+			if (tile instanceof IMetalChest) {
+				IMetalChest metalChest = (IMetalChest) tile;
+				metalChest.setChestType(upgrade.getUpgrade());
+				metalChest.setInventory(newInv);
+				metalChest.setFront(front);
+				tile.markDirty();
+			}
+		} else {
+			return EnumActionResult.PASS;
+		}
 
-        if (!player.capabilities.isCreativeMode) {
-            stack.shrink(1);
-        }
+		if (!player.capabilities.isCreativeMode) {
+			stack.shrink(1);
+		}
 
-        player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
 
-        return EnumActionResult.SUCCESS;
-    }
+		return EnumActionResult.SUCCESS;
+	}
 
-    private IBlockState createBlockState(Block upgradeBlock, ChestType upgrade) {
-        return upgradeBlock.getDefaultState().withProperty(IMetalChest.VARIANT, upgrade);
-    }
+	private IBlockState createBlockState(Block upgradeBlock, ChestType upgrade) {
+		return upgradeBlock.getDefaultState().withProperty(IMetalChest.VARIANT, upgrade);
+	}
 
-    @Nullable
-    private EnumFacing getFrontFromProperties(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
+	@Nullable
+	private EnumFacing getFrontFromProperties(World world, BlockPos pos) {
+		IBlockState state = world.getBlockState(pos);
 
-        for (IProperty<?> prop : state.getProperties().keySet()) {
-            if ((prop.getName().equals("facing") || prop.getName().equals("rotation")) && prop.getValueClass() == EnumFacing.class) {
-                IProperty<EnumFacing> facingProperty = (IProperty<EnumFacing>) prop;
-                return state.getValue(facingProperty);
-            }
-        }
+		for (IProperty<?> prop : state.getProperties().keySet()) {
+			if ((prop.getName().equals("facing") || prop.getName().equals("rotation")) && prop.getValueClass() == EnumFacing.class) {
+				IProperty<EnumFacing> facingProperty = (IProperty<EnumFacing>) prop;
+				return state.getValue(facingProperty);
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void prepareCreativeTab(NonNullList<ItemStack> items) {
-        for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-            if (upgrade.isRegistered()) {
-                items.add(new ItemStack(this, 1, upgrade.ordinal()));
-            }
-        }
-    }
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (ChestUpgrade upgrade : ChestUpgrade.values()) {
+			if (upgrade.isRegistered()) {
+				items.add(new ItemStack(this, 1, upgrade.ordinal()));
+			}
+		}
+	}
 }

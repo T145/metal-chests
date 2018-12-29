@@ -22,15 +22,15 @@ import net.minecraft.util.EnumFacing;
 
 public interface IMetalChest extends IInventoryHandler {
 
-    public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
+	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
 
-    ChestType getChestType();
+	ChestType getChestType();
 
-    void setChestType(ChestType chestType);
+	void setChestType(ChestType chestType);
 
-    EnumFacing getFront();
+	EnumFacing getFront();
 
-    void setFront(EnumFacing front);
+	void setFront(EnumFacing front);
 
-    boolean isUpgradeApplicable(Item upgrade);
+	boolean isUpgradeApplicable(Item upgrade);
 }
