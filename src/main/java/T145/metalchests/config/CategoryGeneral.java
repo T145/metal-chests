@@ -23,7 +23,7 @@ public class CategoryGeneral {
     public boolean checkForUpdates = true;
 
     @Config.Comment("Whether or not metal chest models are like the vanilla chest; black in the middle.")
-    public boolean hollowModelTextures = true;
+    public boolean hollowModelTextures;
 
     @Config.Comment("Whether or not you want to enable the Minecarts with Metal Chests.")
     @Config.RequiresMcRestart

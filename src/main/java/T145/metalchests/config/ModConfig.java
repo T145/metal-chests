@@ -17,23 +17,11 @@ package T145.metalchests.config;
 
 import T145.metalchests.api.immutable.RegistryMC;
 import net.minecraftforge.common.config.Config;
-import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.fml.client.event.ConfigChangedEvent;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 @Config(modid = RegistryMC.MOD_ID, category = "", name = "T145/" + RegistryMC.MOD_NAME)
 @Config.LangKey(RegistryMC.MOD_ID)
 public class ModConfig {
 
-    @Config.LangKey(RegistryMC.MOD_ID + ".config.general")
-    public static final CategoryGeneral GENERAL = new CategoryGeneral();
-
-    @SubscribeEvent
-    public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals(RegistryMC.MOD_ID)) {
-            ConfigManager.sync(RegistryMC.MOD_ID, Config.Type.INSTANCE);
-        }
-    }
+	@Config.LangKey(RegistryMC.MOD_ID + ".config.general")
+	public static final CategoryGeneral GENERAL = new CategoryGeneral();
 }
