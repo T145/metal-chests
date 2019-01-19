@@ -65,7 +65,7 @@ public class ItemChestUpgrade extends ItemMod {
 			IMetalChest chest = (IMetalChest) te;
 
 			if (chest.getChestType() == upgrade.getBase() && chest.isUpgradeApplicable(stack.getItem())) {
-				ItemStackHandler oldInventory = (ItemStackHandler) chest.getInventory();
+				ItemStackHandler oldInv = (ItemStackHandler) chest.getInventory();
 
 				chest.setChestType(upgrade.getUpgrade());
 				te.markDirty();
@@ -74,20 +74,15 @@ public class ItemChestUpgrade extends ItemMod {
 				world.setBlockState(pos, state, 3);
 				world.notifyBlockUpdate(pos, state, state, 3);
 
-				chest.setInventory(oldInventory);
+				chest.setInventory(oldInv);
 			} else {
 				return EnumActionResult.FAIL;
 			}
 		} else if (UpgradeRegistry.hasChest(getRegistryName(), te.getBlockType())) {
-			EnumFacing front = getFrontFromProperties(world, pos);
-			IItemHandler inv = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-			ItemStackHandler newInv = new ItemStackHandler(upgrade.getUpgrade().getInventorySize());
-
-			for (int slot = 0; slot < inv.getSlots(); ++slot) {
-				newInv.setStackInSlot(slot, inv.getStackInSlot(slot));
-			}
-
 			te.updateContainingBlockInfo();
+
+			EnumFacing front = getFrontFromProperties(world, pos);
+			IItemHandler inv = getChestInventory(te);
 
 			if (te instanceof TileEntityChest) {
 				TileEntityChest vanillaChest = (TileEntityChest) te;
@@ -99,14 +94,14 @@ public class ItemChestUpgrade extends ItemMod {
 				vanillaChest.checkForAdjacentChests();
 			}
 
-			Block chestBlock = UpgradeRegistry.getChest(getRegistryName(), te.getBlockType());
+			Block block = UpgradeRegistry.getChest(getRegistryName(), te.getBlockType());
 
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
 
-			IBlockState state = createBlockState(chestBlock, upgrade.getUpgrade());
+			IBlockState state = createBlockState(block, upgrade.getUpgrade());
 
-			world.setTileEntity(pos, chestBlock.createTileEntity(world, state));
+			world.setTileEntity(pos, block.createTileEntity(world, state));
 			world.setBlockState(pos, state, 3);
 			world.notifyBlockUpdate(pos, state, state, 3);
 
@@ -115,21 +110,23 @@ public class ItemChestUpgrade extends ItemMod {
 			if (tile instanceof IMetalChest) {
 				IMetalChest metalChest = (IMetalChest) tile;
 				metalChest.setChestType(upgrade.getUpgrade());
-				metalChest.setInventory(newInv);
+				metalChest.setInventory(inv);
 				metalChest.setFront(front);
 				tile.markDirty();
 			}
-		} else {
-			return EnumActionResult.PASS;
-		}
-
-		if (!player.capabilities.isCreativeMode) {
-			stack.shrink(1);
 		}
 
 		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
 
 		return EnumActionResult.SUCCESS;
+	}
+
+	private IItemHandler getChestInventory(TileEntity te) {
+		if (te instanceof TileEntityChest) {
+			return ((TileEntityChest) te).getSingleChestHandler();
+		} else {
+			return te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		}
 	}
 
 	private IBlockState createBlockState(Block upgradeBlock, ChestType upgrade) {
