@@ -114,6 +114,12 @@ public class ItemChestUpgrade extends ItemMod {
 				metalChest.setFront(front);
 				tile.markDirty();
 			}
+		} else {
+			return EnumActionResult.PASS;
+		}
+
+		if (!player.capabilities.isCreativeMode) {
+			stack.shrink(1);
 		}
 
 		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
