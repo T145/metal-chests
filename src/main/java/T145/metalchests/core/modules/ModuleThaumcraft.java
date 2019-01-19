@@ -15,6 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.core.modules;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -31,7 +32,6 @@ import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.containers.InventoryManager;
 import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileHungryMetalChest;
@@ -55,6 +55,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.ThaumcraftApi;
@@ -68,6 +69,28 @@ class ModuleThaumcraft {
 	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 	static class ServerLoader {
 
+		private static ItemStack tryToInsertStack(IItemHandler inv, @Nonnull ItemStack stack) {
+			for (int slot = 0; slot < inv.getSlots(); ++slot) {
+				if (!inv.getStackInSlot(slot).isEmpty()) {
+					stack = inv.insertItem(slot, stack, false);
+
+					if (stack.isEmpty()) {
+						return ItemStack.EMPTY;
+					}
+				}
+			}
+
+			for (int slot = 0; slot < inv.getSlots(); ++slot) {
+				stack = inv.insertItem(slot, stack, false);
+
+				if (stack.isEmpty()) {
+					return ItemStack.EMPTY;
+				}
+			}
+
+			return stack;
+		}
+
 		private static void tryToEatItem(World world, BlockPos pos, IBlockState state, Entity entity, Block receiver) {
 			TileEntity te = world.getTileEntity(pos);
 
@@ -75,7 +98,7 @@ class ModuleThaumcraft {
 				IInventoryHandler chest = (IInventoryHandler) te;
 				EntityItem item = (EntityItem) entity;
 				ItemStack stack = item.getItem();
-				ItemStack leftovers = InventoryManager.tryInsertItemStackToInventory(chest.getInventory(), stack);
+				ItemStack leftovers = tryToInsertStack(chest.getInventory(), stack);
 
 				if (leftovers == null || leftovers.getCount() != stack.getCount()) {
 					entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
