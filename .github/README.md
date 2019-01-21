@@ -18,16 +18,9 @@ The better alternative to IronChests!
 
 ---
 
-## Dependencies
+## Workspace Dependencies
 
-In order to get started with Minecraft mod development in this workspace, a few prerequisites are required:
-
-1. [Git](https://git-scm.com/downloads) *([First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup))*
-2. [Java Development Kit 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) (JDK 8)
-3. *(Optional)* [Gradle](http://gradle.org/gradle-download/)
-
-> If you don't manually install Gradle, just append a `w` to `gradle` command prefixes.
-> This will install the Gradle wrapper once, and any proceeding commands should be executed using it.
+> *([First-Time Git Setup](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup))*
 
 ### Windows
 

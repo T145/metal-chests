@@ -1,6 +1,6 @@
 <!-- Thank you for your contribution! -->
 
-## Error Details
+## Problem Details
 
 <!-- If this issue is about a problem: -->
 
@@ -10,6 +10,7 @@
   -- Detailed logs of the issue -->
 
 <!-- else: delete this section and detail your feature request! -->
+<!-- ## Feature Request -->
 
 ## Screenshots
 
