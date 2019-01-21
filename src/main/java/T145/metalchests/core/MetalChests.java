@@ -175,17 +175,8 @@ public class MetalChests {
 
 		if (ModSupport.hasThaumcraft()) {
 			registerFixes(fixer, TileHungryMetalChest.class);
-
-			ThaumcraftApi
-					.registerResearchLocation(new ResourceLocation(RegistryMC.MOD_ID, "research/hungry_metal_chests"));
-
-			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE",
-					new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10)
-							.add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5)
-							.add(Aspect.TRAP, 5).add(Aspect.FIRE, 5),
-					new ResourceLocation("thaumcraft", "textures/research/rd_chest.png"),
-					new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"),
-					ModSupport.Thaumcraft.BACK_OVER);
+			ThaumcraftApi.registerResearchLocation(new ResourceLocation(RegistryMC.MOD_ID, "research/hungry_metal_chests"));
+			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE", new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5), new ResourceLocation("thaumcraft", "textures/research/rd_chest.png"), new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"), ModSupport.Thaumcraft.BACK_OVER);
 		}
 
 		if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
@@ -196,8 +187,7 @@ public class MetalChests {
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		for (ItemStack stack : OreDictionary.getOres("chestWood")) {
-			UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE, Block.getBlockFromItem(stack.getItem()),
-					BlocksMC.METAL_CHEST);
+			UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE, Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
 		}
 	}
 }

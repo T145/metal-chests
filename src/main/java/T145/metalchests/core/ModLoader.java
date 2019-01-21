@@ -107,11 +107,7 @@ public class ModLoader {
 				break;
 			}
 			return new ItemStack(upgrade, 1, ChestUpgrade.WOOD_IRON.ordinal());
-		case COPPER_IRON:
-		case IRON_SILVER:
-		case SILVER_GOLD:
-		case GOLD_DIAMOND:
-		case DIAMOND_OBSIDIAN:
+		case COPPER_IRON: case IRON_SILVER: case SILVER_GOLD: case GOLD_DIAMOND: case DIAMOND_OBSIDIAN:
 			return type.getBase().getOreName();
 		case COPPER_GOLD:
 			if (ChestType.SILVER.isRegistered()) {
