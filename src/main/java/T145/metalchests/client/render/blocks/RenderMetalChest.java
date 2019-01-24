@@ -54,8 +54,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	}
 
 	@Override
-	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage,
-			float alpha) {
+	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
 		if (destroyStage >= 0) {
 			bindTexture(DESTROY_STAGES[destroyStage]);
 			GlStateManager.matrixMode(GL11.GL_TEXTURE);

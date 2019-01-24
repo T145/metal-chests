@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core.modules;
+package T145.metalchests.core.loaders;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -32,7 +32,6 @@ import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.core.ModLoader;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileSortingHungryMetalChest;
@@ -64,7 +63,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
-class ModuleThaumcraft {
+class LoaderThaumcraft {
 
 	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 	static class ServerLoader {
@@ -138,7 +137,7 @@ class ModuleThaumcraft {
 					}
 				});
 
-				ModLoader.registerTileEntity(TileHungryMetalChest.class);
+				LoaderMod.registerTileEntity(TileHungryMetalChest.class);
 
 				if (ModSupport.hasRefinedRelocation()) {
 					registry.register(BlocksMC.SORTING_HUNGRY_METAL_CHEST = new BlockSortingMetalChest() {
@@ -159,7 +158,7 @@ class ModuleThaumcraft {
 						}
 					});
 
-					ModLoader.registerTileEntity(TileSortingHungryMetalChest.class);
+					LoaderMod.registerTileEntity(TileSortingHungryMetalChest.class);
 				}
 			}
 		}
@@ -170,13 +169,13 @@ class ModuleThaumcraft {
 			if (ModSupport.hasThaumcraft()) {
 				final IForgeRegistry<Item> registry = event.getRegistry();
 
-				ModLoader.registerItemBlock(registry, BlocksMC.HUNGRY_METAL_CHEST, ChestType.class);
+				LoaderMod.registerItemBlock(registry, BlocksMC.HUNGRY_METAL_CHEST, ChestType.class);
 
 				registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE));
 				UpgradeRegistry.registerChest(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE, BlocksTC.hungryChest, BlocksMC.HUNGRY_METAL_CHEST);
 
 				if (ModSupport.hasRefinedRelocation()) {
-					ModLoader.registerItemBlock(registry, BlocksMC.SORTING_HUNGRY_METAL_CHEST, ChestType.class);
+					LoaderMod.registerItemBlock(registry, BlocksMC.SORTING_HUNGRY_METAL_CHEST, ChestType.class);
 				}
 			}
 		}
@@ -215,7 +214,7 @@ class ModuleThaumcraft {
 				ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(RegistryMC.MOD_ID, "HungryObsidianChest"), new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTS", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 5), "III", "ICI", "III", 'I', "obsidian", 'C', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, 4)));
 
 				for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(RegistryMC.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"), new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()), "III", "III", "CII", 'I', upgrade.getUpgrade().getOreName(), 'C', ModLoader.getUpgradeBase(BlocksTC.plankGreatwood, ItemsMC.HUNGRY_CHEST_UPGRADE, upgrade)));
+					ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(RegistryMC.MOD_ID, upgrade.getName() + "_hungry_chest_upgrade"), new ShapedArcaneRecipe(ModSupport.Thaumcraft.DEFAULT_GROUP, "HUNGRYMETALCHESTSUPGRADES", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, upgrade.ordinal()), "III", "III", "CII", 'I', upgrade.getUpgrade().getOreName(), 'C', LoaderMod.getUpgradeBase(BlocksTC.plankGreatwood, ItemsMC.HUNGRY_CHEST_UPGRADE, upgrade)));
 				}
 			}
 		}
@@ -229,10 +228,10 @@ class ModuleThaumcraft {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			if (ModSupport.hasThaumcraft()) {
 				for (ChestType type : ChestType.values()) {
-					ModLoader.registerModel(BlocksMC.HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+					LoaderMod.registerModel(BlocksMC.HUNGRY_METAL_CHEST, type.ordinal(), LoaderMod.getVariantName(type));
 				}
 
-				ModLoader.registerTileRenderer(TileHungryMetalChest.class, new RenderMetalChest() {
+				LoaderMod.registerTileRenderer(TileHungryMetalChest.class, new RenderMetalChest() {
 
 					@Override
 					protected ResourceLocation getActiveResource(ChestType type) {
@@ -241,7 +240,7 @@ class ModuleThaumcraft {
 				});
 
 				for (ChestUpgrade type : ChestUpgrade.values()) {
-					ModLoader.registerModel(ItemsMC.HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());
+					LoaderMod.registerModel(ItemsMC.HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());
 				}
 			}
 		}

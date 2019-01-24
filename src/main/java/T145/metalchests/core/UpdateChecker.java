@@ -24,13 +24,15 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
-class UpdateChecker {
+public class UpdateChecker {
+
+	private UpdateChecker() {}
 
 	private static ForgeVersion.CheckResult getResult() {
 		return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(RegistryMC.MOD_ID));
 	}
 
-	static boolean hasUpdate() {
+	public static boolean hasUpdate() {
 		ForgeVersion.CheckResult result = getResult();
 
 		if (result.status == ForgeVersion.Status.PENDING) {
@@ -45,7 +47,7 @@ class UpdateChecker {
 		return getResult().target.toString();
 	}
 
-	static ITextComponent getUpdateNotification() {
+	public static ITextComponent getUpdateNotification() {
 		ITextComponent prefix = new TextComponentTranslation("metalchests.client.update.prefix").setStyle(new Style().setColor(TextFormatting.GREEN));
 		ITextComponent base = new TextComponentTranslation("metalchests.client.update").setStyle(new Style().setColor(TextFormatting.GOLD));
 		ITextComponent postfix = new TextComponentString(TextFormatting.AQUA + getLatestVersion() + TextFormatting.GOLD + "!");

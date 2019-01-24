@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core.modules;
+package T145.metalchests.core.loaders;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,7 +42,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.blocks.BlocksTC;
 
 @EventBusSubscriber(modid = RegistryMC.MOD_ID)
-class ModuleChestTransporter {
+class LoaderChestTransporter {
 
 	static class MetalChest extends TransportableChestImpl {
 

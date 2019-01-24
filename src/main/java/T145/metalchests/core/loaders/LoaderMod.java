@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core;
+package T145.metalchests.core.loaders;
 
 import java.util.HashSet;
 
@@ -32,6 +32,7 @@ import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
 import T145.metalchests.config.ModConfig;
+import T145.metalchests.core.UpdateChecker;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
@@ -75,7 +76,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ModLoader {
+public class LoaderMod {
 
 	public static void registerTileEntity(Class tileClass) {
 		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(RegistryMC.MOD_ID, tileClass.getSimpleName()));

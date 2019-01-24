@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core.modules;
+package T145.metalchests.core.loaders;
 
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -24,7 +24,6 @@ import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockSortingMetalChest;
 import T145.metalchests.client.render.blocks.RenderSortingMetalChest;
-import T145.metalchests.core.ModLoader;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileSortingHungryMetalChest;
@@ -50,7 +49,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
-public class ModuleRefinedRelocation {
+public class LoaderRefinedRelocation {
 
 	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 	static class ServerLoader {
@@ -62,7 +61,7 @@ public class ModuleRefinedRelocation {
 				final IForgeRegistry<Block> registry = event.getRegistry();
 
 				registry.register(BlocksMC.SORTING_METAL_CHEST = new BlockSortingMetalChest());
-				ModLoader.registerTileEntity(TileSortingMetalChest.class);
+				LoaderMod.registerTileEntity(TileSortingMetalChest.class);
 			}
 		}
 
@@ -72,7 +71,7 @@ public class ModuleRefinedRelocation {
 			if (ModSupport.hasRefinedRelocation()) {
 				final IForgeRegistry<Item> registry = event.getRegistry();
 
-				ModLoader.registerItemBlock(registry, BlocksMC.SORTING_METAL_CHEST, ChestType.class);
+				LoaderMod.registerItemBlock(registry, BlocksMC.SORTING_METAL_CHEST, ChestType.class);
 			}
 		}
 
@@ -145,17 +144,17 @@ public class ModuleRefinedRelocation {
 		public static void onModelRegistration(ModelRegistryEvent event) {
 			if (ModSupport.hasRefinedRelocation()) {
 				for (ChestType type : ChestType.values()) {
-					ModLoader.registerModel(BlocksMC.SORTING_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+					LoaderMod.registerModel(BlocksMC.SORTING_METAL_CHEST, type.ordinal(), LoaderMod.getVariantName(type));
 				}
 
-				ModLoader.registerTileRenderer(TileSortingMetalChest.class, new RenderSortingMetalChest());
+				LoaderMod.registerTileRenderer(TileSortingMetalChest.class, new RenderSortingMetalChest());
 
 				if (ModSupport.hasThaumcraft()) {
 					for (ChestType type : ChestType.values()) {
-						ModLoader.registerModel(BlocksMC.SORTING_HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+						LoaderMod.registerModel(BlocksMC.SORTING_HUNGRY_METAL_CHEST, type.ordinal(), LoaderMod.getVariantName(type));
 					}
 
-					ModLoader.registerTileRenderer(TileSortingHungryMetalChest.class,
+					LoaderMod.registerTileRenderer(TileSortingHungryMetalChest.class,
 							new RenderSortingMetalChest(BlocksMC.SORTING_HUNGRY_METAL_CHEST) {
 
 								@Override
