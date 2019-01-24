@@ -166,7 +166,9 @@ public class LoaderMod {
 		public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 			for (ChestType type : ChestType.values()) {
 				if (type.isRegistered()) {
-					OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()));
+					ItemStack chestStack = new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal());
+					OreDictionary.registerOre("chest", chestStack);
+					OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), chestStack);
 				}
 			}
 

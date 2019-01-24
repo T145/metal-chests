@@ -81,7 +81,9 @@ public class LoaderRefinedRelocation {
 			if (ModSupport.hasRefinedRelocation()) {
 				for (ChestType type : ChestType.values()) {
 					if (type.isRegistered()) {
-						OreDictionary.registerOre("chestSorting" + WordUtils.capitalize(type.getName()), new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()));
+						ItemStack chestStack = new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal());
+						OreDictionary.registerOre("chest", chestStack);
+						OreDictionary.registerOre("chestSorting" + WordUtils.capitalize(type.getName()), chestStack);
 					}
 				}
 			}
@@ -157,16 +159,16 @@ public class LoaderRefinedRelocation {
 					LoaderMod.registerTileRenderer(TileSortingHungryMetalChest.class,
 							new RenderSortingMetalChest(BlocksMC.SORTING_HUNGRY_METAL_CHEST) {
 
-								@Override
-								protected ResourceLocation getActiveResource(ChestType type) {
-									return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
-								}
+						@Override
+						protected ResourceLocation getActiveResource(ChestType type) {
+							return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+						}
 
-								@Override
-								protected ResourceLocation getActiveOverlay(ChestType type) {
-									return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
-								}
-							});
+						@Override
+						protected ResourceLocation getActiveOverlay(ChestType type) {
+							return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
+						}
+					});
 				}
 			}
 		}

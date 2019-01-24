@@ -187,11 +187,16 @@ class LoaderThaumcraft {
 				for (ChestType type : ChestType.values()) {
 					if (type.isRegistered()) {
 						String capitalizedName = WordUtils.capitalize(type.getName());
+						ItemStack chestStack = new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal());
 
-						OreDictionary.registerOre("chestHungry" + capitalizedName, new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()));
+						OreDictionary.registerOre("chest", chestStack);
+						OreDictionary.registerOre("chestHungry" + capitalizedName, chestStack);
 
 						if (ModSupport.hasRefinedRelocation()) {
-							OreDictionary.registerOre("chestSortingHungry" + capitalizedName, new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()));
+							chestStack = new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal());
+
+							OreDictionary.registerOre("chest", chestStack);
+							OreDictionary.registerOre("chestSortingHungry" + capitalizedName, chestStack);
 						}
 					}
 				}
