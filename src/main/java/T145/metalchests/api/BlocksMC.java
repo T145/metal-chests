@@ -26,13 +26,4 @@ public class BlocksMC {
 
 	@ObjectHolder(RegistryMC.KEY_METAL_CHEST)
 	public static Block METAL_CHEST;
-
-	@ObjectHolder(RegistryMC.KEY_HUNGRY_METAL_CHEST)
-	public static Block HUNGRY_METAL_CHEST;
-
-	@ObjectHolder(RegistryMC.KEY_SORTING_METAL_CHEST)
-	public static Block SORTING_METAL_CHEST;
-
-	@ObjectHolder(RegistryMC.KEY_SORTING_HUNGRY_METAL_CHEST)
-	public static Block SORTING_HUNGRY_METAL_CHEST;
 }
