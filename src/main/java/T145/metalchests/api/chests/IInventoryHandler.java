@@ -16,17 +16,100 @@
 package T145.metalchests.api.chests;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.IItemHandler;
 
-public interface IInventoryHandler {
+public interface IInventoryHandler extends IInventory {
 
 	IItemHandler getInventory();
 
 	void setInventory(IItemHandler inventory);
 
+	default int getSizeInventory() {
+		return getInventory().getSlots();
+	}
+
+	/**
+	 * Returns the stack in the given slot.
+	 */
+	default ItemStack getStackInSlot(int index) {
+		return getInventory().getStackInSlot(index);
+	}
+
+	default boolean isEmpty() {
+		for (int slot = 0; slot < getSizeInventory(); ++slot) {
+			if (!getStackInSlot(slot).isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Removes up to a specified number of items from an inventory slot and returns them in a new stack.
+	 */
+	default ItemStack decrStackSize(int index, int count) {
+		return getInventory().extractItem(index, count, false);
+	}
+
+	/**
+	 * Removes a stack from the given slot and returns it.
+	 */
+	default ItemStack removeStackFromSlot(int index) {
+		return getInventory().extractItem(index, getStackInSlot(index).getCount(), false);
+	}
+
+	/**
+	 * Sets the given item stack to the specified slot in the inventory (can be crafting or armor sections).
+	 */
+	default void setInventorySlotContents(int index, ItemStack stack) {
+		getInventory().insertItem(index, stack, false);
+	}
+
+	/**
+	 * Returns the maximum stack size for a inventory slot. Seems to always be 64, possibly will be extended.
+	 */
+	default int getInventoryStackLimit() {
+		return 64;
+	}
+
+	/**
+	 * For tile entities, ensures the chunk containing the tile entity is saved to disk later - the game won't think it
+	 * hasn't changed and skip it.
+	 */
+	default void markDirty() {}
+
+	/**
+	 * Don't rename this method to canInteractWith due to conflicts with Container
+	 */
+	boolean isUsableByPlayer(EntityPlayer player);
+
 	void openInventory(EntityPlayer player);
 
 	void closeInventory(EntityPlayer player);
 
-	boolean isUsableByPlayer(EntityPlayer player);
+	/**
+	 * Returns true if automation is allowed to insert the given stack (ignoring stack size) into the given slot. For
+	 * guis use Slot.isItemValid
+	 */
+	default boolean isItemValidForSlot(int index, ItemStack stack) {
+		return getInventory().isItemValid(index, stack);
+	}
+
+	default int getField(int id) {
+		return 0;
+	}
+
+	default void setField(int id, int value) {}
+
+	default int getFieldCount() {
+		return 0;
+	}
+
+	default void clear() {
+		for (int slot = 0; slot < getSizeInventory(); ++slot) {
+			setInventorySlotContents(slot, ItemStack.EMPTY);
+		}
+	}
 }

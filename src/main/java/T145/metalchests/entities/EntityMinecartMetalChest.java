@@ -33,7 +33,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -53,7 +52,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 @Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
-public class EntityMinecartMetalChest extends EntityMinecart implements IInventory, IInventoryHandler, IItemCart {
+public class EntityMinecartMetalChest extends EntityMinecart implements IInventoryHandler, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.CHEST_TYPE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());

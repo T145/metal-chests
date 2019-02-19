@@ -241,4 +241,14 @@ public class TileMetalChest extends TileMod implements IMetalChest, ITickable, I
 	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return inventory;
 	}
+
+	@Override
+	public String getName() {
+		return getTranslationKey();
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return true;
+	}
 }
