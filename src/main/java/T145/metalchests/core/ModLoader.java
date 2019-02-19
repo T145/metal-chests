@@ -60,7 +60,6 @@ import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -177,13 +176,6 @@ public class ModLoader {
 		public static void onConfigChanged(OnConfigChangedEvent event) {
 			if (event.getModID().equals(RegistryMC.MOD_ID)) {
 				ConfigManager.sync(RegistryMC.MOD_ID, Config.Type.INSTANCE);
-			}
-		}
-
-		@SubscribeEvent
-		public static void onPlayerLogIn(PlayerLoggedInEvent event) {
-			if (ModConfig.GENERAL.checkForUpdates && UpdateChecker.hasUpdate()) {
-				event.player.sendMessage(UpdateChecker.getUpdateNotification());
 			}
 		}
 

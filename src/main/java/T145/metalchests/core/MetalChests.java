@@ -29,6 +29,7 @@ import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.tbone.core.TBone;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -62,12 +63,6 @@ public class MetalChests {
 	public static final Logger LOG = LogManager.getLogger(RegistryMC.MOD_ID);
 
 	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.MOD_ID) {
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public boolean hasSearchBar() {
-			return true;
-		}
 
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -126,6 +121,7 @@ public class MetalChests {
 		meta.useDependencyInformation = false;
 		meta.version = VERSION;
 		DataSerializers.registerSerializer(CHEST_TYPE);
+		TBone.loadMod(RegistryMC.MOD_ID);
 	}
 
 	private void registerFixes(DataFixer fixer, Class tileClass) {
