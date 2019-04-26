@@ -24,12 +24,18 @@ import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityMinecartMetalChest;
+import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
+<<<<<<< HEAD
 import T145.tbone.core.TBone;
+=======
+import T145.metalchests.tiles.TileSortingMetalChest;
+>>>>>>> parent of 5d6bbb6... Migrating unique mod support to MetalChests-Compat
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -38,6 +44,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.walkers.ItemStackDataLists;
@@ -53,8 +60,12 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.research.ResearchCategories;
 
-@Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "required-after:tbone")
+@Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft")
 public class MetalChests {
 
 	static final String VERSION = "@VERSION@";
@@ -74,6 +85,22 @@ public class MetalChests {
 		public void displayAllRelevantItems(NonNullList<ItemStack> items) {
 			BlocksMC.METAL_CHEST.getSubBlocks(this, items);
 			ItemsMC.CHEST_UPGRADE.getSubItems(this, items);
+
+			if (BlocksMC.HUNGRY_METAL_CHEST != null) {
+				BlocksMC.HUNGRY_METAL_CHEST.getSubBlocks(this, items);
+			}
+
+			if (ItemsMC.HUNGRY_CHEST_UPGRADE != null) {
+				ItemsMC.HUNGRY_CHEST_UPGRADE.getSubItems(this, items);
+			}
+
+			if (BlocksMC.SORTING_METAL_CHEST != null) {
+				BlocksMC.SORTING_METAL_CHEST.getSubBlocks(this, items);
+			}
+
+			if (BlocksMC.SORTING_HUNGRY_METAL_CHEST != null) {
+				BlocksMC.SORTING_HUNGRY_METAL_CHEST.getSubBlocks(this, items);
+			}
 
 			if (ModConfig.GENERAL.enableMinecarts) {
 				ItemsMC.MINECART_METAL_CHEST.getSubItems(this, items);
@@ -140,6 +167,20 @@ public class MetalChests {
 
 		registerFixes(fixer, TileMetalChest.class);
 		registerEntityFixes(fixer, EntityMinecartMetalChest.class);
+
+		if (ModSupport.hasRefinedRelocation()) {
+			registerFixes(fixer, TileSortingMetalChest.class);
+		}
+
+		if (ModSupport.hasThaumcraft()) {
+			registerFixes(fixer, TileHungryMetalChest.class);
+			ThaumcraftApi.registerResearchLocation(new ResourceLocation(RegistryMC.MOD_ID, "research/hungry_metal_chests"));
+			ResearchCategories.registerCategory("HUNGRYMETALCHESTS", "UNLOCKARTIFICE", new AspectList().add(Aspect.MECHANISM, 10).add(Aspect.CRAFT, 10).add(Aspect.METAL, 10).add(Aspect.TOOL, 10).add(Aspect.ENERGY, 10).add(Aspect.LIGHT, 5).add(Aspect.FLIGHT, 5).add(Aspect.TRAP, 5).add(Aspect.FIRE, 5), new ResourceLocation("thaumcraft", "textures/research/rd_chest.png"), new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_4.jpg"), ModSupport.Thaumcraft.BACK_OVER);
+		}
+
+		if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
+			registerFixes(fixer, TileSortingMetalChest.class);
+		}
 	}
 
 	@EventHandler

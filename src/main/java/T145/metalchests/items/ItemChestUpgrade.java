@@ -21,13 +21,10 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.core.MetalChests;
-import T145.tbone.items.ItemMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -52,7 +49,6 @@ public class ItemChestUpgrade extends ItemMod {
 	public ItemChestUpgrade(ResourceLocation registryName) {
 		super(registryName, ChestUpgrade.values());
 		setMaxStackSize(1);
-		setCreativeTab(MetalChests.TAB);
 	}
 
 	@Override
@@ -159,16 +155,10 @@ public class ItemChestUpgrade extends ItemMod {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		if (tab == MetalChests.TAB) {
-			if (hasSubtypes) {
-				for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-					if (upgrade.isRegistered()) {
-						items.add(new ItemStack(this, 1, upgrade.ordinal()));
-					}
-				}
-			} else {
-				items.add(new ItemStack(this));
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (ChestUpgrade upgrade : ChestUpgrade.values()) {
+			if (upgrade.isRegistered()) {
+				items.add(new ItemStack(this, 1, upgrade.ordinal()));
 			}
 		}
 	}

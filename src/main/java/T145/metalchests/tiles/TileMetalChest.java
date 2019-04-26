@@ -24,17 +24,22 @@ import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
-import T145.tbone.tiles.TileMod;
 import net.dries007.holoInventory.api.INamedItemHandler;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -46,7 +51,7 @@ import vazkii.quark.api.IDropoffManager;
 	@Optional.Interface(modid = ModSupport.HoloInventory.MOD_ID, iface = ModSupport.HoloInventory.NAMED_ITEM_HANDLER, striprefs = true),
 	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.DROPOFF_MANAGER, striprefs = true)
 })
-public class TileMetalChest extends TileMod implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
+public class TileMetalChest extends TileEntity implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
 	public float lidAngle;
 	public float prevLidAngle;
@@ -75,6 +80,26 @@ public class TileMetalChest extends TileMod implements IMetalChest, ITickable, I
 				world.updateComparatorOutputLevel(pos, getBlockType());
 			}
 		};
+	}
+
+	@Override
+	public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
+		return oldState.getBlock() != newState.getBlock();
+	}
+
+	@Override
+	public NBTTagCompound getUpdateTag() {
+		return writeToNBT(super.getUpdateTag());
+	}
+
+	@Override
+	public SPacketUpdateTileEntity getUpdatePacket() {
+		return new SPacketUpdateTileEntity(pos, 0, getUpdateTag());
+	}
+
+	@Override
+	public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
+		handleUpdateTag(packet.getNbtCompound());
 	}
 
 	@Override

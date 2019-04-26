@@ -27,6 +27,9 @@ public class ItemsMC {
 	@ObjectHolder(RegistryMC.KEY_CHEST_UPGRADE)
 	public static Item CHEST_UPGRADE;
 
+	@ObjectHolder(RegistryMC.KEY_HUNGRY_CHEST_UPGRADE)
+	public static Item HUNGRY_CHEST_UPGRADE;
+
 	@ObjectHolder(RegistryMC.KEY_MINECART_METAL_CHEST)
 	public static Item MINECART_METAL_CHEST;
 }

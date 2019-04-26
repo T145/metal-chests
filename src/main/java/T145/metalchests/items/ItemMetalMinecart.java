@@ -17,16 +17,13 @@ package T145.metalchests.items;
 
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.core.MetalChests;
 import T145.metalchests.entities.EntityMinecartMetalChest;
-import T145.tbone.items.ItemMod;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.BlockRailBase.EnumRailDirection;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.dispenser.BehaviorDefaultDispenseItem;
 import net.minecraft.dispenser.IBehaviorDispenseItem;
 import net.minecraft.dispenser.IBlockSource;
@@ -98,9 +95,8 @@ public class ItemMetalMinecart extends ItemMod {
 
 	public ItemMetalMinecart() {
 		super(RegistryMC.RESOURCE_MINECART_METAL_CHEST, ChestType.values());
-		setMaxStackSize(1);
+		this.setMaxStackSize(1);
 		BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, MINECART_DISPENSER_BEHAVIOR);
-		setCreativeTab(MetalChests.TAB);
 	}
 
 	@Override
@@ -134,16 +130,10 @@ public class ItemMetalMinecart extends ItemMod {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(CreativeTabs tab, NonNullList<ItemStack> items) {
-		if (tab == MetalChests.TAB) {
-			if (hasSubtypes) {
-				for (ChestType type : ChestType.values()) {
-					if (type.isRegistered()) {
-						items.add(new ItemStack(this, 1, type.ordinal()));
-					}
-				}
-			} else {
-				items.add(new ItemStack(this));
+	public void prepareCreativeTab(NonNullList<ItemStack> items) {
+		for (ChestType type : ChestType.values()) {
+			if (type.isRegistered()) {
+				items.add(new ItemStack(this, 1, type.ordinal()));
 			}
 		}
 	}
