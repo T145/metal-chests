@@ -31,11 +31,7 @@ import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
-<<<<<<< HEAD
-import T145.tbone.core.TBone;
-=======
 import T145.metalchests.tiles.TileSortingMetalChest;
->>>>>>> parent of 5d6bbb6... Migrating unique mod support to MetalChests-Compat
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
@@ -148,7 +144,6 @@ public class MetalChests {
 		meta.useDependencyInformation = false;
 		meta.version = VERSION;
 		DataSerializers.registerSerializer(CHEST_TYPE);
-		TBone.loadMod(RegistryMC.MOD_ID);
 	}
 
 	private void registerFixes(DataFixer fixer, Class tileClass) {
