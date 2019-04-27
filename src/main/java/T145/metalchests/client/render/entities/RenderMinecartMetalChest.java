@@ -32,6 +32,6 @@ public class RenderMinecartMetalChest extends RenderMinecart<EntityMinecartMetal
 
 	@Override
 	protected void renderCartContents(EntityMinecartMetalChest cart, float partialTicks, IBlockState state) {
-		RenderMetalChest.INSTANCE.render(cart.getMetalChest(), 0, 0, -1, 0, -1, 1);
+		RenderMetalChest.INSTANCE.renderStatic(cart.getChestType(), 0, 0, -1, -1, 1);
 	}
 }
