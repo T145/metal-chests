@@ -15,8 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.containers.ContainerMetalChest;
-import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -36,13 +36,12 @@ public class GuiHandler implements IGuiHandler {
 		switch (ID) {
 		case 0:
 			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
-			return new ContainerMetalChest(chest, player, chest.getChestType());
+			return new ContainerMetalChest(chest, player);
 		default:
 			Entity entity = world.getEntityByID(ID);
 
-			if (entity instanceof EntityMinecartMetalChest) {
-				EntityMinecartMetalChest cart = (EntityMinecartMetalChest) entity;
-				return new ContainerMetalChest(cart, player, cart.getChestType());
+			if (entity instanceof IMetalChest) {
+				return new ContainerMetalChest((IMetalChest) entity, player);
 			}
 
 			return null;

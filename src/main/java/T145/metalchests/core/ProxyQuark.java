@@ -49,7 +49,7 @@ class ProxyQuark {
 
 						if (cart != null) {
 							target.setDead();
-							event.getWorld().spawnEntity(cart);
+							world.spawnEntity(cart);
 							event.setCanceled(true);
 
 							if (!player.capabilities.isCreativeMode) {

@@ -19,7 +19,6 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
-import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
@@ -33,6 +32,7 @@ import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -51,7 +51,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
 @Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
-public class EntityMinecartMetalChest extends EntityMinecart implements IInventoryHandler, IItemCart {
+public class EntityMinecartMetalChest extends EntityMinecart implements IMetalChest, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.CHEST_TYPE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
@@ -72,6 +72,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 		dataManager.set(CHEST_TYPE, type);
 	}
 
+	@Override
 	public void setInventory(IItemHandler stacks) {
 		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
 			if (slot < getChestType().getInventorySize()) {
@@ -126,7 +127,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 		if (player.isSneaking()) {
 			ItemStack stack = player.getHeldItem(hand);
 
-			if (stack.getItem() instanceof ItemChestUpgrade) {
+			if (isUpgradeApplicable(stack.getItem())) {
 				ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
 				if (getChestType() == upgrade.getBase()) {
@@ -244,5 +245,18 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IInvento
 		}
 
 		return !result.isEmpty();
+	}
+
+	@Override
+	public EnumFacing getFront() {
+		return EnumFacing.EAST;
+	}
+
+	@Override
+	public void setFront(EnumFacing front) {}
+
+	@Override
+	public boolean isUpgradeApplicable(Item upgrade) {
+		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 }

@@ -18,6 +18,7 @@ package T145.metalchests.containers;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestType.GUI;
 import invtweaks.api.container.ChestContainer;
@@ -56,6 +57,10 @@ public class ContainerMetalChest extends Container {
 		for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
 			this.addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, type.getGui().getSizeY() - 24));
 		}
+	}
+
+	public ContainerMetalChest(IMetalChest chest, EntityPlayer player) {
+		this(chest, player, chest.getChestType());
 	}
 
 	public ChestType getType() {
