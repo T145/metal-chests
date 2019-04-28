@@ -3,6 +3,7 @@ package T145.metalchests.entities;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
@@ -13,11 +14,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -130,6 +134,45 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 	@Nullable
 	public Entity getControllingPassenger() {
 		return null;
+	}
+
+	@Override
+	public boolean attackEntityFrom(DamageSource source, float amount) {
+		if (this.isEntityInvulnerable(source)) {
+			return false;
+		} else if (!this.world.isRemote && !this.isDead) {
+			if (source instanceof EntityDamageSourceIndirect && source.getTrueSource() != null && this.isPassenger(source.getTrueSource())) {
+				return false;
+			} else {
+				this.setForwardDirection(-this.getForwardDirection());
+				this.setTimeSinceHit(10);
+				this.setDamageTaken(this.getDamageTaken() + amount * 10.0F);
+				this.markVelocityChanged();
+				boolean flag = source.getTrueSource() instanceof EntityPlayer && ((EntityPlayer) source.getTrueSource()).capabilities.isCreativeMode;
+
+				if (flag || this.getDamageTaken() > 40.0F) {
+					if (!flag && this.world.getGameRules().getBoolean("doEntityDrops")) {
+						this.dropItemWithOffset(this.getItemBoat(), 1, 0.0F);
+
+						for (int i = 0; i < inventory.getSlots(); ++i) {
+							ItemStack stack = inventory.getStackInSlot(i);
+
+							if (!stack.isEmpty()) {
+								InventoryHelper.spawnItemStack(world, posX, posY, posZ, stack);
+							}
+						}
+
+						entityDropItem(new ItemStack(BlocksMC.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
+					}
+
+					this.setDead();
+				}
+
+				return true;
+			}
+		} else {
+			return true;
+		}
 	}
 
 	@Override
