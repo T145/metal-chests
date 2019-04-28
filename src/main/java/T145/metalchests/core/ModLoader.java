@@ -30,8 +30,10 @@ import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
+import T145.metalchests.client.render.entities.RenderBoatMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
 import T145.metalchests.config.ModConfig;
+import T145.metalchests.entities.EntityBoatMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
@@ -41,25 +43,31 @@ import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
+import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -158,6 +166,8 @@ class ModLoader {
 			if (ModConfig.GENERAL.enableMinecarts) {
 				registry.register(EntitiesMC.MINECART_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_MINECART_METAL_CHEST, 0).name(RegistryMC.KEY_MINECART_METAL_CHEST).entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
 			}
+
+			registry.register(EntitiesMC.BOAT_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_BOAT_METAL_CHEST, 1).name(RegistryMC.KEY_BOAT_METAL_CHEST).entity(EntityBoatMetalChest.class).tracker(80, 3, true).build());
 		}
 
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -249,6 +259,49 @@ class ModLoader {
 				}
 			}
 		}
+
+		@SubscribeEvent
+		public static void onEntityInteract(EntityInteract event) {
+			Entity target = event.getTarget();
+
+			if (target instanceof EntityBoat && target.getPassengers().isEmpty()) {
+				EntityPlayer player = event.getEntityPlayer();
+				EnumHand hand = EnumHand.MAIN_HAND;
+				ItemStack stack = player.getHeldItemMainhand();
+				Item chestItem = Item.getItemFromBlock(BlocksMC.METAL_CHEST);
+				boolean hasChest = stack.getItem().equals(chestItem);
+
+				if (stack.isEmpty() || !hasChest) {
+					stack = player.getHeldItemOffhand();
+					hand = EnumHand.OFF_HAND;
+				}
+
+				if (!stack.isEmpty() && hasChest) {
+					player.swingArm(hand);
+
+					World world = event.getWorld();
+
+					if (!world.isRemote) {
+						EntityBoatMetalChest boat = new EntityBoatMetalChest((EntityBoat) target);
+						boat.setChestType(ChestType.byMetadata(stack.getItemDamage()));
+
+						if (boat != null) {
+							target.setDead();
+							world.spawnEntity(boat);
+							event.setCanceled(true);
+
+							if (!player.capabilities.isCreativeMode) {
+								stack.shrink(1);
+
+								if (stack.getCount() <= 0) {
+									player.setHeldItem(hand, ItemStack.EMPTY);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -311,6 +364,7 @@ class ModLoader {
 			}
 
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
+			RenderingRegistry.registerEntityRenderingHandler(EntityBoatMetalChest.class, manager -> new RenderBoatMetalChest(manager));
 		}
 	}
 }

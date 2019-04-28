@@ -11,4 +11,7 @@ public class EntitiesMC {
 
 	@ObjectHolder(RegistryMC.KEY_MINECART_METAL_CHEST)
 	public static EntityEntry MINECART_METAL_CHEST;
+
+	@ObjectHolder(RegistryMC.KEY_BOAT_METAL_CHEST)
+	public static EntityEntry BOAT_METAL_CHEST;
 }

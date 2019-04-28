@@ -25,7 +25,6 @@ import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.items.ItemChestUpgrade;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
