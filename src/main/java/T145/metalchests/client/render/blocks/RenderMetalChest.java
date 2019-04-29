@@ -17,6 +17,7 @@ package T145.metalchests.client.render.blocks;
 
 import org.lwjgl.opengl.GL11;
 
+import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.config.ModConfig;
@@ -95,8 +96,8 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		postRender(0.0F, destroyStage);
 	}
 
-	public void renderStatic(ChestType type, double x, double y, double z, int destroyStage, float alpha) {
-		renderStatic(type, EnumFacing.EAST, x, y, z, destroyStage, alpha);
+	public void renderStatic(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
+		renderStatic(chest.getChestType(), chest.getFront(), x, y, z, destroyStage, alpha);
 	}
 
 	@Override

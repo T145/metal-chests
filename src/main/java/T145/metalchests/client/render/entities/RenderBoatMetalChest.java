@@ -60,7 +60,7 @@ public class RenderBoatMetalChest extends RenderBoat {
 		GlStateManager.translate(-0.5F, 0.125F, -0.5F);
 		GlStateManager.rotate(180.0F, 1.0F, 0.0F, 0.0F);
 		GlStateManager.rotate(90.0F, 0.0F, 1.0F, 0.0F);
-		RenderMetalChest.INSTANCE.renderStatic(boat.getChestType(), EnumFacing.SOUTH, 0, 0, 0, -1, 1);
+		RenderMetalChest.INSTANCE.renderStatic(boat, 0, 0, 0, -1, 1);
 		GlStateManager.popMatrix();
 
 		if (this.renderOutlines) {
