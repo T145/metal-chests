@@ -63,12 +63,9 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		super(world, x, y, z);
 	}
 
-	public ChestType getChestType() {
-		return dataManager.get(CHEST_TYPE);
-	}
-
-	public void setChestType(ChestType type) {
-		dataManager.set(CHEST_TYPE, type);
+	@Override
+	public IItemHandler getInventory() {
+		return inventory;
 	}
 
 	@Override
@@ -78,6 +75,40 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
 			}
 		}
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return !this.isDead && player.getDistanceSq(this) <= 64.0D;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public ChestType getChestType() {
+		return dataManager.get(CHEST_TYPE);
+	}
+
+	@Override
+	public void setChestType(ChestType type) {
+		dataManager.set(CHEST_TYPE, type);
+	}
+
+	@Override
+	public EnumFacing getFront() {
+		return EnumFacing.EAST;
+	}
+
+	@Override
+	public void setFront(EnumFacing front) {}
+
+	@Override
+	public boolean isUpgradeApplicable(Item upgrade) {
+		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 
 	@Override
@@ -165,17 +196,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	}
 
 	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
-		return !this.isDead && player.getDistanceSq(this) <= 64.0D;
-	}
-
-	@Override
-	public void openInventory(EntityPlayer player) {}
-
-	@Override
-	public void closeInventory(EntityPlayer player) {}
-
-	@Override
 	public EntityMinecart.Type getType() {
 		return EntityMinecart.Type.CHEST;
 	}
@@ -197,11 +217,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		} else {
 			return I18n.translateToLocal("item.metalchests:minecart_metal_chest." + getChestType().getName() + ".name");
 		}
-	}
-
-	@Override
-	public IItemHandler getInventory() {
-		return this.inventory;
 	}
 
 	@Override
@@ -244,18 +259,5 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		}
 
 		return !result.isEmpty();
-	}
-
-	@Override
-	public EnumFacing getFront() {
-		return EnumFacing.EAST;
-	}
-
-	@Override
-	public void setFront(EnumFacing front) {}
-
-	@Override
-	public boolean isUpgradeApplicable(Item upgrade) {
-		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 }

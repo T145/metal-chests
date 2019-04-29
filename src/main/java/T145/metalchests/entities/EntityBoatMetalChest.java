@@ -57,12 +57,9 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		this.setBoatType(boat.getBoatType());
 	}
 
-	public ChestType getChestType() {
-		return dataManager.get(CHEST_TYPE);
-	}
-
-	public void setChestType(ChestType type) {
-		dataManager.set(CHEST_TYPE, type);
+	@Override
+	public IItemHandler getInventory() {
+		return inventory;
 	}
 
 	@Override
@@ -72,6 +69,40 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
 			}
 		}
+	}
+
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player) {
+		return !this.isDead && player.getDistanceSq(this) <= 64.0D;
+	}
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public ChestType getChestType() {
+		return dataManager.get(CHEST_TYPE);
+	}
+
+	@Override
+	public void setChestType(ChestType type) {
+		dataManager.set(CHEST_TYPE, type);
+	}
+
+	@Override
+	public EnumFacing getFront() {
+		return EnumFacing.SOUTH;
+	}
+
+	@Override
+	public void setFront(EnumFacing front) {}
+
+	@Override
+	public boolean isUpgradeApplicable(Item upgrade) {
+		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 
 	@Override
@@ -95,22 +126,6 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 		setBoatType(Type.byId(tag.getInteger("BoatType")));
 	}
-
-	@Override
-	public IItemHandler getInventory() {
-		return inventory;
-	}
-
-	@Override
-	public boolean isUsableByPlayer(EntityPlayer player) {
-		return !this.isDead && player.getDistanceSq(this) <= 64.0D;
-	}
-
-	@Override
-	public void openInventory(EntityPlayer player) {}
-
-	@Override
-	public void closeInventory(EntityPlayer player) {}
 
 	@Override
 	@Nullable
@@ -203,20 +218,5 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		}
 
 		return true;
-	}
-
-	@Override
-	public EnumFacing getFront() {
-		return EnumFacing.SOUTH;
-	}
-
-	@Override
-	public void setFront(EnumFacing front) {
-		// maybe allow changing the front to north
-	}
-
-	@Override
-	public boolean isUpgradeApplicable(Item upgrade) {
-		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 }
