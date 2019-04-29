@@ -28,12 +28,14 @@ import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.config.ModConfig;
+import T145.metalchests.entities.EntityBoatMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileHungryMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileSortingMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.item.EntityMinecartContainer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
@@ -161,7 +163,8 @@ public class MetalChests {
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
 		registerFixes(fixer, TileMetalChest.class);
-		registerEntityFixes(fixer, EntityMinecartMetalChest.class);
+		EntityMinecartContainer.addDataFixers(fixer, EntityMinecartMetalChest.class);
+		registerEntityFixes(fixer, EntityBoatMetalChest.class);
 
 		if (ModSupport.hasRefinedRelocation()) {
 			registerFixes(fixer, TileSortingMetalChest.class);
