@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2018 T145
+ * Copyright 2019 T145
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -15,6 +15,9 @@
  ******************************************************************************/
 package T145.metalchests.blocks;
 
+import javax.annotation.Nullable;
+
+import T145.metalchests.api.immutable.RegistryMC;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -32,6 +35,12 @@ public class BlockModItem extends ItemBlock {
 
 	public BlockModItem(Block block) {
 		this(block, null);
+	}
+
+	@Nullable
+	@Override
+	public String getCreatorModId(ItemStack stack) {
+		return RegistryMC.MOD_ID;
 	}
 
 	@Override
