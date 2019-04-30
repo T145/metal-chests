@@ -20,15 +20,14 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
+import T145.metalchests.api.immutable.RegistryMC;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -110,11 +109,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	public void setChestType(ChestType chestType) {
 		this.chestType = chestType;
-	}
-
-	@Override
-	public boolean isUpgradeApplicable(Item upgrade) {
-		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
 	}
 
 	@Override
@@ -241,7 +235,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	public String getTranslationKey() {
-		return "tile.metalchests:metal_chest." + chestType.getName() + ".name";
+		return String.format("tile.%s:%s.%s.name", RegistryMC.MOD_ID, RegistryMC.KEY_METAL_CHEST, chestType.getName());
 	}
 
 	@Override

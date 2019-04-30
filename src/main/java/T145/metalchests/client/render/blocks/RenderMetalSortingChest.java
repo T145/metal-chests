@@ -22,7 +22,7 @@ import org.lwjgl.opengl.GL11;
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.tiles.TileSortingMetalChest;
+import T145.metalchests.tiles.TileMetalSortingChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
 import net.blay09.mods.refinedrelocation.client.render.ModelLidOverlay;
 import net.blay09.mods.refinedrelocation.client.render.SafeTESR;
@@ -35,17 +35,17 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
+public class RenderMetalSortingChest extends SafeTESR<TileMetalSortingChest> {
 
 	private final ModelChest model = new ModelChest();
 	private final ModelLidOverlay chestLid = new ModelLidOverlay();
 
-	public RenderSortingMetalChest(Block block) {
+	public RenderMetalSortingChest(Block block) {
 		super(block);
 	}
 
-	public RenderSortingMetalChest() {
-		super(BlocksMC.SORTING_METAL_CHEST);
+	public RenderMetalSortingChest() {
+		super(BlocksMC.METAL_SORTING_CHEST);
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
@@ -57,7 +57,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 	}
 
 	@Override
-	public void renderTileEntityAt(TileSortingMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, @Nullable IBlockState state) {
+	public void renderTileEntityAt(TileMetalSortingChest chest, double x, double y, double z, float partialTicks, int destroyStage, @Nullable IBlockState state) {
 		GlStateManager.enableDepth();
 		GlStateManager.depthFunc(GL11.GL_LEQUAL);
 		GlStateManager.depthMask(true);
@@ -110,7 +110,7 @@ public class RenderSortingMetalChest extends SafeTESR<TileSortingMetalChest> {
 	}
 
 	@Override
-	protected boolean shouldRenderNameTag(TileSortingMetalChest chest) {
+	protected boolean shouldRenderNameTag(TileMetalSortingChest chest) {
 		return chest.hasCustomName() && RefinedRelocationConfig.renderChestNameTags;
 	}
 }

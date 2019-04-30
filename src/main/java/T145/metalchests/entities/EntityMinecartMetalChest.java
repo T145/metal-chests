@@ -25,13 +25,13 @@ import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
+import T145.metalchests.items.ItemChestUpgrade;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -107,11 +107,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	public void setFront(EnumFacing front) {}
 
 	@Override
-	public boolean isUpgradeApplicable(Item upgrade) {
-		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
-	}
-
-	@Override
 	protected void entityInit() {
 		super.entityInit();
 		dataManager.register(CHEST_TYPE, ChestType.OBSIDIAN);
@@ -157,7 +152,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		if (player.isSneaking()) {
 			ItemStack stack = player.getHeldItem(hand);
 
-			if (isUpgradeApplicable(stack.getItem())) {
+			if (stack.getItem() instanceof ItemChestUpgrade) {
 				ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
 				if (getChestType() == upgrade.getBase()) {

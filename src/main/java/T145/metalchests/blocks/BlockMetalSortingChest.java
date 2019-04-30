@@ -13,24 +13,27 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.chests;
+package T145.metalchests.blocks;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.Nullable;
 
-import net.minecraft.block.Block;
+import T145.metalchests.api.chests.IMetalChest;
+import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.tiles.TileMetalSortingChest;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
-public class UpgradeRegistry {
+public class BlockMetalSortingChest extends BlockMetalChest {
 
-	private static final Map<Block, Block> chests = new HashMap<>();
-
-	public static void registerChest(Block chestTile, Block destTile) {
-		if (!chests.containsKey(chestTile)) {
-			chests.put(chestTile, destTile);
-		}
+	@Override
+	protected void registerResource() {
+		this.registerResource(RegistryMC.RESOURCE_METAL_SORTING_CHEST);
 	}
 
-	public static boolean hasChest(Block chestTile) {
-		return chests.containsKey(chestTile) && chests.get(chestTile) != null;
+	@Nullable
+	@Override
+	public TileEntity createTileEntity(World world, IBlockState state) {
+		return new TileMetalSortingChest(state.getValue(IMetalChest.VARIANT));
 	}
 }

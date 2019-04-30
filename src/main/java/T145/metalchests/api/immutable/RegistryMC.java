@@ -25,14 +25,14 @@ public class RegistryMC {
 	public static final String MOD_NAME = "MetalChests";
 
 	public static final String KEY_METAL_CHEST = "metal_chest";
-	public static final String KEY_HUNGRY_METAL_CHEST = "hungry_metal_chest";
-	public static final String KEY_SORTING_METAL_CHEST = "sorting_metal_chest";
-	public static final String KEY_SORTING_HUNGRY_METAL_CHEST = "sorting_hungry_metal_chest";
+	public static final String KEY_METAL_HUNGRY_CHEST = "metal_hungry_chest";
+	public static final String KEY_METAL_SORTING_CHEST = "metal_sorting_chest";
+	public static final String KEY_METAL_HUNGRY_SORTING_CHEST = "metal_hungry_sorting_chest";
 
 	public static final ResourceLocation RESOURCE_METAL_CHEST = new ResourceLocation(MOD_ID, KEY_METAL_CHEST);
-	public static final ResourceLocation RESOURCE_HUNGRY_METAL_CHEST = new ResourceLocation(MOD_ID, KEY_HUNGRY_METAL_CHEST);
-	public static final ResourceLocation RESOURCE_SORTING_METAL_CHEST = new ResourceLocation(MOD_ID, KEY_SORTING_METAL_CHEST);
-	public static final ResourceLocation RESOURCE_SORTING_HUNGRY_METAL_CHEST = new ResourceLocation(MOD_ID, KEY_SORTING_HUNGRY_METAL_CHEST);
+	public static final ResourceLocation RESOURCE_METAL_HUNGRY_CHEST = new ResourceLocation(MOD_ID, KEY_METAL_HUNGRY_CHEST);
+	public static final ResourceLocation RESOURCE_METAL_SORTING_CHEST = new ResourceLocation(MOD_ID, KEY_METAL_SORTING_CHEST);
+	public static final ResourceLocation RESOURCE_METAL_HUNGRY_SORTING_CHEST = new ResourceLocation(MOD_ID, KEY_METAL_HUNGRY_SORTING_CHEST);
 
 	public static final String KEY_CHEST_UPGRADE = "chest_upgrade";
 	public static final String KEY_HUNGRY_CHEST_UPGRADE = "hungry_chest_upgrade";

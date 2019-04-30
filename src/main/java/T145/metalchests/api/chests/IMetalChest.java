@@ -17,7 +17,6 @@ package T145.metalchests.api.chests;
 
 import T145.metalchests.api.immutable.ChestType;
 import net.minecraft.block.properties.PropertyEnum;
-import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 
 public interface IMetalChest extends IInventoryHandler {
@@ -31,6 +30,4 @@ public interface IMetalChest extends IInventoryHandler {
 	EnumFacing getFront();
 
 	void setFront(EnumFacing front);
-
-	boolean isUpgradeApplicable(Item upgrade);
 }

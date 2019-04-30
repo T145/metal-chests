@@ -16,16 +16,14 @@
 package T145.metalchests.core;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.client.render.blocks.RenderSortingMetalChest;
-import T145.metalchests.tiles.TileHungryMetalChest;
-import T145.metalchests.tiles.TileSortingHungryMetalChest;
-import T145.metalchests.tiles.TileSortingMetalChest;
+import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
+import T145.metalchests.tiles.TileMetalHungryChest;
+import T145.metalchests.tiles.TileMetalHungrySortingChest;
+import T145.metalchests.tiles.TileMetalSortingChest;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -43,17 +41,17 @@ class LoaderClient {
 	public static void registerRefinedRelocationModels(ModelRegistryEvent event) {
 		if (ModSupport.hasRefinedRelocation()) {
 			for (ChestType type : ChestType.values()) {
-				ModLoader.registerModel(BlocksMC.SORTING_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+				ModLoader.registerModel(BlocksMC.METAL_SORTING_CHEST, type.ordinal(), ModLoader.getVariantName(type));
 			}
 
-			ModLoader.registerTileRenderer(TileSortingMetalChest.class, new RenderSortingMetalChest());
+			ModLoader.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
 
 			if (ModSupport.hasThaumcraft()) {
 				for (ChestType type : ChestType.values()) {
-					ModLoader.registerModel(BlocksMC.SORTING_HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+					ModLoader.registerModel(BlocksMC.METAL_HUNGRY_SORTING_CHEST, type.ordinal(), ModLoader.getVariantName(type));
 				}
 
-				ModLoader.registerTileRenderer(TileSortingHungryMetalChest.class, new RenderSortingMetalChest(BlocksMC.SORTING_HUNGRY_METAL_CHEST) {
+				ModLoader.registerTileRenderer(TileMetalHungrySortingChest.class, new RenderMetalSortingChest(BlocksMC.METAL_HUNGRY_SORTING_CHEST) {
 
 					@Override
 					protected ResourceLocation getActiveResource(ChestType type) {
@@ -74,20 +72,16 @@ class LoaderClient {
 	public static void registerThaumcraftModels(ModelRegistryEvent event) {
 		if (ModSupport.hasThaumcraft()) {
 			for (ChestType type : ChestType.values()) {
-				ModLoader.registerModel(BlocksMC.HUNGRY_METAL_CHEST, type.ordinal(), ModLoader.getVariantName(type));
+				ModLoader.registerModel(BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), ModLoader.getVariantName(type));
 			}
 
-			ModLoader.registerTileRenderer(TileHungryMetalChest.class, new RenderMetalChest() {
+			ModLoader.registerTileRenderer(TileMetalHungryChest.class, new RenderMetalChest() {
 
 				@Override
 				protected ResourceLocation getActiveResource(ChestType type) {
 					return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
 				}
 			});
-
-			for (ChestUpgrade type : ChestUpgrade.values()) {
-				ModLoader.registerModel(ItemsMC.HUNGRY_CHEST_UPGRADE, "item_hungry_chest_upgrade", type.ordinal(), "item=" + type.getName());
-			}
 		}
 	}
 }

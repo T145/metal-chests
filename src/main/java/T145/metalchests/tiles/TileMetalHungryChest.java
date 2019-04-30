@@ -15,23 +15,17 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
-import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
-import net.minecraft.item.Item;
+import T145.metalchests.api.immutable.RegistryMC;
 
-public class TileHungryMetalChest extends TileMetalChest {
+public class TileMetalHungryChest extends TileMetalChest {
 
-	public TileHungryMetalChest(ChestType chestType) {
+	public TileMetalHungryChest(ChestType chestType) {
 		super(chestType);
 	}
 
-	public TileHungryMetalChest() {
+	public TileMetalHungryChest() {
 		super();
-	}
-
-	@Override
-	public boolean isUpgradeApplicable(Item upgrade) {
-		return upgrade.getRegistryName().equals(ItemsMC.HUNGRY_CHEST_UPGRADE.getRegistryName());
 	}
 
 	@Override
@@ -49,6 +43,6 @@ public class TileHungryMetalChest extends TileMetalChest {
 
 	@Override
 	public String getTranslationKey() {
-		return "tile.metalchests:hungry_metal_chest." + chestType.getName() + ".name";
+		return String.format("tile.%s:%s.%s.name", RegistryMC.MOD_ID, RegistryMC.KEY_METAL_HUNGRY_CHEST, chestType.getName());
 	}
 }

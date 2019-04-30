@@ -151,7 +151,7 @@ class ModLoader {
 			registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
 
 			if (ModSupport.hasRefinedRelocation()) {
-				UpgradeRegistry.registerChest(RegistryMC.RESOURCE_CHEST_UPGRADE, ModBlocks.sortingChest, BlocksMC.SORTING_METAL_CHEST);
+				UpgradeRegistry.registerChest(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
 			}
 
 			if (ModConfig.GENERAL.enableMinecarts) {
@@ -211,7 +211,7 @@ class ModLoader {
 				for (ChestType type : ChestType.values()) {
 					if (type.isRegistered()) {
 						GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_chest_" + type.getName()), null,
-								new ItemStack(BlocksMC.SORTING_METAL_CHEST, 1, type.ordinal()),
+								new ItemStack(BlocksMC.METAL_SORTING_CHEST, 1, type.ordinal()),
 								" a ", "bcb", " d ",
 								'a', Items.WRITABLE_BOOK,
 								'b', Items.REDSTONE,
@@ -220,11 +220,11 @@ class ModLoader {
 
 						if (ModSupport.hasThaumcraft()) {
 							GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_hungry_chest_" + type.getName()), null,
-									new ItemStack(BlocksMC.SORTING_HUNGRY_METAL_CHEST, 1, type.ordinal()),
+									new ItemStack(BlocksMC.METAL_HUNGRY_SORTING_CHEST, 1, type.ordinal()),
 									" a ", "bcb", " d ",
 									'a', Items.WRITABLE_BOOK,
 									'b', Items.REDSTONE,
-									'c', new ItemStack(BlocksMC.HUNGRY_METAL_CHEST, 1, type.ordinal()),
+									'c', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal()),
 									'd', Blocks.HOPPER);
 						}
 					}

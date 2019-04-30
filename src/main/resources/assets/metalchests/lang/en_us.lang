@@ -1,16 +1,16 @@
 
 itemGroup.metalchests=MetalChests
 
-tc.research_category.HUNGRYMETALCHESTS=Hungry Metal Chests
+tc.research_category.MetalChests=Metal Hungry Chests
 
-research.HUNGRYMETALCHEST.title=Hungry Metal Chests
-research.HUNGRYMETALCHEST.stage.1=After developing the Hungry Chest, I have turned my attention to improving it. Perhaps tinkering with its structural attributes can improve storage ability?
-research.HUNGRYMETALCHEST.stage.2=My experiments have succeeded! It would appear metals create the desired miracle. Cascading chest upgrades yield an increase in storage space. But surely there is a better way to upgrade these chests...
-research.HUNGRYMETALCHEST.addendum=... And there certainly is! After some deliberation, the answer was so clear. Instead of manually compounding the chests on my workbench, simply compound the *materials*, and apply them directly! Brilliant!
+research.metal_hungry_chests.title=Metal Hungry Chests
+research.metal_hungry_chests.stage.1=After developing the Hungry Chest, I have turned my attention to improving it. Perhaps tinkering with its structural attributes can improve storage ability?
+research.metal_hungry_chests.stage.2=My experiments have succeeded! It would appear metals create the desired miracle. Cascading chest upgrades yield an increase in storage space. But surely there is a better way to upgrade these chests...
+research.metal_hungry_chests.addendum=... And there certainly is! After some deliberation, the answer was so clear. Instead of manually compounding the chests on my workbench, simply compound the *materials*, and apply them directly! Brilliant!
 
-research.HUNGRYMETALCHESTSUPGRADES.title=Hungry Chest Upgrades
-research.HUNGRYMETALCHESTSUPGRADES.stage.1=Emulating my structural progress with metals and chests should be the key I need to abstract the process to a more convenient medium...
-research.HUNGRYMETALCHESTSUPGRADES.stage.2=Success! I can now upgrade my creations in-place. After all, they seem so happy where they lay. Why disturb that?
+research.metal_hungry_chest_upgrades.title=Hungry Chest Upgrades
+research.metal_hungry_chest_upgrades.stage.1=Emulating my structural progress with metals and chests should be the key I need to abstract the process to a more convenient medium...
+research.metal_hungry_chest_upgrades.stage.2=Success! I can now upgrade my creations in-place. After all, they seem so happy where they lay. Why disturb that?
 
 metalchests.client.update.prefix=MetalChests
 metalchests.client.update= has an update! Download 
@@ -32,12 +32,12 @@ item.metalchests:minecart_metal_chest.gold.name=Minecart with Gold Chest
 item.metalchests:minecart_metal_chest.diamond.name=Minecart with Diamond Chest
 item.metalchests:minecart_metal_chest.obsidian.name=Minecart with Obsidian Chest
 
-tile.metalchests:sorting_metal_chest.copper.name=Sorting Copper Chest
-tile.metalchests:sorting_metal_chest.iron.name=Sorting Iron Chest
-tile.metalchests:sorting_metal_chest.silver.name=Sorting Silver Chest
-tile.metalchests:sorting_metal_chest.gold.name=Sorting Gold Chest
-tile.metalchests:sorting_metal_chest.diamond.name=Sorting Diamond Chest
-tile.metalchests:sorting_metal_chest.obsidian.name=Sorting Obsidian Chest
+tile.metalchests:metal_sorting_chest.copper.name=Copper Sorting Chest
+tile.metalchests:metal_sorting_chest.iron.name=Iron Sorting Chest
+tile.metalchests:metal_sorting_chest.silver.name=Silver Sorting Chest
+tile.metalchests:metal_sorting_chest.gold.name=Gold Sorting Chest
+tile.metalchests:metal_sorting_chest.diamond.name=Diamond Sorting Chest
+tile.metalchests:metal_sorting_chest.obsidian.name=Obsidian Sorting Chest
 
 item.metalchests:chest_upgrade.wood_copper.name=Wood to Copper Chest Upgrade
 item.metalchests:chest_upgrade.wood_iron.name=Wood to Iron Chest Upgrade
@@ -61,19 +61,19 @@ item.metalchests:chest_upgrade.gold_diamond.name=Gold to Diamond Chest Upgrade
 item.metalchests:chest_upgrade.gold_obsidian.name=Gold to Obsidian Chest Upgrade
 item.metalchests:chest_upgrade.diamond_obsidian.name=Diamond to Obsidian Chest Upgrade
 
-tile.metalchests:hungry_metal_chest.copper.name=Hungry Copper Chest
-tile.metalchests:hungry_metal_chest.iron.name=Hungry Iron Chest
-tile.metalchests:hungry_metal_chest.silver.name=Hungry Silver Chest
-tile.metalchests:hungry_metal_chest.gold.name=Hungry Gold Chest
-tile.metalchests:hungry_metal_chest.diamond.name=Hungry Diamond Chest
-tile.metalchests:hungry_metal_chest.obsidian.name=Hungry Obsidian Chest
+tile.metalchests:metal_hungry_chest.copper.name=Copper Hungry Chest
+tile.metalchests:metal_hungry_chest.iron.name=Iron Hungry Chest
+tile.metalchests:metal_hungry_chest.silver.name=Silver Hungry Chest
+tile.metalchests:metal_hungry_chest.gold.name=Gold Hungry Chest
+tile.metalchests:metal_hungry_chest.diamond.name=Diamond Hungry Chest
+tile.metalchests:metal_hungry_chest.obsidian.name=Obsidian Hungry Chest
 
-tile.metalchests:sorting_hungry_metal_chest.copper.name=Sorting Hungry Copper Chest
-tile.metalchests:sorting_hungry_metal_chest.iron.name=Sorting Hungry Iron Chest
-tile.metalchests:sorting_hungry_metal_chest.silver.name=Sorting Hungry Silver Chest
-tile.metalchests:sorting_hungry_metal_chest.gold.name=Sorting Hungry Gold Chest
-tile.metalchests:sorting_hungry_metal_chest.diamond.name=Sorting Hungry Diamond Chest
-tile.metalchests:sorting_hungry_metal_chest.obsidian.name=Sorting Hungry Obsidian Chest
+tile.metalchests:metal_hungry_sorting_chest.copper.name=Copper Hungry Sorting Chest
+tile.metalchests:metal_hungry_sorting_chest.iron.name=Iron Hungry Sorting Chest
+tile.metalchests:metal_hungry_sorting_chest.silver.name=Silver Hungry Sorting Chest
+tile.metalchests:metal_hungry_sorting_chest.gold.name=Gold Hungry Sorting Chest
+tile.metalchests:metal_hungry_sorting_chest.diamond.name=Diamond Hungry Sorting Chest
+tile.metalchests:metal_hungry_sorting_chest.obsidian.name=Obsidian Hungry Sorting Chest
 
 item.metalchests:hungry_chest_upgrade.wood_copper.name=Wood to Copper Hungry Chest Upgrade
 item.metalchests:hungry_chest_upgrade.wood_iron.name=Wood to Iron Hungry Chest Upgrade

@@ -19,18 +19,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
+import T145.metalchests.items.ItemChestUpgrade;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -114,11 +113,6 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
 	@Override
 	public void setFront(EnumFacing front) {}
-
-	@Override
-	public boolean isUpgradeApplicable(Item upgrade) {
-		return upgrade.getRegistryName().equals(ItemsMC.CHEST_UPGRADE.getRegistryName());
-	}
 
 	@Override
 	protected void entityInit() {
@@ -214,7 +208,7 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		if (player.isSneaking()) {
 			ItemStack stack = player.getHeldItem(hand);
 
-			if (isUpgradeApplicable(stack.getItem())) {
+			if (stack.getItem() instanceof ItemChestUpgrade) {
 				ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
 				if (getChestType() == upgrade.getBase()) {
