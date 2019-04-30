@@ -28,7 +28,6 @@ import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockMetalSortingChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungryChest;
@@ -142,7 +141,19 @@ class LoaderServer {
 		if (ModSupport.hasRefinedRelocation()) {
 			final IForgeRegistry<Block> registry = event.getRegistry();
 
-			registry.register(BlocksMC.METAL_SORTING_CHEST = new BlockMetalSortingChest());
+			registry.register(BlocksMC.METAL_SORTING_CHEST = new BlockMetalChest() {
+
+				@Override
+				protected void registerResource() {
+					this.registerResource(RegistryMC.RESOURCE_METAL_SORTING_CHEST);
+				}
+
+				@Nullable
+				@Override
+				public TileEntity createTileEntity(World world, IBlockState state) {
+					return new TileMetalSortingChest(state.getValue(IMetalChest.VARIANT));
+				}
+			});
 			ModLoader.registerTileEntity(TileMetalSortingChest.class);
 		}
 	}
@@ -291,7 +302,7 @@ class LoaderServer {
 			ModLoader.registerTileEntity(TileMetalHungryChest.class);
 
 			if (ModSupport.hasRefinedRelocation()) {
-				registry.register(BlocksMC.METAL_HUNGRY_SORTING_CHEST = new BlockMetalSortingChest() {
+				registry.register(BlocksMC.METAL_HUNGRY_SORTING_CHEST = new BlockMetalChest() {
 
 					protected void registerResource() {
 						this.registerResource(RegistryMC.RESOURCE_METAL_HUNGRY_SORTING_CHEST);
