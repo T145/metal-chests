@@ -1,17 +1,6 @@
 
 itemGroup.metalchests=MetalChests
 
-tc.research_category.MetalChests=Metal Hungry Chests
-
-research.metal_hungry_chests.title=Metal Hungry Chests
-research.metal_hungry_chests.stage.1=After developing the Hungry Chest, I have turned my attention to improving it. Perhaps tinkering with its structural attributes can improve storage ability?
-research.metal_hungry_chests.stage.2=My experiments have succeeded! It would appear metals create the desired miracle. Cascading chest upgrades yield an increase in storage space. But surely there is a better way to upgrade these chests...
-research.metal_hungry_chests.addendum=... And there certainly is! After some deliberation, the answer was so clear. Instead of manually compounding the chests on my workbench, simply compound the *materials*, and apply them directly! Brilliant!
-
-research.metal_hungry_chest_upgrades.title=Hungry Chest Upgrades
-research.metal_hungry_chest_upgrades.stage.1=Emulating my structural progress with metals and chests should be the key I need to abstract the process to a more convenient medium...
-research.metal_hungry_chest_upgrades.stage.2=Success! I can now upgrade my creations in-place. After all, they seem so happy where they lay. Why disturb that?
-
 metalchests.client.update.prefix=MetalChests
 metalchests.client.update= has an update! Download 
 
@@ -31,6 +20,48 @@ item.metalchests:minecart_metal_chest.silver.name=Minecart with Silver Chest
 item.metalchests:minecart_metal_chest.gold.name=Minecart with Gold Chest
 item.metalchests:minecart_metal_chest.diamond.name=Minecart with Diamond Chest
 item.metalchests:minecart_metal_chest.obsidian.name=Minecart with Obsidian Chest
+
+metalchests:oak_boat_metal_chest.copper.name=Oak Boat with Copper Chest
+metalchests:oak_boat_metal_chest.iron.name=Oak Boat with Iron Chest
+metalchests:oak_boat_metal_chest.silver.name=Oak Boat with Silver Chest
+metalchests:oak_boat_metal_chest.gold.name=Oak Boat with Gold Chest
+metalchests:oak_boat_metal_chest.diamond.name=Oak Boat with Diamond Chest
+metalchests:oak_boat_metal_chest.obsidian.name=Oak Boat with Obsidian Chest
+
+metalchests:spruce_boat_metal_chest.copper.name=Spruce Boat with Copper Chest
+metalchests:spruce_boat_metal_chest.iron.name=Spruce Boat with Iron Chest
+metalchests:spruce_boat_metal_chest.silver.name=Spruce Boat with Silver Chest
+metalchests:spruce_boat_metal_chest.gold.name=Spruce Boat with Gold Chest
+metalchests:spruce_boat_metal_chest.diamond.name=Spruce Boat with Diamond Chest
+metalchests:spruce_boat_metal_chest.obsidian.name=Spruce Boat with Obsidian Chest
+
+metalchests:birch_boat_metal_chest.copper.name=Birch Boat with Copper Chest
+metalchests:birch_boat_metal_chest.iron.name=Birch Boat with Iron Chest
+metalchests:birch_boat_metal_chest.silver.name=Birch Boat with Silver Chest
+metalchests:birch_boat_metal_chest.gold.name=Birch Boat with Gold Chest
+metalchests:birch_boat_metal_chest.diamond.name=Birch Boat with Diamond Chest
+metalchests:birch_boat_metal_chest.obsidian.name=Birch Boat with Obsidian Chest
+
+metalchests:jungle_boat_metal_chest.copper.name=Jungle Boat with Copper Chest
+metalchests:jungle_boat_metal_chest.iron.name=Jungle Boat with Iron Chest
+metalchests:jungle_boat_metal_chest.silver.name=Jungle Boat with Silver Chest
+metalchests:jungle_boat_metal_chest.gold.name=Jungle Boat with Gold Chest
+metalchests:jungle_boat_metal_chest.diamond.name=Jungle Boat with Diamond Chest
+metalchests:jungle_boat_metal_chest.obsidian.name=Jungle Boat with Obsidian Chest
+
+metalchests:acacia_boat_metal_chest.copper.name=Spruce Boat with Copper Chest
+metalchests:acacia_boat_metal_chest.iron.name=Spruce Boat with Iron Chest
+metalchests:acacia_boat_metal_chest.silver.name=Spruce Boat with Silver Chest
+metalchests:acacia_boat_metal_chest.gold.name=Spruce Boat with Gold Chest
+metalchests:acacia_boat_metal_chest.diamond.name=Spruce Boat with Diamond Chest
+metalchests:acacia_boat_metal_chest.obsidian.name=Spruce Boat with Obsidian Chest
+
+metalchests:dark_oak_boat_metal_chest.copper.name=Dark Oak Boat with Copper Chest
+metalchests:dark_oak_boat_metal_chest.iron.name=Dark Oak Boat with Iron Chest
+metalchests:dark_oak_boat_metal_chest.silver.name=Dark Oak Boat with Silver Chest
+metalchests:dark_oak_boat_metal_chest.gold.name=Dark Oak Boat with Gold Chest
+metalchests:dark_oak_boat_metal_chest.diamond.name=Dark Oak Boat with Diamond Chest
+metalchests:dark_oak_boat_metal_chest.obsidian.name=Dark Oak Boat with Obsidian Chest
 
 tile.metalchests:metal_sorting_chest.copper.name=Copper Sorting Chest
 tile.metalchests:metal_sorting_chest.iron.name=Iron Sorting Chest

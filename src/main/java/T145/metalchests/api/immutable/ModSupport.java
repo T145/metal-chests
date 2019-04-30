@@ -16,7 +16,6 @@
 package T145.metalchests.api.immutable;
 
 import T145.metalchests.config.ModConfig;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Loader;
 
 public enum ModSupport {
@@ -29,11 +28,11 @@ public enum ModSupport {
 	 */;
 
 	public static boolean hasThaumcraft() {
-		return ModConfig.GENERAL.enableHungryMetalChests && Loader.isModLoaded(Thaumcraft.MOD_ID);
+		return ModConfig.GENERAL.enableMetalHungryChests && Loader.isModLoaded(Thaumcraft.MOD_ID);
 	}
 
 	public static boolean hasRefinedRelocation() {
-		return ModConfig.GENERAL.enableSortingMetalChests && Loader.isModLoaded(RefinedRelocation.MOD_ID);
+		return ModConfig.GENERAL.enableMetalHungrySortingChests && Loader.isModLoaded(RefinedRelocation.MOD_ID);
 	}
 
 	public static class InvTweaks {
@@ -65,8 +64,6 @@ public enum ModSupport {
 
 	public static class Thaumcraft {
 		public static final String MOD_ID = "thaumcraft";
-		public static final ResourceLocation DEFAULT_GROUP = new ResourceLocation("");
-		public static final ResourceLocation BACK_OVER = new ResourceLocation(MOD_ID, "textures/gui/gui_research_back_over.png");
 	}
 
 	public static class RefinedRelocation {

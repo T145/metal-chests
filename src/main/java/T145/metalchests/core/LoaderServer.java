@@ -170,6 +170,17 @@ class LoaderServer {
 		}
 	}
 
+	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String name) {
+		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_%s_sorting_%s", type.getName(), name)), null,
+			new ItemStack(metalChest, 1, type.ordinal()),
+				" a ", "bcb", " d ",
+				'a', Items.WRITABLE_BOOK,
+				'b', Items.REDSTONE,
+				'c', new ItemStack(baseChest, 1, type.ordinal()),
+				'd', Blocks.HOPPER
+			);
+	}
+
 	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRefinedRelocationRecipes(RegistryEvent.Register<IRecipe> event) {
@@ -178,23 +189,11 @@ class LoaderServer {
 				if (type.isRegistered()) {
 					ItemStack chestStack = new ItemStack(BlocksMC.METAL_SORTING_CHEST, 1, type.ordinal());
 					OreDictionary.registerOre("chest", chestStack);
-					OreDictionary.registerOre("chestSorting" + WordUtils.capitalize(type.getName()), chestStack);
-					GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_chest_" + type.getName()), null,
-							new ItemStack(BlocksMC.METAL_SORTING_CHEST, 1, type.ordinal()),
-							" a ", "bcb", " d ",
-							'a', Items.WRITABLE_BOOK,
-							'b', Items.REDSTONE,
-							'c', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
-							'd', Blocks.HOPPER);
+					OreDictionary.registerOre(String.format("chestSorting%s", WordUtils.capitalize(type.getName())), chestStack);
+					registerSortingChestRecipe(BlocksMC.METAL_CHEST, BlocksMC.METAL_SORTING_CHEST, type, "chest");
 
 					if (ModSupport.hasThaumcraft()) {
-						GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_hungry_chest_" + type.getName()), null,
-								new ItemStack(BlocksMC.METAL_HUNGRY_SORTING_CHEST, 1, type.ordinal()),
-								" a ", "bcb", " d ",
-								'a', Items.WRITABLE_BOOK,
-								'b', Items.REDSTONE,
-								'c', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal()),
-								'd', Blocks.HOPPER);
+						registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, type, "hungry_chest");
 					}
 				}
 			}
@@ -369,13 +368,13 @@ class LoaderServer {
 					ItemStack chestStack = new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal());
 
 					OreDictionary.registerOre("chest", chestStack);
-					OreDictionary.registerOre("chestHungry" + capitalizedName, chestStack);
+					OreDictionary.registerOre(String.format("chestHungry%s", capitalizedName), chestStack);
 
 					if (ModSupport.hasRefinedRelocation()) {
 						chestStack = new ItemStack(BlocksMC.METAL_HUNGRY_SORTING_CHEST, 1, type.ordinal());
 
 						OreDictionary.registerOre("chest", chestStack);
-						OreDictionary.registerOre("chestSortingHungry" + capitalizedName, chestStack);
+						OreDictionary.registerOre(String.format("chestSortingHungry%s", capitalizedName), chestStack);
 					}
 				}
 			}

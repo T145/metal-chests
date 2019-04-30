@@ -96,7 +96,7 @@ class ModLoader {
 	}
 
 	public static String getVariantName(IStringSerializable variant) {
-		return "variant=" + variant.getName();
+		return String.format("variant=%s", variant.getName());
 	}
 
 	public static Object getUpgradeBase(Object base, Item upgrade, ChestUpgrade type) {
@@ -235,14 +235,24 @@ class ModLoader {
 					ItemStack chestStack = new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal());
 					OreDictionary.registerOre("chest", chestStack);
 					OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), chestStack);
-					GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_minecart_chest_" + type.getName()), null, new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()), "a", "b", 'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()), 'b', Items.MINECART);
+					GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_minecart_chest_%s", type.getName())), null,
+						new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()),
+							"a", "b",
+							'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
+							'b', Items.MINECART
+						);
 				}
 			}
 
 			registerMetalChestRecipes("chestWood", BlocksMC.METAL_CHEST, "chest");
 
 			for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_chest_upgrade_" + upgrade.getName()), null, new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()), "aaa", "aaa", "baa", 'a', upgrade.getUpgrade().getOreName(), 'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_chest_upgrade_%s", upgrade.getName())), null,
+					new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
+						"aaa", "aaa", "baa",
+						'a', upgrade.getUpgrade().getOreName(),
+						'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade)
+					);
 			}
 		}
 
@@ -323,7 +333,7 @@ class ModLoader {
 		if (StringUtils.isNullOrEmpty(customDomain)) {
 			return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
 		} else {
-			return new ModelResourceLocation(RegistryMC.MOD_ID + ":" + customDomain, variantPath.toString());
+			return new ModelResourceLocation(String.format("%s:%s", RegistryMC.MOD_ID, customDomain), variantPath.toString());
 		}
 	}
 
@@ -367,14 +377,14 @@ class ModLoader {
 				registerModel(BlocksMC.METAL_CHEST, type.ordinal(), getVariantName(type));
 
 				if (ModConfig.GENERAL.enableMinecarts) {
-					registerModel(ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), "item=" + type.getName() + "_chest");
+					registerModel(ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), String.format("item=%s_chest", type.getName()));
 				}
 			}
 
 			registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 			for (ChestUpgrade type : ChestUpgrade.values()) {
-				registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), "item=" + type.getName());
+				registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), String.format("item=%s", type.getName()));
 			}
 
 			RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));

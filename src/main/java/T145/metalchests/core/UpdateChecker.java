@@ -50,7 +50,7 @@ public class UpdateChecker {
 	public static ITextComponent getUpdateNotification() {
 		ITextComponent prefix = new TextComponentTranslation("metalchests.client.update.prefix").setStyle(new Style().setColor(TextFormatting.GREEN));
 		ITextComponent base = new TextComponentTranslation("metalchests.client.update").setStyle(new Style().setColor(TextFormatting.GOLD));
-		ITextComponent postfix = new TextComponentString(TextFormatting.AQUA + getLatestVersion() + TextFormatting.GOLD + "!");
+		ITextComponent postfix = new TextComponentString(String.format("%s%s%s!", TextFormatting.AQUA, getLatestVersion(), TextFormatting.GOLD));
 		return prefix.appendSibling(base).appendSibling(postfix);
 	}
 }

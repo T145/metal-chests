@@ -53,16 +53,14 @@ class TransportableMetalChestImpl extends TransportableChestImpl {
 	public ItemStack createChestStack(ItemStack transporter) {
 		ItemStack stack = super.createChestStack(transporter);
 		NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
-		String chestType = tag.getString("ChestType");
-		stack.setItemDamage(ChestType.valueOf(chestType).ordinal());
+		stack.setItemDamage(ChestType.valueOf(tag.getString("ChestType")).ordinal());
 		return stack;
 	}
 
 	@Override
 	public ResourceLocation getChestModel(ItemStack transporter) {
 		NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
-		String chestType = tag.getString("ChestType");
-		return new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + chestType.toLowerCase());
+		return new ResourceLocation(RegistryMC.MOD_ID, String.format("item/chesttransporter/%s%s", prefix, tag.getString("ChestType").toLowerCase()));
 	}
 
 	@Override
@@ -70,7 +68,7 @@ class TransportableMetalChestImpl extends TransportableChestImpl {
 		List<ResourceLocation> models = new ArrayList<>();
 
 		for (ChestType type : ChestType.values()) {
-			models.add(new ResourceLocation(RegistryMC.MOD_ID, "item/chesttransporter/" + prefix + type.getName()));
+			models.add(new ResourceLocation(RegistryMC.MOD_ID, String.format("item/chesttransporter/%s%s", prefix, type.getName())));
 		}
 
 		return models;

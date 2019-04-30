@@ -210,7 +210,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		if (hasCustomName()) {
 			return getCustomNameTag();
 		} else {
-			return I18n.translateToLocal("item.metalchests:minecart_metal_chest." + getChestType().getName() + ".name");
+			return I18n.translateToLocal(String.format("item.metalchests:minecart_metal_chest.%s.name", getChestType().getName()));
 		}
 	}
 

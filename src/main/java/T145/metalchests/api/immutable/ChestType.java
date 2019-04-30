@@ -109,7 +109,7 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public String getGuiId() {
-		return "metalchests:" + getName() + "_chest";
+		return String.format("metalchests:%s_chest", getName());
 	}
 
 	public enum GUI {
@@ -140,7 +140,7 @@ public enum ChestType implements IStringSerializable {
 
 		public ResourceLocation getGuiTexture() {
 			ChestType type = ChestType.byMetadata(ordinal());
-			return new ResourceLocation("metalchests", "textures/gui/" + (type.isLarge() ? "diamond" : type.getName()) + "_container.png");
+			return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
 		}
 	}
 }

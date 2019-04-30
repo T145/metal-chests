@@ -55,12 +55,12 @@ class LoaderClient {
 
 					@Override
 					protected ResourceLocation getActiveResource(ChestType type) {
-						return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+						return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
 					}
 
 					@Override
 					protected ResourceLocation getActiveOverlay(ChestType type) {
-						return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/overlay/" + type.getName() + ".png");
+						return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/hungry/overlay/%s.png", type.getName()));
 					}
 				});
 			}
@@ -79,7 +79,7 @@ class LoaderClient {
 
 				@Override
 				protected ResourceLocation getActiveResource(ChestType type) {
-					return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/hungry/" + type.getName() + ".png");
+					return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
 				}
 			});
 		}

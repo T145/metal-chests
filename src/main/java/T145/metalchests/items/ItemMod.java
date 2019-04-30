@@ -57,7 +57,7 @@ public class ItemMod extends Item {
 	@Override
 	public String getTranslationKey(ItemStack stack) {
 		if (hasSubtypes) {
-			return super.getTranslationKey() + "." + ((IStringSerializable) types[stack.getMetadata()]).getName();
+			return String.format("%s.%s", super.getTranslationKey(), ((IStringSerializable) types[stack.getMetadata()]).getName());
 		}
 		return super.getTranslationKey(stack);
 	}

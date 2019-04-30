@@ -22,18 +22,18 @@ public class CategoryGeneral {
 	@Config.Comment("Whether or not you want to recieve an in-game notification if an update is available.")
 	public boolean checkForUpdates = true;
 
-	@Config.Comment("Whether or not metal chest models are like the vanilla chest; black in the middle.")
+	@Config.Comment("Whether or not all metal chest models are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
 	public boolean hollowModelTextures;
 
 	@Config.Comment("Whether or not you want to enable the Minecarts with Metal Chests.")
 	@Config.RequiresMcRestart
 	public boolean enableMinecarts = true;
 
-	@Config.Comment("If Thaumcraft is installed, whether or not you want to enable the Hungry Metal Chests and their upgrades.")
+	@Config.Comment("If Thaumcraft is installed, whether or not you want to enable the Metal Hungry Chests.")
 	@Config.RequiresMcRestart
-	public boolean enableHungryMetalChests = true;
+	public boolean enableMetalHungryChests = true;
 
-	@Config.Comment("If Refined Relocation 2 is installed, whether or not you want to enable the Hungry Sorting Metal Chests.")
+	@Config.Comment("If Refined Relocation 2 is installed, whether or not you want to enable the Metal Hungry Sorting Chests.")
 	@Config.RequiresMcRestart
-	public boolean enableSortingMetalChests = true;
+	public boolean enableMetalHungrySortingChests = true;
 }

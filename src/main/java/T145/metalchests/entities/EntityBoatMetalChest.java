@@ -39,6 +39,7 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -134,6 +135,15 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		setChestType(ChestType.valueOf(tag.getString("Type")));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 		setBoatType(Type.byId(tag.getInteger("BoatType")));
+	}
+
+	@Override
+	public String getName() {
+		if (hasCustomName()) {
+			return getCustomNameTag();
+		} else {
+			return I18n.translateToLocal(String.format("metalchests:%s_boat_metal_chest.%s.name", getBoatType().getName(), getChestType().getName()));
+		}
 	}
 
 	@Override
