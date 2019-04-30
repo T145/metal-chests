@@ -42,6 +42,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecartEmpty;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -177,6 +179,23 @@ class LoaderServer {
 					ItemStack chestStack = new ItemStack(BlocksMC.METAL_SORTING_CHEST, 1, type.ordinal());
 					OreDictionary.registerOre("chest", chestStack);
 					OreDictionary.registerOre("chestSorting" + WordUtils.capitalize(type.getName()), chestStack);
+					GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_chest_" + type.getName()), null,
+							new ItemStack(BlocksMC.METAL_SORTING_CHEST, 1, type.ordinal()),
+							" a ", "bcb", " d ",
+							'a', Items.WRITABLE_BOOK,
+							'b', Items.REDSTONE,
+							'c', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
+							'd', Blocks.HOPPER);
+
+					if (ModSupport.hasThaumcraft()) {
+						GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "recipe_sorting_hungry_chest_" + type.getName()), null,
+								new ItemStack(BlocksMC.METAL_HUNGRY_SORTING_CHEST, 1, type.ordinal()),
+								" a ", "bcb", " d ",
+								'a', Items.WRITABLE_BOOK,
+								'b', Items.REDSTONE,
+								'c', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal()),
+								'd', Blocks.HOPPER);
+					}
 				}
 			}
 		}
@@ -361,62 +380,7 @@ class LoaderServer {
 				}
 			}
 
-			if (ChestType.COPPER.isRegistered()) {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "copper_hungry_chest"), null,
-					new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 0),
-						"aaa", "aba", "aaa",
-						'a', "ingotCopper",
-						'b', new ItemStack(BlocksTC.hungryChest)
-					);
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "iron_hungry_chest"), null,
-					new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 1),
-						"aaa", "aba", "aaa",
-						'a', "ingotIron",
-						'b', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 0)
-					);
-			} else {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "iron_hungry_chest"), null,
-					new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 1),
-						"aaa", "aba", "aaa",
-						'a', "ingotIron",
-						'b', new ItemStack(BlocksTC.hungryChest)
-					);
-			}
-
-			if (ChestType.SILVER.isRegistered()) {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "silver_hungry_chest"), null,
-					new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 2),
-						"aaa", "aba", "aaa",
-						'a', "ingotSilver",
-						'b', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 1)
-					);
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "gold_hungry_chest"), null,
-					new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 3),
-						"aaa", "aba", "aaa",
-						'a', "ingotGold",
-						'b', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 2)
-					);
-			} else {
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "gold_hungry_chest"), null,
-					new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 3),
-						"aaa", "aba", "aaa",
-						'a', "ingotGold",
-						'b', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 1)
-					);
-			}
-
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "diamond_hungry_chest"), null,
-				new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 4),
-					"aaa", "aba", "aaa",
-					'a', "gemDiamond",
-					'b', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 3)
-				);
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, "obsidian_hungry_chest"), null,
-				new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 5),
-					"aaa", "aba", "aaa",
-					'a', "obsidian",
-					'b', new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, 4)
-				);
+			ModLoader.registerMetalChestRecipes(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "hungry_chest");
 		}
 	}
 }
