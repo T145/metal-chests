@@ -35,6 +35,10 @@ public enum ModSupport {
 		return ModConfig.GENERAL.enableMetalHungrySortingChests && Loader.isModLoaded(RefinedRelocation.MOD_ID);
 	}
 
+	public static boolean hasThermalExpansion() {
+		return Loader.isModLoaded(ThermalExpansion.MOD_ID);
+	}
+
 	public static class InvTweaks {
 		public static final String MOD_ID = "invtweaks";
 		public static final String CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
@@ -69,5 +73,10 @@ public enum ModSupport {
 	public static class RefinedRelocation {
 		public static final String MOD_ID = "refinedrelocation";
 		public static final String NAMEABLE = "net.blay09.mods.refinedrelocation.api.INameTaggable";
+	}
+
+	public static class ThermalExpansion {
+		public static final String MOD_ID = "thermalexpansion";
+		public static final String ENCHANTABLE_ITEM = "cofh.core.item.IEnchantableItem";
 	}
 }

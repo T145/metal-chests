@@ -24,12 +24,12 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public enum ChestType implements IStringSerializable {
 
-	COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper"),
-	IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
-	SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
-	GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
-	DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-	OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian");
+	COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper", 1),
+	IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron", 1),
+	SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver", 2),
+	GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold", 3),
+	DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond", 4),
+	OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian", 4);
 
 	enum InventorySize {
 		COPPER(45), IRON(54), SILVER(72), GOLD(81), DIAMOND(108);
@@ -46,17 +46,19 @@ public enum ChestType implements IStringSerializable {
 	private final MapColor color;
 	private final SoundType sound;
 	private final String dictName;
+	private final int holdingEnchantBound;
 
-	ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String dictName) {
+	ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String dictName, int holdingEnchantBound) {
 		this.invSize = invSize;
 		this.material = material;
 		this.color = color;
 		this.sound = sound;
 		this.dictName = dictName;
+		this.holdingEnchantBound = holdingEnchantBound;
 	}
 
-	ChestType(InventorySize invSize, MapColor color, SoundType sound, String dictName) {
-		this(invSize, Material.IRON, color, sound, dictName);
+	ChestType(InventorySize invSize, MapColor color, SoundType sound, String dictName, int holdingEnchantBound) {
+		this(invSize, Material.IRON, color, sound, dictName, holdingEnchantBound);
 	}
 
 	@Override
@@ -82,6 +84,10 @@ public enum ChestType implements IStringSerializable {
 
 	public String getOreName() {
 		return dictName;
+	}
+
+	public int getHoldingEnchantBound() {
+		return holdingEnchantBound;
 	}
 
 	public boolean isRegistered() {

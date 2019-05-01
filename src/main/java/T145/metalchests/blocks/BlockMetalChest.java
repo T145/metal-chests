@@ -19,9 +19,12 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
+import cofh.core.init.CoreEnchantments;
+import cofh.core.util.helpers.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -30,6 +33,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -37,6 +41,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
@@ -145,17 +150,51 @@ public class BlockMetalChest extends Block {
 	}
 
 	@Override
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		TileMetalChest chest = world.getTileEntity(pos) instanceof TileMetalChest ? (TileMetalChest) world.getTileEntity(pos) : null;
+
+		if (chest != null) {
+			ItemStack stack = new ItemStack(chest.getBlockType(), 1, chest.getChestType().ordinal());
+			NBTTagCompound tag = new NBTTagCompound();
+
+			if (chest.holdingEnchantLevel > 0) {
+				CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.holdingEnchantLevel);
+			}
+
+			chest.writeInventoryData(tag);
+			stack.setTagCompound(tag);
+			drops.add(stack);
+		}
+	}
+
+	@Override
+	public boolean removedByPlayer(IBlockState state, World world, BlockPos pos, EntityPlayer player, boolean willHarvest) {
+		if (willHarvest) {
+			return true; // If it will harvest, delay deletion of the block until after getDrops
+		}
+		return super.removedByPlayer(state, world, pos, player, willHarvest);
+	}
+
+	@Override
+	public void harvestBlock(World world, EntityPlayer player, BlockPos pos, IBlockState state, @Nullable TileEntity te, ItemStack tool) {
+		super.harvestBlock(world, player, pos, state, te, tool);
+		world.setBlockToAir(pos);
+	}
+
+	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
 
-			for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
-				ItemStack stack = chest.getInventory().getStackInSlot(i);
+			if (!ModSupport.hasThermalExpansion() || chest.holdingEnchantLevel < chest.getChestType().getHoldingEnchantBound()) {
+				for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
+					ItemStack stack = chest.getInventory().getStackInSlot(i);
 
-				if (!stack.isEmpty()) {
-					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+					if (!stack.isEmpty()) {
+						InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+					}
 				}
 			}
 
@@ -172,6 +211,14 @@ public class BlockMetalChest extends Block {
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
 			chest.setFront(placer.getHorizontalFacing().getOpposite());
+
+			if (ModSupport.hasThermalExpansion() && stack.getTagCompound() != null) {
+				chest.holdingEnchantLevel = (byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel());
+
+				if (stack.getTagCompound().hasKey("Inventory")) {
+					chest.readInventoryData(stack.getTagCompound());
+				}
+			}
 		}
 	}
 

@@ -55,6 +55,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public float lidAngle;
 	public float prevLidAngle;
 	public int numPlayersUsing;
+	public byte holdingEnchantLevel;
 
 	protected ChestType chestType;
 	protected EnumFacing front;
@@ -198,13 +199,22 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		lidAngle = approachLinear(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
 	}
 
+	public void readInventoryData(NBTTagCompound tag) {
+		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+	}
+
 	@Override
 	@OverridingMethodsMustInvokeSuper
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		this.setChestType(ChestType.valueOf(tag.getString("ChestType")));
 		this.setFront(EnumFacing.byName(tag.getString("Front")));
-		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+		readInventoryData(tag);
+		this.holdingEnchantLevel = tag.getByte("EnchantmentHolding");
+	}
+
+	public void writeInventoryData(NBTTagCompound tag) {
+		tag.setTag("Inventory", inventory.serializeNBT());
 	}
 
 	@Override
@@ -213,7 +223,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		tag = super.writeToNBT(tag);
 		tag.setString("ChestType", chestType.toString());
 		tag.setString("Front", front.toString());
-		tag.setTag("Inventory", inventory.serializeNBT());
+		writeInventoryData(tag);
+		tag.setByte("EnchantmentHolding", holdingEnchantLevel);
 		return tag;
 	}
 

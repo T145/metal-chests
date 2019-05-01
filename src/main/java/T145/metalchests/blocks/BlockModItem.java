@@ -17,13 +17,19 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
+import cofh.core.init.CoreEnchantments;
+import cofh.core.item.IEnchantableItem;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.minecraftforge.fml.common.Optional;
 
-public class BlockModItem extends ItemBlock {
+@Optional.Interface(modid = ModSupport.ThermalExpansion.MOD_ID, iface = ModSupport.ThermalExpansion.ENCHANTABLE_ITEM, striprefs = true)
+public class BlockModItem extends ItemBlock implements IEnchantableItem {
 
 	private final Class<? extends Enum<? extends IStringSerializable>> blockTypes;
 
@@ -57,5 +63,26 @@ public class BlockModItem extends ItemBlock {
 		}
 
 		return name.toString();
+	}
+
+	@Override
+	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+		return ModSupport.hasThermalExpansion() && enchantment == CoreEnchantments.holding && !stack.isItemEnchanted() && stack.getCount() == 1;
+	}
+
+	@Override
+	public boolean isEnchantable(ItemStack stack) {
+		return ModSupport.hasThermalExpansion() && stack.getCount() == 1;
+	}
+
+	@Override
+	public int getItemEnchantability(ItemStack stack) {
+		return ModSupport.hasThermalExpansion() ? 10 : 0;
+	}
+
+	@Optional.Method(modid = ModSupport.ThermalExpansion.MOD_ID)
+	@Override
+	public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
+		return enchantment == CoreEnchantments.holding;
 	}
 }
