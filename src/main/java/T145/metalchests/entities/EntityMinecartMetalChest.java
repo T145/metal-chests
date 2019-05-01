@@ -28,6 +28,7 @@ import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -40,7 +41,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.Optional;
@@ -210,7 +210,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		if (hasCustomName()) {
 			return getCustomNameTag();
 		} else {
-			return I18n.translateToLocal(String.format("item.metalchests:minecart_metal_chest.%s.name", getChestType().getName()));
+			return I18n.format(String.format("item.metalchests:minecart_metal_chest.%s.name", getChestType().getName()));
 		}
 	}
 

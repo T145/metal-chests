@@ -25,6 +25,7 @@ import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
@@ -39,7 +40,6 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -142,7 +142,7 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		if (hasCustomName()) {
 			return getCustomNameTag();
 		} else {
-			return I18n.translateToLocal(String.format("metalchests:%s_boat_metal_chest.%s.name", getBoatType().getName(), getChestType().getName()));
+			return I18n.format(String.format("metalchests:%s_boat_metal_chest.%s.name", getBoatType().getName(), getChestType().getName()));
 		}
 	}
 
