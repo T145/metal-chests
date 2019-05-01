@@ -50,6 +50,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -149,22 +150,37 @@ public class BlockMetalChest extends Block {
 		return super.getExplosionResistance(world, pos, exploder, explosion);
 	}
 
-	@Override
-	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+	private ItemStack getDropStack(IBlockAccess world, BlockPos pos) {
 		TileMetalChest chest = world.getTileEntity(pos) instanceof TileMetalChest ? (TileMetalChest) world.getTileEntity(pos) : null;
 
 		if (chest != null) {
 			ItemStack stack = new ItemStack(chest.getBlockType(), 1, chest.getChestType().ordinal());
-			NBTTagCompound tag = new NBTTagCompound();
 
-			if (chest.holdingEnchantLevel > 0) {
-				CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.holdingEnchantLevel);
+			if (ModSupport.hasThermalExpansion() && chest.holdingEnchantLevel >= chest.getChestType().getHoldingEnchantBound()) {
+				NBTTagCompound tag = new NBTTagCompound();
+
+				if (chest.holdingEnchantLevel > 0) {
+					CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.holdingEnchantLevel);
+				}
+
+				chest.writeInventoryData(tag);
+				stack.setTagCompound(tag);
 			}
 
-			chest.writeInventoryData(tag);
-			stack.setTagCompound(tag);
-			drops.add(stack);
+			return stack;
 		}
+
+		return ItemStack.EMPTY;
+	}
+
+	@Override
+	public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+		return getDropStack(world, pos);
+	}
+
+	@Override
+	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {
+		drops.add(getDropStack(world, pos));
 	}
 
 	@Override
