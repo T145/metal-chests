@@ -33,4 +33,8 @@ public class UpgradeRegistry {
 	public static boolean hasChest(Block chestTile) {
 		return chests.containsKey(chestTile) && chests.get(chestTile) != null;
 	}
+
+	public static Block getDestTile(Block chestTile) {
+		return chests.get(chestTile);
+	}
 }

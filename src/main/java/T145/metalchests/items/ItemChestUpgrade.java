@@ -53,7 +53,7 @@ public class ItemChestUpgrade extends ItemMod {
 
 	@Override
 	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-		if (world.isRemote || !player.isSneaking()) {
+		if (world.isRemote) {
 			return EnumActionResult.PASS;
 		}
 
@@ -94,7 +94,7 @@ public class ItemChestUpgrade extends ItemMod {
 				vanillaChest.checkForAdjacentChests();
 			}
 
-			Block block = te.getBlockType();
+			Block block = UpgradeRegistry.getDestTile(te.getBlockType());
 
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
