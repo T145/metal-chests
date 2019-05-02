@@ -22,9 +22,9 @@ import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
-import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
+import T145.metalchests.core.ModSupport;
 import T145.metalchests.items.ItemChestUpgrade;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
@@ -49,7 +49,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
-@Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.ITEM_CART, striprefs = true)
+@Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.IFACE_ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IMetalChest, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.CHEST_TYPE);

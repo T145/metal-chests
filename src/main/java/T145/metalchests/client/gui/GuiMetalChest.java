@@ -15,8 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
-import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.containers.ContainerMetalChest;
+import T145.metalchests.core.ModSupport;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -28,8 +28,8 @@ import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.api.IItemSearchBar;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.CHEST_BUTTON_CALLBACK, striprefs = true),
-	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.SEARCH_BAR, striprefs = true)
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.IFACE_CHEST_BUTTON_CALLBACK, striprefs = true),
+	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.IFACE_SEARCH_BAR, striprefs = true)
 })
 @SideOnly(Side.CLIENT)
 public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {

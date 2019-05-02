@@ -17,8 +17,8 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.core.ModSupport;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
 import net.minecraft.block.Block;
@@ -28,7 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(modid = ModSupport.ThermalExpansion.MOD_ID, iface = ModSupport.ThermalExpansion.ENCHANTABLE_ITEM, striprefs = true)
+@Optional.Interface(modid = ModSupport.ThermalExpansion.MOD_ID, iface = ModSupport.ThermalExpansion.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockModItem extends ItemBlock implements IEnchantableItem {
 
 	private final Class<? extends Enum<? extends IStringSerializable>> blockTypes;

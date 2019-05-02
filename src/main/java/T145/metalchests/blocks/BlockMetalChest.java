@@ -19,9 +19,9 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ModSupport;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
+import T145.metalchests.core.ModSupport;
 import T145.metalchests.tiles.TileMetalChest;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.util.helpers.MathHelper;
