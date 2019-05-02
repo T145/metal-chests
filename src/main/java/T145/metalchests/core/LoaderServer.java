@@ -49,13 +49,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -202,48 +203,44 @@ class LoaderServer {
 
 	@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
 	@SubscribeEvent
-	public static void processRefinedRelocationPlayerInteract(PlayerInteractEvent event) {
-		if (event.getWorld().isRemote) {
+	public static void onRR2RightClick(RightClickBlock event) {
+		World world = event.getWorld();
+
+		if (world.isRemote) {
 			return;
 		}
 
+		BlockPos pos = event.getPos();
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te == null) {
+			return;
+		}
+
+		EntityPlayer player = event.getEntityPlayer();
 		ItemStack stack = event.getItemStack();
 
-		if (stack.getItem() instanceof ItemSortingUpgrade) {
-			World world = event.getWorld();
-			BlockPos pos = event.getPos();
-			TileEntity te = world.getTileEntity(pos);
+		if (player.isSneaking() && te instanceof TileMetalChest && stack.getItem() instanceof ItemSortingUpgrade) {
+			te.updateContainingBlockInfo();
 
-			if (te instanceof TileMetalChest) {
-				TileMetalChest oldChest = (TileMetalChest) te;
-				TileMetalChest newChest;
-				Block block;
+			TileMetalChest oldChest = (TileMetalChest) te;
+			TileMetalChest newChest = te instanceof TileMetalHungryChest ? new TileMetalHungrySortingChest(oldChest.getChestType()) : new TileMetalSortingChest(oldChest.getChestType());
+			Block chestBlock = newChest instanceof TileMetalHungrySortingChest ? BlocksMC.METAL_HUNGRY_SORTING_CHEST : BlocksMC.METAL_SORTING_CHEST;
 
-				if (te instanceof TileMetalHungryChest) {
-					block = BlocksMC.METAL_HUNGRY_SORTING_CHEST;
-					newChest = new TileMetalHungrySortingChest(oldChest.getChestType());
-				} else {
-					block = BlocksMC.METAL_SORTING_CHEST;
-					newChest = new TileMetalSortingChest(oldChest.getChestType());
-				}
+			world.removeTileEntity(pos);
+			world.setBlockToAir(pos);
+			world.setTileEntity(pos, newChest);
 
-				te.updateContainingBlockInfo();
+			IBlockState state = chestBlock.getDefaultState().withProperty(IMetalChest.VARIANT, newChest.getChestType());
+			world.setBlockState(pos, state, 3);
+			world.notifyBlockUpdate(pos, state, state, 3);
 
-				world.removeTileEntity(pos);
-				world.setBlockToAir(pos);
-				world.setTileEntity(pos, newChest);
+			TileEntity tile = world.getTileEntity(pos);
 
-				IBlockState state = block.getDefaultState().withProperty(IMetalChest.VARIANT, newChest.getChestType());
-				world.setBlockState(pos, state, 3);
-				world.notifyBlockUpdate(pos, state, state, 3);
-
-				TileEntity tile = world.getTileEntity(pos);
-
-				if (tile instanceof TileMetalChest) {
-					TileMetalChest chest = (TileMetalChest) tile;
-					chest.setInventory(oldChest.getInventory());
-					chest.setFront(oldChest.getFront());
-				}
+			if (tile instanceof TileMetalChest) {
+				TileMetalChest chest = (TileMetalChest) tile;
+				chest.setInventory(oldChest.getInventory());
+				chest.setFront(oldChest.getFront());
 			}
 		}
 	}
