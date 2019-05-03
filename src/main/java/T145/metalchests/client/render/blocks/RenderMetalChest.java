@@ -56,8 +56,8 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/%s%s", type.getName(), ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
 	}
 
-	private void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
-		if (destroyStage >= 0) {
+	private void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, float alpha) {
+		if (overlay != null) {
 			bindTexture(overlay);
 			GlStateManager.matrixMode(GL11.GL_TEXTURE);
 			GlStateManager.pushMatrix();
@@ -79,7 +79,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	}
 
 	private void preRender(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
-		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, destroyStage, alpha);
+		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, alpha);
 	}
 
 	private void postRenderModel(float lidAngle) {
@@ -110,7 +110,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		if (chest.getEnchantLevel() > 0) {
 			double spin = Minecraft.getSystemTime() / 1000D;
 
-			preRender(ENCHANT_GLINT, chest, x, y, z, 1, alpha);
+			preRender(ENCHANT_GLINT, chest, x, y, z, alpha);
 
 			GlStateManager.enableBlend();
 			GlStateManager.depthFunc(GL11.GL_EQUAL);
@@ -157,7 +157,6 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
 		f = 1.0F - f;
 		f = 1.0F - f * f * f;
-
 		postRender(chest, f, x, y, z, destroyStage, alpha);
 	}
 }
