@@ -25,8 +25,6 @@ import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -39,7 +37,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
 
 	protected final ModelChest model = new ModelChest();
-	protected static final ResourceLocation ENCHANTED_ITEM_GLINT_RES = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	private static final ResourceLocation ENCHANT_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
 	public static int getFrontAngle(EnumFacing front) {
 		switch (front) {
@@ -58,9 +56,9 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/%s%s", type.getName(), ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
 	}
 
-	private void preRender(ChestType type, EnumFacing dir, double x, double y, double z, int destroyStage, float alpha) {
+	private void preRender(ResourceLocation overlay, ChestType type, EnumFacing dir, double x, double y, double z, int destroyStage, float alpha) {
 		if (destroyStage >= 0) {
-			bindTexture(DESTROY_STAGES[destroyStage]);
+			bindTexture(overlay);
 			GlStateManager.matrixMode(GL11.GL_TEXTURE);
 			GlStateManager.pushMatrix();
 			GlStateManager.scale(4.0F, 4.0F, 1.0F);
@@ -80,19 +78,33 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 	}
 
-	private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	private void preRender(ChestType type, EnumFacing dir, double x, double y, double z, int destroyStage, float alpha) {
+		preRender(DESTROY_STAGES[destroyStage], type, dir, x, y, z, destroyStage, alpha);
+	}
 
-	private void postRender(float lidAngle, int destroyStage) {
+	private void postRenderModel(float lidAngle) {
 		model.chestLid.rotateAngleX = (float) -(lidAngle * (Math.PI / 2F));
 		model.renderAll();
+	}
+
+	private void postRenderChest() {
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+	}
+
+	private void postRenderOverlay() {
+		GlStateManager.matrixMode(GL11.GL_TEXTURE);
+		GlStateManager.popMatrix();
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+	}
+
+	private void postRender(float lidAngle, int destroyStage) {
+		postRenderModel(lidAngle);
+		postRenderChest();
 
 		if (destroyStage >= 0) {
-			GlStateManager.matrixMode(GL11.GL_TEXTURE);
-			GlStateManager.popMatrix();
-			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+			postRenderOverlay();
 		}
 	}
 
@@ -117,58 +129,39 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 
 		if (chest.holdingEnchantLevel > 0) {
 			double spin = Minecraft.getSystemTime() / 1000D;
-			bindTexture(ENCHANTED_ITEM_GLINT_RES);
-			GlStateManager.matrixMode(GL11.GL_TEXTURE);
-			GlStateManager.pushMatrix();
-			GlStateManager.scale(4.0F, 4.0F, 1.0F);
-			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
-			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-			GlStateManager.pushMatrix();
-			GlStateManager.enableRescaleNormal();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
-			GlStateManager.translate(x, y + 1.0F, z + 1.0F);
-			GlStateManager.scale(1.0F, -1.0F, -1.0F);
-			GlStateManager.translate(0.5F, 0.5F, 0.5F);
-			GlStateManager.rotate(getFrontAngle(chest.getFront()), 0.0F, 1.0F, 0.0F);
-			GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-			// render model
+
+			preRender(ENCHANT_GLINT, chest.getChestType(), chest.getFront(), x, y, z, 1, alpha);
+
 			GlStateManager.enableBlend();
-			GlStateManager.depthFunc(514);
+			GlStateManager.depthFunc(GL11.GL_EQUAL);
 			GlStateManager.depthMask(false);
-			float f1 = 0.5F;
 			GlStateManager.color(0.5F, 0.5F, 0.5F, 1.0F);
 
 			for (int i = 0; i < 2; ++i) {
 				GlStateManager.disableLighting();
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_COLOR, GlStateManager.DestFactor.ONE);
-				float f2 = 0.76F;
 				GlStateManager.color(0.38F, 0.19F, 0.608F, 1.0F);
-				GlStateManager.matrixMode(5890);
+				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
 				float f3 = 0.33333334F;
-				GlStateManager.scale(0.33333334F, 0.33333334F, 0.33333334F);
-				GlStateManager.rotate(30.0F - (float) i * 60.0F, 0.0F, 0.0F, 1.0F);
-				GlStateManager.translate(0.0F, ((float) (spin * 40D /* % 360 */) + partialTicks) * (0.001F + (float) i * 0.003F) * 20.0F, 0.0F);
-				GlStateManager.matrixMode(5888);
-				model.chestLid.rotateAngleX = (float) -(chest.lidAngle * (Math.PI / 2F));
-				model.renderAll();
+				GlStateManager.scale(f3, f3, f3);
+				GlStateManager.rotate(30.0F - i * 60.0F, 0.0F, 0.0F, 1.0F);
+				GlStateManager.translate(0.0F, (spin * 32D) * (0.001F + i * 0.003F) * 20.0F, 0.0F);
+				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+				postRenderModel(chest.lidAngle);
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			}
 
-			GlStateManager.matrixMode(5890);
+			GlStateManager.matrixMode(GL11.GL_TEXTURE);
 			GlStateManager.loadIdentity();
-			GlStateManager.matrixMode(5888);
+			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 			GlStateManager.enableLighting();
 			GlStateManager.depthMask(true);
-			GlStateManager.depthFunc(515);
+			GlStateManager.depthFunc(GL11.GL_LEQUAL);
 			GlStateManager.disableBlend();
 
-			GlStateManager.disableRescaleNormal();
-			GlStateManager.popMatrix();
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-			GlStateManager.matrixMode(GL11.GL_TEXTURE);
-			GlStateManager.popMatrix();
-			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+			postRenderChest();
+			postRenderOverlay();
 		}
 	}
 }
