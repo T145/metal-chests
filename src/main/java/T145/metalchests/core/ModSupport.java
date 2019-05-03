@@ -73,65 +73,48 @@ import thaumcraft.api.blocks.BlocksTC;
 
 public class ModSupport {
 
+	public static final String INVTWEAKS_MOD_ID = "invtweaks";
+	public static final String IFACE_CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
+
+	public static final String HOLOINVENTORY_MOD_ID = "holoinventory";
+	public static final String IFACE_NAMED_ITEM_HANDLER = "net.dries007.holoInventory.api.INamedItemHandler";
+
+	public static final String QUARK_MOD_ID = "quark";
+	public static final String IFACE_CHEST_BUTTON_CALLBACK = "vazkii.quark.api.IChestButtonCallback";
+	public static final String IFACE_DROPOFF_MANAGER = "vazkii.quark.api.IDropoffManager";
+	public static final String IFACE_SEARCH_BAR = "vazkii.quark.api.IItemSearchBar";
+
+	public static final String RAILCRAFT_MOD_ID = "railcraft";
+	public static final String IFACE_FLUID_CART = "mods.railcraft.api.carts.IFluidCart";
+	public static final String IFACE_ITEM_CART = "mods.railcraft.api.carts.IItemCart";
+
+	public static final String THERMALEXPANSION_MOD_ID = "thermalexpansion";
+	public static final String IFACE_ENCHANTABLE_ITEM = "cofh.core.item.IEnchantableItem";
+
+	public static final String CHESTTRANSPORTER_MOD_ID = "chesttransporter";
+	public static final String THAUMCRAFT_MOD_ID = "thaumcraft";
+
+	public static final String REFINEDRELOCATION_MOD_ID = "refinedrelocation";
+	public static final String IFACE_NAME_TAGGABLE = "net.blay09.mods.refinedrelocation.api.INameTaggable";
+
 	private ModSupport() {}
 
 	public static boolean hasThaumcraft() {
-		return ModConfig.GENERAL.enableMetalHungryChests && Loader.isModLoaded(Thaumcraft.MOD_ID);
+		return ModConfig.GENERAL.enableMetalHungryChests && Loader.isModLoaded(THAUMCRAFT_MOD_ID);
 	}
 
 	public static boolean hasRefinedRelocation() {
-		return ModConfig.GENERAL.enableMetalHungrySortingChests && Loader.isModLoaded(RefinedRelocation.MOD_ID);
+		return ModConfig.GENERAL.enableMetalHungrySortingChests && Loader.isModLoaded(REFINEDRELOCATION_MOD_ID);
 	}
 
 	public static boolean hasThermalExpansion() {
-		return Loader.isModLoaded(ThermalExpansion.MOD_ID);
-	}
-
-	public static class InvTweaks {
-		public static final String MOD_ID = "invtweaks";
-		public static final String IFACE_CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
-	}
-
-	public static class Quark {
-		public static final String MOD_ID = "quark";
-		public static final String IFACE_CHEST_BUTTON_CALLBACK = "vazkii.quark.api.IChestButtonCallback";
-		public static final String IFACE_DROPOFF_MANAGER = "vazkii.quark.api.IDropoffManager";
-		public static final String IFACE_SEARCH_BAR = "vazkii.quark.api.IItemSearchBar";
-	}
-
-	public static class HoloInventory {
-		public static final String MOD_ID = "holoinventory";
-		public static final String IFACE_NAMED_ITEM_HANDLER = "net.dries007.holoInventory.api.INamedItemHandler";
-	}
-
-	public static class Railcraft {
-		public static final String MOD_ID = "railcraft";
-		public static final String IFACE_FLUID_CART = "mods.railcraft.api.carts.IFluidCart";
-		public static final String IFACE_ITEM_CART = "mods.railcraft.api.carts.IItemCart";
-	}
-
-	public static class ChestTransporter {
-		public static final String MOD_ID = "chesttransporter";
-	}
-
-	public static class Thaumcraft {
-		public static final String MOD_ID = "thaumcraft";
-	}
-
-	public static class RefinedRelocation {
-		public static final String MOD_ID = "refinedrelocation";
-		public static final String IFACE_NAME_TAGGABLE = "net.blay09.mods.refinedrelocation.api.INameTaggable";
-	}
-
-	public static class ThermalExpansion {
-		public static final String MOD_ID = "thermalexpansion";
-		public static final String IFACE_ENCHANTABLE_ITEM = "cofh.core.item.IEnchantableItem";
+		return Loader.isModLoaded(THERMALEXPANSION_MOD_ID);
 	}
 
 	@EventBusSubscriber(modid = RegistryMC.MOD_ID)
 	static class ServerLoader {
 
-		@Optional.Method(modid = ModSupport.ChestTransporter.MOD_ID)
+		@Optional.Method(modid = CHESTTRANSPORTER_MOD_ID)
 		@SubscribeEvent
 		public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
 			final IForgeRegistry<TransportableChest> registry = event.getRegistry();
@@ -152,7 +135,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+		@Optional.Method(modid = QUARK_MOD_ID)
 		@SubscribeEvent
 		public static void processQuarkEntityInteract(EntityInteract event) {
 			Entity target = event.getTarget();
@@ -197,7 +180,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
+		@Optional.Method(modid = REFINEDRELOCATION_MOD_ID)
 		@SubscribeEvent
 		public static void registerRefinedRelocationBlocks(final RegistryEvent.Register<Block> event) {
 			if (ModSupport.hasRefinedRelocation()) {
@@ -220,7 +203,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
+		@Optional.Method(modid = REFINEDRELOCATION_MOD_ID)
 		@SubscribeEvent
 		public static void registerRefinedRelocationItems(final RegistryEvent.Register<Item> event) {
 			if (ModSupport.hasRefinedRelocation()) {
@@ -241,7 +224,7 @@ public class ModSupport {
 					);
 		}
 
-		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
+		@Optional.Method(modid = REFINEDRELOCATION_MOD_ID)
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerRefinedRelocationRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasRefinedRelocation()) {
@@ -260,7 +243,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
+		@Optional.Method(modid = REFINEDRELOCATION_MOD_ID)
 		@SubscribeEvent
 		public static void onRR2RightClick(RightClickBlock event) {
 			World world = event.getWorld();
@@ -348,7 +331,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
+		@Optional.Method(modid = ModSupport.THAUMCRAFT_MOD_ID)
 		@SubscribeEvent
 		public static void registerThaumcraftBlocks(final RegistryEvent.Register<Block> event) {
 			if (ModSupport.hasThaumcraft()) {
@@ -399,7 +382,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
+		@Optional.Method(modid = ModSupport.THAUMCRAFT_MOD_ID)
 		@SubscribeEvent
 		public static void registerThaumcraftItems(final RegistryEvent.Register<Item> event) {
 			if (ModSupport.hasThaumcraft()) {
@@ -414,7 +397,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
+		@Optional.Method(modid = ModSupport.THAUMCRAFT_MOD_ID)
 		@SubscribeEvent(priority = EventPriority.HIGHEST)
 		public static void registerThaumcraftRecipes(RegistryEvent.Register<IRecipe> event) {
 			if (ModSupport.hasThaumcraft()) {
@@ -443,7 +426,7 @@ public class ModSupport {
 	@EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
 	static class ClientLoader {
 
-		@Optional.Method(modid = ModSupport.RefinedRelocation.MOD_ID)
+		@Optional.Method(modid = REFINEDRELOCATION_MOD_ID)
 		@SubscribeEvent
 		public static void registerRefinedRelocationModels(ModelRegistryEvent event) {
 			if (ModSupport.hasRefinedRelocation()) {
@@ -474,7 +457,7 @@ public class ModSupport {
 			}
 		}
 
-		@Optional.Method(modid = ModSupport.Thaumcraft.MOD_ID)
+		@Optional.Method(modid = ModSupport.THAUMCRAFT_MOD_ID)
 		@SubscribeEvent
 		public static void registerThaumcraftModels(ModelRegistryEvent event) {
 			if (ModSupport.hasThaumcraft()) {

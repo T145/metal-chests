@@ -28,8 +28,8 @@ import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.api.IItemSearchBar;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.IFACE_CHEST_BUTTON_CALLBACK, striprefs = true),
-	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.IFACE_SEARCH_BAR, striprefs = true)
+	@Optional.Interface(modid = ModSupport.QUARK_MOD_ID, iface = ModSupport.IFACE_CHEST_BUTTON_CALLBACK, striprefs = true),
+	@Optional.Interface(modid = ModSupport.QUARK_MOD_ID, iface = ModSupport.IFACE_SEARCH_BAR, striprefs = true)
 })
 @SideOnly(Side.CLIENT)
 public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {
@@ -60,13 +60,13 @@ public class GuiMetalChest extends GuiContainer implements IChestButtonCallback,
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
 
-	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Optional.Method(modid = ModSupport.QUARK_MOD_ID)
 	@Override
 	public boolean onAddChestButton(GuiButton button, int buttonType) {
 		return true;
 	}
 
-	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Optional.Method(modid = ModSupport.QUARK_MOD_ID)
 	@Override
 	public void onSearchBarAdded(GuiTextField bar) {
 		int xOffset = this.getXSize() - 95;

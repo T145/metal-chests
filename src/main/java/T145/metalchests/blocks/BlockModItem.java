@@ -28,7 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(modid = ModSupport.ThermalExpansion.MOD_ID, iface = ModSupport.ThermalExpansion.IFACE_ENCHANTABLE_ITEM, striprefs = true)
+@Optional.Interface(modid = ModSupport.THERMALEXPANSION_MOD_ID, iface = ModSupport.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockModItem extends ItemBlock implements IEnchantableItem {
 
 	private final Class<? extends Enum<? extends IStringSerializable>> blockTypes;
@@ -80,7 +80,7 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 		return ModSupport.hasThermalExpansion() ? 10 : 0;
 	}
 
-	@Optional.Method(modid = ModSupport.ThermalExpansion.MOD_ID)
+	@Optional.Method(modid = ModSupport.THERMALEXPANSION_MOD_ID)
 	@Override
 	public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
 		return enchantment == CoreEnchantments.holding;

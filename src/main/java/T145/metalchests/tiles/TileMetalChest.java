@@ -47,8 +47,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = ModSupport.HoloInventory.MOD_ID, iface = ModSupport.HoloInventory.IFACE_NAMED_ITEM_HANDLER, striprefs = true),
-	@Optional.Interface(modid = ModSupport.Quark.MOD_ID, iface = ModSupport.Quark.IFACE_DROPOFF_MANAGER, striprefs = true)
+	@Optional.Interface(modid = ModSupport.HOLOINVENTORY_MOD_ID, iface = ModSupport.IFACE_NAMED_ITEM_HANDLER, striprefs = true),
+	@Optional.Interface(modid = ModSupport.QUARK_MOD_ID, iface = ModSupport.IFACE_DROPOFF_MANAGER, striprefs = true)
 })
 public class TileMetalChest extends TileEntity implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
@@ -254,19 +254,19 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		return new TextComponentTranslation(getTranslationKey());
 	}
 
-	@Optional.Method(modid = ModSupport.HoloInventory.MOD_ID)
+	@Optional.Method(modid = ModSupport.HOLOINVENTORY_MOD_ID)
 	@Override
 	public String getItemHandlerName() {
 		return getTranslationKey();
 	}
 
-	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Optional.Method(modid = ModSupport.QUARK_MOD_ID)
 	@Override
 	public boolean acceptsDropoff(EntityPlayer player) {
 		return true;
 	}
 
-	@Optional.Method(modid = ModSupport.Quark.MOD_ID)
+	@Optional.Method(modid = ModSupport.QUARK_MOD_ID)
 	@Override
 	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return inventory;

@@ -49,7 +49,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
-@Optional.Interface(modid = ModSupport.Railcraft.MOD_ID, iface = ModSupport.Railcraft.IFACE_ITEM_CART, striprefs = true)
+@Optional.Interface(modid = ModSupport.RAILCRAFT_MOD_ID, iface = ModSupport.IFACE_ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IMetalChest, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.CHEST_TYPE);
@@ -228,19 +228,19 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
 	}
 
-	@Optional.Method(modid = ModSupport.Railcraft.MOD_ID)
+	@Optional.Method(modid = ModSupport.RAILCRAFT_MOD_ID)
 	@Override
 	public boolean canPassItemRequests() {
 		return true;
 	}
 
-	@Optional.Method(modid = ModSupport.Railcraft.MOD_ID)
+	@Optional.Method(modid = ModSupport.RAILCRAFT_MOD_ID)
 	@Override
 	public boolean canAcceptPushedItem(EntityMinecart requester, ItemStack stack) {
 		return !ItemHandlerHelper.insertItemStacked(inventory, stack, true).isEmpty();
 	}
 
-	@Optional.Method(modid = ModSupport.Railcraft.MOD_ID)
+	@Optional.Method(modid = ModSupport.RAILCRAFT_MOD_ID)
 	@Override
 	public boolean canProvidePulledItem(EntityMinecart requester, ItemStack stack) {
 		ItemStack result = ItemStack.EMPTY;
