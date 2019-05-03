@@ -30,4 +30,8 @@ public interface IMetalChest extends IInventoryHandler {
 	EnumFacing getFront();
 
 	void setFront(EnumFacing front);
+
+	byte getEnchantLevel();
+
+	void setEnchantLevel(byte enchantLevel);
 }

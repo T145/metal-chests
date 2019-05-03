@@ -18,13 +18,23 @@ package T145.metalchests.api.chests;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 
 public interface IInventoryHandler extends IInventory {
 
-	IItemHandler getInventory();
+	ItemStackHandler getInventory();
 
 	void setInventory(IItemHandler inventory);
+
+	default void setInventoryTag(NBTTagCompound tag) {
+		if (tag.hasKey("Size")) {
+			tag.removeTag("Size");
+		}
+
+		getInventory().deserializeNBT(tag);
+	}
 
 	@Override
 	default int getSizeInventory() {

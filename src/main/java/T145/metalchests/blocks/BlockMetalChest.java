@@ -156,15 +156,20 @@ public class BlockMetalChest extends Block {
 		if (chest != null) {
 			ItemStack stack = new ItemStack(chest.getBlockType(), 1, chest.getChestType().ordinal());
 
-			if (ModSupport.hasThermalExpansion() && chest.holdingEnchantLevel >= chest.getChestType().getHoldingEnchantBound()) {
+			if (ModSupport.hasThermalExpansion()) {
 				NBTTagCompound tag = new NBTTagCompound();
 
-				if (chest.holdingEnchantLevel > 0) {
-					CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.holdingEnchantLevel);
+				if (chest.getEnchantLevel() > 0) {
+					CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.getEnchantLevel());
 				}
 
-				chest.writeInventoryData(tag);
-				stack.setTagCompound(tag);
+				if (chest.getEnchantLevel() >= chest.getChestType().getHoldingEnchantBound()) {
+					chest.writeInventoryData(tag);
+				}
+
+				if (!tag.isEmpty()) {
+					stack.setTagCompound(tag);
+				}
 			}
 
 			return stack;
@@ -204,7 +209,7 @@ public class BlockMetalChest extends Block {
 		if (te instanceof TileMetalChest) {
 			TileMetalChest chest = (TileMetalChest) te;
 
-			if (!ModSupport.hasThermalExpansion() || chest.holdingEnchantLevel < chest.getChestType().getHoldingEnchantBound()) {
+			if (!ModSupport.hasThermalExpansion() || chest.getEnchantLevel() < chest.getChestType().getHoldingEnchantBound()) {
 				for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
 					ItemStack stack = chest.getInventory().getStackInSlot(i);
 
@@ -229,7 +234,7 @@ public class BlockMetalChest extends Block {
 			chest.setFront(placer.getHorizontalFacing().getOpposite());
 
 			if (ModSupport.hasThermalExpansion() && stack.getTagCompound() != null) {
-				chest.holdingEnchantLevel = (byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel());
+				chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 				if (stack.getTagCompound().hasKey("Inventory")) {
 					chest.readInventoryData(stack.getTagCompound());

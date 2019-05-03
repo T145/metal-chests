@@ -35,11 +35,14 @@ import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungryChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
+import cofh.core.init.CoreEnchantments;
+import cofh.core.util.helpers.MathHelper;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
 import net.blay09.mods.refinedrelocation.item.ItemSortingUpgrade;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityMinecartEmpty;
@@ -161,6 +164,14 @@ public class ModSupport {
 						EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, target.posX, target.posY, target.posZ);
 
 						cart.setChestType(ChestType.byMetadata(stack.getItemDamage()));
+
+						if (ModSupport.hasThermalExpansion() && stack.getTagCompound() != null) {
+							cart.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
+
+							if (stack.getTagCompound().hasKey("Inventory")) {
+								cart.setInventoryTag(stack.getTagCompound().getCompoundTag("Inventory"));
+							}
+						}
 
 						if (cart != null) {
 							target.setDead();

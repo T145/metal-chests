@@ -26,6 +26,7 @@ import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.core.ModSupport;
 import T145.metalchests.items.ItemChestUpgrade;
+import cofh.core.init.CoreEnchantments;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -54,6 +55,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.CHEST_TYPE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
+	private byte enchantLevel;
 
 	public EntityMinecartMetalChest(World world) {
 		super(world);
@@ -64,7 +66,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	}
 
 	@Override
-	public IItemHandler getInventory() {
+	public ItemStackHandler getInventory() {
 		return inventory;
 	}
 
@@ -107,6 +109,16 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	public void setFront(EnumFacing front) {}
 
 	@Override
+	public byte getEnchantLevel() {
+		return enchantLevel;
+	}
+
+	@Override
+	public void setEnchantLevel(byte enchantLevel) {
+		this.enchantLevel = enchantLevel;
+	}
+
+	@Override
 	protected void entityInit() {
 		super.entityInit();
 		dataManager.register(CHEST_TYPE, ChestType.OBSIDIAN);
@@ -117,13 +129,25 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		super.writeEntityToNBT(tag);
 		tag.setString("Type", getChestType().toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
+		tag.setByte("EnchantLevel", enchantLevel);
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag) {
 		super.readEntityFromNBT(tag);
-		setChestType(ChestType.valueOf(tag.getString("Type")));
+		this.setChestType(ChestType.valueOf(tag.getString("Type")));
 		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
+		this.setEnchantLevel(tag.getByte("EnchantLevel"));
+	}
+
+	private void dropItems() {
+		for (int i = 0; i < inventory.getSlots(); ++i) {
+			ItemStack slotStack = inventory.getStackInSlot(i);
+
+			if (!slotStack.isEmpty()) {
+				InventoryHelper.spawnItemStack(world, posX, posY, posZ, slotStack);
+			}
+		}
 	}
 
 	@Override
@@ -131,15 +155,29 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		super.killMinecart(source);
 
 		if (world.getGameRules().getBoolean("doEntityDrops")) {
-			for (int i = 0; i < inventory.getSlots(); ++i) {
-				ItemStack stack = inventory.getStackInSlot(i);
+			ItemStack stack = new ItemStack(BlocksMC.METAL_CHEST, 1, getChestType().ordinal());
 
-				if (!stack.isEmpty()) {
-					InventoryHelper.spawnItemStack(world, posX, posY, posZ, stack);
+			if (ModSupport.hasThermalExpansion()) {
+				NBTTagCompound tag = new NBTTagCompound();
+
+				if (enchantLevel > 0) {
+					CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, enchantLevel);
 				}
+
+				if (enchantLevel >= getChestType().getHoldingEnchantBound()) {
+					tag.setTag("Inventory", inventory.serializeNBT());
+				} else {
+					dropItems();
+				}
+
+				if (!tag.isEmpty()) {
+					stack.setTagCompound(tag);
+				}
+			} else {
+				dropItems();
 			}
 
-			entityDropItem(new ItemStack(BlocksMC.METAL_CHEST, 1, getChestType().ordinal()), 0.0F);
+			entityDropItem(stack, 0.0F);
 		}
 	}
 
@@ -149,27 +187,25 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 			return true;
 		}
 
-		if (player.isSneaking()) {
-			ItemStack stack = player.getHeldItem(hand);
+		ItemStack stack = player.getHeldItem(hand);
 
-			if (stack.getItem() instanceof ItemChestUpgrade) {
-				ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
+		if (stack.getItem() instanceof ItemChestUpgrade) {
+			ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
-				if (getChestType() == upgrade.getBase()) {
-					setChestType(upgrade.getUpgrade());
-					setInventory(inventory);
+			if (getChestType() == upgrade.getBase()) {
+				setChestType(upgrade.getUpgrade());
+				setInventory(inventory);
 
-					if (!player.capabilities.isCreativeMode) {
-						stack.shrink(1);
-					}
-
-					player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+				if (!player.capabilities.isCreativeMode) {
+					stack.shrink(1);
 				}
+
+				player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+				return true;
 			}
-		} else {
-			player.openGui(RegistryMC.MOD_ID, hashCode(), world, 0, 0, 0);
 		}
 
+		player.openGui(RegistryMC.MOD_ID, hashCode(), world, 0, 0, 0);
 		return true;
 	}
 

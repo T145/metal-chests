@@ -56,7 +56,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/%s%s", type.getName(), ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
 	}
 
-	private void preRender(ResourceLocation overlay, ChestType type, EnumFacing dir, double x, double y, double z, int destroyStage, float alpha) {
+	private void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
 		if (destroyStage >= 0) {
 			bindTexture(overlay);
 			GlStateManager.matrixMode(GL11.GL_TEXTURE);
@@ -65,7 +65,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
 			GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 		} else {
-			bindTexture(getActiveResource(type));
+			bindTexture(getActiveResource(chest.getChestType()));
 		}
 
 		GlStateManager.pushMatrix();
@@ -74,12 +74,12 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.translate(x, y + 1.0F, z + 1.0F);
 		GlStateManager.scale(1.0F, -1.0F, -1.0F);
 		GlStateManager.translate(0.5F, 0.5F, 0.5F);
-		GlStateManager.rotate(getFrontAngle(dir), 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(getFrontAngle(chest.getFront()), 0.0F, 1.0F, 0.0F);
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 	}
 
-	private void preRender(ChestType type, EnumFacing dir, double x, double y, double z, int destroyStage, float alpha) {
-		preRender(DESTROY_STAGES[destroyStage], type, dir, x, y, z, destroyStage, alpha);
+	private void preRender(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
+		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, destroyStage, alpha);
 	}
 
 	private void postRenderModel(float lidAngle) {
@@ -99,38 +99,18 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 	}
 
-	private void postRender(float lidAngle, int destroyStage) {
+	private void postRender(IMetalChest chest, float lidAngle, double x, double y, double z, int destroyStage, float alpha) {
 		postRenderModel(lidAngle);
 		postRenderChest();
 
 		if (destroyStage >= 0) {
 			postRenderOverlay();
 		}
-	}
 
-	// allows normal chest rendering w/out a new tile instance
-	public void renderStatic(ChestType type, EnumFacing front, double x, double y, double z, int destroyStage, float alpha) {
-		preRender(type, front, x, y, z, destroyStage, alpha);
-		postRender(0.0F, destroyStage);
-	}
-
-	public void renderStatic(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
-		renderStatic(chest.getChestType(), chest.getFront(), x, y, z, destroyStage, alpha);
-	}
-
-	@Override
-	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-		preRender(chest.getChestType(), chest.getFront(), x, y, z, destroyStage, alpha);
-		float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
-		f = 1.0F - f;
-		f = 1.0F - f * f * f;
-
-		postRender(f, destroyStage);
-
-		if (chest.holdingEnchantLevel > 0) {
+		if (chest.getEnchantLevel() > 0) {
 			double spin = Minecraft.getSystemTime() / 1000D;
 
-			preRender(ENCHANT_GLINT, chest.getChestType(), chest.getFront(), x, y, z, 1, alpha);
+			preRender(ENCHANT_GLINT, chest, x, y, z, 1, alpha);
 
 			GlStateManager.enableBlend();
 			GlStateManager.depthFunc(GL11.GL_EQUAL);
@@ -148,7 +128,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 				GlStateManager.rotate(30.0F - i * 60.0F, 0.0F, 0.0F, 1.0F);
 				GlStateManager.translate(0.0F, (spin * 32D) * (0.001F + i * 0.003F) * 20.0F, 0.0F);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				postRenderModel(chest.lidAngle);
+				postRenderModel(lidAngle);
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			}
 
@@ -163,5 +143,21 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			postRenderChest();
 			postRenderOverlay();
 		}
+	}
+
+	// allows normal chest rendering w/out a new tile instance
+	public void renderStatic(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
+		preRender(chest, x, y, z, destroyStage, alpha);
+		postRender(chest, 0.0F, x, y, z, destroyStage, alpha);
+	}
+
+	@Override
+	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+		preRender(chest, x, y, z, destroyStage, alpha);
+		float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
+		f = 1.0F - f;
+		f = 1.0F - f * f * f;
+
+		postRender(chest, f, x, y, z, destroyStage, alpha);
 	}
 }

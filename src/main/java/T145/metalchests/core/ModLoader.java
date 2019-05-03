@@ -38,10 +38,13 @@ import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.tiles.TileMetalChest;
+import cofh.core.init.CoreEnchantments;
+import cofh.core.util.helpers.MathHelper;
 import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
@@ -308,7 +311,16 @@ class ModLoader {
 
 					if (!world.isRemote) {
 						EntityBoatMetalChest boat = new EntityBoatMetalChest((EntityBoat) target);
+
 						boat.setChestType(ChestType.byMetadata(stack.getItemDamage()));
+
+						if (ModSupport.hasThermalExpansion() && stack.getTagCompound() != null) {
+							boat.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
+
+							if (stack.getTagCompound().hasKey("Inventory")) {
+								boat.setInventoryTag(stack.getTagCompound().getCompoundTag("Inventory"));
+							}
+						}
 
 						if (boat != null) {
 							target.setDead();
