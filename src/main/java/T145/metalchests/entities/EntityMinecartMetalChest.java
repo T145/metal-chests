@@ -38,6 +38,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
@@ -54,9 +55,9 @@ import net.minecraftforge.items.ItemStackHandler;
 @Optional.Interface(modid = SupportedMods.RAILCRAFT_MOD_ID, iface = SupportedMods.IFACE_ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IMetalChest, IItemCart {
 
-	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityMinecart.class, MetalChests.CHEST_TYPE);
+	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.createKey(EntityMinecartMetalChest.class, MetalChests.CHEST_TYPE);
+	private static final DataParameter<Byte> ENCHANT_LEVEL = EntityDataManager.createKey(EntityMinecartMetalChest.class, DataSerializers.BYTE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
-	private byte enchantLevel;
 
 	public EntityMinecartMetalChest(World world) {
 		super(world);
@@ -111,18 +112,19 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 
 	@Override
 	public byte getEnchantLevel() {
-		return enchantLevel;
+		return this.dataManager.get(ENCHANT_LEVEL);
 	}
 
 	@Override
 	public void setEnchantLevel(byte enchantLevel) {
-		this.enchantLevel = enchantLevel;
+		this.dataManager.set(ENCHANT_LEVEL, enchantLevel);
 	}
 
 	@Override
 	protected void entityInit() {
 		super.entityInit();
 		dataManager.register(CHEST_TYPE, ChestType.OBSIDIAN);
+		dataManager.register(ENCHANT_LEVEL, (byte) 0);
 	}
 
 	@Override
@@ -130,7 +132,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		super.writeEntityToNBT(tag);
 		tag.setString("Type", getChestType().toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
-		tag.setByte("EnchantLevel", enchantLevel);
+		tag.setByte("EnchantLevel", getEnchantLevel());
 	}
 
 	@Override
@@ -161,11 +163,11 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 			if (ModConfig.hasThermalExpansion()) {
 				NBTTagCompound tag = new NBTTagCompound();
 
-				if (enchantLevel > 0) {
-					CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, enchantLevel);
+				if (getEnchantLevel() > 0) {
+					CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, getEnchantLevel());
 				}
 
-				if (enchantLevel >= getChestType().getHoldingEnchantBound()) {
+				if (getEnchantLevel() >= getChestType().getHoldingEnchantBound()) {
 					tag.setTag("Inventory", inventory.serializeNBT());
 				} else {
 					dropItems();

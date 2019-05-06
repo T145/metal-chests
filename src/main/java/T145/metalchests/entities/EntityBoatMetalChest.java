@@ -36,6 +36,7 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
@@ -51,8 +52,8 @@ import net.minecraftforge.items.ItemStackHandler;
 public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityBoatMetalChest.class, MetalChests.CHEST_TYPE);
+	private static final DataParameter<Byte> ENCHANT_LEVEL = EntityDataManager.createKey(EntityBoatMetalChest.class, DataSerializers.BYTE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
-	private byte enchantLevel;
 
 	public EntityBoatMetalChest(World world) {
 		super(world);
@@ -120,12 +121,12 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
 	@Override
 	public byte getEnchantLevel() {
-		return enchantLevel;
+		return this.dataManager.get(ENCHANT_LEVEL);
 	}
 
 	@Override
 	public void setEnchantLevel(byte enchantLevel) {
-		this.enchantLevel = enchantLevel;
+		this.dataManager.set(ENCHANT_LEVEL, enchantLevel);
 	}
 
 	@Override
@@ -140,7 +141,7 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		tag.setString("Type", getChestType().toString());
 		tag.setTag("Inventory", inventory.serializeNBT());
 		tag.setInteger("BoatType", this.getBoatType().ordinal());
-		tag.setByte("EnchantLevel", enchantLevel);
+		tag.setByte("EnchantLevel", this.getEnchantLevel());
 	}
 
 	@Override
@@ -218,11 +219,11 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 						if (ModConfig.hasThermalExpansion()) {
 							NBTTagCompound tag = new NBTTagCompound();
 
-							if (enchantLevel > 0) {
-								CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, enchantLevel);
+							if (getEnchantLevel() > 0) {
+								CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, getEnchantLevel());
 							}
 
-							if (enchantLevel >= getChestType().getHoldingEnchantBound()) {
+							if (getEnchantLevel() >= getChestType().getHoldingEnchantBound()) {
 								tag.setTag("Inventory", inventory.serializeNBT());
 							} else {
 								dropItems();
