@@ -16,7 +16,9 @@
 package T145.metalchests.config;
 
 import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.immutable.SupportedMods;
 import net.minecraftforge.common.config.Config;
+import net.minecraftforge.fml.common.Loader;
 
 @Config(modid = RegistryMC.MOD_ID, category = "", name = "T145/" + RegistryMC.MOD_NAME)
 @Config.LangKey(RegistryMC.MOD_ID)
@@ -24,4 +26,16 @@ public class ModConfig {
 
 	@Config.LangKey(RegistryMC.MOD_ID + ".config.general")
 	public static final CategoryGeneral GENERAL = new CategoryGeneral();
+
+	public static boolean hasThaumcraft() {
+		return Loader.isModLoaded(SupportedMods.THAUMCRAFT_MOD_ID) && GENERAL.enableMetalHungryChests;
+	}
+
+	public static boolean hasRefinedRelocation() {
+		return Loader.isModLoaded(SupportedMods.THAUMCRAFT_MOD_ID) && GENERAL.enableMetalHungrySortingChests;
+	}
+
+	public static boolean hasThermalExpansion() {
+		return Loader.isModLoaded(SupportedMods.THERMALEXPANSION_MOD_ID);
+	}
 }

@@ -23,8 +23,8 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
-import T145.metalchests.core.ModSupport;
 import T145.metalchests.items.ItemChestUpgrade;
 import cofh.core.init.CoreEnchantments;
 import net.minecraft.client.resources.I18n;
@@ -215,7 +215,7 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
 						ItemStack stack = new ItemStack(BlocksMC.METAL_CHEST, 1, getChestType().ordinal());
 
-						if (ModSupport.hasThermalExpansion()) {
+						if (ModConfig.hasThermalExpansion()) {
 							NBTTagCompound tag = new NBTTagCompound();
 
 							if (enchantLevel > 0) {

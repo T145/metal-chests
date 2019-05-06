@@ -155,11 +155,11 @@ public class MetalChests {
 		EntityMinecartContainer.addDataFixers(fixer, EntityMinecartMetalChest.class);
 		registerEntityFixes(fixer, EntityBoatMetalChest.class);
 
-		if (ModSupport.hasRefinedRelocation()) {
+		if (ModConfig.hasRefinedRelocation()) {
 			registerFixes(fixer, TileMetalSortingChest.class);
 		}
 
-		if (ModSupport.hasThaumcraft() && ModSupport.hasRefinedRelocation()) {
+		if (ModConfig.hasThaumcraft() && ModConfig.hasRefinedRelocation()) {
 			registerFixes(fixer, TileMetalSortingChest.class);
 		}
 	}

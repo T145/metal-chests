@@ -23,7 +23,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.core.ModSupport;
+import T145.metalchests.api.immutable.SupportedMods;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -47,8 +47,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = ModSupport.HOLOINVENTORY_MOD_ID, iface = ModSupport.IFACE_NAMED_ITEM_HANDLER, striprefs = true),
-	@Optional.Interface(modid = ModSupport.QUARK_MOD_ID, iface = ModSupport.IFACE_DROPOFF_MANAGER, striprefs = true)
+	@Optional.Interface(modid = SupportedMods.HOLOINVENTORY_MOD_ID, iface = SupportedMods.IFACE_NAMED_ITEM_HANDLER, striprefs = true),
+	@Optional.Interface(modid = SupportedMods.QUARK_MOD_ID, iface = SupportedMods.IFACE_DROPOFF_MANAGER, striprefs = true)
 })
 public class TileMetalChest extends TileEntity implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
@@ -264,19 +264,19 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		return new TextComponentTranslation(getTranslationKey());
 	}
 
-	@Optional.Method(modid = ModSupport.HOLOINVENTORY_MOD_ID)
+	@Optional.Method(modid = SupportedMods.HOLOINVENTORY_MOD_ID)
 	@Override
 	public String getItemHandlerName() {
 		return getTranslationKey();
 	}
 
-	@Optional.Method(modid = ModSupport.QUARK_MOD_ID)
+	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
 	@Override
 	public boolean acceptsDropoff(EntityPlayer player) {
 		return true;
 	}
 
-	@Optional.Method(modid = ModSupport.QUARK_MOD_ID)
+	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
 	@Override
 	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return inventory;
