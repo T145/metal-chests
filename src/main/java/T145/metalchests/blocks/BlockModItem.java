@@ -25,17 +25,20 @@ import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.config.ModConfig;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
-import cofh.core.util.helpers.ItemHelper;
 import cofh.core.util.helpers.MathHelper;
 import cofh.core.util.helpers.StringHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(modid = SupportedMods.THERMALEXPANSION_MOD_ID, iface = SupportedMods.IFACE_ENCHANTABLE_ITEM, striprefs = true)
@@ -84,14 +87,29 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 				return;
 			}
 
-			if (enchantLevel >= ChestType.byMetadata(stack.getItemDamage()).getHoldingEnchantBound()) {
+			ChestType chestType = ChestType.byMetadata(stack.getItemDamage());
+
+			if (enchantLevel >= chestType.getHoldingEnchantBound()) {
 				if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
 					tooltip.add(StringHelper.shiftForDetails());
 				}
+
 				if (!StringHelper.isShiftKeyDown()) {
 					return;
 				}
-				ItemHelper.addInventoryInformation(stack, tooltip);
+
+				NBTTagCompound tag = stack.getTagCompound().getCompoundTag("Inventory");
+				NBTTagList tagList = tag.getTagList("Items", Constants.NBT.TAG_COMPOUND);
+
+				for (int i = 0; i < tagList.tagCount(); i++) {
+					NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
+					int slot = itemTags.getInteger("Slot");
+					ItemStack slotStack = new ItemStack(itemTags);
+
+					if (slot >= 0 && slot < chestType.getInventorySize()) {
+						tooltip.add(String.format("    %sx %s", itemTags.getInteger("Count"), slotStack.getDisplayName()));
+					}
+				}
 			} else {
 				tooltip.add(StringHelper.getInfoText("info.metalchests.chest_info.fail"));
 			}
