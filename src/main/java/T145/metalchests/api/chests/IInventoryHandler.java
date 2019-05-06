@@ -24,16 +24,18 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public interface IInventoryHandler extends IInventory {
 
+	public static final String TAG_INVENTORY = "Inventory";
+
 	ItemStackHandler getInventory();
 
 	void setInventory(IItemHandler inv);
 
 	default void writeInventoryTag(NBTTagCompound tag) {
-		tag.setTag("Inventory", getInventory().serializeNBT());
+		tag.setTag(TAG_INVENTORY, getInventory().serializeNBT());
 	}
 
 	default void readInventoryTag(NBTTagCompound tag) {
-		getInventory().deserializeNBT(tag.getCompoundTag("Inventory"));
+		getInventory().deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
 	}
 
 	@Override

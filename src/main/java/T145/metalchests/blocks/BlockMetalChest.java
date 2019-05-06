@@ -243,7 +243,7 @@ public class BlockMetalChest extends Block {
 				chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 				if (stack.getTagCompound().hasKey("Inventory")) {
-					chest.setInventoryTag(stack.getTagCompound());
+					chest.readInventoryTag(stack.getTagCompound());
 				}
 			}
 		}

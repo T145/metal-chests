@@ -26,7 +26,6 @@ public interface IMetalChest extends IInventoryHandler {
 	public static final String TAG_CHEST_TYPE = "ChestType";
 	public static final String TAG_FRONT = "Front";
 	public static final String TAG_ENCHANT_LEVEL = "EnchantLevel";
-	public static final String TAG_INVENTORY = "Inventory";
 
 	ChestType getChestType();
 
