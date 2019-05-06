@@ -15,18 +15,27 @@
  ******************************************************************************/
 package T145.metalchests.blocks;
 
+import java.util.List;
+
 import javax.annotation.Nullable;
 
+import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.config.ModConfig;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
+import cofh.core.util.helpers.ItemHelper;
+import cofh.core.util.helpers.MathHelper;
+import cofh.core.util.helpers.StringHelper;
 import net.minecraft.block.Block;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(modid = SupportedMods.THERMALEXPANSION_MOD_ID, iface = SupportedMods.IFACE_ENCHANTABLE_ITEM, striprefs = true)
@@ -64,6 +73,29 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 		}
 
 		return name.toString();
+	}
+
+	@Override
+	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn) {
+		if (ModConfig.hasThermalExpansion() && stack.hasTagCompound()) {
+			byte enchantLevel = (byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel());
+
+			if (!(enchantLevel > 0)) {
+				return;
+			}
+
+			if (enchantLevel >= ChestType.byMetadata(stack.getItemDamage()).getHoldingEnchantBound()) {
+				if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
+					tooltip.add(StringHelper.shiftForDetails());
+				}
+				if (!StringHelper.isShiftKeyDown()) {
+					return;
+				}
+				ItemHelper.addInventoryInformation(stack, tooltip);
+			} else {
+				tooltip.add(StringHelper.getInfoText("info.metalchests.chest_info.fail"));
+			}
+		}
 	}
 
 	@Override
