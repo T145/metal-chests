@@ -17,12 +17,16 @@ package T145.metalchests.api.chests;
 
 import T145.metalchests.api.immutable.ChestType;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
 
 public interface IMetalChest extends IInventoryHandler {
 
 	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
+	public static final String TAG_CHEST_TYPE = "ChestType";
+	public static final String TAG_FRONT = "Front";
+	public static final String TAG_ENCHANT_LEVEL = "EnchantLevel";
 
 	ChestType getChestType();
 
@@ -43,5 +47,12 @@ public interface IMetalChest extends IInventoryHandler {
 				setInventorySlotContents(slot, inv.getStackInSlot(slot));
 			}
 		}
+	}
+
+	default NBTTagCompound readProfile(NBTTagCompound tag) {
+		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
+		this.setFront(EnumFacing.byName(tag.getString(TAG_FRONT)));
+		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
+		return getInventoryTag(tag);
 	}
 }

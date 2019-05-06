@@ -126,20 +126,16 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag) {
-		super.writeEntityToNBT(tag);
-		tag.setString("Type", getChestType().toString());
-		tag.setTag("Inventory", inventory.serializeNBT());
-		tag.setInteger("BoatType", this.getBoatType().ordinal());
-		tag.setByte("EnchantLevel", this.getEnchantLevel());
+		super.writeEntityToNBT(getInventoryTag(tag));
+		tag.setString(TAG_CHEST_TYPE, getChestType().toString());
+		tag.setByte(TAG_ENCHANT_LEVEL, this.getEnchantLevel());
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag) {
-		super.readEntityFromNBT(tag);
-		this.setChestType(ChestType.valueOf(tag.getString("Type")));
-		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-		this.setBoatType(Type.byId(tag.getInteger("BoatType")));
-		this.setEnchantLevel(tag.getByte("EnchantLevel"));
+		super.readEntityFromNBT(setInventoryTag(tag));
+		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
+		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 	}
 
 	@Override

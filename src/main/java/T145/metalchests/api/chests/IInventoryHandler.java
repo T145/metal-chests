@@ -28,18 +28,18 @@ public interface IInventoryHandler extends IInventory {
 
 	void setInventory(IItemHandler inv);
 
-	default NBTTagCompound getInventoryTag() {
-		NBTTagCompound tag = new NBTTagCompound();
+	default NBTTagCompound getInventoryTag(NBTTagCompound tag) {
 		tag.setTag("Inventory", getInventory().serializeNBT());
 		return tag;
 	}
 
-	default void setInventoryTag(NBTTagCompound tag) {
+	default NBTTagCompound setInventoryTag(NBTTagCompound tag) {
 		if (tag.hasKey("Size")) {
 			tag.removeTag("Size");
 		}
 
 		getInventory().deserializeNBT(tag);
+		return tag;
 	}
 
 	@Override

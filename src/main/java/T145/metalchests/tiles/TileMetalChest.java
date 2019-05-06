@@ -201,22 +201,16 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	@OverridingMethodsMustInvokeSuper
 	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		this.setChestType(ChestType.valueOf(tag.getString("ChestType")));
-		this.setFront(EnumFacing.byName(tag.getString("Front")));
-		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-		this.setEnchantLevel(tag.getByte("EnchantLevel"));
+		super.readFromNBT(readProfile(tag));
 	}
 
 	@Override
 	@OverridingMethodsMustInvokeSuper
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-		tag = super.writeToNBT(tag);
-		tag.setString("ChestType", chestType.toString());
-		tag.setString("Front", front.toString());
-		tag.setTag("Inventory", inventory.serializeNBT());
-		tag.setByte("EnchantLevel", enchantLevel);
-		return tag;
+		tag.setString(TAG_CHEST_TYPE, chestType.toString());
+		tag.setString(TAG_FRONT, front.toString());
+		tag.setByte(TAG_ENCHANT_LEVEL, enchantLevel);
+		return super.writeToNBT(setInventoryTag(tag));
 	}
 
 	@Override
