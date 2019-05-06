@@ -23,16 +23,14 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.config.ModConfig;
+import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
-import cofh.core.init.CoreEnchantments;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -46,7 +44,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
@@ -79,15 +76,6 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 	@Override
 	public ItemStackHandler getInventory() {
 		return inventory;
-	}
-
-	@Override
-	public void setInventory(IItemHandler stacks) {
-		for (int slot = 0; slot < stacks.getSlots(); ++slot) {
-			if (slot < getChestType().getInventorySize()) {
-				inventory.setStackInSlot(slot, stacks.getStackInSlot(slot));
-			}
-		}
 	}
 
 	@Override
@@ -133,6 +121,7 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 	protected void entityInit() {
 		super.entityInit();
 		dataManager.register(CHEST_TYPE, ChestType.OBSIDIAN);
+		dataManager.register(ENCHANT_LEVEL, (byte) 0);
 	}
 
 	@Override
@@ -186,16 +175,6 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 		return null;
 	}
 
-	private void dropItems() {
-		for (int i = 0; i < inventory.getSlots(); ++i) {
-			ItemStack slotStack = inventory.getStackInSlot(i);
-
-			if (!slotStack.isEmpty()) {
-				InventoryHelper.spawnItemStack(world, posX, posY, posZ, slotStack);
-			}
-		}
-	}
-
 	@Override
 	public boolean attackEntityFrom(DamageSource source, float amount) {
 		if (this.isEntityInvulnerable(source)) {
@@ -214,28 +193,9 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 					if (!flag && this.world.getGameRules().getBoolean("doEntityDrops")) {
 						this.dropItemWithOffset(this.getItemBoat(), 1, 0.0F);
 
-						ItemStack stack = new ItemStack(BlocksMC.METAL_CHEST, 1, getChestType().ordinal());
+						ItemStack stack = BlockMetalChest.getDropStack(this, BlocksMC.METAL_CHEST);
 
-						if (ModConfig.hasThermalExpansion()) {
-							NBTTagCompound tag = new NBTTagCompound();
-
-							if (getEnchantLevel() > 0) {
-								CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, getEnchantLevel());
-							}
-
-							if (getEnchantLevel() >= getChestType().getHoldingEnchantBound()) {
-								tag.setTag("Inventory", inventory.serializeNBT());
-							} else {
-								dropItems();
-							}
-
-							if (!tag.isEmpty()) {
-								stack.setTagCompound(tag);
-							}
-						} else {
-							dropItems();
-						}
-
+						BlockMetalChest.dropItems(this, world, getPosition());
 						entityDropItem(stack, 0.0F);
 					}
 

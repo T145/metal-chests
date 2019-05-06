@@ -18,6 +18,7 @@ package T145.metalchests.api.chests;
 import T145.metalchests.api.immutable.ChestType;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.items.IItemHandler;
 
 public interface IMetalChest extends IInventoryHandler {
 
@@ -34,4 +35,13 @@ public interface IMetalChest extends IInventoryHandler {
 	byte getEnchantLevel();
 
 	void setEnchantLevel(byte enchantLevel);
+
+	@Override
+	default void setInventory(IItemHandler inv) {
+		for (int slot = 0; slot < inv.getSlots(); ++slot) {
+			if (slot < getChestType().getInventorySize()) {
+				setInventorySlotContents(slot, inv.getStackInSlot(slot));
+			}
+		}
+	}
 }

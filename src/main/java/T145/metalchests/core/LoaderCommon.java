@@ -102,97 +102,6 @@ class LoaderCommon {
 		registry.register(new BlockModItem(block, types).setRegistryName(block.getRegistryName()));
 	}
 
-	static Object getUpgradeBase(Object base, Item upgrade, ChestUpgrade type) {
-		switch (type) {
-		case WOOD_COPPER:
-			return base;
-		case WOOD_IRON:
-			if (ChestType.COPPER.isRegistered()) {
-				break;
-			}
-			return base;
-		case WOOD_GOLD:
-			if (ChestType.SILVER.isRegistered()) {
-				break;
-			}
-			return new ItemStack(upgrade, 1, ChestUpgrade.WOOD_IRON.ordinal());
-		case COPPER_IRON: case IRON_SILVER: case SILVER_GOLD: case GOLD_DIAMOND: case DIAMOND_OBSIDIAN:
-			return type.getBase().getOreName();
-		case COPPER_GOLD:
-			if (ChestType.SILVER.isRegistered()) {
-				break;
-			}
-			return new ItemStack(upgrade, 1, ChestUpgrade.COPPER_IRON.ordinal());
-		case IRON_GOLD:
-			if (ChestType.SILVER.isRegistered()) {
-				break;
-			}
-			return type.getBase().getOreName();
-		default:
-			break;
-		}
-		return new ItemStack(upgrade, 1, type.ordinal() - 1);
-	}
-
-	static void registerMetalChestRecipes(Object baseChest, Block metalChest, String name) {
-		if (ChestType.COPPER.isRegistered()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_copper_%s", name)), null,
-					new ItemStack(metalChest, 1, 0),
-					"aaa", "aba", "aaa",
-					'a', "ingotCopper",
-					'b', baseChest
-					);
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_iron_%s", name)), null,
-					new ItemStack(metalChest, 1, 1),
-					"aaa", "aba", "aaa",
-					'a', "ingotIron",
-					'b', new ItemStack(metalChest, 1, 0)
-					);
-		} else {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_iron_%s", name)), null,
-					new ItemStack(metalChest, 1, 1),
-					"aaa", "aba", "aaa",
-					'a', "ingotIron",
-					'b', baseChest
-					);
-		}
-
-		if (ChestType.SILVER.isRegistered()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_silver_%s", name)), null,
-					new ItemStack(metalChest, 1, 2),
-					"aaa", "aba", "aaa",
-					'a', "ingotSilver",
-					'b', new ItemStack(metalChest, 1, 1)
-					);
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_gold_%s", name)), null,
-					new ItemStack(metalChest, 1, 3),
-					"aaa", "aba", "aaa",
-					'a', "ingotGold",
-					'b', new ItemStack(metalChest, 1, 2)
-					);
-		} else {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_gold_%s", name)), null,
-					new ItemStack(metalChest, 1, 3),
-					"aaa", "aba", "aaa",
-					'a', "ingotGold",
-					'b', new ItemStack(metalChest, 1, 1)
-					);
-		}
-
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_diamond_%s", name)), null,
-				new ItemStack(metalChest, 1, 4),
-				"aaa", "aba", "aaa",
-				'a', "gemDiamond",
-				'b', new ItemStack(metalChest, 1, 3)
-				);
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_obsidian_%s", name)), null,
-				new ItemStack(metalChest, 1, 5),
-				"aaa", "aba", "aaa",
-				'a', "obsidian",
-				'b', new ItemStack(metalChest, 1, 4)
-				);
-	}
-
 	private static ItemStack tryToInsertStack(IItemHandler inv, @Nonnull ItemStack stack) {
 		for (int slot = 0; slot < inv.getSlots(); ++slot) {
 			if (!inv.getStackInSlot(slot).isEmpty()) {
@@ -319,10 +228,6 @@ class LoaderCommon {
 			registerItemBlock(registry, BlocksMC.METAL_SORTING_CHEST, ChestType.class);
 		}
 
-		if (ModConfig.GENERAL.enableMinecarts) {
-			registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
-		}
-
 		if (ModConfig.hasThaumcraft()) {
 			registerItemBlock(registry, BlocksMC.METAL_HUNGRY_CHEST, ChestType.class);
 			UpgradeRegistry.registerChest(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
@@ -330,6 +235,10 @@ class LoaderCommon {
 			if (ModConfig.hasRefinedRelocation()) {
 				registerItemBlock(registry, BlocksMC.METAL_HUNGRY_SORTING_CHEST, ChestType.class);
 			}
+		}
+
+		if (ModConfig.GENERAL.enableMinecarts) {
+			registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
 		}
 	}
 
@@ -344,6 +253,89 @@ class LoaderCommon {
 		registry.register(EntitiesMC.BOAT_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_BOAT_METAL_CHEST, 1).name(RegistryMC.KEY_BOAT_METAL_CHEST).entity(EntityBoatMetalChest.class).tracker(80, 3, true).build());
 	}
 
+	static Object getUpgradeBase(String base, Item upgrade, ChestUpgrade type) {
+		switch (type) {
+		case WOOD_COPPER:
+			return base;
+		case WOOD_IRON:
+			if (ChestType.COPPER.isRegistered()) {
+				break;
+			}
+			return base;
+		case WOOD_GOLD:
+			if (ChestType.SILVER.isRegistered()) {
+				break;
+			}
+			return new ItemStack(upgrade, 1, ChestUpgrade.WOOD_IRON.ordinal());
+		case COPPER_IRON: case IRON_SILVER: case SILVER_GOLD: case GOLD_DIAMOND: case DIAMOND_OBSIDIAN:
+			return type.getBase().getOreName();
+		case COPPER_GOLD:
+			if (ChestType.SILVER.isRegistered()) {
+				break;
+			}
+			return new ItemStack(upgrade, 1, ChestUpgrade.COPPER_IRON.ordinal());
+		case IRON_GOLD:
+			if (ChestType.SILVER.isRegistered()) {
+				break;
+			}
+			return type.getBase().getOreName();
+		default:
+			break;
+		}
+		return new ItemStack(upgrade, 1, type.ordinal() - 1);
+	}
+
+	static void registerMetalChestRecipes(Object baseChest, Block metalChest, String name) {
+		if (ChestType.COPPER.isRegistered()) {
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_copper_%s", name)), null,
+					new ItemStack(metalChest, 1, 0),
+					"aaa", "aba", "aaa",
+					'a', "ingotCopper",
+					'b', baseChest);
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_iron_%s", name)), null,
+					new ItemStack(metalChest, 1, 1),
+					"aaa", "aba", "aaa",
+					'a', "ingotIron",
+					'b', new ItemStack(metalChest, 1, 0));
+		} else {
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_iron_%s", name)), null,
+					new ItemStack(metalChest, 1, 1),
+					"aaa", "aba", "aaa",
+					'a', "ingotIron",
+					'b', baseChest);
+		}
+
+		if (ChestType.SILVER.isRegistered()) {
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_silver_%s", name)), null,
+					new ItemStack(metalChest, 1, 2),
+					"aaa", "aba", "aaa",
+					'a', "ingotSilver",
+					'b', new ItemStack(metalChest, 1, 1));
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_gold_%s", name)), null,
+					new ItemStack(metalChest, 1, 3),
+					"aaa", "aba", "aaa",
+					'a', "ingotGold",
+					'b', new ItemStack(metalChest, 1, 2));
+		} else {
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_gold_%s", name)), null,
+					new ItemStack(metalChest, 1, 3),
+					"aaa", "aba", "aaa",
+					'a', "ingotGold",
+					'b', new ItemStack(metalChest, 1, 1));
+		}
+
+		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_diamond_%s", name)), null,
+				new ItemStack(metalChest, 1, 4),
+				"aaa", "aba", "aaa",
+				'a', "gemDiamond",
+				'b', new ItemStack(metalChest, 1, 3));
+		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_obsidian_%s", name)), null,
+				new ItemStack(metalChest, 1, 5),
+				"aaa", "aba", "aaa",
+				'a', "obsidian",
+				'b', new ItemStack(metalChest, 1, 4));
+	}
+
 	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String name) {
 		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_%s_sorting_%s", type.getName(), name)), null,
 				new ItemStack(metalChest, 1, type.ordinal()),
@@ -351,8 +343,7 @@ class LoaderCommon {
 				'a', Items.WRITABLE_BOOK,
 				'b', Items.REDSTONE,
 				'c', new ItemStack(baseChest, 1, type.ordinal()),
-				'd', Blocks.HOPPER
-				);
+				'd', Blocks.HOPPER);
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -372,8 +363,7 @@ class LoaderCommon {
 						new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()),
 						"a", "b",
 						'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
-						'b', Items.MINECART
-						);
+						'b', Items.MINECART);
 
 				if (ModConfig.hasThaumcraft()) {
 					String capitalizedName = WordUtils.capitalize(type.getName());
@@ -408,8 +398,7 @@ class LoaderCommon {
 					new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
 					"aaa", "aaa", "baa",
 					'a', upgrade.getUpgrade().getOreName(),
-					'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade)
-					);
+					'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
 		}
 	}
 
@@ -434,11 +423,8 @@ class LoaderCommon {
 		}
 	}
 
-	@SubscribeEvent
-	public static void onEntityInteract(EntityInteract event) {
-		Entity target = event.getTarget();
-
-		if (target instanceof EntityBoat && target.getPassengers().isEmpty()) {
+	private static void createChestEntityFromInteraction(Entity target, IMetalChest chest, EntityInteract event) {
+		if (chest instanceof Entity && target.getPassengers().isEmpty()) {
 			EntityPlayer player = event.getEntityPlayer();
 			EnumHand hand = EnumHand.MAIN_HAND;
 			ItemStack stack = player.getHeldItemMainhand();
@@ -456,21 +442,19 @@ class LoaderCommon {
 				World world = event.getWorld();
 
 				if (!world.isRemote) {
-					EntityBoatMetalChest boat = new EntityBoatMetalChest((EntityBoat) target);
-
-					boat.setChestType(ChestType.byMetadata(stack.getItemDamage()));
+					chest.setChestType(ChestType.byMetadata(stack.getItemDamage()));
 
 					if (ModConfig.hasThermalExpansion() && stack.getTagCompound() != null) {
-						boat.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
+						chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 						if (stack.getTagCompound().hasKey("Inventory")) {
-							boat.setInventoryTag(stack.getTagCompound().getCompoundTag("Inventory"));
+							chest.setInventoryTag(stack.getTagCompound().getCompoundTag("Inventory"));
 						}
 					}
 
-					if (boat != null) {
+					if (chest != null) {
 						target.setDead();
-						world.spawnEntity(boat);
+						world.spawnEntity((Entity) chest);
 						event.setCanceled(true);
 
 						if (!player.capabilities.isCreativeMode) {
@@ -483,6 +467,25 @@ class LoaderCommon {
 					}
 				}
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onEntityInteract(EntityInteract event) {
+		Entity target = event.getTarget();
+
+		if (target instanceof EntityBoat) {
+			createChestEntityFromInteraction(target, new EntityBoatMetalChest((EntityBoat) target), event);
+		}
+	}
+
+	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
+	@SubscribeEvent
+	public static void onEntityInteractQuark(EntityInteract event) {
+		Entity target = event.getTarget();
+
+		if (target instanceof EntityMinecartEmpty) {
+			createChestEntityFromInteraction(target, new EntityMinecartMetalChest((EntityMinecartEmpty) target), event);
 		}
 	}
 
@@ -503,59 +506,6 @@ class LoaderCommon {
 
 			if (ModConfig.hasThaumcraft()) {
 				registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_HUNGRY_SORTING_CHEST, "hungry/", RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST));
-			}
-		}
-	}
-
-	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
-	@SubscribeEvent
-	public static void processQuarkEntityInteract(EntityInteract event) {
-		Entity target = event.getTarget();
-
-		if (target instanceof EntityMinecartEmpty && target.getPassengers().isEmpty()) {
-			EntityPlayer player = event.getEntityPlayer();
-			EnumHand hand = EnumHand.MAIN_HAND;
-			ItemStack stack = player.getHeldItemMainhand();
-			Item chestItem = Item.getItemFromBlock(BlocksMC.METAL_CHEST);
-			boolean hasChest = stack.getItem().equals(chestItem);
-
-			if (stack.isEmpty() || !hasChest) {
-				stack = player.getHeldItemOffhand();
-				hand = EnumHand.OFF_HAND;
-			}
-
-			if (!stack.isEmpty() && hasChest) {
-				player.swingArm(hand);
-
-				World world = event.getWorld();
-
-				if (!world.isRemote) {
-					EntityMinecartMetalChest cart = new EntityMinecartMetalChest(world, target.posX, target.posY, target.posZ);
-
-					cart.setChestType(ChestType.byMetadata(stack.getItemDamage()));
-
-					if (ModConfig.hasThermalExpansion() && stack.getTagCompound() != null) {
-						cart.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
-
-						if (stack.getTagCompound().hasKey("Inventory")) {
-							cart.setInventoryTag(stack.getTagCompound().getCompoundTag("Inventory"));
-						}
-					}
-
-					if (cart != null) {
-						target.setDead();
-						world.spawnEntity(cart);
-						event.setCanceled(true);
-
-						if (!player.capabilities.isCreativeMode) {
-							stack.shrink(1);
-
-							if (stack.getCount() <= 0) {
-								player.setHeldItem(hand, ItemStack.EMPTY);
-							}
-						}
-					}
-				}
 			}
 		}
 	}

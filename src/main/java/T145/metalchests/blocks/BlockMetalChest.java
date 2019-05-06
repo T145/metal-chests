@@ -150,29 +150,34 @@ public class BlockMetalChest extends Block {
 		return super.getExplosionResistance(world, pos, exploder, explosion);
 	}
 
-	private ItemStack getDropStack(IBlockAccess world, BlockPos pos) {
-		TileMetalChest chest = world.getTileEntity(pos) instanceof TileMetalChest ? (TileMetalChest) world.getTileEntity(pos) : null;
+	public static ItemStack getDropStack(IMetalChest chest, Block chestBlock) {
+		ItemStack stack = new ItemStack(chestBlock, 1, chest.getChestType().ordinal());
 
-		if (chest != null) {
-			ItemStack stack = new ItemStack(chest.getBlockType(), 1, chest.getChestType().ordinal());
+		if (ModConfig.hasThermalExpansion()) {
+			NBTTagCompound tag = new NBTTagCompound();
 
-			if (ModConfig.hasThermalExpansion()) {
-				NBTTagCompound tag = new NBTTagCompound();
-
-				if (chest.getEnchantLevel() > 0) {
-					CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.getEnchantLevel());
-				}
-
-				if (chest.getEnchantLevel() >= chest.getChestType().getHoldingEnchantBound()) {
-					chest.writeInventoryData(tag);
-				}
-
-				if (!tag.isEmpty()) {
-					stack.setTagCompound(tag);
-				}
+			if (chest.getEnchantLevel() > 0) {
+				CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.getEnchantLevel());
 			}
 
-			return stack;
+			if (chest.getEnchantLevel() >= chest.getChestType().getHoldingEnchantBound()) {
+				chest.setInventoryTag(tag);
+			}
+
+			if (!tag.isEmpty()) {
+				stack.setTagCompound(tag);
+			}
+		}
+
+		return stack;
+	}
+
+	private ItemStack getDropStack(IBlockAccess world, BlockPos pos) {
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+			return getDropStack(chest, chest.getBlockType());
 		}
 
 		return ItemStack.EMPTY;
@@ -202,23 +207,24 @@ public class BlockMetalChest extends Block {
 		world.setBlockToAir(pos);
 	}
 
+	public static void dropItems(IMetalChest chest, World world, BlockPos pos) {
+		if (!ModConfig.hasThermalExpansion() || chest.getEnchantLevel() < chest.getChestType().getHoldingEnchantBound()) {
+			for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
+				ItemStack stack = chest.getInventory().getStackInSlot(i);
+
+				if (!stack.isEmpty()) {
+					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+				}
+			}
+		}
+	}
+
 	@Override
 	public void breakBlock(World world, BlockPos pos, IBlockState state) {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest) {
-			TileMetalChest chest = (TileMetalChest) te;
-
-			if (!ModConfig.hasThermalExpansion() || chest.getEnchantLevel() < chest.getChestType().getHoldingEnchantBound()) {
-				for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
-					ItemStack stack = chest.getInventory().getStackInSlot(i);
-
-					if (!stack.isEmpty()) {
-						InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), stack);
-					}
-				}
-			}
-
+			dropItems((TileMetalChest) te, world, pos);
 			world.updateComparatorOutputLevel(pos, this);
 		}
 
@@ -237,7 +243,7 @@ public class BlockMetalChest extends Block {
 				chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 				if (stack.getTagCompound().hasKey("Inventory")) {
-					chest.readInventoryData(stack.getTagCompound());
+					chest.setInventoryTag(stack.getTagCompound());
 				}
 			}
 		}

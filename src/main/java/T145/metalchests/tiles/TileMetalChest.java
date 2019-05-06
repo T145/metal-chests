@@ -138,17 +138,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	@Override
-	public void setInventory(IItemHandler inventory) {
-		this.inventory = this.initInventory();
-
-		assert (this.inventory.getSlots() >= inventory.getSlots());
-
-		for (int slot = 0; slot < inventory.getSlots(); ++slot) {
-			this.inventory.setStackInSlot(slot, inventory.getStackInSlot(slot));
-		}
-	}
-
-	@Override
 	public boolean hasCapability(@Nonnull Capability<?> cap, EnumFacing side) {
 		return cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(cap, side);
 	}
@@ -209,22 +198,14 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		lidAngle = approachLinear(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
 	}
 
-	public void readInventoryData(NBTTagCompound tag) {
-		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
-	}
-
 	@Override
 	@OverridingMethodsMustInvokeSuper
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		this.setChestType(ChestType.valueOf(tag.getString("ChestType")));
 		this.setFront(EnumFacing.byName(tag.getString("Front")));
-		readInventoryData(tag);
+		inventory.deserializeNBT(tag.getCompoundTag("Inventory"));
 		this.setEnchantLevel(tag.getByte("EnchantLevel"));
-	}
-
-	public void writeInventoryData(NBTTagCompound tag) {
-		tag.setTag("Inventory", inventory.serializeNBT());
 	}
 
 	@Override
@@ -233,7 +214,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		tag = super.writeToNBT(tag);
 		tag.setString("ChestType", chestType.toString());
 		tag.setString("Front", front.toString());
-		writeInventoryData(tag);
+		tag.setTag("Inventory", inventory.serializeNBT());
 		tag.setByte("EnchantLevel", enchantLevel);
 		return tag;
 	}
