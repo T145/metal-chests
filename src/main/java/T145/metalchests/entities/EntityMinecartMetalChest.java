@@ -129,15 +129,17 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 
 	@Override
 	protected void writeEntityToNBT(NBTTagCompound tag) {
-		super.writeEntityToNBT(getInventoryTag(tag));
+		super.writeEntityToNBT(tag);
 		tag.setString(TAG_CHEST_TYPE, getChestType().toString());
-		tag.setByte(TAG_ENCHANT_LEVEL, getEnchantLevel());
+		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
+		tag.setByte(TAG_ENCHANT_LEVEL, this.getEnchantLevel());
 	}
 
 	@Override
 	protected void readEntityFromNBT(NBTTagCompound tag) {
-		super.readEntityFromNBT(setInventoryTag(tag));
+		super.readEntityFromNBT(tag);
 		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
+		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 	}
 

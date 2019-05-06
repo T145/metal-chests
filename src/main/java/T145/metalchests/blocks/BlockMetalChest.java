@@ -161,7 +161,7 @@ public class BlockMetalChest extends Block {
 			}
 
 			if (chest.getEnchantLevel() >= chest.getChestType().getHoldingEnchantBound()) {
-				chest.setInventoryTag(tag);
+				chest.writeInventoryTag(tag);
 			}
 
 			if (!tag.isEmpty()) {
