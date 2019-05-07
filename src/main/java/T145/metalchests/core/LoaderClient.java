@@ -5,6 +5,7 @@ import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
 import T145.metalchests.client.render.entities.RenderBoatMetalChest;
@@ -28,6 +29,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -100,6 +102,18 @@ class LoaderClient {
 			});
 		}
 
+		for (ChestUpgrade type : ChestUpgrade.values()) {
+			registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), String.format("item=%s", type.getName()));
+		}
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBoatMetalChest.class, manager -> new RenderBoatMetalChest(manager));
+	}
+
+	// required so the class loader doesn't crash when it doesn't find SafeTESR
+	@Optional.Method(modid = SupportedMods.REFINEDRELOCATION_MOD_ID)
+	@SubscribeEvent
+	public static void registerModelsRR2(ModelRegistryEvent event) {
 		if (ModConfig.hasRefinedRelocation()) {
 			for (ChestType type : ChestType.values()) {
 				registerModel(BlocksMC.METAL_SORTING_CHEST, type.ordinal(), getVariantName(type));
@@ -126,12 +140,5 @@ class LoaderClient {
 				});
 			}
 		}
-
-		for (ChestUpgrade type : ChestUpgrade.values()) {
-			registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), String.format("item=%s", type.getName()));
-		}
-
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBoatMetalChest.class, manager -> new RenderBoatMetalChest(manager));
 	}
 }
