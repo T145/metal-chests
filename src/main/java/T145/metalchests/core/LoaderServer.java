@@ -50,7 +50,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -536,7 +535,6 @@ class LoaderServer {
 
 			if (hasRedstone) {
 				if (chest.isTrapped()) {
-					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.REDSTONE));
 					chest.setTrapped(false);
 				} else {
 					if (!player.capabilities.isCreativeMode) {
@@ -548,7 +546,6 @@ class LoaderServer {
 
 			if (hasGlowstone) {
 				if (chest.isLuminous()) {
-					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.GLOWSTONE_DUST));
 					chest.setLuminous(false);
 				} else {
 					if (!player.capabilities.isCreativeMode) {
@@ -557,9 +554,6 @@ class LoaderServer {
 					chest.setLuminous(true);
 				}
 			}
-
-			MetalChests.LOG.info("Trapped: " + chest.isTrapped());
-			MetalChests.LOG.info("Luminous: " + chest.isLuminous());
 		}
 	}
 

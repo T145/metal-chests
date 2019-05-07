@@ -39,7 +39,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -229,14 +228,6 @@ public class BlockMetalChest extends Block {
 
 			dropItems(chest, world, pos);
 			world.updateComparatorOutputLevel(pos, this);
-
-			if (chest.isTrapped()) {
-				InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.REDSTONE));
-			}
-
-			if (chest.isLuminous()) {
-				InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.GLOWSTONE_DUST));
-			}
 		}
 
 		super.breakBlock(world, pos, state);
