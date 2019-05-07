@@ -144,8 +144,9 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public void setTrapped(boolean trapped) {
 		this.trapped = trapped;
 
-		if (world != null) // on world load
+		if (world != null) { // avoid crashing on world load
 			PacketHandler.sendToAllAround(new MessageApplyTrappedUpgrade(pos, trapped), world, pos);
+		}
 	}
 
 	public boolean isLuminous() {
@@ -155,11 +156,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public void setLuminous(boolean luminous) {
 		this.luminous = luminous;
 
-		if (world != null) // on world load
+		if (world != null) { // avoid crashing on world load
 			PacketHandler.sendToAllAround(new MessageApplyLuminousUpgrade(pos, luminous), world, pos);
-
-		if (this.getBlockType() != null) {
-			world.setBlockState(pos, world.getBlockState(pos).getActualState(world, pos), 2);
 		}
 	}
 

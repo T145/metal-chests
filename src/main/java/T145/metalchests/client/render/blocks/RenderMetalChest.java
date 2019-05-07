@@ -101,39 +101,28 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 	}
 
+	private void renderOverlay(ResourceLocation overlay) {
+		bindTexture(overlay);
+		float scale = 1.002F;
+		GlStateManager.pushMatrix();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.scale(scale, scale, scale);
+		GlStateManager.translate(-0.001F, -0.001F, -0.001F);
+		model.renderAll();
+		GlStateManager.disableBlend();
+		GlStateManager.popMatrix();
+	}
+
 	private void postRender(IMetalChest chest, float lidAngle, double x, double y, double z, int destroyStage, float alpha) {
 		postRenderModel(lidAngle);
 
 		if (chest.isTrapped()) {
-			//GlStateManager.enableDepth();
-			//GlStateManager.depthFunc(GL11.GL_LEQUAL);
-			//GlStateManager.depthMask(true);
-			bindTexture(TRAP_ENGRAVE);
-			float scale = 1.002F;
-			GlStateManager.pushMatrix();
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GlStateManager.scale(scale, scale, scale);
-			GlStateManager.translate(-0.001F, -0.001F, -0.001F);
-			model.renderAll();
-			GlStateManager.disableBlend();
-			GlStateManager.popMatrix();
+			renderOverlay(TRAP_ENGRAVE);
 		}
 
 		if (chest.isLuminous()) {
-			//GlStateManager.enableDepth();
-			//GlStateManager.depthFunc(GL11.GL_LEQUAL);
-			//GlStateManager.depthMask(true);
-			bindTexture(GLOW_ENGRAVE);
-			float scale = 1.002F;
-			GlStateManager.pushMatrix();
-			GlStateManager.enableBlend();
-			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-			GlStateManager.scale(scale, scale, scale);
-			GlStateManager.translate(-0.001F, -0.001F, -0.001F);
-			model.renderAll();
-			GlStateManager.disableBlend();
-			GlStateManager.popMatrix();
+			renderOverlay(GLOW_ENGRAVE);
 		}
 
 		postRenderChest();
