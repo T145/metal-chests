@@ -50,6 +50,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -507,6 +508,61 @@ class LoaderCommon {
 			if (ModConfig.hasThaumcraft()) {
 				registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_HUNGRY_SORTING_CHEST, "hungry/", RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST));
 			}
+		}
+	}
+
+	@SubscribeEvent
+	public static void onRightClick(RightClickBlock event) {
+		World world = event.getWorld();
+
+		// In order to uncomment this, we need simple networking implemented
+		// to sync the client and server properly
+
+		//if (world.isRemote) {
+		//	return;
+		//}
+
+		BlockPos pos = event.getPos();
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te == null) {
+			return;
+		}
+
+		EntityPlayer player = event.getEntityPlayer();
+		ItemStack stack = event.getItemStack();
+
+		if (player.isSneaking() && te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+			boolean hasRedstone = stack.getItem().equals(Items.REDSTONE);
+			boolean hasGlowstone = stack.getItem().equals(Items.GLOWSTONE_DUST);
+
+			if (hasRedstone) {
+				if (chest.isTrapped()) {
+					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.REDSTONE));
+					chest.setTrapped(false);
+				} else {
+					if (!player.capabilities.isCreativeMode) {
+						stack.shrink(1);
+					}
+					chest.setTrapped(true);
+				}
+			}
+
+			if (hasGlowstone) {
+				if (chest.isLuminous()) {
+					InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.GLOWSTONE_DUST));
+					chest.setLuminous(false);
+				} else {
+					if (!player.capabilities.isCreativeMode) {
+						stack.shrink(1);
+					}
+					chest.setLuminous(true);
+				}
+			}
+
+			MetalChests.LOG.info("Trapped: " + chest.isTrapped());
+			MetalChests.LOG.info("Luminous: " + chest.isLuminous());
 		}
 	}
 

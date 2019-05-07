@@ -60,6 +60,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected EnumFacing front;
 	protected ItemStackHandler inventory;
 	protected byte enchantLevel;
+	protected boolean trapped;
+	protected boolean luminous;
 
 	public TileMetalChest(ChestType chestType) {
 		this.setChestType(chestType);
@@ -130,6 +132,26 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	public void setEnchantLevel(byte enchantLevel) {
 		this.enchantLevel = enchantLevel;
+	}
+
+	public boolean isTrapped() {
+		return trapped;
+	}
+
+	public void setTrapped(boolean trapped) {
+		this.trapped = trapped;
+	}
+
+	public boolean isLuminous() {
+		return luminous;
+	}
+
+	public void setLuminous(boolean luminous) {
+		this.luminous = luminous;
+
+		if (this.getBlockType() != null) {
+			this.getBlockType().setLightLevel(luminous ? 1F : 0F);
+		}
 	}
 
 	@Override
@@ -206,6 +228,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
 		this.setFront(EnumFacing.byName(tag.getString(TAG_FRONT)));
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
+		this.setTrapped(tag.getBoolean(TAG_TRAPPED));
+		this.setLuminous(tag.getBoolean(TAG_LUMINOUS));
 	}
 
 	@Override
@@ -216,6 +240,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
 		tag.setString(TAG_FRONT, front.toString());
 		tag.setByte(TAG_ENCHANT_LEVEL, enchantLevel);
+		tag.setBoolean(TAG_TRAPPED, trapped);
+		tag.setBoolean(TAG_LUMINOUS, luminous);
 		return tag;
 	}
 

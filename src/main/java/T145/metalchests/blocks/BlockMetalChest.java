@@ -39,6 +39,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -224,8 +225,18 @@ public class BlockMetalChest extends Block {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof TileMetalChest) {
-			dropItems((TileMetalChest) te, world, pos);
+			TileMetalChest chest = (TileMetalChest) te;
+
+			dropItems(chest, world, pos);
 			world.updateComparatorOutputLevel(pos, this);
+
+			if (chest.isTrapped()) {
+				InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.REDSTONE));
+			}
+
+			if (chest.isLuminous()) {
+				InventoryHelper.spawnItemStack(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(Items.GLOWSTONE_DUST));
+			}
 		}
 
 		super.breakBlock(world, pos, state);
@@ -292,6 +303,42 @@ public class BlockMetalChest extends Block {
 		}
 
 		return 0;
+	}
+
+	@Override
+	public boolean canProvidePower(IBlockState state) {
+		return true;
+	}
+
+	@Override
+	public boolean canConnectRedstone(IBlockState state, IBlockAccess world, BlockPos pos, @Nullable EnumFacing side) {
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof TileMetalChest) {
+			return ((TileMetalChest) te).isTrapped() && side != null;
+		}
+
+		return false;
+	}
+
+	@Override
+	public int getWeakPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+
+			if (chest.isTrapped()) {
+				return MathHelper.clamp(chest.numPlayersUsing, 0, 15);
+			}
+		}
+
+		return 0;
+	}
+
+	@Override
+	public int getStrongPower(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+		return side == EnumFacing.UP ? state.getWeakPower(world, pos, side) : 0;
 	}
 
 	@Override

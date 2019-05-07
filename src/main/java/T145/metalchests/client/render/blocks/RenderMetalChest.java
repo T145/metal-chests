@@ -21,10 +21,12 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.config.ModConfig;
+import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
@@ -35,9 +37,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> {
 
 	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
+	private static final ResourceLocation ENCHANT_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	private static final ResourceLocation TRAP_ENGRAVE = new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/overlay/trap.png");
+	private static final ResourceLocation GLOW_ENGRAVE = new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/overlay/glow.png");
 
 	protected final ModelChest model = new ModelChest();
-	private static final ResourceLocation ENCHANT_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
 	public static int getFrontAngle(EnumFacing front) {
 		switch (front) {
@@ -101,6 +105,39 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 
 	private void postRender(IMetalChest chest, float lidAngle, double x, double y, double z, int destroyStage, float alpha) {
 		postRenderModel(lidAngle);
+
+		if (chest.isTrapped()) {
+			//GlStateManager.enableDepth();
+			//GlStateManager.depthFunc(GL11.GL_LEQUAL);
+			//GlStateManager.depthMask(true);
+			bindTexture(TRAP_ENGRAVE);
+			float scale = 1.002F;
+			GlStateManager.pushMatrix();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GlStateManager.scale(scale, scale, scale);
+			GlStateManager.translate(-0.001F, -0.001F, -0.001F);
+			model.renderAll();
+			GlStateManager.disableBlend();
+			GlStateManager.popMatrix();
+		}
+
+		if (chest.isLuminous()) {
+			//GlStateManager.enableDepth();
+			//GlStateManager.depthFunc(GL11.GL_LEQUAL);
+			//GlStateManager.depthMask(true);
+			bindTexture(GLOW_ENGRAVE);
+			float scale = 1.002F;
+			GlStateManager.pushMatrix();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+			GlStateManager.scale(scale, scale, scale);
+			GlStateManager.translate(-0.001F, -0.001F, -0.001F);
+			model.renderAll();
+			GlStateManager.disableBlend();
+			GlStateManager.popMatrix();
+		}
+
 		postRenderChest();
 
 		if (destroyStage >= 0) {

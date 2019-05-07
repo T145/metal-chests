@@ -111,6 +111,22 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	public void setFront(EnumFacing front) {}
 
 	@Override
+	public boolean isTrapped() {
+		return false;
+	}
+
+	@Override
+	public void setTrapped(boolean trapped) {}
+
+	@Override
+	public boolean isLuminous() {
+		return false;
+	}
+
+	@Override
+	public void setLuminous(boolean luminous) {}
+
+	@Override
 	public byte getEnchantLevel() {
 		return this.dataManager.get(ENCHANT_LEVEL);
 	}
