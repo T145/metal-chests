@@ -29,6 +29,7 @@ import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityBoatMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
+import T145.metalchests.network.PacketHandler;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
 import net.minecraft.block.Block;
@@ -162,6 +163,8 @@ public class MetalChests {
 		if (ModConfig.hasThaumcraft() && ModConfig.hasRefinedRelocation()) {
 			registerFixes(fixer, TileMetalSortingChest.class);
 		}
+
+		PacketHandler.registerMessages();
 	}
 
 	@EventHandler

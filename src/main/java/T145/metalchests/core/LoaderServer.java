@@ -80,9 +80,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.blocks.BlocksTC;
 
 @EventBusSubscriber(modid = RegistryMC.MOD_ID)
-class LoaderCommon {
+class LoaderServer {
 
-	private LoaderCommon() {}
+	private LoaderServer() {}
 
 	@SubscribeEvent
 	public static void onConfigChanged(OnConfigChangedEvent event) {
@@ -515,12 +515,9 @@ class LoaderCommon {
 	public static void onRightClick(RightClickBlock event) {
 		World world = event.getWorld();
 
-		// In order to uncomment this, we need simple networking implemented
-		// to sync the client and server properly
-
-		//if (world.isRemote) {
-		//	return;
-		//}
+		if (world.isRemote) {
+			return;
+		}
 
 		BlockPos pos = event.getPos();
 		TileEntity te = world.getTileEntity(pos);

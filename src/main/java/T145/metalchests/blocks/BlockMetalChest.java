@@ -29,6 +29,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -60,6 +61,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 public class BlockMetalChest extends Block {
+
+	public static final PropertyBool LUMINOUS = PropertyBool.create("luminous");
 
 	public BlockMetalChest() {
 		super(Material.IRON);
@@ -386,6 +389,30 @@ public class BlockMetalChest extends Block {
 	}
 
 	@Override
+	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof TileMetalChest && state.getValue(LUMINOUS) && ((TileMetalChest) te).isLuminous()) {
+			return 15;
+		}
+
+		return 0;
+	}
+
+	@Override
+	public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+		// required to keep light levels restricted to this block instance, instead of every one
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof TileMetalChest) {
+			TileMetalChest chest = (TileMetalChest) te;
+			state = state.withProperty(LUMINOUS, chest.isLuminous());
+		}
+
+		return state;
+	}
+
+	@Override
 	public IBlockState getStateFromMeta(int meta) {
 		return getDefaultState().withProperty(IMetalChest.VARIANT, ChestType.byMetadata(meta));
 	}
@@ -397,7 +424,7 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	protected BlockStateContainer createBlockState() {
-		return new BlockStateContainer(this, IMetalChest.VARIANT);
+		return new BlockStateContainer(this, IMetalChest.VARIANT, LUMINOUS);
 	}
 
 	@Override

@@ -24,6 +24,9 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.api.immutable.SupportedMods;
+import T145.metalchests.network.PacketHandler;
+import T145.metalchests.network.client.MessageApplyLuminousUpgrade;
+import T145.metalchests.network.client.MessageApplyTrappedUpgrade;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -140,6 +143,9 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	public void setTrapped(boolean trapped) {
 		this.trapped = trapped;
+
+		if (world != null) // on world load
+			PacketHandler.sendToAllAround(new MessageApplyTrappedUpgrade(pos, trapped), world, pos);
 	}
 
 	public boolean isLuminous() {
@@ -149,8 +155,11 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public void setLuminous(boolean luminous) {
 		this.luminous = luminous;
 
+		if (world != null) // on world load
+			PacketHandler.sendToAllAround(new MessageApplyLuminousUpgrade(pos, luminous), world, pos);
+
 		if (this.getBlockType() != null) {
-			this.getBlockType().setLightLevel(luminous ? 1F : 0F);
+			world.setBlockState(pos, world.getBlockState(pos).getActualState(world, pos), 2);
 		}
 	}
 
