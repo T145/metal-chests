@@ -74,7 +74,6 @@ public class ItemChestUpgrade extends ItemMod {
 				tag.setString(IMetalChest.TAG_CHEST_TYPE, type.toString());
 				te.readFromNBT(tag);
 				world.setBlockState(pos, state);
-				world.notifyBlockUpdate(pos, state, state, 3); // mark for nbt update
 				te.markDirty(); // mark for render update
 			} else {
 				return EnumActionResult.FAIL;
