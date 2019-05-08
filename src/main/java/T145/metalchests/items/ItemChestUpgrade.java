@@ -61,12 +61,12 @@ public class ItemChestUpgrade extends ItemMod {
 		TileEntity te = world.getTileEntity(pos);
 		ItemStack stack = player.getHeldItem(hand);
 		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
+		ChestType type = upgrade.getUpgrade();
 
 		if (te instanceof IMetalChest) {
 			IMetalChest chest = (IMetalChest) te;
 
 			if (!chest.isOpen() && chest.getChestType() == upgrade.getBase()) {
-				ChestType type = upgrade.getUpgrade();
 				IBlockState state = createBlockState(te.getBlockType(), type);
 				NBTTagCompound tag = te.writeToNBT(new NBTTagCompound());
 
@@ -100,27 +100,24 @@ public class ItemChestUpgrade extends ItemMod {
 				}
 			}
 
-			EnumFacing front = getFrontFromProperties(world, pos);
+			EnumFacing front = getBlockFront(player, world, pos);
 			IItemHandler inv = getChestInventory(te);
 			Block block = UpgradeRegistry.getDestTile(te.getBlockType());
+			IBlockState state = createBlockState(block, type);
 
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
-
-			IBlockState state = createBlockState(block, upgrade.getUpgrade());
-
 			world.setTileEntity(pos, block.createTileEntity(world, state));
-			world.setBlockState(pos, state, 3);
-			world.notifyBlockUpdate(pos, state, state, 3);
+			world.setBlockState(pos, state);
 
-			TileEntity tile = world.getTileEntity(pos);
+			te = world.getTileEntity(pos);
 
-			if (tile instanceof IMetalChest) {
-				IMetalChest metalChest = (IMetalChest) tile;
-				metalChest.setChestType(upgrade.getUpgrade());
+			if (te instanceof IMetalChest) {
+				IMetalChest metalChest = (IMetalChest) te;
+				metalChest.setChestType(type);
 				metalChest.setInventory(inv);
 				metalChest.setFront(front);
-				tile.markDirty();
+				te.markDirty();
 			}
 		} else {
 			return EnumActionResult.PASS;
@@ -148,7 +145,7 @@ public class ItemChestUpgrade extends ItemMod {
 	}
 
 	@Nullable
-	private EnumFacing getFrontFromProperties(World world, BlockPos pos) {
+	private EnumFacing getBlockFront(EntityPlayer player, World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 
 		for (IProperty<?> prop : state.getProperties().keySet()) {
@@ -158,7 +155,7 @@ public class ItemChestUpgrade extends ItemMod {
 			}
 		}
 
-		return null;
+		return player.getHorizontalFacing().getOpposite();
 	}
 
 	@Override
