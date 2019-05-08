@@ -28,8 +28,10 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
@@ -42,7 +44,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class ItemChestUpgrade extends ItemMod {
 
@@ -64,36 +65,44 @@ public class ItemChestUpgrade extends ItemMod {
 		if (te instanceof IMetalChest) {
 			IMetalChest chest = (IMetalChest) te;
 
-			if (chest.getChestType() == upgrade.getBase()) {
-				ItemStackHandler oldInv = (ItemStackHandler) chest.getInventory();
+			if (!chest.isOpen() && chest.getChestType() == upgrade.getBase()) {
+				ChestType type = upgrade.getUpgrade();
+				IBlockState state = createBlockState(te.getBlockType(), type);
+				NBTTagCompound tag = te.writeToNBT(new NBTTagCompound());
 
-				chest.setChestType(upgrade.getUpgrade());
-				te.markDirty();
-
-				IBlockState state = createBlockState(te.getBlockType(), upgrade.getUpgrade());
-				world.setBlockState(pos, state, 3);
-				world.notifyBlockUpdate(pos, state, state, 3);
-
-				chest.setInventory(oldInv);
+				tag.getCompoundTag(IMetalChest.TAG_INVENTORY).setInteger("Size", type.getInventorySize());
+				tag.setString(IMetalChest.TAG_CHEST_TYPE, type.toString());
+				te.readFromNBT(tag);
+				world.setBlockState(pos, state);
+				world.notifyBlockUpdate(pos, state, state, 3); // mark for nbt update
+				te.markDirty(); // mark for render update
 			} else {
 				return EnumActionResult.FAIL;
 			}
 		} else if (UpgradeRegistry.hasChest(te.getBlockType())) {
 			te.updateContainingBlockInfo();
 
-			EnumFacing front = getFrontFromProperties(world, pos);
-			IItemHandler inv = getChestInventory(te);
-
 			if (te instanceof TileEntityChest) {
 				TileEntityChest vanillaChest = (TileEntityChest) te;
 
-				if (vanillaChest.getChestType() == BlockChest.Type.TRAP) {
+				if (vanillaChest.lidAngle > 0 || vanillaChest.getChestType() == BlockChest.Type.TRAP) {
 					return EnumActionResult.FAIL;
 				}
 
 				vanillaChest.checkForAdjacentChests();
 			}
 
+			// some people use the ender chest tile just for the sake of not duping code
+			if (te instanceof TileEntityEnderChest) {
+				TileEntityEnderChest enderChest = (TileEntityEnderChest) te;
+
+				if (enderChest.lidAngle > 0) {
+					return EnumActionResult.FAIL;
+				}
+			}
+
+			EnumFacing front = getFrontFromProperties(world, pos);
+			IItemHandler inv = getChestInventory(te);
 			Block block = UpgradeRegistry.getDestTile(te.getBlockType());
 
 			world.removeTileEntity(pos);

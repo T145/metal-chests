@@ -29,6 +29,8 @@ public interface IMetalChest extends IInventoryHandler {
 	public static final String TAG_TRAPPED = "Trapped";
 	public static final String TAG_LUMINOUS = "Luminous";
 
+	boolean isOpen();
+
 	ChestType getChestType();
 
 	void setChestType(ChestType chestType);

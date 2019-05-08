@@ -104,6 +104,11 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	@Override
+	public boolean isOpen() {
+		return lidAngle > 0;
+	}
+
+	@Override
 	public ChestType getChestType() {
 		return chestType;
 	}

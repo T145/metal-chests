@@ -76,6 +76,11 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	}
 
 	@Override
+	public boolean isOpen() {
+		return true;
+	}
+
+	@Override
 	public ItemStackHandler getInventory() {
 		return inventory;
 	}

@@ -74,6 +74,11 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 	}
 
 	@Override
+	public boolean isOpen() {
+		return true;
+	}
+
+	@Override
 	public ItemStackHandler getInventory() {
 		return inventory;
 	}
