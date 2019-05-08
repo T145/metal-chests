@@ -35,9 +35,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> {
 
 	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
-	private static final ResourceLocation ENCHANT_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-	private static final ResourceLocation TRAP_ENGRAVE = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/trap.png");
-	private static final ResourceLocation GLOW_ENGRAVE = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/glow.png");
+	private static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	private static final ResourceLocation OVERLAY_TRAP = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/trap.png");
+	private static final ResourceLocation OVERLAY_GLOW = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/glow.png");
 
 	protected final ModelChest model = new ModelChest();
 
@@ -58,7 +58,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/%s%s", type.getName(), ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
 	}
 
-	private void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, float alpha) {
+	protected void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
 		if (overlay != null) {
 			bindTexture(overlay);
 			GlStateManager.matrixMode(GL11.GL_TEXTURE);
@@ -80,30 +80,31 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 	}
 
-	private void preRender(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
-		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, alpha);
+	protected void preRender(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
+		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, destroyStage, alpha);
 	}
 
-	private void postRenderModel(float lidAngle) {
+	protected void postRenderModel(IMetalChest chest, float lidAngle, int destroyStage) {
 		model.chestLid.rotateAngleX = (float) -(lidAngle * (Math.PI / 2F));
 		model.renderAll();
 	}
 
-	private void postRenderChest() {
+	protected void postRenderChest(IMetalChest chest, float lidAngle, int destroyStage) {
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
-	private void postRenderOverlay() {
+	protected void postRenderOverlay(IMetalChest chest, float lidAngle, int destroyStage) {
 		GlStateManager.matrixMode(GL11.GL_TEXTURE);
 		GlStateManager.popMatrix();
 		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
 	}
 
-	private void renderOverlay(ResourceLocation overlay) {
-		bindTexture(overlay);
+	protected void renderOverlay(ResourceLocation overlay) {
 		float scale = 1.002F;
+
+		bindTexture(overlay);
 		GlStateManager.pushMatrix();
 		GlStateManager.enableBlend();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -114,27 +115,28 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.popMatrix();
 	}
 
-	private void postRender(IMetalChest chest, float lidAngle, double x, double y, double z, int destroyStage, float alpha) {
-		postRenderModel(lidAngle);
+	protected void postRender(IMetalChest chest, float lidAngle, double x, double y, double z, int destroyStage, float alpha) {
+		postRenderModel(chest, lidAngle, destroyStage);
 
 		if (chest.isTrapped()) {
-			renderOverlay(TRAP_ENGRAVE);
+			renderOverlay(OVERLAY_TRAP);
 		}
 
 		if (chest.isLuminous()) {
-			renderOverlay(GLOW_ENGRAVE);
+			renderOverlay(OVERLAY_GLOW);
 		}
 
-		postRenderChest();
+		postRenderChest(chest, lidAngle, destroyStage);
 
 		if (destroyStage >= 0) {
-			postRenderOverlay();
+			postRenderOverlay(chest, lidAngle, destroyStage);
 		}
 
 		if (chest.getEnchantLevel() > 0) {
 			double spin = Minecraft.getSystemTime() / 1000D;
+			float scale = 0.33333334F;
 
-			preRender(ENCHANT_GLINT, chest, x, y, z, alpha);
+			preRender(OVERLAY_ENCHANT, chest, x, y, z, destroyStage, alpha);
 
 			GlStateManager.enableBlend();
 			GlStateManager.depthFunc(GL11.GL_EQUAL);
@@ -147,12 +149,11 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 				GlStateManager.color(0.38F, 0.19F, 0.608F, 1.0F);
 				GlStateManager.matrixMode(GL11.GL_TEXTURE);
 				GlStateManager.loadIdentity();
-				float f3 = 0.33333334F;
-				GlStateManager.scale(f3, f3, f3);
+				GlStateManager.scale(scale, scale, scale);
 				GlStateManager.rotate(30.0F - i * 60.0F, 0.0F, 0.0F, 1.0F);
 				GlStateManager.translate(0.0F, (spin * 32D) * (0.001F + i * 0.003F) * 20.0F, 0.0F);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				postRenderModel(lidAngle);
+				postRenderModel(chest, lidAngle, destroyStage);
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			}
 
@@ -164,8 +165,8 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			GlStateManager.depthFunc(GL11.GL_LEQUAL);
 			GlStateManager.disableBlend();
 
-			postRenderChest();
-			postRenderOverlay();
+			postRenderChest(chest, lidAngle, destroyStage);
+			postRenderOverlay(chest, lidAngle, destroyStage);
 		}
 	}
 
@@ -175,8 +176,16 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		postRender(chest, 0.0F, x, y, z, destroyStage, alpha);
 	}
 
+	protected boolean canRenderNameTag(TileMetalChest chest) {
+		return chest.hasCustomName();
+	}
+
 	@Override
 	public void render(TileMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+		if (canRenderNameTag(chest)) {
+			super.render(chest, x, y, z, partialTicks, destroyStage, alpha);
+		}
+
 		preRender(chest, x, y, z, destroyStage, alpha);
 		float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
 		f = 1.0F - f;

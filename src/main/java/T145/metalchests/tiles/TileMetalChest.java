@@ -262,6 +262,16 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
+
+	@Override
+	public String getName() {
+		return getTranslationKey();
+	}
+
+	@Override
 	public ITextComponent getDisplayName() {
 		return new TextComponentTranslation(getTranslationKey());
 	}
@@ -282,15 +292,5 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return inventory;
-	}
-
-	@Override
-	public String getName() {
-		return getTranslationKey();
-	}
-
-	@Override
-	public boolean hasCustomName() {
-		return true;
 	}
 }

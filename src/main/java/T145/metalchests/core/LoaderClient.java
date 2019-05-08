@@ -28,7 +28,6 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -105,14 +104,6 @@ class LoaderClient {
 			registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), String.format("item=%s", type.getName()));
 		}
 
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBoatMetalChest.class, manager -> new RenderBoatMetalChest(manager));
-	}
-
-	// required so the class loader doesn't crash when it doesn't find SafeTESR
-	@Optional.Method(modid = RegistryMC.ID_RR2)
-	@SubscribeEvent
-	public static void registerModelsRR2(ModelRegistryEvent event) {
 		if (ModConfig.hasRefinedRelocation()) {
 			for (ChestType type : ChestType.values()) {
 				registerModel(BlocksMC.METAL_SORTING_CHEST, type.ordinal(), getVariantName(type));
@@ -125,7 +116,7 @@ class LoaderClient {
 					registerModel(BlocksMC.METAL_HUNGRY_SORTING_CHEST, type.ordinal(), getVariantName(type));
 				}
 
-				registerTileRenderer(TileMetalHungrySortingChest.class, new RenderMetalSortingChest(BlocksMC.METAL_HUNGRY_SORTING_CHEST) {
+				registerTileRenderer(TileMetalHungrySortingChest.class, new RenderMetalSortingChest() {
 
 					@Override
 					protected ResourceLocation getActiveResource(ChestType type) {
@@ -139,5 +130,8 @@ class LoaderClient {
 				});
 			}
 		}
+
+		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
+		RenderingRegistry.registerEntityRenderingHandler(EntityBoatMetalChest.class, manager -> new RenderBoatMetalChest(manager));
 	}
 }
