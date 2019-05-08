@@ -21,7 +21,6 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.config.ModConfig;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
@@ -40,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
 
-@Optional.Interface(modid = SupportedMods.THERMALEXPANSION_MOD_ID, iface = SupportedMods.IFACE_ENCHANTABLE_ITEM, striprefs = true)
+@Optional.Interface(modid = RegistryMC.ID_THERMALEXPANSION, iface = RegistryMC.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockModItem extends ItemBlock implements IEnchantableItem {
 
 	private final Class<? extends Enum<? extends IStringSerializable>> blockTypes;
@@ -58,7 +57,7 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 	@Nullable
 	@Override
 	public String getCreatorModId(ItemStack stack) {
-		return RegistryMC.MOD_ID;
+		return RegistryMC.ID;
 	}
 
 	@Override
@@ -130,7 +129,7 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 		return ModConfig.hasThermalExpansion() ? 10 : 0;
 	}
 
-	@Optional.Method(modid = SupportedMods.THERMALEXPANSION_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_THERMALEXPANSION)
 	@Override
 	public boolean canEnchant(ItemStack stack, Enchantment enchantment) {
 		return enchantment == CoreEnchantments.holding;

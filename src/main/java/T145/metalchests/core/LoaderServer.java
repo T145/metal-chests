@@ -16,7 +16,6 @@ import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockModItem;
 import T145.metalchests.config.ModConfig;
@@ -78,20 +77,20 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.blocks.BlocksTC;
 
-@EventBusSubscriber(modid = RegistryMC.MOD_ID)
+@EventBusSubscriber(modid = RegistryMC.ID)
 class LoaderServer {
 
 	private LoaderServer() {}
 
 	@SubscribeEvent
 	public static void onConfigChanged(OnConfigChangedEvent event) {
-		if (event.getModID().equals(RegistryMC.MOD_ID)) {
-			ConfigManager.sync(RegistryMC.MOD_ID, Config.Type.INSTANCE);
+		if (event.getModID().equals(RegistryMC.ID)) {
+			ConfigManager.sync(RegistryMC.ID, Config.Type.INSTANCE);
 		}
 	}
 
 	static void registerTileEntity(Class tileClass) {
-		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(RegistryMC.MOD_ID, tileClass.getSimpleName()));
+		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(RegistryMC.ID, tileClass.getSimpleName()));
 	}
 
 	static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
@@ -287,18 +286,18 @@ class LoaderServer {
 
 	static void registerMetalChestRecipes(Object baseChest, Block metalChest, String name) {
 		if (ChestType.COPPER.isRegistered()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_copper_%s", name)), null,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_copper_%s", name)), null,
 					new ItemStack(metalChest, 1, 0),
 					"aaa", "aba", "aaa",
 					'a', "ingotCopper",
 					'b', baseChest);
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_iron_%s", name)), null,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_iron_%s", name)), null,
 					new ItemStack(metalChest, 1, 1),
 					"aaa", "aba", "aaa",
 					'a', "ingotIron",
 					'b', new ItemStack(metalChest, 1, 0));
 		} else {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_iron_%s", name)), null,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_iron_%s", name)), null,
 					new ItemStack(metalChest, 1, 1),
 					"aaa", "aba", "aaa",
 					'a', "ingotIron",
@@ -306,30 +305,30 @@ class LoaderServer {
 		}
 
 		if (ChestType.SILVER.isRegistered()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_silver_%s", name)), null,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_silver_%s", name)), null,
 					new ItemStack(metalChest, 1, 2),
 					"aaa", "aba", "aaa",
 					'a', "ingotSilver",
 					'b', new ItemStack(metalChest, 1, 1));
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_gold_%s", name)), null,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_gold_%s", name)), null,
 					new ItemStack(metalChest, 1, 3),
 					"aaa", "aba", "aaa",
 					'a', "ingotGold",
 					'b', new ItemStack(metalChest, 1, 2));
 		} else {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_gold_%s", name)), null,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_gold_%s", name)), null,
 					new ItemStack(metalChest, 1, 3),
 					"aaa", "aba", "aaa",
 					'a', "ingotGold",
 					'b', new ItemStack(metalChest, 1, 1));
 		}
 
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_diamond_%s", name)), null,
+		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_diamond_%s", name)), null,
 				new ItemStack(metalChest, 1, 4),
 				"aaa", "aba", "aaa",
 				'a', "gemDiamond",
 				'b', new ItemStack(metalChest, 1, 3));
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_obsidian_%s", name)), null,
+		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_obsidian_%s", name)), null,
 				new ItemStack(metalChest, 1, 5),
 				"aaa", "aba", "aaa",
 				'a', "obsidian",
@@ -337,7 +336,7 @@ class LoaderServer {
 	}
 
 	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String name) {
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_%s_sorting_%s", type.getName(), name)), null,
+		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_sorting_%s", type.getName(), name)), null,
 				new ItemStack(metalChest, 1, type.ordinal()),
 				" a ", "bcb", " d ",
 				'a', Items.WRITABLE_BOOK,
@@ -359,7 +358,7 @@ class LoaderServer {
 				ItemStack result = new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal());
 				OreDictionary.registerOre("chest", result);
 				OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), result);
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_minecart_chest_%s", type.getName())), null,
+				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_minecart_chest_%s", type.getName())), null,
 						new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()),
 						"a", "b",
 						'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
@@ -394,7 +393,7 @@ class LoaderServer {
 		}
 
 		for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.MOD_ID, String.format("recipe_chest_upgrade_%s", upgrade.getName())), null,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_chest_upgrade_%s", upgrade.getName())), null,
 					new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
 					"aaa", "aaa", "baa",
 					'a', upgrade.getUpgrade().getOreName(),
@@ -479,7 +478,7 @@ class LoaderServer {
 		}
 	}
 
-	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_QUARK)
 	@SubscribeEvent
 	public static void onEntityInteractQuark(EntityInteract event) {
 		Entity target = event.getTarget();
@@ -489,7 +488,7 @@ class LoaderServer {
 		}
 	}
 
-	@Optional.Method(modid = SupportedMods.CHESTTRANSPORTER_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_CHESTTRANSPORTER)
 	@SubscribeEvent
 	public static void registerChestTransporter(final RegistryEvent.Register<TransportableChest> event) {
 		final IForgeRegistry<TransportableChest> registry = event.getRegistry();
@@ -557,7 +556,7 @@ class LoaderServer {
 		}
 	}
 
-	@Optional.Method(modid = SupportedMods.REFINEDRELOCATION_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_RR2)
 	@SubscribeEvent
 	public static void onRR2RightClick(RightClickBlock event) {
 		World world = event.getWorld();

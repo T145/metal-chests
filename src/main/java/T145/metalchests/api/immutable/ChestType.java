@@ -146,7 +146,7 @@ public enum ChestType implements IStringSerializable {
 
 		public ResourceLocation getGuiTexture() {
 			ChestType type = ChestType.byMetadata(ordinal());
-			return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
+			return new ResourceLocation(RegistryMC.ID, String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
 		}
 	}
 }

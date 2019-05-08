@@ -29,7 +29,7 @@ public class UpdateChecker {
 	private UpdateChecker() {}
 
 	private static ForgeVersion.CheckResult getResult() {
-		return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(RegistryMC.MOD_ID));
+		return ForgeVersion.getResult(FMLCommonHandler.instance().findContainerFor(RegistryMC.ID));
 	}
 
 	public static boolean hasUpdate() {

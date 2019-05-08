@@ -36,8 +36,8 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 
 	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
 	private static final ResourceLocation ENCHANT_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-	private static final ResourceLocation TRAP_ENGRAVE = new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/overlay/trap.png");
-	private static final ResourceLocation GLOW_ENGRAVE = new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/overlay/glow.png");
+	private static final ResourceLocation TRAP_ENGRAVE = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/trap.png");
+	private static final ResourceLocation GLOW_ENGRAVE = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/glow.png");
 
 	protected final ModelChest model = new ModelChest();
 
@@ -55,7 +55,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/%s%s", type.getName(), ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
+		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/%s%s", type.getName(), ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
 	}
 
 	private void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, float alpha) {

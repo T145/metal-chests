@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class PacketHandler {
 
-	public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(RegistryMC.MOD_ID);
+	public static final SimpleNetworkWrapper NETWORK = NetworkRegistry.INSTANCE.newSimpleChannel(RegistryMC.ID);
 
 	private static byte id;
 

@@ -60,7 +60,7 @@ class TransportableMetalChestImpl extends TransportableChestImpl {
 	@Override
 	public ResourceLocation getChestModel(ItemStack transporter) {
 		NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
-		return new ResourceLocation(RegistryMC.MOD_ID, String.format("item/chesttransporter/%s%s", prefix, tag.getString("ChestType").toLowerCase()));
+		return new ResourceLocation(RegistryMC.ID, String.format("item/chesttransporter/%s%s", prefix, tag.getString("ChestType").toLowerCase()));
 	}
 
 	@Override
@@ -68,7 +68,7 @@ class TransportableMetalChestImpl extends TransportableChestImpl {
 		List<ResourceLocation> models = new ArrayList<>();
 
 		for (ChestType type : ChestType.values()) {
-			models.add(new ResourceLocation(RegistryMC.MOD_ID, String.format("item/chesttransporter/%s%s", prefix, type.getName())));
+			models.add(new ResourceLocation(RegistryMC.ID, String.format("item/chesttransporter/%s%s", prefix, type.getName())));
 		}
 
 		return models;

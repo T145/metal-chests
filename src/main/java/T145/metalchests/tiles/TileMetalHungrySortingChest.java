@@ -43,6 +43,6 @@ public class TileMetalHungrySortingChest extends TileMetalSortingChest {
 
 	@Override
 	public String getTranslationKey() {
-		return String.format("tile.%s:%s.%s.name", RegistryMC.MOD_ID, RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST, chestType.getName());
+		return String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST, chestType.getName());
 	}
 }

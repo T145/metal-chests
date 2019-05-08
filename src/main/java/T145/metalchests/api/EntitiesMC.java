@@ -19,7 +19,7 @@ import T145.metalchests.api.immutable.RegistryMC;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 
-@ObjectHolder(RegistryMC.MOD_ID)
+@ObjectHolder(RegistryMC.ID)
 public class EntitiesMC {
 
 	private EntitiesMC() {}

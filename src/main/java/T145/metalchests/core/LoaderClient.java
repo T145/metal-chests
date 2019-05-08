@@ -5,7 +5,6 @@ import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
 import T145.metalchests.client.render.entities.RenderBoatMetalChest;
@@ -33,7 +32,7 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-@EventBusSubscriber(modid = RegistryMC.MOD_ID, value = Side.CLIENT)
+@EventBusSubscriber(modid = RegistryMC.ID, value = Side.CLIENT)
 class LoaderClient {
 
 	private LoaderClient() {}
@@ -42,7 +41,7 @@ class LoaderClient {
 		if (StringUtils.isNullOrEmpty(customDomain)) {
 			return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
 		} else {
-			return new ModelResourceLocation(String.format("%s:%s", RegistryMC.MOD_ID, customDomain), variantPath.toString());
+			return new ModelResourceLocation(String.format("%s:%s", RegistryMC.ID, customDomain), variantPath.toString());
 		}
 	}
 
@@ -97,7 +96,7 @@ class LoaderClient {
 
 				@Override
 				protected ResourceLocation getActiveResource(ChestType type) {
-					return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
+					return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
 				}
 			});
 		}
@@ -111,7 +110,7 @@ class LoaderClient {
 	}
 
 	// required so the class loader doesn't crash when it doesn't find SafeTESR
-	@Optional.Method(modid = SupportedMods.REFINEDRELOCATION_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_RR2)
 	@SubscribeEvent
 	public static void registerModelsRR2(ModelRegistryEvent event) {
 		if (ModConfig.hasRefinedRelocation()) {
@@ -130,12 +129,12 @@ class LoaderClient {
 
 					@Override
 					protected ResourceLocation getActiveResource(ChestType type) {
-						return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
+						return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
 					}
 
 					@Override
 					protected ResourceLocation getActiveOverlay(ChestType type) {
-						return new ResourceLocation(RegistryMC.MOD_ID, String.format("textures/entity/chest/hungry/overlay/%s.png", type.getName()));
+						return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/overlay/%s.png", type.getName()));
 					}
 				});
 			}

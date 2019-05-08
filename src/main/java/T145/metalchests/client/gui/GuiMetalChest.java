@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
-import T145.metalchests.api.immutable.SupportedMods;
+import T145.metalchests.api.immutable.RegistryMC;
 import T145.metalchests.containers.ContainerMetalChest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
@@ -28,8 +28,8 @@ import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.api.IItemSearchBar;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = SupportedMods.QUARK_MOD_ID, iface = SupportedMods.IFACE_CHEST_BUTTON_CALLBACK, striprefs = true),
-	@Optional.Interface(modid = SupportedMods.QUARK_MOD_ID, iface = SupportedMods.IFACE_SEARCH_BAR, striprefs = true)
+	@Optional.Interface(modid = RegistryMC.ID_QUARK, iface = RegistryMC.IFACE_CHEST_BUTTON_CALLBACK, striprefs = true),
+	@Optional.Interface(modid = RegistryMC.ID_QUARK, iface = RegistryMC.IFACE_SEARCH_BAR, striprefs = true)
 })
 @SideOnly(Side.CLIENT)
 public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {
@@ -60,13 +60,13 @@ public class GuiMetalChest extends GuiContainer implements IChestButtonCallback,
 		drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
 	}
 
-	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_QUARK)
 	@Override
 	public boolean onAddChestButton(GuiButton button, int buttonType) {
 		return true;
 	}
 
-	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_QUARK)
 	@Override
 	public void onSearchBarAdded(GuiTextField bar) {
 		int xOffset = this.getXSize() - 95;

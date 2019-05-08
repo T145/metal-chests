@@ -254,7 +254,7 @@ public class BlockMetalChest extends Block {
 	@Override
 	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (!world.isRemote && world.getTileEntity(pos) instanceof TileMetalChest && !player.isSneaking() && !isBlocked(world, pos)) {
-			player.openGui(RegistryMC.MOD_ID, 0, world, pos.getX(), pos.getY(), pos.getZ());
+			player.openGui(RegistryMC.ID, 0, world, pos.getX(), pos.getY(), pos.getZ());
 		}
 		return true;
 	}

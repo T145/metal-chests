@@ -23,7 +23,6 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.network.PacketHandler;
 import T145.metalchests.network.client.MessageApplyLuminousUpgrade;
 import T145.metalchests.network.client.MessageApplyTrappedUpgrade;
@@ -50,8 +49,8 @@ import net.minecraftforge.items.ItemStackHandler;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({
-	@Optional.Interface(modid = SupportedMods.HOLOINVENTORY_MOD_ID, iface = SupportedMods.IFACE_NAMED_ITEM_HANDLER, striprefs = true),
-	@Optional.Interface(modid = SupportedMods.QUARK_MOD_ID, iface = SupportedMods.IFACE_DROPOFF_MANAGER, striprefs = true)
+	@Optional.Interface(modid = RegistryMC.ID_HOLOINVENTORY, iface = RegistryMC.IFACE_NAMED_ITEM_HANDLER, striprefs = true),
+	@Optional.Interface(modid = RegistryMC.ID_QUARK, iface = RegistryMC.IFACE_DROPOFF_MANAGER, striprefs = true)
 })
 public class TileMetalChest extends TileEntity implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
@@ -270,7 +269,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	public String getTranslationKey() {
-		return String.format("tile.%s:%s.%s.name", RegistryMC.MOD_ID, RegistryMC.KEY_METAL_CHEST, chestType.getName());
+		return String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_CHEST, chestType.getName());
 	}
 
 	@Override
@@ -278,19 +277,19 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		return new TextComponentTranslation(getTranslationKey());
 	}
 
-	@Optional.Method(modid = SupportedMods.HOLOINVENTORY_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_HOLOINVENTORY)
 	@Override
 	public String getItemHandlerName() {
 		return getTranslationKey();
 	}
 
-	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_QUARK)
 	@Override
 	public boolean acceptsDropoff(EntityPlayer player) {
 		return true;
 	}
 
-	@Optional.Method(modid = SupportedMods.QUARK_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_QUARK)
 	@Override
 	public IItemHandler getDropoffItemHandler(Supplier<IItemHandler> defaultSupplier) {
 		return inventory;

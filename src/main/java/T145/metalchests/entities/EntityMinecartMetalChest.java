@@ -23,7 +23,6 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.api.immutable.SupportedMods;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
@@ -49,7 +48,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.items.ItemStackHandler;
 
-@Optional.Interface(modid = SupportedMods.RAILCRAFT_MOD_ID, iface = SupportedMods.IFACE_ITEM_CART, striprefs = true)
+@Optional.Interface(modid = RegistryMC.ID_RAILCRAFT, iface = RegistryMC.IFACE_ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IMetalChest, IItemCart {
 
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.createKey(EntityMinecartMetalChest.class, MetalChests.CHEST_TYPE);
@@ -195,7 +194,7 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 			}
 		}
 
-		player.openGui(RegistryMC.MOD_ID, hashCode(), world, 0, 0, 0);
+		player.openGui(RegistryMC.ID, hashCode(), world, 0, 0, 0);
 		return true;
 	}
 
@@ -254,19 +253,19 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
 	}
 
-	@Optional.Method(modid = SupportedMods.RAILCRAFT_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_RAILCRAFT)
 	@Override
 	public boolean canPassItemRequests() {
 		return true;
 	}
 
-	@Optional.Method(modid = SupportedMods.RAILCRAFT_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_RAILCRAFT)
 	@Override
 	public boolean canAcceptPushedItem(EntityMinecart requester, ItemStack stack) {
 		return !ItemHandlerHelper.insertItemStacked(inventory, stack, true).isEmpty();
 	}
 
-	@Optional.Method(modid = SupportedMods.RAILCRAFT_MOD_ID)
+	@Optional.Method(modid = RegistryMC.ID_RAILCRAFT)
 	@Override
 	public boolean canProvidePulledItem(EntityMinecart requester, ItemStack stack) {
 		ItemStack result = ItemStack.EMPTY;

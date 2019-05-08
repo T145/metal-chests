@@ -49,11 +49,11 @@ public class RenderMetalSortingChest extends SafeTESR<TileMetalSortingChest> {
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.ID, "textures/entity/chest/" + type.getName() + ".png");
 	}
 
 	protected ResourceLocation getActiveOverlay(ChestType type) {
-		return new ResourceLocation(RegistryMC.MOD_ID, "textures/entity/chest/overlay/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/" + type.getName() + ".png");
 	}
 
 	@Override

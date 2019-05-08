@@ -247,7 +247,7 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 			}
 		}
 
-		player.openGui(RegistryMC.MOD_ID, hashCode(), world, 0, 0, 0);
+		player.openGui(RegistryMC.ID, hashCode(), world, 0, 0, 0);
 		return true;
 	}
 }

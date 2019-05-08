@@ -51,7 +51,7 @@ public class ItemMod extends Item {
 	@Nullable
 	@Override
 	public String getCreatorModId(ItemStack stack) {
-		return RegistryMC.MOD_ID;
+		return RegistryMC.ID;
 	}
 
 	@Override

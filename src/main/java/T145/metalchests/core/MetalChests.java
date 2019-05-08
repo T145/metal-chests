@@ -57,15 +57,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 
-@Mod(modid = RegistryMC.MOD_ID, name = RegistryMC.MOD_NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft")
+@Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft")
 public class MetalChests {
 
 	static final String VERSION = "@VERSION@";
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 
-	public static final Logger LOG = LogManager.getLogger(RegistryMC.MOD_ID);
+	public static final Logger LOG = LogManager.getLogger(RegistryMC.ID);
 
-	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.MOD_ID) {
+	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.ID) {
 
 		@Override
 		@SideOnly(Side.CLIENT)
@@ -96,7 +96,7 @@ public class MetalChests {
 		}
 	}.setBackgroundImageName("item_search.png");
 
-	@Instance(RegistryMC.MOD_ID)
+	@Instance(RegistryMC.ID)
 	public static MetalChests instance;
 
 	public static final DataSerializer<ChestType> CHEST_TYPE = new DataSerializer<ChestType>() {
@@ -130,8 +130,8 @@ public class MetalChests {
 		meta.credits = "The fans!";
 		meta.description = "The better alternative to IronChests";
 		meta.logoFile = "logo.png";
-		meta.modId = RegistryMC.MOD_ID;
-		meta.name = RegistryMC.MOD_NAME;
+		meta.modId = RegistryMC.ID;
+		meta.name = RegistryMC.NAME;
 		meta.url = "https://github.com/T145/metalchests";
 		meta.useDependencyInformation = false;
 		meta.version = VERSION;
