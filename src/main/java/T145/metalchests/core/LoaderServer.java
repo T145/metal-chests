@@ -24,6 +24,9 @@ import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
+import T145.metalchests.network.PacketHandler;
+import T145.metalchests.network.client.MessageApplyLuminousUpgrade;
+import T145.metalchests.network.client.MessageApplyTrappedUpgrade;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungryChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
@@ -541,6 +544,7 @@ class LoaderServer {
 					}
 					chest.setTrapped(true);
 				}
+				PacketHandler.sendToAllAround(new MessageApplyTrappedUpgrade(pos, chest.isTrapped()), world, pos);
 			}
 
 			if (hasGlowstone) {
@@ -552,6 +556,7 @@ class LoaderServer {
 					}
 					chest.setLuminous(true);
 				}
+				PacketHandler.sendToAllAround(new MessageApplyLuminousUpgrade(pos, chest.isLuminous()), world, pos);
 			}
 		}
 	}

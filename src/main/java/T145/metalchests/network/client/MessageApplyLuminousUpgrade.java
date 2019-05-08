@@ -4,14 +4,11 @@ import java.io.IOException;
 
 import T145.metalchests.network.MessageBase;
 import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class MessageApplyLuminousUpgrade extends MessageBase {
 
@@ -39,14 +36,9 @@ public class MessageApplyLuminousUpgrade extends MessageBase {
 		luminous = buf.readBoolean();
 	}
 
-	@SideOnly(Side.CLIENT)
-	protected World getWorld(MessageContext ctx) {
-		return Minecraft.getMinecraft().world;
-	}
-
 	@Override
 	public void process(MessageContext ctx) {
-		World world = getWorld(ctx);
+		World world = getClientWorld();
 
 		if (world != null) {
 			TileEntity te = world.getTileEntity(pos);
