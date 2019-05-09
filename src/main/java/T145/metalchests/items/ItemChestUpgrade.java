@@ -81,12 +81,16 @@ public class ItemChestUpgrade extends ItemMod {
 		} else if (UpgradeRegistry.hasChest(te.getBlockType())) {
 			te.updateContainingBlockInfo();
 
+			boolean trapped = false;
+
 			if (te instanceof TileEntityChest) {
 				TileEntityChest vanillaChest = (TileEntityChest) te;
 
-				if (vanillaChest.lidAngle > 0 || vanillaChest.getChestType() == BlockChest.Type.TRAP) {
+				if (vanillaChest.lidAngle > 0) {
 					return EnumActionResult.FAIL;
 				}
+
+				trapped = vanillaChest.getChestType() == BlockChest.Type.TRAP;
 
 				vanillaChest.checkForAdjacentChests();
 			}
@@ -117,6 +121,7 @@ public class ItemChestUpgrade extends ItemMod {
 				metalChest.setChestType(type);
 				metalChest.setInventory(inv);
 				metalChest.setFront(front);
+				metalChest.setTrapped(trapped);
 				te.markDirty();
 			}
 		} else {
