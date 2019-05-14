@@ -21,7 +21,6 @@ import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPos.MutableBlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,13 +28,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class GuiHandler implements IGuiHandler {
 
-	private final MutableBlockPos pos = new MutableBlockPos(BlockPos.ORIGIN);
-
 	@Override
 	public ContainerMetalChest getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		switch (ID) {
 		case 0:
-			TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos.setPos(x, y, z));
+			TileMetalChest chest = (TileMetalChest) world.getTileEntity(new BlockPos(x, y, z));
 			return new ContainerMetalChest(chest, player);
 		default:
 			Entity entity = world.getEntityByID(ID);
