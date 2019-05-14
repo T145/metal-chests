@@ -157,12 +157,6 @@ class LoaderServer {
 		registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
 		registerTileEntity(TileMetalChest.class);
 
-		UpgradeRegistry.registerChest(Blocks.TRAPPED_CHEST, BlocksMC.METAL_CHEST);
-
-		if (Loader.isModLoaded(RegistryMC.ID_QUARK)) {
-			UpgradeRegistry.registerChest(VariedChests.custom_chest_trap, BlocksMC.METAL_CHEST);
-		}
-
 		if (ModConfig.hasRefinedRelocation()) {
 			registry.register(BlocksMC.METAL_SORTING_CHEST = new BlockMetalChest() {
 
@@ -232,6 +226,12 @@ class LoaderServer {
 
 		registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
 		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
+
+		UpgradeRegistry.registerChest(Blocks.TRAPPED_CHEST, BlocksMC.METAL_CHEST);
+
+		if (Loader.isModLoaded(RegistryMC.ID_QUARK)) {
+			UpgradeRegistry.registerChest(VariedChests.custom_chest_trap, BlocksMC.METAL_CHEST);
+		}
 
 		if (ModConfig.hasRefinedRelocation()) {
 			UpgradeRegistry.registerChest(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
