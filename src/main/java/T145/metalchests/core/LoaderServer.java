@@ -68,6 +68,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -79,6 +80,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.blocks.BlocksTC;
+import vazkii.quark.decoration.feature.VariedChests;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class LoaderServer {
@@ -154,6 +156,12 @@ class LoaderServer {
 
 		registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
 		registerTileEntity(TileMetalChest.class);
+
+		UpgradeRegistry.registerChest(Blocks.TRAPPED_CHEST, BlocksMC.METAL_CHEST);
+
+		if (Loader.isModLoaded(RegistryMC.ID_QUARK)) {
+			UpgradeRegistry.registerChest(VariedChests.custom_chest_trap, BlocksMC.METAL_CHEST);
+		}
 
 		if (ModConfig.hasRefinedRelocation()) {
 			registry.register(BlocksMC.METAL_SORTING_CHEST = new BlockMetalChest() {
