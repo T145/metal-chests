@@ -12,7 +12,6 @@ import T145.metalchests.api.EntitiesMC;
 import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.immutable.ChestType;
 import T145.metalchests.api.immutable.ChestUpgrade;
 import T145.metalchests.api.immutable.RegistryMC;
@@ -35,7 +34,6 @@ import cofh.core.init.CoreEnchantments;
 import cofh.core.util.helpers.MathHelper;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
-import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.blay09.mods.refinedrelocation.item.ItemSortingUpgrade;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -68,7 +66,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -80,7 +77,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.blocks.BlocksTC;
-import vazkii.quark.decoration.feature.VariedChests;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class LoaderServer {
@@ -227,20 +223,12 @@ class LoaderServer {
 		registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
 		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
 
-		UpgradeRegistry.registerChest(Blocks.TRAPPED_CHEST, BlocksMC.METAL_CHEST);
-
-		if (Loader.isModLoaded(RegistryMC.ID_QUARK)) {
-			UpgradeRegistry.registerChest(VariedChests.custom_chest_trap, BlocksMC.METAL_CHEST);
-		}
-
 		if (ModConfig.hasRefinedRelocation()) {
-			UpgradeRegistry.registerChest(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
 			registerItemBlock(registry, BlocksMC.METAL_SORTING_CHEST, ChestType.class);
 		}
 
 		if (ModConfig.hasThaumcraft()) {
 			registerItemBlock(registry, BlocksMC.METAL_HUNGRY_CHEST, ChestType.class);
-			UpgradeRegistry.registerChest(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
 
 			if (ModConfig.hasRefinedRelocation()) {
 				registerItemBlock(registry, BlocksMC.METAL_HUNGRY_SORTING_CHEST, ChestType.class);

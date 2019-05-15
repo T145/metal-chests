@@ -32,9 +32,11 @@ import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.network.PacketHandler;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
+import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityMinecartContainer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
@@ -49,6 +51,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -56,8 +59,10 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
+import thaumcraft.api.blocks.BlocksTC;
+import vazkii.quark.decoration.feature.VariedChests;
 
-@Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft")
+@Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON, dependencies = "after:thaumcraft;after:refinedrelocation;after:quark")
 public class MetalChests {
 
 	static final String VERSION = "@VERSION@";
@@ -167,10 +172,30 @@ public class MetalChests {
 		PacketHandler.registerMessages();
 	}
 
+	@Optional.Method(modid = RegistryMC.ID_QUARK)
+	@EventHandler
+	public void quark$postInit(FMLPostInitializationEvent event) {
+		UpgradeRegistry.registerChest(VariedChests.custom_chest_trap, BlocksMC.METAL_CHEST);
+	}
+
+	@Optional.Method(modid = RegistryMC.ID_RR2)
+	@EventHandler
+	public void refinedrelocation$postInit(FMLPostInitializationEvent event) {
+		UpgradeRegistry.registerChest(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
+	}
+
+	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
+	@EventHandler
+	public void thaumcraft$postInit(FMLPostInitializationEvent event) {
+		UpgradeRegistry.registerChest(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
+	}
+
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		for (ItemStack stack : OreDictionary.getOres("chestWood")) {
 			UpgradeRegistry.registerChest(Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
 		}
+
+		UpgradeRegistry.registerChest(Blocks.TRAPPED_CHEST, BlocksMC.METAL_CHEST);
 	}
 }
