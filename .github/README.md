@@ -24,7 +24,8 @@
 #### Using [Scoop](https://github.com/lukesampson/scoop/blob/master/README.md) *(Recommended)*
 ```bash
 scoop bucket add java
-scoop install git ojdkbuild8 gradle@4.10.3
+scoop bucket add versions
+scoop install git ojdkbuild8 gradle4
 ```
 
 #### Using [Chocolatey](https://chocolatey.org/install)
