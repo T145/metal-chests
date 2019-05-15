@@ -31,7 +31,7 @@ public class RenderMetalSortingChest extends RenderMetalChest {
 	private final ModelLidOverlay chestLid = new ModelLidOverlay();
 
 	protected ResourceLocation getActiveOverlay(ChestType type) {
-		return new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/" + type.getName() + ".png");
+		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/overlay/sorting_%s.png", type.getName()));
 	}
 
 	@Override

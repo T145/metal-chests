@@ -10,42 +10,42 @@
                 "textures": {
                     "particle": "metalchests:blocks/chest/hungry/copper",
                     "chest": "metalchests:entity/chest/hungry/copper",
-                    "overlay": "metalchests:entity/chest/hungry/overlay/copper"
+                    "overlay": "metalchests:blocks/chest/hungry/overlay/sorting_copper"
                 }
             },
             "iron": {
                 "textures": {
                     "particle": "metalchests:blocks/chest/hungry/iron",
                     "chest": "metalchests:entity/chest/hungry/iron",
-                    "overlay": "metalchests:entity/chest/hungry/overlay/iron"
+                    "overlay": "metalchests:blocks/chest/hungry/overlay/sorting_iron"
                 }
             },
             "silver": {
                 "textures": {
                     "particle": "metalchests:blocks/chest/hungry/silver",
                     "chest": "metalchests:entity/chest/hungry/silver",
-                    "overlay": "metalchests:entity/chest/hungry/overlay/silver"
+                    "overlay": "metalchests:blocks/chest/hungry/overlay/sorting_silver"
                 }
             },
             "gold": {
                 "textures": {
                     "particle": "metalchests:blocks/chest/hungry/gold",
                     "chest": "metalchests:entity/chest/hungry/gold",
-                    "overlay": "metalchests:entity/chest/hungry/overlay/gold"
+                    "overlay": "metalchests:blocks/chest/hungry/overlay/sorting_gold"
                 }
             },
             "diamond": {
                 "textures": {
                     "particle": "metalchests:blocks/chest/hungry/diamond",
                     "chest": "metalchests:entity/chest/hungry/diamond",
-                    "overlay": "metalchests:entity/chest/hungry/overlay/diamond"
+                    "overlay": "metalchests:blocks/chest/hungry/overlay/sorting_diamond"
                 }
             },
             "obsidian": {
                 "textures": {
                     "particle": "metalchests:blocks/chest/hungry/obsidian",
                     "chest": "metalchests:entity/chest/hungry/obsidian",
-                    "overlay": "metalchests:entity/chest/hungry/overlay/obsidian"
+                    "overlay": "metalchests:blocks/chest/hungry/overlay/sorting_obsidian"
                 }
             }
         }
