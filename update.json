@@ -21,10 +21,11 @@
         "v3.8.1.gfd0d85a": "https://github.com/T145/metalchests/releases/tag/v3.8.1",
         "v3.9.0.g9b0c79e": "https://github.com/T145/metalchests/releases/tag/v3.9.0",
         "v4.0.1.g01955d6": "https://github.com/T145/metalchests/releases/tag/v4.0.1",
-        "v4.6.6.g042b0ed": "https://github.com/T145/metalchests/releases/tag/v4.6.6"
+        "v4.6.6.g042b0ed": "https://github.com/T145/metalchests/releases/tag/v4.6.6",
+        "v4.6.9.g1f83dbf": "https://github.com/T145/metalchests/releases/tag/v4.6.9"
     },
     "promos": {
-        "1.12.2-latest": "v4.6.6.g042b0ed",
-        "1.12.2-recommended": "v4.6.6.g042b0ed"
+        "1.12.2-latest": "v4.6.9.g1f83dbf",
+        "1.12.2-recommended": "v4.6.9.g1f83dbf"
     }
 }
