@@ -2,10 +2,7 @@
 
 ***
 
-The better alternative to IronChests!
-
 [![DownloadCount](http://cf.way2muchnoise.eu/full_metalchests_downloads.svg)](https://minecraft.curseforge.com/projects/metalchests)
-[![SupportedVersions](http://cf.way2muchnoise.eu/versions/228756_latest.svg)](https://minecraft.curseforge.com/projects/metalchests)
 
 ---
 **_Table of Contents_**
@@ -27,7 +24,7 @@ The better alternative to IronChests!
 #### Using [Scoop](https://github.com/lukesampson/scoop/blob/master/README.md) *(Recommended)*
 ```bash
 scoop bucket add java
-scoop install git oraclejdk8u gradle@4.10.3
+scoop install git ojdkbuild8 gradle@4.10.3
 ```
 
 #### Using [Chocolatey](https://chocolatey.org/install)
