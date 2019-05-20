@@ -43,8 +43,7 @@ import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.items.ItemMetalMinecart;
 import T145.metalchests.network.PacketHandler;
-import T145.metalchests.network.client.MessageApplyLuminousUpgrade;
-import T145.metalchests.network.client.MessageApplyTrappedUpgrade;
+import T145.metalchests.network.client.MessageSyncMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
 import cofh.core.init.CoreEnchantments;
@@ -569,7 +568,7 @@ public class MetalChests {
 					}
 					chest.setTrapped(true);
 				}
-				PacketHandler.sendToAllAround(new MessageApplyTrappedUpgrade(pos, chest.isTrapped()), world, pos);
+				PacketHandler.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
 			}
 
 			if (hasGlowstone) {
@@ -581,7 +580,7 @@ public class MetalChests {
 					}
 					chest.setLuminous(true);
 				}
-				PacketHandler.sendToAllAround(new MessageApplyLuminousUpgrade(pos, chest.isLuminous()), world, pos);
+				PacketHandler.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
 			}
 		}
 	}

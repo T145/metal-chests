@@ -1,8 +1,8 @@
 package T145.metalchests.network;
 
 import T145.metalchests.api.immutable.RegistryMC;
-import T145.metalchests.network.client.MessageApplyLuminousUpgrade;
-import T145.metalchests.network.client.MessageApplyTrappedUpgrade;
+import T145.metalchests.network.client.MessageSyncMetalChest;
+import T145.metalchests.network.client.MessageSyncMetalChestEntity;
 import net.minecraft.util.IThreadListener;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -28,8 +28,8 @@ public class PacketHandler {
 	}
 
 	public static void registerMessages() {
-		registerMessage(MessageApplyTrappedUpgrade.class, Side.CLIENT);
-		registerMessage(MessageApplyLuminousUpgrade.class, Side.CLIENT);
+		registerMessage(MessageSyncMetalChest.class, Side.CLIENT);
+		registerMessage(MessageSyncMetalChestEntity.class, Side.CLIENT);
 	}
 
 	public static NetworkRegistry.TargetPoint getTargetPoint(World world, BlockPos pos) {
