@@ -2,7 +2,9 @@
 
 ***
 
-[![DownloadCount](http://cf.way2muchnoise.eu/full_metalchests_downloads.svg)](https://minecraft.curseforge.com/projects/metalchests)
+[![downloads](http://cf.way2muchnoise.eu/full_metalchests_downloads.svg)](https://minecraft.curseforge.com/projects/metalchests)
+[![versions](http://cf.way2muchnoise.eu/versions/metalchests.svg)](https://minecraft.curseforge.com/projects/metalchests)
+[![packs](http://cf.way2muchnoise.eu/packs/metalchests.svg)](https://minecraft.curseforge.com/projects/metalchests)
 
 ---
 **_Table of Contents_**
@@ -73,9 +75,9 @@ gradle idea
 
 To add upgrade compatibility to your own vanilla-like chests, you can just make this call:
 ```java
-UpgradeRegistry.registerChest((upgrade item resource name), (default chest tile entity class), (block of desired upgrade));
+UpgradeRegistry.registerChest((your chest block), (target metal chest block));
 ```
-> The block to upgrade to MUST use the `IMetalChest.VARIANT` property!
+> The upgrade target MUST use the `IMetalChest.VARIANT` property!
 
 ---
 
@@ -96,7 +98,7 @@ To use any mod assets, you may contatct [myself](https://github.com/T145) or the
 
 <div align="center">
 
-**Paypal**: [paypal.me/T145](https://www.paypal.me/T145)
+**Paypal**: *Check the top right of the CurseForge page!*
 </div>
 
 <div align="center">
