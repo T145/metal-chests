@@ -114,7 +114,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
-	dependencies = "after:chesttransporter;after:quark;after:thaumcraft;after:refinedrelocation")
+dependencies = "after:chesttransporter;after:quark;after:thaumcraft;after:refinedrelocation")
 @EventBusSubscriber(modid = RegistryMC.ID)
 public class MetalChests {
 
@@ -532,7 +532,13 @@ public class MetalChests {
 		Entity target = event.getTarget();
 
 		if (target instanceof EntityBoat) {
-			createChestEntityFromInteraction(target, new EntityBoatMetalChest((EntityBoat) target), event);
+			EntityBoat boat = (EntityBoat) target;
+
+			if (boat.getBoatType() == null) {
+				boat.setBoatType(EntityBoat.Type.OAK);
+			}
+
+			createChestEntityFromInteraction(target, new EntityBoatMetalChest(boat), event);
 		}
 	}
 
