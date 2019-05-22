@@ -3,7 +3,7 @@ package T145.metalchests.network.client;
 import java.io.IOException;
 
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.network.MessageBase;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.network.PacketBuffer;

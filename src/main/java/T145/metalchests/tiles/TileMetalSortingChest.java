@@ -17,8 +17,8 @@ package T145.metalchests.tiles;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.RegistryMC;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.INameTaggable;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;

@@ -21,8 +21,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.RegistryMC;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;

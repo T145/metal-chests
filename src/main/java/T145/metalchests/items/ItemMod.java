@@ -17,7 +17,7 @@ package T145.metalchests.items;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;

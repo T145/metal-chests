@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.immutable;
+package T145.metalchests.api.constants;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;

@@ -19,8 +19,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.config.ModConfig;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;

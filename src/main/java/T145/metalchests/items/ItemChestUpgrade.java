@@ -19,8 +19,8 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.ChestUpgrade;
+import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.ChestUpgrade;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.properties.IProperty;

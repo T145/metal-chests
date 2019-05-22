@@ -16,8 +16,8 @@
 package T145.metalchests.client.render.blocks;
 
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.tiles.TileMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
 import net.blay09.mods.refinedrelocation.client.render.ModelLidOverlay;

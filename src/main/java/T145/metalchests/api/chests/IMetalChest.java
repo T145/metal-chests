@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.api.chests;
 
-import T145.metalchests.api.immutable.ChestType;
+import T145.metalchests.api.constants.ChestType;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;

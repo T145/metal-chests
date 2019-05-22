@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.core;
 
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.RegistryMC;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;

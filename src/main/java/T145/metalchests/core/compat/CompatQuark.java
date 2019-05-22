@@ -2,7 +2,7 @@ package T145.metalchests.core.compat;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import net.minecraft.entity.Entity;

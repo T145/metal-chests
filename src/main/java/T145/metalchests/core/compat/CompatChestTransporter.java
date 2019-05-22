@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.config.ModConfig;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestImpl;

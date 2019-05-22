@@ -1,6 +1,6 @@
 package T145.metalchests.network;
 
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.network.client.MessageSyncMetalChest;
 import T145.metalchests.network.client.MessageSyncMetalChestEntity;
 import net.minecraft.util.IThreadListener;

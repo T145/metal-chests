@@ -15,8 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.items;
 
-import T145.metalchests.api.immutable.ChestType;
-import T145.metalchests.api.immutable.RegistryMC;
+import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDispenser;
