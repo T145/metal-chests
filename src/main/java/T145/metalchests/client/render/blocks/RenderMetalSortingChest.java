@@ -20,15 +20,12 @@ import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.tiles.TileMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
-import net.blay09.mods.refinedrelocation.client.render.ModelLidOverlay;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderMetalSortingChest extends RenderMetalChest {
-
-	private final ModelLidOverlay chestLid = new ModelLidOverlay();
 
 	protected ResourceLocation getActiveOverlay(ChestType type) {
 		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/overlay/sorting_%s.png", type.getName()));
@@ -40,8 +37,8 @@ public class RenderMetalSortingChest extends RenderMetalChest {
 	}
 
 	@Override
-	protected void postRenderChest(IMetalChest chest, float lidAngle, int destroyStage) {
+	protected void postRenderChest(IMetalChest chest) {
 		this.renderOverlay(getActiveOverlay(chest.getChestType()));
-		super.postRenderChest(chest, lidAngle, destroyStage);
+		super.postRenderChest(chest);
 	}
 }

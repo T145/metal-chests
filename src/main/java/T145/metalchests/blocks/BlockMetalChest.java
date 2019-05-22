@@ -320,7 +320,7 @@ public class BlockMetalChest extends Block {
 			TileMetalChest chest = (TileMetalChest) te;
 
 			if (chest.isTrapped()) {
-				return MathHelper.clamp(chest.numPlayersUsing, 0, 15);
+				return MathHelper.clamp(chest.getChestAnimator().numPlayersUsing, 0, 15);
 			}
 		}
 

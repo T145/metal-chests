@@ -15,20 +15,16 @@
  ******************************************************************************/
 package T145.metalchests.items;
 
-import javax.annotation.Nullable;
-
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ChestUpgrade;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
@@ -52,104 +48,44 @@ public class ItemChestUpgrade extends ItemMod {
 		setMaxStackSize(1);
 	}
 
-	@Override
-	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
-		if (world.isRemote || player.isSneaking()) {
-			return EnumActionResult.PASS;
-		}
-
-		TileEntity te = world.getTileEntity(pos);
-		ItemStack stack = player.getHeldItem(hand);
-		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
-		ChestType type = upgrade.getUpgrade();
-
+	private boolean canUpdateChest(TileEntity te, ChestUpgrade upgradeType) {
 		if (te instanceof IMetalChest) {
 			IMetalChest chest = (IMetalChest) te;
 
-			if (!chest.isOpen() && chest.getChestType() == upgrade.getBase()) {
-				IBlockState state = createBlockState(te.getBlockType(), type);
-				NBTTagCompound tag = te.writeToNBT(new NBTTagCompound());
-
-				tag.getCompoundTag(IMetalChest.TAG_INVENTORY).setInteger("Size", type.getInventorySize());
-				tag.setString(IMetalChest.TAG_CHEST_TYPE, type.toString());
-				te.readFromNBT(tag);
-				world.setBlockState(pos, state);
-				te.markDirty(); // mark for render update
-			} else {
-				return EnumActionResult.FAIL;
+			if (chest.getChestType() != upgradeType.getBase() || chest.getChestAnimator().isOpen()) {
+				return false;
 			}
+
+			return true;
 		} else if (UpgradeRegistry.hasChest(te.getBlockType())) {
 			te.updateContainingBlockInfo();
-
-			boolean trapped = false;
 
 			if (te instanceof TileEntityChest) {
 				TileEntityChest vanillaChest = (TileEntityChest) te;
 
 				if (vanillaChest.lidAngle > 0) {
-					return EnumActionResult.FAIL;
+					return false;
 				}
-
-				trapped = vanillaChest.getChestType() == BlockChest.Type.TRAP;
-
-				vanillaChest.checkForAdjacentChests();
 			}
 
-			// some people use the ender chest tile just for the sake of not duping code
 			if (te instanceof TileEntityEnderChest) {
 				TileEntityEnderChest enderChest = (TileEntityEnderChest) te;
 
 				if (enderChest.lidAngle > 0) {
-					return EnumActionResult.FAIL;
+					return false;
 				}
 			}
 
-			EnumFacing front = getBlockFront(player, world, pos);
-			IItemHandler inv = getChestInventory(te);
-			Block block = UpgradeRegistry.getDestTile(te.getBlockType());
-			IBlockState state = createBlockState(block, type);
-
-			world.removeTileEntity(pos);
-			world.setBlockToAir(pos);
-			world.setTileEntity(pos, block.createTileEntity(world, state));
-			world.setBlockState(pos, state);
-
-			te = world.getTileEntity(pos);
-
-			if (te instanceof IMetalChest) {
-				IMetalChest metalChest = (IMetalChest) te;
-				metalChest.setChestType(type);
-				metalChest.setInventory(inv);
-				metalChest.setFront(front);
-				metalChest.setTrapped(trapped);
-				te.markDirty();
-			}
-		} else {
-			return EnumActionResult.PASS;
+			return true;
 		}
 
-		if (!player.capabilities.isCreativeMode) {
-			stack.shrink(1);
-		}
-
-		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
-
-		return EnumActionResult.SUCCESS;
-	}
-
-	private IItemHandler getChestInventory(TileEntity te) {
-		if (te instanceof TileEntityChest) {
-			return ((TileEntityChest) te).getSingleChestHandler();
-		} else {
-			return te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-		}
+		return false;
 	}
 
 	private IBlockState createBlockState(Block upgradeBlock, ChestType upgrade) {
 		return upgradeBlock.getDefaultState().withProperty(IMetalChest.VARIANT, upgrade);
 	}
 
-	@Nullable
 	private EnumFacing getBlockFront(EntityPlayer player, World world, BlockPos pos) {
 		IBlockState state = world.getBlockState(pos);
 
@@ -161,6 +97,74 @@ public class ItemChestUpgrade extends ItemMod {
 		}
 
 		return player.getHorizontalFacing().getOpposite();
+	}
+
+	private IItemHandler getChestInventory(TileEntity te) {
+		if (te instanceof TileEntityChest) {
+			return ((TileEntityChest) te).getSingleChestHandler();
+		} else {
+			return te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+		}
+	}
+
+	private boolean updateChest(ChestType upgrade, TileEntity te, EntityPlayer player, World world, BlockPos pos) {
+		Block block = te.getBlockType();
+
+		if (te instanceof IMetalChest) {
+			IMetalChest chest = (IMetalChest) te;
+			chest.setChestType(upgrade);
+			world.setBlockState(pos, createBlockState(block, upgrade), 3); // mark for NBT update
+			te.markDirty(); // mark for render update
+			return true;
+		} else {
+			boolean trapped = block.canProvidePower(world.getBlockState(te.getPos()));
+			EnumFacing front = getBlockFront(player, world, pos);
+			IItemHandler inv = getChestInventory(te);
+			block = UpgradeRegistry.getDestTile(block);
+			IBlockState state = createBlockState(block, upgrade);
+
+			world.removeTileEntity(pos);
+			world.setBlockToAir(pos);
+			world.setTileEntity(pos, block.createTileEntity(world, state));
+			world.setBlockState(pos, state, 3); // mark for NBT update
+
+			te = world.getTileEntity(pos);
+
+			if (te instanceof IMetalChest) {
+				IMetalChest chest = (IMetalChest) te;
+				chest.setChestType(upgrade);
+				chest.setTrapped(trapped);
+				chest.setFront(front);
+				chest.setInventory(inv);
+				te.markDirty(); // mark for render update
+				return true;
+			}
+
+			return false;
+		}
+	}
+
+	@Override
+	public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand) {
+		if (world.isRemote || player.isSneaking()) {
+			return EnumActionResult.PASS;
+		}
+
+		TileEntity te = world.getTileEntity(pos);
+		ItemStack stack = player.getHeldItem(hand);
+		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
+
+		if (!canUpdateChest(te, upgrade) || !updateChest(upgrade.getUpgrade(), te, player, world, pos)) {
+			return EnumActionResult.FAIL;
+		}
+
+		if (!player.capabilities.isCreativeMode) {
+			stack.shrink(1);
+		}
+
+		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
+
+		return EnumActionResult.SUCCESS;
 	}
 
 	@Override

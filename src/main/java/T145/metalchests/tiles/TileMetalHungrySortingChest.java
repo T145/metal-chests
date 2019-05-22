@@ -29,19 +29,6 @@ public class TileMetalHungrySortingChest extends TileMetalSortingChest {
 	}
 
 	@Override
-	public boolean receiveClientEvent(int id, int data) {
-		switch (id) {
-		case 2:
-			if (lidAngle < data / 10F) {
-				lidAngle = data / 10F;
-			}
-			return true;
-		default:
-			return super.receiveClientEvent(id, data);
-		}
-	}
-
-	@Override
 	public String getTranslationKey() {
 		return String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST, chestType.getName());
 	}

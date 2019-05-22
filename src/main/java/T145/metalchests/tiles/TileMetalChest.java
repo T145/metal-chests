@@ -20,20 +20,19 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.RegistryMC;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -51,10 +50,7 @@ import vazkii.quark.api.IDropoffManager;
 })
 public class TileMetalChest extends TileEntity implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
-	public float lidAngle;
-	public float prevLidAngle;
-	public int numPlayersUsing;
-
+	protected final ChestAnimator animator = new ChestAnimator(this);
 	protected ChestType chestType;
 	protected EnumFacing front;
 	protected ItemStackHandler inventory;
@@ -104,8 +100,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	@Override
-	public boolean isOpen() {
-		return lidAngle > 0;
+	public ChestAnimator getChestAnimator() {
+		return animator;
 	}
 
 	@Override
@@ -174,24 +170,12 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	public void openInventory(EntityPlayer player) {
-		if (!player.isSpectator()) {
-			if (numPlayersUsing < 0) {
-				numPlayersUsing = 0;
-			}
-
-			world.addBlockEvent(pos, getBlockType(), 1, ++numPlayersUsing);
-			world.notifyNeighborsOfStateChange(pos, blockType, false);
-			world.playSound(player, pos, SoundEvents.BLOCK_CHEST_OPEN, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-		}
+		animator.openInventory(player);
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player) {
-		if (!player.isSpectator()) {
-			world.addBlockEvent(pos, getBlockType(), 1, --numPlayersUsing);
-			world.notifyNeighborsOfStateChange(pos, blockType, false);
-			world.playSound(player, pos, SoundEvents.BLOCK_CHEST_CLOSE, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
-		}
+		animator.closeInventory(player);
 	}
 
 	@Override
@@ -199,25 +183,9 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		return world.getTileEntity(pos) == this && player.getDistanceSq(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D) <= 64.0D;
 	}
 
-	/**
-	 * @param a   The value
-	 * @param b   The value to approach
-	 * @param max The maximum step
-	 * @return the closed value to b no less than max from a
-	 */
-	private static float approachLinear(float a, float b, float max) {
-		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
-	}
-
 	@Override
 	public void update() {
-		if (!world.isRemote && world.getTotalWorldTime() % 20 == 0) {
-			world.addBlockEvent(pos, getBlockType(), 1, numPlayersUsing);
-			world.notifyNeighborsOfStateChange(pos, blockType, true);
-		}
-
-		prevLidAngle = lidAngle;
-		lidAngle = approachLinear(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
+		animator.tick();
 	}
 
 	@Override
@@ -225,7 +193,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
-		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		//inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		this.readFromNBT(tag);
 		this.setFront(EnumFacing.byName(tag.getString(TAG_FRONT)));
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 		this.setTrapped(tag.getBoolean(TAG_TRAPPED));
@@ -237,7 +206,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		tag = super.writeToNBT(tag);
 		tag.setString(TAG_CHEST_TYPE, chestType.toString());
-		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
+		//tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
+		this.writeInventoryTag(tag);
 		tag.setString(TAG_FRONT, front.toString());
 		tag.setByte(TAG_ENCHANT_LEVEL, enchantLevel);
 		tag.setBoolean(TAG_TRAPPED, trapped);
@@ -246,14 +216,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	@Override
-	public boolean receiveClientEvent(int id, int data) {
-		switch (id) {
-		case 1:
-			numPlayersUsing = data;
-			return true;
-		default:
-			return false;
-		}
+	public boolean receiveClientEvent(int event, int data) {
+		return animator.receiveClientEvent(event, data);
 	}
 
 	@Override

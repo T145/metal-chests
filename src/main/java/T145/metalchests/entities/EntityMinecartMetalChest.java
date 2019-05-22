@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
+import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ChestUpgrade;
@@ -51,12 +52,15 @@ import net.minecraftforge.items.ItemStackHandler;
 @Optional.Interface(modid = RegistryMC.ID_RAILCRAFT, iface = RegistryMC.IFACE_ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IMetalChest, IItemCart {
 
+	public ChestAnimator animator;
+
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.createKey(EntityMinecartMetalChest.class, MetalChests.CHEST_TYPE);
 	private static final DataParameter<Byte> ENCHANT_LEVEL = EntityDataManager.createKey(EntityMinecartMetalChest.class, DataSerializers.BYTE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
 	public EntityMinecartMetalChest(World world) {
 		super(world);
+		this.animator = new ChestAnimator(this);
 	}
 
 	public EntityMinecartMetalChest(World world, double x, double y, double z) {
@@ -76,11 +80,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	}
 
 	@Override
-	public boolean isOpen() {
-		return true;
-	}
-
-	@Override
 	public ItemStackHandler getInventory() {
 		return inventory;
 	}
@@ -95,6 +94,11 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 
 	@Override
 	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public ChestAnimator getChestAnimator() {
+		return animator;
+	}
 
 	@Override
 	public ChestType getChestType() {
@@ -151,7 +155,8 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	protected void writeEntityToNBT(NBTTagCompound tag) {
 		super.writeEntityToNBT(tag);
 		tag.setString(TAG_CHEST_TYPE, getChestType().toString());
-		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
+		//tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
+		this.writeInventoryTag(tag);
 		tag.setByte(TAG_ENCHANT_LEVEL, this.getEnchantLevel());
 	}
 
@@ -159,7 +164,8 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 	protected void readEntityFromNBT(NBTTagCompound tag) {
 		super.readEntityFromNBT(tag);
 		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
-		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		//inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		this.readInventoryTag(tag);
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 	}
 
@@ -168,10 +174,8 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		super.killMinecart(source);
 
 		if (world.getGameRules().getBoolean("doEntityDrops")) {
-			ItemStack stack = BlockMetalChest.getDropStack(this, BlocksMC.METAL_CHEST);
-
 			BlockMetalChest.dropItems(this, world, getPosition());
-			entityDropItem(stack, 0.0F);
+			entityDropItem(BlockMetalChest.getDropStack(this, BlocksMC.METAL_CHEST), 0.0F);
 		}
 	}
 
@@ -188,7 +192,6 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 
 			if (getChestType() == upgrade.getBase()) {
 				setChestType(upgrade.getUpgrade());
-				setInventory(inventory);
 
 				if (!player.capabilities.isCreativeMode) {
 					stack.shrink(1);

@@ -19,6 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ChestUpgrade;
@@ -48,12 +49,15 @@ import net.minecraftforge.items.ItemStackHandler;
 
 public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
+	public ChestAnimator animator;
+
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.<ChestType>createKey(EntityBoatMetalChest.class, MetalChests.CHEST_TYPE);
 	private static final DataParameter<Byte> ENCHANT_LEVEL = EntityDataManager.createKey(EntityBoatMetalChest.class, DataSerializers.BYTE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
 
 	public EntityBoatMetalChest(World world) {
 		super(world);
+		this.animator = new ChestAnimator(this);
 	}
 
 	public EntityBoatMetalChest(World world, double x, double y, double z) {
@@ -74,11 +78,6 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 	}
 
 	@Override
-	public boolean isOpen() {
-		return true;
-	}
-
-	@Override
 	public ItemStackHandler getInventory() {
 		return inventory;
 	}
@@ -93,6 +92,11 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
 	@Override
 	public void closeInventory(EntityPlayer player) {}
+
+	@Override
+	public ChestAnimator getChestAnimator() {
+		return animator;
+	}
 
 	@Override
 	public ChestType getChestType() {
@@ -149,7 +153,8 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 	protected void writeEntityToNBT(NBTTagCompound tag) {
 		super.writeEntityToNBT(tag);
 		tag.setString(TAG_CHEST_TYPE, getChestType().toString());
-		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
+		//tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
+		this.writeInventoryTag(tag);
 		tag.setByte(TAG_ENCHANT_LEVEL, this.getEnchantLevel());
 	}
 
@@ -157,7 +162,8 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 	protected void readEntityFromNBT(NBTTagCompound tag) {
 		super.readEntityFromNBT(tag);
 		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
-		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		//inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		this.readInventoryTag(tag);
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 	}
 
@@ -212,10 +218,8 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 					if (!flag && this.world.getGameRules().getBoolean("doEntityDrops")) {
 						this.dropItemWithOffset(this.getItemBoat(), 1, 0.0F);
 
-						ItemStack stack = BlockMetalChest.getDropStack(this, BlocksMC.METAL_CHEST);
-
 						BlockMetalChest.dropItems(this, world, getPosition());
-						entityDropItem(stack, 0.0F);
+						entityDropItem(BlockMetalChest.getDropStack(this, BlocksMC.METAL_CHEST), 0.0F);
 					}
 
 					this.setDead();
@@ -241,7 +245,6 @@ public class EntityBoatMetalChest extends EntityBoat implements IMetalChest {
 
 			if (getChestType() == upgrade.getBase()) {
 				setChestType(upgrade.getUpgrade());
-				setInventory(inventory);
 
 				if (!player.capabilities.isCreativeMode) {
 					stack.shrink(1);

@@ -84,18 +84,18 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, destroyStage, alpha);
 	}
 
-	protected void postRenderModel(IMetalChest chest, float lidAngle, int destroyStage) {
-		model.chestLid.rotateAngleX = (float) -(lidAngle * (Math.PI / 2F));
+	protected void postRenderModel(IMetalChest chest, float partialTicks) {
+		model.chestLid.rotateAngleX = chest.getChestAnimator().getRenderAngle(partialTicks);
 		model.renderAll();
 	}
 
-	protected void postRenderChest(IMetalChest chest, float lidAngle, int destroyStage) {
+	protected void postRenderChest(IMetalChest chest) {
 		GlStateManager.disableRescaleNormal();
 		GlStateManager.popMatrix();
 		GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 	}
 
-	protected void postRenderOverlay(IMetalChest chest, float lidAngle, int destroyStage) {
+	protected void postRenderOverlay(IMetalChest chest) {
 		GlStateManager.matrixMode(GL11.GL_TEXTURE);
 		GlStateManager.popMatrix();
 		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
@@ -115,8 +115,8 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.popMatrix();
 	}
 
-	protected void postRender(IMetalChest chest, float lidAngle, double x, double y, double z, int destroyStage, float alpha) {
-		postRenderModel(chest, lidAngle, destroyStage);
+	protected void postRender(IMetalChest chest, double x, double y, double z, int destroyStage, float partialTicks, float alpha) {
+		postRenderModel(chest, partialTicks);
 
 		if (chest.isTrapped()) {
 			renderOverlay(OVERLAY_TRAP);
@@ -126,10 +126,10 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			renderOverlay(OVERLAY_GLOW);
 		}
 
-		postRenderChest(chest, lidAngle, destroyStage);
+		postRenderChest(chest);
 
 		if (destroyStage >= 0) {
-			postRenderOverlay(chest, lidAngle, destroyStage);
+			postRenderOverlay(chest);
 		}
 
 		if (chest.getEnchantLevel() > 0) {
@@ -153,7 +153,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 				GlStateManager.rotate(30.0F - i * 60.0F, 0.0F, 0.0F, 1.0F);
 				GlStateManager.translate(0.0F, (spin * 32D) * (0.001F + i * 0.003F) * 20.0F, 0.0F);
 				GlStateManager.matrixMode(GL11.GL_MODELVIEW);
-				postRenderModel(chest, lidAngle, destroyStage);
+				postRenderModel(chest, partialTicks);
 				GlStateManager.blendFunc(GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
 			}
 
@@ -165,15 +165,15 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			GlStateManager.depthFunc(GL11.GL_LEQUAL);
 			GlStateManager.disableBlend();
 
-			postRenderChest(chest, lidAngle, destroyStage);
-			postRenderOverlay(chest, lidAngle, destroyStage);
+			postRenderChest(chest);
+			postRenderOverlay(chest);
 		}
 	}
 
 	// allows normal chest rendering w/out a new tile instance
 	public void renderStatic(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
 		preRender(chest, x, y, z, destroyStage, alpha);
-		postRender(chest, 0.0F, x, y, z, destroyStage, alpha);
+		postRender(chest, x, y, z, destroyStage, 0.0F, alpha);
 	}
 
 	protected boolean canRenderNameTag(TileMetalChest chest) {
@@ -187,9 +187,6 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		}
 
 		preRender(chest, x, y, z, destroyStage, alpha);
-		float f = chest.prevLidAngle + (chest.lidAngle - chest.prevLidAngle) * partialTicks;
-		f = 1.0F - f;
-		f = 1.0F - f * f * f;
-		postRender(chest, f, x, y, z, destroyStage, alpha);
+		postRender(chest, x, y, z, destroyStage, partialTicks, alpha);
 	}
 }

@@ -16,7 +16,6 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class MessageSyncMetalChest extends MessageBase {
 
 	protected BlockPos pos;
-	protected boolean open;
 	protected ChestType type;
 	protected EnumFacing front;
 	protected boolean trapped;
@@ -28,7 +27,6 @@ public class MessageSyncMetalChest extends MessageBase {
 	}
 
 	protected void setChestData(IMetalChest chest) {
-		this.open = chest.isOpen();
 		this.type = chest.getChestType();
 		this.front = chest.getFront();
 		this.trapped = chest.isTrapped();
@@ -44,7 +42,6 @@ public class MessageSyncMetalChest extends MessageBase {
 	@Override
 	public void serialize(PacketBuffer buf) {
 		buf.writeBlockPos(pos);
-		buf.writeBoolean(open);
 		buf.writeEnumValue(type);
 		buf.writeEnumValue(front);
 		buf.writeBoolean(trapped);
@@ -55,7 +52,6 @@ public class MessageSyncMetalChest extends MessageBase {
 	@Override
 	public void deserialize(PacketBuffer buf) throws IOException {
 		pos = buf.readBlockPos();
-		open = buf.readBoolean(); // allows us to just call isOpen() client-side
 		type = buf.readEnumValue(ChestType.class);
 		front = buf.readEnumValue(EnumFacing.class);
 		trapped = buf.readBoolean();

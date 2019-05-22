@@ -29,7 +29,7 @@ public interface IMetalChest extends IInventoryHandler {
 	public static final String TAG_TRAPPED = "Trapped";
 	public static final String TAG_LUMINOUS = "Luminous";
 
-	boolean isOpen();
+	ChestAnimator getChestAnimator();
 
 	ChestType getChestType();
 
@@ -51,7 +51,6 @@ public interface IMetalChest extends IInventoryHandler {
 
 	void setEnchantLevel(byte enchantLevel);
 
-	@Override
 	default void setInventory(IItemHandler inv) {
 		for (int slot = 0; slot < inv.getSlots(); ++slot) {
 			if (slot < getChestType().getInventorySize()) {

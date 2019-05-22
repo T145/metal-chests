@@ -42,7 +42,7 @@ public class EntityAIOcelotSitOnChest extends EntityAIOcelotSit {
 			if (block instanceof BlockMetalChest) {
 				TileEntity te = world.getTileEntity(pos);
 
-				if (te instanceof TileMetalChest && ((TileMetalChest) te).numPlayersUsing < 1) {
+				if (te instanceof TileMetalChest && !((TileMetalChest) te).getChestAnimator().isOpen()) {
 					return true;
 				}
 			}

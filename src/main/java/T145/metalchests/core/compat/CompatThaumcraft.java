@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.chests.IInventoryHandler;
+import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
@@ -72,15 +72,15 @@ class CompatThaumcraft {
 	private static void tryToEatItem(World world, BlockPos pos, IBlockState state, Entity entity, Block receiver) {
 		TileEntity te = world.getTileEntity(pos);
 
-		if (te instanceof IInventoryHandler && entity instanceof EntityItem && !entity.isDead) {
-			IInventoryHandler chest = (IInventoryHandler) te;
+		if (te instanceof IMetalChest && entity instanceof EntityItem && !entity.isDead) {
+			IMetalChest chest = (IMetalChest) te;
 			EntityItem item = (EntityItem) entity;
 			ItemStack stack = item.getItem();
 			ItemStack leftovers = tryToInsertStack(chest.getInventory(), stack);
 
 			if (leftovers == null || leftovers.getCount() != stack.getCount()) {
 				entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
-				world.addBlockEvent(pos, receiver, 2, 2);
+				world.addBlockEvent(pos, receiver, ChestAnimator.EVENT_CHEST_NOM, 2);
 			}
 
 			if (leftovers != null) {

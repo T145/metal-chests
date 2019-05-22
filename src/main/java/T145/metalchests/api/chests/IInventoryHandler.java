@@ -19,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 
 public interface IInventoryHandler extends IInventory {
@@ -28,19 +27,20 @@ public interface IInventoryHandler extends IInventory {
 
 	ItemStackHandler getInventory();
 
-	void setInventory(IItemHandler inv);
+	@Override
+	default int getSizeInventory() {
+		return getInventory().getSlots();
+	}
 
 	default void writeInventoryTag(NBTTagCompound tag) {
 		tag.setTag(TAG_INVENTORY, getInventory().serializeNBT());
 	}
 
 	default void readInventoryTag(NBTTagCompound tag) {
-		getInventory().deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
-	}
-
-	@Override
-	default int getSizeInventory() {
-		return getInventory().getSlots();
+		NBTTagCompound invTag = tag.getCompoundTag(TAG_INVENTORY);
+		//invTag.setInteger("Size", this.getSizeInventory());
+		invTag.removeTag("Size"); // does the same thing
+		getInventory().deserializeNBT(invTag);
 	}
 
 	/**
