@@ -22,12 +22,16 @@ public class CategoryGeneral {
 	@Config.Comment("Whether or not you want to recieve an in-game notification if an update is available.")
 	public boolean checkForUpdates = true;
 
-	@Config.Comment("Whether or not all metal chest models are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
+	@Config.Comment("Whether or not all metal chest model textures are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
 	public boolean hollowModelTextures;
 
 	@Config.Comment("Whether or not you want to enable the Minecarts with Metal Chests.")
 	@Config.RequiresMcRestart
 	public boolean enableMinecarts = true;
+
+	@Config.Comment("Whether or not you want to enable placing Metal Chests in boats.")
+	@Config.RequiresMcRestart
+	public boolean enableBoats = true;
 
 	@Config.Comment("If Thaumcraft is installed, whether or not you want to enable the Metal Hungry Chests.")
 	@Config.RequiresMcRestart

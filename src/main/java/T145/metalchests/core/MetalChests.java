@@ -390,7 +390,9 @@ public class MetalChests {
 			registry.register(EntitiesMC.MINECART_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_MINECART_METAL_CHEST, 0).name(RegistryMC.KEY_MINECART_METAL_CHEST).entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
 		}
 
-		registry.register(EntitiesMC.BOAT_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_BOAT_METAL_CHEST, 1).name(RegistryMC.KEY_BOAT_METAL_CHEST).entity(EntityBoatMetalChest.class).tracker(80, 3, true).build());
+		if (ModConfig.GENERAL.enableBoats) {
+			registry.register(EntitiesMC.BOAT_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_BOAT_METAL_CHEST, 1).name(RegistryMC.KEY_BOAT_METAL_CHEST).entity(EntityBoatMetalChest.class).tracker(80, 3, true).build());
+		}
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -460,7 +462,7 @@ public class MetalChests {
 	}
 
 	@SubscribeEvent
-	public static void changeSittingTaskForOcelots(LivingUpdateEvent event) {
+	public static void metalchests$tickOcelot(LivingUpdateEvent event) {
 		EntityLivingBase creature = event.getEntityLiving();
 
 		if (creature instanceof EntityOcelot && creature.ticksExisted < 5) {
@@ -528,7 +530,11 @@ public class MetalChests {
 	}
 
 	@SubscribeEvent
-	public static void onEntityInteract(EntityInteract event) {
+	public static void metalchests$activateBoat(EntityInteract event) {
+		if (!ModConfig.GENERAL.enableBoats) {
+			return;
+		}
+
 		Entity target = event.getTarget();
 
 		if (target instanceof EntityBoat) {
@@ -543,7 +549,7 @@ public class MetalChests {
 	}
 
 	@SubscribeEvent
-	public static void onRightClick(RightClickBlock event) {
+	public static void metalchests$activateMetalChest(RightClickBlock event) {
 		World world = event.getWorld();
 
 		if (world.isRemote) {
