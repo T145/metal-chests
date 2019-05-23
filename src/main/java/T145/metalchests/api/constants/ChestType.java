@@ -15,11 +15,19 @@
  ******************************************************************************/
 package T145.metalchests.api.constants;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import T145.metalchests.api.BlocksMC;
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public enum ChestType implements IStringSerializable {
@@ -39,6 +47,46 @@ public enum ChestType implements IStringSerializable {
 		InventorySize(int size) {
 			this.size = size;
 		}
+	}
+
+	public enum GUI {
+
+		COPPER(184), IRON(202), SILVER(238), GOLD(256), DIAMOND(256), OBSIDIAN(256);
+
+		private final int ySize;
+
+		GUI(int ySize) {
+			this.ySize = ySize;
+		}
+
+		public int getSizeX() {
+			return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
+		}
+
+		public int getSizeY() {
+			return ySize;
+		}
+
+		public static GUI byMetadata(int meta) {
+			return values()[meta];
+		}
+
+		public static GUI byType(ChestType type) {
+			return byMetadata(type.ordinal());
+		}
+
+		public ResourceLocation getGuiTexture() {
+			ChestType type = ChestType.byMetadata(ordinal());
+			return new ResourceLocation(RegistryMC.ID, String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
+		}
+	}
+
+	public static final Set<ChestType> UPGRADE_PATH = new HashSet<>();
+	public static final ResourceLocation RECIPE_GROUP = new ResourceLocation(RegistryMC.ID);
+
+	static {
+		// TODO: Make this logic happen in the config, so we can change the upgrade path
+		UPGRADE_PATH.addAll(Arrays.asList(ChestType.values()));
 	}
 
 	private final InventorySize invSize;
@@ -91,7 +139,7 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public boolean isRegistered() {
-		return OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
+		return UPGRADE_PATH.contains(this) && OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
 	}
 
 	public boolean isLarge() {
@@ -114,39 +162,33 @@ public enum ChestType implements IStringSerializable {
 		return GUI.byType(this);
 	}
 
-	public String getGuiId() {
-		return String.format("metalchests:%s_chest", getName());
+	public String getIdName() {
+		return String.format("%s:%s_chest", RegistryMC.ID, getName());
 	}
 
-	public enum GUI {
+	public ResourceLocation getId() {
+		return new ResourceLocation(getIdName());
+	}
 
-		COPPER(184), IRON(202), SILVER(238), GOLD(256), DIAMOND(256), OBSIDIAN(256);
-
-		private final int ySize;
-
-		GUI(int ySize) {
-			this.ySize = ySize;
+	public void registerRecipe(Object baseChest, Block metalChest, String postfix) {
+		if (this.isRegistered()) {
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_%s", getName(), postfix)), RECIPE_GROUP,
+					new ItemStack(metalChest, 1, ordinal()),
+					"aaa", "aba", "aaa",
+					'a', dictName,
+					'b', ordinal() == 0 ? baseChest : new ItemStack(metalChest, 1, ordinal() - 1));
 		}
+	}
 
-		public int getSizeX() {
-			return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
-		}
+	public void registerRecipe(Object baseChest, Block metalChest) {
+		this.registerRecipe(baseChest, metalChest, "chest");
+	}
 
-		public int getSizeY() {
-			return ySize;
-		}
+	public void registerRecipe(Block metalChest) {
+		this.registerRecipe("chestWood", metalChest);
+	}
 
-		public static GUI byMetadata(int meta) {
-			return values()[meta];
-		}
-
-		public static GUI byType(ChestType type) {
-			return byMetadata(type.ordinal());
-		}
-
-		public ResourceLocation getGuiTexture() {
-			ChestType type = ChestType.byMetadata(ordinal());
-			return new ResourceLocation(RegistryMC.ID, String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
-		}
+	public void registerRecipe() {
+		this.registerRecipe(BlocksMC.METAL_CHEST);
 	}
 }

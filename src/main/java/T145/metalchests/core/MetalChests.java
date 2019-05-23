@@ -305,62 +305,11 @@ public class MetalChests {
 		return new ItemStack(upgrade, 1, type.ordinal() - 1);
 	}
 
-	public static void registerMetalChestRecipes(Object baseChest, Block metalChest, String name) {
-		if (ChestType.COPPER.isRegistered()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_copper_%s", name)), null,
-					new ItemStack(metalChest, 1, 0),
-					"aaa", "aba", "aaa",
-					'a', "ingotCopper",
-					'b', baseChest);
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_iron_%s", name)), null,
-					new ItemStack(metalChest, 1, 1),
-					"aaa", "aba", "aaa",
-					'a', "ingotIron",
-					'b', new ItemStack(metalChest, 1, 0));
-		} else {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_iron_%s", name)), null,
-					new ItemStack(metalChest, 1, 1),
-					"aaa", "aba", "aaa",
-					'a', "ingotIron",
-					'b', baseChest);
-		}
-
-		if (ChestType.SILVER.isRegistered()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_silver_%s", name)), null,
-					new ItemStack(metalChest, 1, 2),
-					"aaa", "aba", "aaa",
-					'a', "ingotSilver",
-					'b', new ItemStack(metalChest, 1, 1));
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_gold_%s", name)), null,
-					new ItemStack(metalChest, 1, 3),
-					"aaa", "aba", "aaa",
-					'a', "ingotGold",
-					'b', new ItemStack(metalChest, 1, 2));
-		} else {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_gold_%s", name)), null,
-					new ItemStack(metalChest, 1, 3),
-					"aaa", "aba", "aaa",
-					'a', "ingotGold",
-					'b', new ItemStack(metalChest, 1, 1));
-		}
-
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_diamond_%s", name)), null,
-				new ItemStack(metalChest, 1, 4),
-				"aaa", "aba", "aaa",
-				'a', "gemDiamond",
-				'b', new ItemStack(metalChest, 1, 3));
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_obsidian_%s", name)), null,
-				new ItemStack(metalChest, 1, 5),
-				"aaa", "aba", "aaa",
-				'a', "obsidian",
-				'b', new ItemStack(metalChest, 1, 4));
-	}
-
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		registerMetalChestRecipes("chestWood", BlocksMC.METAL_CHEST, "chest");
-
 		for (ChestType type : ChestType.values()) {
+			type.registerRecipe();
+
 			if (type.isRegistered()) {
 				ItemStack result = new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal());
 				OreDictionary.registerOre("chest", result);

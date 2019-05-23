@@ -172,10 +172,9 @@ class CompatThaumcraft {
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		MetalChests.registerMetalChestRecipes(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "hungry_chest");
-		UpgradeRegistry.registerChest(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
-
 		for (ChestType type : ChestType.values()) {
+			type.registerRecipe(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "hungry_chest");
+
 			if (type.isRegistered()) {
 				String capitalizedName = WordUtils.capitalize(type.getName());
 				ItemStack stack = new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal());
@@ -191,5 +190,7 @@ class CompatThaumcraft {
 				}
 			}
 		}
+
+		UpgradeRegistry.registerChest(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
 	}
 }
