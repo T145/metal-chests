@@ -29,6 +29,7 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ChestUpgrade;
+import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockModItem;
@@ -36,7 +37,6 @@ import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderBoatMetalChest;
 import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.entities.EntityBoatMetalChest;
 import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
@@ -148,7 +148,7 @@ public class MetalChests {
 				BlocksMC.METAL_HUNGRY_SORTING_CHEST.getSubBlocks(this, items);
 			}
 
-			if (ModConfig.GENERAL.enableMinecarts) {
+			if (ConfigMC.enableMinecarts) {
 				ItemsMC.MINECART_METAL_CHEST.getSubItems(this, items);
 			}
 		}
@@ -221,11 +221,11 @@ public class MetalChests {
 		EntityMinecartContainer.addDataFixers(fixer, EntityMinecartMetalChest.class);
 		registerEntityFixes(fixer, EntityBoatMetalChest.class);
 
-		if (ModConfig.hasRefinedRelocation()) {
+		if (ConfigMC.hasRefinedRelocation()) {
 			registerFixes(fixer, TileMetalSortingChest.class);
 		}
 
-		if (ModConfig.hasThaumcraft() && ModConfig.hasRefinedRelocation()) {
+		if (ConfigMC.hasThaumcraft() && ConfigMC.hasRefinedRelocation()) {
 			registerFixes(fixer, TileMetalSortingChest.class);
 		}
 
@@ -268,7 +268,7 @@ public class MetalChests {
 		registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
 		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
 
-		if (ModConfig.GENERAL.enableMinecarts) {
+		if (ConfigMC.enableMinecarts) {
 			registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
 		}
 	}
@@ -335,11 +335,11 @@ public class MetalChests {
 	public static void registerEntities(final RegistryEvent.Register<EntityEntry> event) {
 		final IForgeRegistry<EntityEntry> registry = event.getRegistry();
 
-		if (ModConfig.GENERAL.enableMinecarts) {
+		if (ConfigMC.enableMinecarts) {
 			registry.register(EntitiesMC.MINECART_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_MINECART_METAL_CHEST, 0).name(RegistryMC.KEY_MINECART_METAL_CHEST).entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
 		}
 
-		if (ModConfig.GENERAL.enableBoats) {
+		if (ConfigMC.enableBoats) {
 			registry.register(EntitiesMC.BOAT_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_BOAT_METAL_CHEST, 1).name(RegistryMC.KEY_BOAT_METAL_CHEST).entity(EntityBoatMetalChest.class).tracker(80, 3, true).build());
 		}
 	}
@@ -395,7 +395,7 @@ public class MetalChests {
 		for (ChestType type : ChestType.values()) {
 			registerModel(BlocksMC.METAL_CHEST, type.ordinal(), getVariantName(type));
 
-			if (ModConfig.GENERAL.enableMinecarts) {
+			if (ConfigMC.enableMinecarts) {
 				registerModel(ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), String.format("item=%s_chest", type.getName()));
 			}
 		}
@@ -452,7 +452,7 @@ public class MetalChests {
 				if (!world.isRemote) {
 					chest.setChestType(ChestType.byMetadata(stack.getItemDamage()));
 
-					if (ModConfig.hasThermalExpansion() && stack.getTagCompound() != null) {
+					if (ConfigMC.hasThermalExpansion() && stack.getTagCompound() != null) {
 						chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 						if (stack.getTagCompound().hasKey("Inventory")) {
@@ -480,7 +480,7 @@ public class MetalChests {
 
 	@SubscribeEvent
 	public static void metalchests$activateBoat(EntityInteract event) {
-		if (!ModConfig.GENERAL.enableBoats) {
+		if (!ConfigMC.enableBoats) {
 			return;
 		}
 

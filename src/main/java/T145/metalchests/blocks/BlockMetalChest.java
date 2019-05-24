@@ -19,8 +19,8 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import cofh.core.init.CoreEnchantments;
@@ -153,7 +153,7 @@ public class BlockMetalChest extends Block {
 	public static ItemStack getDropStack(IMetalChest chest, Block chestBlock) {
 		ItemStack stack = new ItemStack(chestBlock, 1, chest.getChestType().ordinal());
 
-		if (ModConfig.hasThermalExpansion()) {
+		if (ConfigMC.hasThermalExpansion()) {
 			NBTTagCompound tag = new NBTTagCompound();
 
 			if (chest.getEnchantLevel() > 0) {
@@ -208,7 +208,7 @@ public class BlockMetalChest extends Block {
 	}
 
 	public static void dropItems(IMetalChest chest, World world, BlockPos pos) {
-		if (!ModConfig.hasThermalExpansion() || chest.getEnchantLevel() < chest.getChestType().getHoldingEnchantBound()) {
+		if (!ConfigMC.hasThermalExpansion() || chest.getEnchantLevel() < chest.getChestType().getHoldingEnchantBound()) {
 			for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
 				ItemStack stack = chest.getInventory().getStackInSlot(i);
 
@@ -241,7 +241,7 @@ public class BlockMetalChest extends Block {
 			TileMetalChest chest = (TileMetalChest) te;
 			chest.setFront(placer.getHorizontalFacing().getOpposite());
 
-			if (ModConfig.hasThermalExpansion() && stack.getTagCompound() != null) {
+			if (ConfigMC.hasThermalExpansion() && stack.getTagCompound() != null) {
 				chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 				if (stack.getTagCompound().hasKey("Inventory")) {

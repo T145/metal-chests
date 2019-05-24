@@ -6,8 +6,8 @@ import java.util.List;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.config.ModConfig;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestImpl;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
@@ -88,15 +88,15 @@ class CompatChestTransporter {
 
 		registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_CHEST, RegistryMC.KEY_METAL_CHEST));
 
-		if (ModConfig.hasThaumcraft()) {
+		if (ConfigMC.hasThaumcraft()) {
 			registry.register(new TransportableChestOld(BlocksTC.hungryChest, -1, 1, "vanilla"));
 			registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_HUNGRY_CHEST, "hungry/", RegistryMC.KEY_METAL_HUNGRY_CHEST));
 		}
 
-		if (ModConfig.hasRefinedRelocation()) {
+		if (ConfigMC.hasRefinedRelocation()) {
 			registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_SORTING_CHEST, RegistryMC.KEY_METAL_SORTING_CHEST));
 
-			if (ModConfig.hasThaumcraft()) {
+			if (ConfigMC.hasThaumcraft()) {
 				registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_HUNGRY_SORTING_CHEST, "hungry/", RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST));
 			}
 		}

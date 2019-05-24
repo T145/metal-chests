@@ -19,8 +19,8 @@ import org.lwjgl.opengl.GL11;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChest;
@@ -55,7 +55,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/%s%s", type.getName(), ModConfig.GENERAL.hollowModelTextures ? "_h.png" : ".png"));
+		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/%s%s", type.getName(), ConfigMC.hollowModelTextures ? "_h.png" : ".png"));
 	}
 
 	protected void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {

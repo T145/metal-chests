@@ -20,8 +20,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.config.ModConfig;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
 import cofh.core.util.helpers.MathHelper;
@@ -78,7 +78,7 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn) {
-		if (ModConfig.hasThermalExpansion() && stack.hasTagCompound()) {
+		if (ConfigMC.hasThermalExpansion() && stack.hasTagCompound()) {
 			byte enchantLevel = (byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel());
 
 			if (!(enchantLevel > 0)) {
@@ -116,17 +116,17 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 
 	@Override
 	public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-		return ModConfig.hasThermalExpansion() && enchantment == CoreEnchantments.holding && !stack.isItemEnchanted() && stack.getCount() == 1;
+		return ConfigMC.hasThermalExpansion() && enchantment == CoreEnchantments.holding && !stack.isItemEnchanted() && stack.getCount() == 1;
 	}
 
 	@Override
 	public boolean isEnchantable(ItemStack stack) {
-		return ModConfig.hasThermalExpansion() && stack.getCount() == 1;
+		return ConfigMC.hasThermalExpansion() && stack.getCount() == 1;
 	}
 
 	@Override
 	public int getItemEnchantability(ItemStack stack) {
-		return ModConfig.hasThermalExpansion() ? 10 : 0;
+		return ConfigMC.hasThermalExpansion() ? 10 : 0;
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_THERMALEXPANSION)

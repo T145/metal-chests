@@ -8,10 +8,10 @@ import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungryChest;
@@ -89,7 +89,7 @@ class CompatRefinedRelocation {
 
 		MetalChests.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
 
-		if (ModConfig.hasThaumcraft()) {
+		if (ConfigMC.hasThaumcraft()) {
 			for (ChestType type : ChestType.values()) {
 				MetalChests.registerModel(BlocksMC.METAL_HUNGRY_SORTING_CHEST, type.ordinal(), MetalChests.getVariantName(type));
 			}
@@ -131,7 +131,7 @@ class CompatRefinedRelocation {
 				OreDictionary.registerOre(String.format("chestSorting%s", WordUtils.capitalize(type.getName())), stack);
 				registerSortingChestRecipe(BlocksMC.METAL_CHEST, BlocksMC.METAL_SORTING_CHEST, type, "chest");
 
-				if (ModConfig.hasThaumcraft()) {
+				if (ConfigMC.hasThaumcraft()) {
 					registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, type, "hungry_chest");
 				}
 			}

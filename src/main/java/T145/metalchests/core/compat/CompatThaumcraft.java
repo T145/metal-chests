@@ -10,10 +10,10 @@ import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.config.ModConfig;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalHungryChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
@@ -117,7 +117,7 @@ class CompatThaumcraft {
 
 		MetalChests.registerTileEntity(TileMetalHungryChest.class);
 
-		if (ModConfig.hasRefinedRelocation()) {
+		if (ConfigMC.hasRefinedRelocation()) {
 			registry.register(BlocksMC.METAL_HUNGRY_SORTING_CHEST = new BlockMetalChest() {
 
 				protected void registerResource() {
@@ -147,7 +147,7 @@ class CompatThaumcraft {
 
 		MetalChests.registerItemBlock(registry, BlocksMC.METAL_HUNGRY_CHEST, ChestType.class);
 
-		if (ModConfig.hasRefinedRelocation()) {
+		if (ConfigMC.hasRefinedRelocation()) {
 			MetalChests.registerItemBlock(registry, BlocksMC.METAL_HUNGRY_SORTING_CHEST, ChestType.class);
 		}
 	}
@@ -182,7 +182,7 @@ class CompatThaumcraft {
 				OreDictionary.registerOre("chest", stack);
 				OreDictionary.registerOre(String.format("chestHungry%s", capitalizedName), stack);
 
-				if (ModConfig.hasRefinedRelocation()) {
+				if (ConfigMC.hasRefinedRelocation()) {
 					stack = new ItemStack(BlocksMC.METAL_HUNGRY_SORTING_CHEST, 1, type.ordinal());
 
 					OreDictionary.registerOre("chest", stack);
