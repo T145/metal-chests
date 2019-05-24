@@ -24,6 +24,8 @@ public class RegistryMC {
 	public static final String NAME = "MetalChests";
 	public static final String ID = "metalchests";
 
+	public static final ResourceLocation RECIPE_GROUP = new ResourceLocation(RegistryMC.ID);
+
 	public static final String ID_INVTWEAKS = "invtweaks";
 	public static final String IFACE_CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
 

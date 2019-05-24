@@ -131,7 +131,6 @@ public class ItemMetalMinecart extends ItemMod {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void prepareCreativeTab(NonNullList<ItemStack> items) {
-		// not necessary, but helps w/ immersion
-		ChestType.UPGRADE_PATH.keySet().stream().filter(type -> type.isRegistered()).forEach(type -> items.add(new ItemStack(this, 1, type.ordinal())));
+		ChestType.TYPES.forEach(type -> items.add(new ItemStack(this, 1, type.ordinal())));
 	}
 }

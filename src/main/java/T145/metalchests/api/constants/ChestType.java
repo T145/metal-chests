@@ -15,13 +15,12 @@
  ******************************************************************************/
 package T145.metalchests.api.constants;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.core.MetalChests;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -83,17 +82,17 @@ public enum ChestType implements IStringSerializable {
 		}
 	}
 
-	public static final LinkedHashMap<ChestType, Integer> UPGRADE_PATH = new LinkedHashMap<>();
-	public static final ResourceLocation RECIPE_GROUP = new ResourceLocation(RegistryMC.ID);
+	public static final LinkedHashMap<ChestType, Integer> TIERS = new LinkedHashMap<>();
+	public static final List<ChestType> TYPES;
 
 	static {
 		for (int i = 0; i < ConfigMC.upgradePath.length; ++i) {
 			String typeName = ConfigMC.upgradePath[i];
 			ChestType type = ChestType.valueOf(typeName.toUpperCase());
-			UPGRADE_PATH.put(type, i);
+			TIERS.put(type, i);
 		}
 
-		MetalChests.LOG.info(UPGRADE_PATH);
+		TYPES = TIERS.keySet().stream().filter(type -> type.isRegistered()).collect(Collectors.toList());
 	}
 
 	private final InventorySize invSize;
@@ -146,7 +145,7 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public boolean isRegistered() {
-		return UPGRADE_PATH.containsKey(this) && OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
+		return TIERS.containsKey(this) && OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
 	}
 
 	public boolean isLarge() {
@@ -182,17 +181,15 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static void registerRecipes(Object baseChest, Block metalChest, String postfix) {
-		List<ChestType> types = new ArrayList<>(UPGRADE_PATH.keySet());
-
-		UPGRADE_PATH.keySet().stream().filter(type -> type.isRegistered()).forEach(type -> {
-			int meta = UPGRADE_PATH.get(type);
+		TYPES.forEach(type -> {
+			int meta = TIERS.get(type);
 			ChestType trueType = ChestType.byOreName(type.getOreName());
 
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_%s", type.getName(), postfix)), RECIPE_GROUP,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_%s", type.getName(), postfix)), RegistryMC.RECIPE_GROUP,
 					new ItemStack(metalChest, 1, trueType.ordinal()),
 					"aaa", "aba", "aaa",
 					'a', type.getOreName(),
-					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, types.get(meta - 1).ordinal()));
+					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, TYPES.get(meta - 1).ordinal()));
 		});
 	}
 
