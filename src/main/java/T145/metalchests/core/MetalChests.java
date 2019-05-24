@@ -307,9 +307,9 @@ public class MetalChests {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		for (ChestType type : ChestType.values()) {
-			type.registerRecipe();
+		ChestType.registerRecipes();
 
+		for (ChestType type : ChestType.values()) {
 			if (type.isRegistered()) {
 				ItemStack result = new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal());
 				OreDictionary.registerOre("chest", result);

@@ -15,11 +15,13 @@
  ******************************************************************************/
 package T145.metalchests.api.constants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import T145.metalchests.api.BlocksMC;
+import T145.metalchests.core.MetalChests;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -81,12 +83,17 @@ public enum ChestType implements IStringSerializable {
 		}
 	}
 
-	public static final Set<ChestType> UPGRADE_PATH = new HashSet<>();
+	public static final LinkedHashMap<ChestType, Integer> UPGRADE_PATH = new LinkedHashMap<>();
 	public static final ResourceLocation RECIPE_GROUP = new ResourceLocation(RegistryMC.ID);
 
 	static {
-		// TODO: Make this logic happen in the config, so we can change the upgrade path
-		UPGRADE_PATH.addAll(Arrays.asList(ChestType.values()));
+		for (int i = 0; i < ConfigMC.upgradePath.length; ++i) {
+			String typeName = ConfigMC.upgradePath[i];
+			ChestType type = ChestType.valueOf(typeName.toUpperCase());
+			UPGRADE_PATH.put(type, i);
+		}
+
+		MetalChests.LOG.info(UPGRADE_PATH);
 	}
 
 	private final InventorySize invSize;
@@ -139,7 +146,7 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public boolean isRegistered() {
-		return UPGRADE_PATH.contains(this) && OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
+		return UPGRADE_PATH.containsKey(this) && OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
 	}
 
 	public boolean isLarge() {
@@ -158,6 +165,10 @@ public enum ChestType implements IStringSerializable {
 		return values()[meta];
 	}
 
+	public static ChestType byOreName(String dictName) {
+		return Arrays.stream(values()).filter(type -> type.getOreName() == dictName).findFirst().get();
+	}
+
 	public GUI getGui() {
 		return GUI.byType(this);
 	}
@@ -170,25 +181,30 @@ public enum ChestType implements IStringSerializable {
 		return new ResourceLocation(getIdName());
 	}
 
-	public void registerRecipe(Object baseChest, Block metalChest, String postfix) {
-		if (this.isRegistered()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_%s", getName(), postfix)), RECIPE_GROUP,
-					new ItemStack(metalChest, 1, ordinal()),
+	public static void registerRecipes(Object baseChest, Block metalChest, String postfix) {
+		List<ChestType> types = new ArrayList<>(UPGRADE_PATH.keySet());
+
+		UPGRADE_PATH.keySet().stream().filter(type -> type.isRegistered()).forEach(type -> {
+			int meta = UPGRADE_PATH.get(type);
+			ChestType trueType = ChestType.byOreName(type.getOreName());
+
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_%s", type.getName(), postfix)), RECIPE_GROUP,
+					new ItemStack(metalChest, 1, trueType.ordinal()),
 					"aaa", "aba", "aaa",
-					'a', dictName,
-					'b', ordinal() == 0 ? baseChest : new ItemStack(metalChest, 1, ordinal() - 1));
-		}
+					'a', type.getOreName(),
+					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, types.get(meta - 1).ordinal()));
+		});
 	}
 
-	public void registerRecipe(Object baseChest, Block metalChest) {
-		this.registerRecipe(baseChest, metalChest, "chest");
+	public static void registerRecipes(Object baseChest, Block metalChest) {
+		registerRecipes(baseChest, metalChest, "chest");
 	}
 
-	public void registerRecipe(Block metalChest) {
-		this.registerRecipe("chestWood", metalChest);
+	public static void registerRecipes(Block metalChest) {
+		registerRecipes("chestWood", metalChest);
 	}
 
-	public void registerRecipe() {
-		this.registerRecipe(BlocksMC.METAL_CHEST);
+	public static void registerRecipes() {
+		registerRecipes(BlocksMC.METAL_CHEST);
 	}
 }
