@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 T145
+ * Copyright 2018-2019 T145
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -15,8 +15,6 @@
  ******************************************************************************/
 package T145.metalchests.items;
 
-import javax.annotation.Nullable;
-
 import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.core.MetalChests;
 import net.minecraft.creativetab.CreativeTabs;
@@ -30,9 +28,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ItemMod extends Item {
 
-	protected final Enum<? extends IStringSerializable>[] types;
+	protected final Object[] types;
 
-	public ItemMod(ResourceLocation registryName, Enum<? extends IStringSerializable>[] types) {
+	public ItemMod(ResourceLocation registryName, Object[] types) {
 		this.types = types;
 		setRegistryName(registryName);
 		setTranslationKey(registryName.toString());
@@ -44,11 +42,10 @@ public class ItemMod extends Item {
 		this(registryName, null);
 	}
 
-	public Enum<? extends IStringSerializable>[] getTypes() {
+	public Object[] getTypes() {
 		return types;
 	}
 
-	@Nullable
 	@Override
 	public String getCreatorModId(ItemStack stack) {
 		return RegistryMC.ID;
@@ -56,7 +53,7 @@ public class ItemMod extends Item {
 
 	@Override
 	public String getTranslationKey(ItemStack stack) {
-		if (hasSubtypes) {
+		if (hasSubtypes && types[0] instanceof IStringSerializable) {
 			return String.format("%s.%s", super.getTranslationKey(), ((IStringSerializable) types[stack.getMetadata()]).getName());
 		}
 		return super.getTranslationKey(stack);

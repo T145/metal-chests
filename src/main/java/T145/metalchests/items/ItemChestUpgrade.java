@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 T145
+ * Copyright 2018-2019 T145
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -44,7 +44,7 @@ import net.minecraftforge.items.IItemHandler;
 public class ItemChestUpgrade extends ItemMod {
 
 	public ItemChestUpgrade(ResourceLocation registryName) {
-		super(registryName, ChestUpgrade.values());
+		super(registryName, ChestUpgrade.TIERS.toArray());
 		setMaxStackSize(1);
 	}
 
@@ -170,9 +170,11 @@ public class ItemChestUpgrade extends ItemMod {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void prepareCreativeTab(NonNullList<ItemStack> items) {
-		for (ChestUpgrade upgrade : ChestUpgrade.values()) {
+		for (int i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
+			ChestUpgrade upgrade = ChestUpgrade.byMetadata(i);
+
 			if (upgrade.isRegistered()) {
-				items.add(new ItemStack(this, 1, upgrade.ordinal()));
+				items.add(new ItemStack(this, 1, i));
 			}
 		}
 	}

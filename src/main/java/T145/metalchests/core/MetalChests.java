@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 T145
+ * Copyright 2018-2019 T145
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -273,38 +273,6 @@ public class MetalChests {
 		}
 	}
 
-	static Object getUpgradeBase(String base, Item upgrade, ChestUpgrade type) {
-		switch (type) {
-		case WOOD_COPPER:
-			return base;
-		case WOOD_IRON:
-			if (ChestType.COPPER.isRegistered()) {
-				break;
-			}
-			return base;
-		case WOOD_GOLD:
-			if (ChestType.SILVER.isRegistered()) {
-				break;
-			}
-			return new ItemStack(upgrade, 1, ChestUpgrade.WOOD_IRON.ordinal());
-		case COPPER_IRON: case IRON_SILVER: case SILVER_GOLD: case GOLD_DIAMOND: case DIAMOND_OBSIDIAN:
-			return type.getBase().getOreName();
-		case COPPER_GOLD:
-			if (ChestType.SILVER.isRegistered()) {
-				break;
-			}
-			return new ItemStack(upgrade, 1, ChestUpgrade.COPPER_IRON.ordinal());
-		case IRON_GOLD:
-			if (ChestType.SILVER.isRegistered()) {
-				break;
-			}
-			return type.getBase().getOreName();
-		default:
-			break;
-		}
-		return new ItemStack(upgrade, 1, type.ordinal() - 1);
-	}
-
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		ChestType.registerRecipes();
@@ -322,13 +290,7 @@ public class MetalChests {
 			}
 		}
 
-		for (ChestUpgrade upgrade : ChestUpgrade.values()) {
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_chest_upgrade_%s", upgrade.getName())), null,
-					new ItemStack(ItemsMC.CHEST_UPGRADE, 1, upgrade.ordinal()),
-					"aaa", "aaa", "baa",
-					'a', upgrade.getUpgrade().getOreName(),
-					'b', getUpgradeBase("plankWood", ItemsMC.CHEST_UPGRADE, upgrade));
-		}
+		ChestUpgrade.registerRecipes();
 	}
 
 	@SubscribeEvent
@@ -402,8 +364,9 @@ public class MetalChests {
 
 		registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
-		for (ChestUpgrade type : ChestUpgrade.values()) {
-			registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", type.ordinal(), String.format("item=%s", type.getName()));
+		for (int i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
+			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
+			registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", i, String.format("item=%s", type.getName()));
 		}
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));

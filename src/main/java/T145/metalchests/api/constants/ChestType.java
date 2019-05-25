@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright 2019 T145
+ * Copyright 2018-2019 T145
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.  You may obtain a copy
@@ -82,7 +82,7 @@ public enum ChestType implements IStringSerializable {
 		}
 	}
 
-	public static final LinkedHashMap<ChestType, Integer> TIERS = new LinkedHashMap<>();
+	private static final LinkedHashMap<ChestType, Integer> TIERS = new LinkedHashMap<>();
 	public static final List<ChestType> TYPES;
 
 	static {
@@ -184,12 +184,15 @@ public enum ChestType implements IStringSerializable {
 		TYPES.forEach(type -> {
 			int meta = TIERS.get(type);
 			ChestType trueType = ChestType.byOreName(type.getOreName());
+			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
 
 			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_%s", type.getName(), postfix)), RegistryMC.RECIPE_GROUP,
-					new ItemStack(metalChest, 1, trueType.ordinal()),
+					result,
 					"aaa", "aba", "aaa",
 					'a', type.getOreName(),
 					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, TYPES.get(meta - 1).ordinal()));
+
+			// may want to register OreDictionary entries here
 		});
 	}
 

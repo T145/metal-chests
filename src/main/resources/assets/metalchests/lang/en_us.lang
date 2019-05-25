@@ -78,21 +78,42 @@ item.metalchests:chest_upgrade.wood_silver.name=Wood to Silver Chest Upgrade
 item.metalchests:chest_upgrade.wood_gold.name=Wood to Gold Chest Upgrade
 item.metalchests:chest_upgrade.wood_diamond.name=Wood to Diamond Chest Upgrade
 item.metalchests:chest_upgrade.wood_obsidian.name=Wood to Obsidian Chest Upgrade
+
 item.metalchests:chest_upgrade.copper_iron.name=Copper to Iron Chest Upgrade
 item.metalchests:chest_upgrade.copper_silver.name=Copper to Silver Chest Upgrade
 item.metalchests:chest_upgrade.copper_gold.name=Copper to Gold Chest Upgrade
 item.metalchests:chest_upgrade.copper_diamond.name=Copper to Diamond Chest Upgrade
 item.metalchests:chest_upgrade.copper_obsidian.name=Copper to Obsidian Chest Upgrade
+
+item.metalchests:chest_upgrade.iron_copper.name=Iron to Copper Chest Upgrade
 item.metalchests:chest_upgrade.iron_silver.name=Iron to Silver Chest Upgrade
 item.metalchests:chest_upgrade.iron_gold.name=Iron to Gold Chest Upgrade
 item.metalchests:chest_upgrade.iron_diamond.name=Iron to Diamond Chest Upgrade
-item.metalchests:chest_upgrade.iron_obsidian.name=Iron to Obsidian Chest Upgrade
+item.metalchests:chest_upgrade.iron_obsidian.name=iron to Obsidian Chest Upgrade
+
+item.metalchests:chest_upgrade.silver_copper.name=Silver to Copper Chest Upgrade
+item.metalchests:chest_upgrade.silver_iron.name=Silver to Iron Chest Upgrade
 item.metalchests:chest_upgrade.silver_gold.name=Silver to Gold Chest Upgrade
 item.metalchests:chest_upgrade.silver_diamond.name=Silver to Diamond Chest Upgrade
 item.metalchests:chest_upgrade.silver_obsidian.name=Silver to Obsidian Chest Upgrade
+
+item.metalchests:chest_upgrade.gold_copper.name=Gold to Copper Chest Upgrade
+item.metalchests:chest_upgrade.gold_iron.name=Gold to Iron Chest Upgrade
+item.metalchests:chest_upgrade.gold_silver.name=Gold to Silver Chest Upgrade
 item.metalchests:chest_upgrade.gold_diamond.name=Gold to Diamond Chest Upgrade
 item.metalchests:chest_upgrade.gold_obsidian.name=Gold to Obsidian Chest Upgrade
+
+item.metalchests:chest_upgrade.diamond_copper.name=Diamond to Copper Chest Upgrade
+item.metalchests:chest_upgrade.diamond_iron.name=Diamond to Iron Chest Upgrade
+item.metalchests:chest_upgrade.diamond_silver.name=Diamond to Silver Chest Upgrade
+item.metalchests:chest_upgrade.diamond_gold.name=Diamond to Gold Chest Upgrade
 item.metalchests:chest_upgrade.diamond_obsidian.name=Diamond to Obsidian Chest Upgrade
+
+item.metalchests:chest_upgrade.obsidian_copper.name=Obsidian to Copper Chest Upgrade
+item.metalchests:chest_upgrade.obsidian_iron.name=Obsidian to Iron Chest Upgrade
+item.metalchests:chest_upgrade.obsidian_silver.name=Obsidian to Silver Chest Upgrade
+item.metalchests:chest_upgrade.obsidian_gold.name=Obsidian to Gold Chest Upgrade
+item.metalchests:chest_upgrade.obsidian_diamond.name=Obsidian to Diamond Chest Upgrade
 
 tile.metalchests:metal_hungry_chest.copper.name=Copper Hungry Chest
 tile.metalchests:metal_hungry_chest.iron.name=Iron Hungry Chest

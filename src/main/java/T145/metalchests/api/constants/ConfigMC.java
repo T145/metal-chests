@@ -1,3 +1,18 @@
+/*******************************************************************************
+ * Copyright 2018-2019 T145
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License.  You may obtain a copy
+ * of the License at
+ * 
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
 package T145.metalchests.api.constants;
 
 import net.minecraftforge.common.config.Config;
@@ -12,9 +27,9 @@ public class ConfigMC {
 	@Config.Comment("Whether or not you want to recieve an in-game notification if an update is available.")
 	public static boolean checkForUpdates = true;
 
-	@Config.Comment("The upgrade path for metal chests. Recipes will update to reflect this.\n Current valid options are: { \"copper\", \"iron\", \"silver\", \"gold\", \"obsidian\", \"diamond\" }")
+	@Config.Comment("The upgrade path for metal chests. Recipes will update to reflect this.\n Current valid options are: { \"copper\", \"iron\", \"silver\", \"gold\", \"diamond\", \"obsidian\" }")
 	@Config.RequiresMcRestart
-	public static String[] upgradePath = new String[] { "copper", "iron", "silver", "gold", "obsidian", "diamond" };
+	public static String[] upgradePath = new String[] { "copper", "iron", "silver", "gold", "diamond", "obsidian" };
 
 	@Config.Comment("Whether or not all metal chest model textures are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
 	public static boolean hollowModelTextures = false;
