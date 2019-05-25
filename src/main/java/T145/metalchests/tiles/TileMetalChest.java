@@ -193,8 +193,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
 		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
-		//inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
-		this.readFromNBT(tag);
+		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
 		this.setFront(EnumFacing.byName(tag.getString(TAG_FRONT)));
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 		this.setTrapped(tag.getBoolean(TAG_TRAPPED));
@@ -206,8 +205,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		tag = super.writeToNBT(tag);
 		tag.setString(TAG_CHEST_TYPE, chestType.toString());
-		//tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
-		this.writeInventoryTag(tag);
+		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
 		tag.setString(TAG_FRONT, front.toString());
 		tag.setByte(TAG_ENCHANT_LEVEL, enchantLevel);
 		tag.setBoolean(TAG_TRAPPED, trapped);
