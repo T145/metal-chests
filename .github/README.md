@@ -89,7 +89,7 @@ To use any mod assets, you may contatct [myself](https://github.com/T145) or the
 
 ---
 
-## Support
+## Financial Support
 
 <div align="center">
 
@@ -98,5 +98,10 @@ To use any mod assets, you may contatct [myself](https://github.com/T145) or the
 
 <div align="center">
 
-**Paypal**: *Check the top right of the CurseForge page!*
+**Paypal**: *Check the top right of the [CurseForge page](https://minecraft.curseforge.com/projects/metalchests)!*
+</div>
+
+<div align="center">
+
+**Cryptocurrency**: [Check here!](https://github.com/T145/metalchests/blob/master/.github/CRYPTO_ADDRESSES.md)
 </div>
