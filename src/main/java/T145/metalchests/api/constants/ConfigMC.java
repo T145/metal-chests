@@ -15,6 +15,9 @@
  ******************************************************************************/
 package T145.metalchests.api.constants;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.fml.common.Loader;
 
@@ -49,6 +52,17 @@ public class ConfigMC {
 	@Config.Comment("If Refined Relocation 2 is installed, whether or not you want to enable the Metal Hungry Sorting Chests.")
 	@Config.RequiresMcRestart
 	public static boolean enableMetalHungrySortingChests = true;
+
+	@Config.Comment("If Thermal Expansion is installed, what the holding enchant bounds for each chest are.")
+	@Config.RequiresMcRestart
+	public static Map<String, Integer> holdingEnchantBounds = new HashMap() {{
+		put("copper", 1);
+		put("iron", 1);
+		put("silver", 2);
+		put("gold", 2);
+		put("diamond", 3);
+		put("obsidian", 4);
+	}};
 
 	public static boolean hasThaumcraft() {
 		return Loader.isModLoaded(RegistryMC.ID_THAUMCRAFT) && enableMetalHungryChests;
