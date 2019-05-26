@@ -100,18 +100,3 @@ To use any mod assets, you may contatct [myself](https://github.com/T145) or the
 
 **Paypal**: *Check the top right of the CurseForge page!*
 </div>
-
-<div align="center">
-
-**Bitcoin**: `1qrrPQqfbfXLRqzS6jb7A7Mgnzz85Mjxu`
-</div>
-
-<div align="center">
-
-**Ethereum**: `0x9dbafc51abe8ce05cac6f8a39ebd4351706840b0`
-</div>
-
-<div align="center">
-
-**Litecoin**: `LiV9SfDjFYLFRCzf9wTf7ap8BuRF39J7PB`
-</div>
