@@ -66,14 +66,23 @@ public class ChestAnimator {
 			return tileEntity.getPos();
 		}
 
-		public void addBlockEvent(int event, int data) {
-			if (hasTileEntity()) {
+		public void activateChest(int event, int data) {
+			if (tileEntity instanceof IMetalChest) {
 				World world = tileEntity.getWorld();
 				Block block = tileEntity.getBlockType();
 				BlockPos pos = tileEntity.getPos();
 
 				world.addBlockEvent(pos, block, 1, data);
-				world.notifyNeighborsOfStateChange(pos, block, false);
+			}
+		}
+
+		public void updateBlock() {
+			if (tileEntity instanceof IMetalChest) {
+				IMetalChest chest = (IMetalChest) tileEntity;
+
+				if (chest.isTrapped()) {
+					tileEntity.getWorld().notifyNeighborsOfStateChange(tileEntity.getPos(), tileEntity.getBlockType(), false);
+				}
 			}
 		}
 	}
@@ -108,8 +117,9 @@ public class ChestAnimator {
 			World world = provider.getWorld();
 			BlockPos pos = provider.getPos();
 
-			provider.addBlockEvent(EVENT_PLAYER_USED, ++numPlayersUsing);
+			provider.activateChest(EVENT_PLAYER_USED, ++numPlayersUsing);
 			world.playSound(player, pos, openSound, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			provider.updateBlock();
 		}
 	}
 
@@ -122,8 +132,9 @@ public class ChestAnimator {
 			World world = provider.getWorld();
 			BlockPos pos = provider.getPos();
 
-			provider.addBlockEvent(EVENT_PLAYER_USED, --numPlayersUsing);
+			provider.activateChest(EVENT_PLAYER_USED, --numPlayersUsing);
 			world.playSound(player, pos, closeSound, SoundCategory.BLOCKS, 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+			provider.updateBlock();
 		}
 	}
 
@@ -141,12 +152,12 @@ public class ChestAnimator {
 		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
 	}
 
-	public void tick() {
+	public void tick(int x, int z) {
 		if (provider.hasTileEntity()) {
 			World world = provider.getWorld();
 
-			if (!world.isRemote && world.getTotalWorldTime() % 20 == 0) {
-				provider.addBlockEvent(1, numPlayersUsing);
+			if (!world.isRemote && ((world.getTotalWorldTime() + x + z) & 0x1F) == 0) {
+				provider.activateChest(1, numPlayersUsing);
 			}
 		}
 

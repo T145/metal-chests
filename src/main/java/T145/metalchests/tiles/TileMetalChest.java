@@ -57,6 +57,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected byte enchantLevel;
 	protected boolean trapped;
 	protected boolean luminous;
+	private boolean updateComparator;
 
 	public TileMetalChest(ChestType chestType) {
 		super();
@@ -74,8 +75,16 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 			@Override
 			protected void onContentsChanged(int slot) {
-				TileMetalChest.this.markDirty();
-				world.updateComparatorOutputLevel(pos, getBlockType());
+				// TileMetalChest.this.markDirty();
+				// TODO: Used when the chest is transparent, to automatically
+				// update items and display them properly.
+				// Implement it when crystal upgrades are being added.
+
+				//world.updateComparatorOutputLevel(pos, getBlockType());
+				// update on the next tick, reducing comparator updates to the bare minimum
+				if (!TileMetalChest.this.updateComparator) {
+					TileMetalChest.this.updateComparator = true;
+				}
 			}
 		};
 	}
@@ -186,7 +195,12 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	public void update() {
-		animator.tick();
+		if (updateComparator) {
+			updateComparator = false;
+			world.updateComparatorOutputLevel(pos, getBlockType());
+		}
+
+		animator.tick(pos.getX(), pos.getZ());
 	}
 
 	@Override
