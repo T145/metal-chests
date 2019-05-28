@@ -59,6 +59,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected boolean luminous;
 
 	public TileMetalChest(ChestType chestType) {
+		super();
 		this.setChestType(chestType);
 		this.setFront(EnumFacing.EAST);
 		this.inventory = this.initInventory();
