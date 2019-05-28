@@ -24,6 +24,7 @@ import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.lib.ChestHandler;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -53,7 +54,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected final ChestAnimator animator = new ChestAnimator(this);
 	protected ChestType chestType;
 	protected EnumFacing front;
-	protected ItemStackHandler inventory;
+	protected ChestHandler inventory;
 	protected byte enchantLevel;
 	protected boolean trapped;
 	protected boolean luminous;
@@ -70,23 +71,8 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		this(ChestType.IRON);
 	}
 
-	protected ItemStackHandler initInventory() {
-		return new ItemStackHandler(chestType.getInventorySize()) {
-
-			@Override
-			protected void onContentsChanged(int slot) {
-				// TileMetalChest.this.markDirty();
-				// TODO: Used when the chest is transparent, to automatically
-				// update items and display them properly.
-				// Implement it when crystal upgrades are being added.
-
-				//world.updateComparatorOutputLevel(pos, getBlockType());
-				// update on the next tick, reducing comparator updates to the bare minimum
-				if (!TileMetalChest.this.updateComparator) {
-					TileMetalChest.this.updateComparator = true;
-				}
-			}
-		};
+	protected ChestHandler initInventory() {
+		return new ChestHandler(chestType);
 	}
 
 	@Override
@@ -195,11 +181,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	public void update() {
-		if (updateComparator) {
-			updateComparator = false;
-			world.updateComparatorOutputLevel(pos, getBlockType());
-		}
-
+		inventory.tick(world, pos, getBlockType());
 		animator.tick(pos.getX(), pos.getZ());
 	}
 

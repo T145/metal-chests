@@ -19,6 +19,7 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.lib.ChestHandler;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.INameTaggable;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -30,7 +31,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
 
 public class TileMetalSortingChest extends TileMetalChest {
 
@@ -47,14 +47,13 @@ public class TileMetalSortingChest extends TileMetalChest {
 	}
 
 	@Override
-	protected ItemStackHandler initInventory() {
-		return new ItemStackHandler(chestType.getInventorySize()) {
+	protected ChestHandler initInventory() {
+		return new ChestHandler(chestType) {
 
 			@Override
 			protected void onContentsChanged(int slot) {
-				TileMetalSortingChest.this.markDirty();
+				super.onContentsChanged(slot);
 				sortingInventory.onSlotChanged(slot);
-				world.updateComparatorOutputLevel(pos, getBlockType());
 			}
 		};
 	}
