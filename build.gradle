@@ -1,5 +1,6 @@
 
 import de.undercouch.gradle.tasks.download.Download
+import com.palantir.gradle.gitversion.VersionDetails
 
 buildscript {
     repositories {
@@ -17,32 +18,35 @@ buildscript {
 
 plugins {
     id 'de.undercouch.download' version '3.4.3'
-    id 'org.ajoberstar.grgit' version '2.2.1'
+    id 'com.palantir.git-version' version '0.11.0'
+    //id 'com.matthewprenger.cursegradle' version '1.2.0'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-
-    maven {
-        url "https://minecraft.curseforge.com/api/maven/"
-    }
+    jcenter()
+    maven { url = 'http://files.minecraftforge.net/maven' }
+    maven { url = 'https://minecraft.curseforge.com/api/maven' }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
-
-version = (grgit.open(dir: project.projectDir.getAbsolutePath()).describe(longDescr: true) - '-0').replaceAll('-', '.')
-group = mod_group + '.' + mod_id
+version = "${gitVersion()}+mc${project.minecraft_version}"
+group = mod_group
 archivesBaseName = mod_name
-
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-compileJava {
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
-}
+forge = "${project.minecraft_version}-${project.forge_version}"
 
 minecraft {
     runDir = 'run'
-    version = forge_version
+    version = forge
     mappings = forge_mapping
     makeObfSourceJar = false
 
@@ -59,23 +63,14 @@ processResources {
     exclude '**/*.DS_Store'
 }
 
-task migrateSource() {
-    project.file('build/tmp/recompileMc/sources').renameTo(project.file('minecraftSrc'))
-}
-
-migrateSource.mustRunAfter eclipse
-
-build {
-    doLast {
-        project.file('release').deleteDir()
-        project.file('build/libs').renameTo(project.file('release'))
-    }
+jar {
+	from 'LICENSE'
 }
 
 task setupEclipseWorkspace(type: Download, dependsOn: setupDecompWorkspace) {
     File forgeArchive = project.file('forge.zip')
 
-    src 'http://files.minecraftforge.net/maven/net/minecraftforge/forge/' + forge_version + '/forge-' + forge_version + '-mdk.zip'
+    src 'http://files.minecraftforge.net/maven/net/minecraftforge/forge/' + forge + '/forge-' + forge + '-mdk.zip'
     dest forgeArchive
 
     doLast {
@@ -87,5 +82,18 @@ task setupEclipseWorkspace(type: Download, dependsOn: setupDecompWorkspace) {
         project.file('forge/eclipse').renameTo(project.file('eclipse'))
         project.file('forge.zip').delete()
         project.file('forge').deleteDir()
+    }
+}
+
+task migrateSource() {
+    project.file('build/tmp/recompileMc/sources').renameTo(project.file('minecraftSrc'))
+}
+
+migrateSource.mustRunAfter eclipse
+
+build {
+    doLast {
+        project.file('release').deleteDir()
+        project.file('build/libs').renameTo(project.file('release'))
     }
 }
