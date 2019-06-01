@@ -48,11 +48,11 @@ public class ItemChestUpgrade extends ItemMod {
 		setMaxStackSize(1);
 	}
 
-	private boolean canUpdateChest(TileEntity te, ChestUpgrade upgradeType) {
+	private boolean canUpdateChest(TileEntity te, ChestType base) {
 		if (te instanceof IMetalChest) {
 			IMetalChest chest = (IMetalChest) te;
 
-			if (chest.getChestType() != upgradeType.getBase() || chest.getChestAnimator().isOpen()) {
+			if (chest.getChestType() != base || chest.getChestAnimator().isOpen()) {
 				return false;
 			}
 
@@ -76,7 +76,7 @@ public class ItemChestUpgrade extends ItemMod {
 				}
 			}
 
-			return true;
+			return te != null;
 		}
 
 		return false;
@@ -113,11 +113,10 @@ public class ItemChestUpgrade extends ItemMod {
 		if (te instanceof IMetalChest) {
 			IMetalChest chest = (IMetalChest) te;
 			chest.setChestType(upgrade);
-			world.setBlockState(pos, createBlockState(block, upgrade), 3); // mark for NBT update
-			te.markDirty(); // mark for render update
+			world.setBlockState(pos, createBlockState(block, upgrade), 3);
 			return true;
 		} else {
-			boolean trapped = block.canProvidePower(world.getBlockState(te.getPos()));
+			boolean trapped = world.getBlockState(pos).canProvidePower();
 			EnumFacing front = getBlockFront(player, world, pos);
 			IItemHandler inv = getChestInventory(te);
 			block = UpgradeRegistry.getDestTile(block);
@@ -126,7 +125,7 @@ public class ItemChestUpgrade extends ItemMod {
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);
 			world.setTileEntity(pos, block.createTileEntity(world, state));
-			world.setBlockState(pos, state, 3); // mark for NBT update
+			world.setBlockState(pos, state, 3);
 
 			te = world.getTileEntity(pos);
 
@@ -136,7 +135,6 @@ public class ItemChestUpgrade extends ItemMod {
 				chest.setTrapped(trapped);
 				chest.setFront(front);
 				chest.setInventory(inv);
-				te.markDirty(); // mark for render update
 				return true;
 			}
 
@@ -154,7 +152,7 @@ public class ItemChestUpgrade extends ItemMod {
 		ItemStack stack = player.getHeldItem(hand);
 		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
 
-		if (!canUpdateChest(te, upgrade) || !updateChest(upgrade.getUpgrade(), te, player, world, pos)) {
+		if (!canUpdateChest(te, upgrade.getBase()) || !updateChest(upgrade.getUpgrade(), te, player, world, pos)) {
 			return EnumActionResult.FAIL;
 		}
 

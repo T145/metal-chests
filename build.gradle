@@ -42,7 +42,7 @@ repositories {
 version = "${gitVersion()}+mc${project.minecraft_version}"
 group = mod_group
 archivesBaseName = mod_name
-forge = "${project.minecraft_version}-${project.forge_version}"
+def forge = "${project.minecraft_version}-${project.forge_version}"
 
 minecraft {
     runDir = 'run'
