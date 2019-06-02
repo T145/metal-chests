@@ -426,7 +426,7 @@ public class MetalChests {
 						chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 						if (stack.getTagCompound().hasKey("Inventory")) {
-							chest.readInventoryTag(stack.getTagCompound());
+							chest.readFromNBT(stack.getTagCompound());
 						}
 					}
 

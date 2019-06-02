@@ -187,18 +187,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	@OverridingMethodsMustInvokeSuper
-	public void readFromNBT(NBTTagCompound tag) {
-		super.readFromNBT(tag);
-		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
-		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
-		this.setFront(EnumFacing.byName(tag.getString(TAG_FRONT)));
-		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
-		this.setTrapped(tag.getBoolean(TAG_TRAPPED));
-		this.setLuminous(tag.getBoolean(TAG_LUMINOUS));
-	}
-
-	@Override
-	@OverridingMethodsMustInvokeSuper
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
 		tag = super.writeToNBT(tag);
 		tag.setString(TAG_CHEST_TYPE, chestType.toString());
@@ -208,6 +196,18 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		tag.setBoolean(TAG_TRAPPED, trapped);
 		tag.setBoolean(TAG_LUMINOUS, luminous);
 		return tag;
+	}
+
+	@Override
+	@OverridingMethodsMustInvokeSuper
+	public void readFromNBT(NBTTagCompound tag) {
+		super.readFromNBT(tag);
+		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
+		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		this.setFront(EnumFacing.byName(tag.getString(TAG_FRONT)));
+		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
+		this.setTrapped(tag.getBoolean(TAG_TRAPPED));
+		this.setLuminous(tag.getBoolean(TAG_LUMINOUS));
 	}
 
 	@Override

@@ -25,6 +25,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.tileentity.TileEntityEnderChest;
@@ -111,9 +112,13 @@ public class ItemChestUpgrade extends ItemMod {
 		Block block = te.getBlockType();
 
 		if (te instanceof IMetalChest) {
-			IMetalChest chest = (IMetalChest) te;
-			chest.setChestType(upgrade);
-			world.setBlockState(pos, createBlockState(block, upgrade), 3);
+			IBlockState state = createBlockState(block, upgrade);
+			NBTTagCompound tag = te.writeToNBT(new NBTTagCompound());
+
+			tag.getCompoundTag(IMetalChest.TAG_INVENTORY).setInteger("Size", upgrade.getInventorySize());
+			tag.setString(IMetalChest.TAG_CHEST_TYPE, upgrade.toString());
+			te.readFromNBT(tag);
+			world.setBlockState(pos, state, 3);
 			return true;
 		} else {
 			boolean trapped = world.getBlockState(pos).canProvidePower();

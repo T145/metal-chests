@@ -161,7 +161,7 @@ public class BlockMetalChest extends Block {
 			}
 
 			if (chest.getEnchantLevel() >= chest.getChestType().getHoldingEnchantBound()) {
-				chest.writeInventoryTag(tag);
+				chest.writeToNBT(tag);
 			}
 
 			if (!tag.isEmpty()) {
@@ -245,7 +245,7 @@ public class BlockMetalChest extends Block {
 				chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 
 				if (stack.getTagCompound().hasKey("Inventory")) {
-					chest.readInventoryTag(stack.getTagCompound());
+					chest.readFromNBT(stack.getTagCompound());
 				}
 			}
 		}
