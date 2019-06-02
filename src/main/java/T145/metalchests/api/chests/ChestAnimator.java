@@ -16,6 +16,7 @@
 package T145.metalchests.api.chests;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -79,9 +80,14 @@ public class ChestAnimator {
 		public void updateBlock() {
 			if (tileEntity instanceof IMetalChest) {
 				IMetalChest chest = (IMetalChest) tileEntity;
+				World world = tileEntity.getWorld();
+				Block block = tileEntity.getBlockType();
+				BlockPos pos = tileEntity.getPos();
+
+				world.notifyNeighborsOfStateChange(pos, block, false);
 
 				if (chest.isTrapped()) {
-					tileEntity.getWorld().notifyNeighborsOfStateChange(tileEntity.getPos(), tileEntity.getBlockType(), false);
+					world.notifyNeighborsOfStateChange(pos.down(), block, false);
 				}
 			}
 		}
@@ -152,11 +158,11 @@ public class ChestAnimator {
 		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
 	}
 
-	public void tick(int x, int z) {
+	public void tick(BlockPos pos) {
 		if (provider.hasTileEntity()) {
 			World world = provider.getWorld();
 
-			if (!world.isRemote && ((world.getTotalWorldTime() + x + z) & 0x1F) == 0) {
+			if (!world.isRemote && ((world.getTotalWorldTime() + pos.getX() + pos.getY() + pos.getZ()) & 0x1F) == 0) {
 				provider.activateChest(1, numPlayersUsing);
 			}
 		}

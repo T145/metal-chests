@@ -182,7 +182,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	public void update() {
 		inventory.tick(world, pos, getBlockType());
-		animator.tick(pos.getX(), pos.getZ());
+		animator.tick(pos);
 	}
 
 	@Override
