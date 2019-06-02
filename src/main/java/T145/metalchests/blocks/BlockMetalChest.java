@@ -344,7 +344,7 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
-		ChestType.TYPES.forEach(type -> items.add(new ItemStack(this, 1, type.ordinal())));
+		ChestType.TIERS.forEach(type -> items.add(new ItemStack(this, 1, type.ordinal())));
 	}
 
 	@Override

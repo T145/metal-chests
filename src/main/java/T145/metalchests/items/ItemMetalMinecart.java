@@ -131,6 +131,6 @@ public class ItemMetalMinecart extends ItemMod {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void prepareCreativeTab(NonNullList<ItemStack> items) {
-		ChestType.TYPES.forEach(type -> items.add(new ItemStack(this, 1, type.ordinal())));
+		ChestType.TIERS.forEach(type -> items.add(new ItemStack(this, 1, type.ordinal())));
 	}
 }

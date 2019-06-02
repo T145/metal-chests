@@ -15,10 +15,10 @@
  ******************************************************************************/
 package T145.metalchests.api.constants;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import T145.metalchests.api.BlocksMC;
 import net.minecraft.block.Block;
@@ -82,35 +82,37 @@ public enum ChestType implements IStringSerializable {
 		}
 	}
 
-	private static final LinkedHashMap<ChestType, Integer> TIERS = new LinkedHashMap<>();
-	public static final List<ChestType> TYPES;
+	public static final LinkedHashSet<ChestType> TIERS = new LinkedHashSet<>(ChestType.values().length + 1, 1);
+	private static final List<ChestType> TYPES = new ArrayList<>(TIERS);
 
 	static {
 		for (int i = 0; i < ConfigMC.upgradePath.length; ++i) {
 			String typeName = ConfigMC.upgradePath[i];
 			ChestType type = ChestType.valueOf(typeName.toUpperCase());
-			TIERS.put(type, i);
-		}
 
-		TYPES = TIERS.keySet().stream().filter(type -> type.isRegistered()).collect(Collectors.toList());
+			if (type.hasOre()) {
+				TIERS.add(type); // for O(1) contains calls
+				TYPES.add(type);
+			}
+		}
 	}
 
 	private final InventorySize invSize;
 	private final Material material;
 	private final MapColor color;
 	private final SoundType sound;
-	private final String dictName;
+	private final String oreName;
 
-	ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String dictName) {
+	ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String oreName) {
 		this.invSize = invSize;
 		this.material = material;
 		this.color = color;
 		this.sound = sound;
-		this.dictName = dictName;
+		this.oreName = oreName;
 	}
 
-	ChestType(InventorySize invSize, MapColor color, SoundType sound, String dictName) {
-		this(invSize, Material.IRON, color, sound, dictName);
+	ChestType(InventorySize invSize, MapColor color, SoundType sound, String oreName) {
+		this(invSize, Material.IRON, color, sound, oreName);
 	}
 
 	@Override
@@ -135,15 +137,19 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public String getOreName() {
-		return dictName;
+		return oreName;
 	}
 
 	public int getHoldingEnchantBound() {
 		return ConfigMC.holdingEnchantBounds.get(getName());
 	}
 
+	public boolean hasOre() {
+		return OreDictionary.doesOreNameExist(oreName);
+	}
+
 	public boolean isRegistered() {
-		return TIERS.containsKey(this) && OreDictionary.doesOreNameExist(dictName) && !OreDictionary.getOres(dictName).isEmpty();
+		return hasOre() && TIERS.contains(this);
 	}
 
 	public boolean isLarge() {
@@ -179,8 +185,8 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static void registerRecipes(Object baseChest, Block metalChest, String postfix) {
-		TYPES.forEach(type -> {
-			int meta = TIERS.get(type);
+		for (short meta = 0; meta < TIERS.size(); ++meta) {
+			ChestType type = TYPES.get(meta);
 			ChestType trueType = ChestType.byOreName(type.getOreName());
 			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
 
@@ -191,7 +197,7 @@ public enum ChestType implements IStringSerializable {
 					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, TYPES.get(meta - 1).ordinal()));
 
 			// may want to register OreDictionary entries here
-		});
+		}
 	}
 
 	public static void registerRecipes(Object baseChest, Block metalChest) {

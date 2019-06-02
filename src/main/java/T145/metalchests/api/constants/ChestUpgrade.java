@@ -31,9 +31,9 @@ public class ChestUpgrade implements IStringSerializable {
 	public static final LinkedList<ChestUpgrade> TIERS = new LinkedList<>();
 
 	static {
-		ChestType.TYPES.forEach(type -> TIERS.add(new ChestUpgrade(null, type)));
+		ChestType.TIERS.forEach(type -> TIERS.add(new ChestUpgrade(null, type)));
 
-		ArrayDeque<ChestType> temp = new ArrayDeque<>(ChestType.TYPES);
+		ArrayDeque<ChestType> temp = new ArrayDeque<>(ChestType.TIERS);
 
 		while (!temp.isEmpty()) {
 			ChestType base = temp.remove();
@@ -82,7 +82,7 @@ public class ChestUpgrade implements IStringSerializable {
 		return TIERS.get(meta);
 	}
 
-	private static Object getBaseIngredient(Object base, int meta) {
+	private static Object getBaseIngredient(Object base, short meta) {
 		ChestUpgrade curr = ChestUpgrade.byMetadata(meta);
 
 		if (curr.isForWood()) {
@@ -103,7 +103,7 @@ public class ChestUpgrade implements IStringSerializable {
 	}
 
 	public static void registerRecipes(Object base) {
-		for (int i = 0; i < TIERS.size(); ++i) {
+		for (short i = 0; i < TIERS.size(); ++i) {
 			ChestUpgrade type = ChestUpgrade.byMetadata(i);
 
 			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_chest_upgrade_%s", type.getName())), RegistryMC.RECIPE_GROUP,
