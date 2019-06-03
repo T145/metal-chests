@@ -3,14 +3,6 @@ import de.undercouch.gradle.tasks.download.Download
 import com.palantir.gradle.gitversion.VersionDetails
 
 buildscript {
-    repositories {
-        jcenter()
-        maven {
-            name = 'MinecraftForge Repo'
-            url = 'http://files.minecraftforge.net/maven'
-        }
-    }
-
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
@@ -42,11 +34,12 @@ repositories {
 version = "${gitVersion()}+mc${project.minecraft_version}"
 group = mod_group
 archivesBaseName = mod_name
-def forge = "${project.minecraft_version}-${project.forge_version}"
+
+final String FORGE = "${project.minecraft_version}-${project.forge_version}"
 
 minecraft {
     runDir = 'run'
-    version = forge
+    version = FORGE
     mappings = forge_mapping
     makeObfSourceJar = false
 
@@ -70,7 +63,7 @@ jar {
 task setupEclipseWorkspace(type: Download, dependsOn: setupDecompWorkspace) {
     File forgeArchive = project.file('forge.zip')
 
-    src 'http://files.minecraftforge.net/maven/net/minecraftforge/forge/' + forge + '/forge-' + forge + '-mdk.zip'
+    src "http://files.minecraftforge.net/maven/net/minecraftforge/forge/${FORGE}/forge-${FORGE}-mdk.zip"
     dest forgeArchive
 
     doLast {

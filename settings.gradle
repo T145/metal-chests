@@ -1,0 +1,14 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        jcenter()
+        
+        maven {
+            name = 'MinecraftForge'
+            url = 'http://files.minecraftforge.net/maven'
+        }
+    }
+}
+
+rootProject.name = 'metalchests'
