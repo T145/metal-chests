@@ -100,11 +100,11 @@ public class ItemChestUpgrade extends ItemMod {
 		return player.getHorizontalFacing().getOpposite();
 	}
 
-	private IItemHandler getChestInventory(TileEntity te) {
+	private IItemHandler getChestInventory(TileEntity te, EnumFacing front) {
 		if (te instanceof TileEntityChest) {
 			return ((TileEntityChest) te).getSingleChestHandler();
 		} else {
-			return te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
+			return te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, front);
 		}
 	}
 
@@ -123,7 +123,7 @@ public class ItemChestUpgrade extends ItemMod {
 		} else {
 			boolean trapped = world.getBlockState(pos).canProvidePower();
 			EnumFacing front = getBlockFront(player, world, pos);
-			IItemHandler inv = getChestInventory(te);
+			IItemHandler inv = getChestInventory(te, front);
 			block = UpgradeRegistry.getDestTile(block);
 			IBlockState state = createBlockState(block, upgrade);
 
