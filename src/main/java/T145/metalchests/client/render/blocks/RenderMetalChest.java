@@ -35,10 +35,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> {
 
 	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
-	private static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-	private static final ResourceLocation OVERLAY_TRAP = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/trap.png");
-	private static final ResourceLocation OVERLAY_GLOW = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/glow.png");
-
 	protected final ModelChest model = new ModelChest();
 
 	public static int getFrontAngle(EnumFacing front) {
@@ -55,7 +51,13 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
-		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/%s%s", type.getName(), ConfigMC.hollowModelTextures ? "_h.png" : ".png"));
+		StringBuilder builder = new StringBuilder("textures/entity/chest/").append(type.getName());
+
+		if (ConfigMC.hollowModelTextures) {
+			builder.append("_h");
+		}
+
+		return new ResourceLocation(RegistryMC.ID, builder.append(".png").toString());
 	}
 
 	protected void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
@@ -119,11 +121,11 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		postRenderModel(chest, partialTicks);
 
 		if (chest.isTrapped()) {
-			renderOverlay(OVERLAY_TRAP);
+			renderOverlay(RegistryMC.OVERLAY_TRAP);
 		}
 
 		if (chest.isLuminous()) {
-			renderOverlay(OVERLAY_GLOW);
+			renderOverlay(RegistryMC.OVERLAY_GLOW);
 		}
 
 		postRenderChest(chest);
@@ -136,7 +138,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			double spin = Minecraft.getSystemTime() / 1000D;
 			float scale = 0.33333334F;
 
-			preRender(OVERLAY_ENCHANT, chest, x, y, z, destroyStage, alpha);
+			preRender(RegistryMC.OVERLAY_ENCHANT, chest, x, y, z, destroyStage, alpha);
 
 			GlStateManager.enableBlend();
 			GlStateManager.depthFunc(GL11.GL_EQUAL);

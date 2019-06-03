@@ -69,4 +69,8 @@ public class RegistryMC {
 	public static final ResourceLocation RESOURCE_HUNGRY_CHEST_UPGRADE = new ResourceLocation(ID, KEY_HUNGRY_CHEST_UPGRADE);
 	public static final ResourceLocation RESOURCE_MINECART_METAL_CHEST = new ResourceLocation(ID, KEY_MINECART_METAL_CHEST);
 	public static final ResourceLocation RESOURCE_BOAT_CHEST = new ResourceLocation(ID, KEY_BOAT_METAL_CHEST);
+
+	public static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	public static final ResourceLocation OVERLAY_TRAP = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/trap.png");
+	public static final ResourceLocation OVERLAY_GLOW = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/glow.png");
 }
