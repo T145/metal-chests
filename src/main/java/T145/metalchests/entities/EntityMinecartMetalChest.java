@@ -259,9 +259,8 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
 	}
 
-	@Optional.Method(modid = RegistryMC.ID_RAILCRAFT)
 	@Override
-	public boolean canPassItemRequests() {
+	public boolean canPassItemRequests(ItemStack stack) {
 		return true;
 	}
 

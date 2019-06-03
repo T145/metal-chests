@@ -26,13 +26,11 @@ public @interface ChestContainer {
     // Signature int func()
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    @interface RowSizeCallback {
-    }
+    @interface RowSizeCallback {}
 
     // Annotation for method to get size of a chest row if it is not a fixed size for this container class
     // Signature boolean func()
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
-    @interface IsLargeCallback {
-    }
+    @interface IsLargeCallback {}
 }
