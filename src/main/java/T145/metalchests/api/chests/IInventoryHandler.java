@@ -38,7 +38,9 @@ public interface IInventoryHandler extends IInventory {
 	}
 
 	default void readFromNBT(NBTTagCompound tag) {
-		getInventory().deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
+		NBTTagCompound invTag = tag.getCompoundTag(TAG_INVENTORY);
+		invTag.setInteger("Size", this.getSizeInventory());
+		getInventory().deserializeNBT(invTag);
 	}
 
 	/**
