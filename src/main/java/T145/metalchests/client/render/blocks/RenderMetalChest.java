@@ -172,10 +172,14 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		}
 	}
 
+	public void renderChest(IMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+		preRender(chest, x, y, z, destroyStage, alpha);
+		postRender(chest, x, y, z, destroyStage, partialTicks, alpha);
+	}
+
 	// allows normal chest rendering w/out a new tile instance
 	public void renderStatic(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
-		preRender(chest, x, y, z, destroyStage, alpha);
-		postRender(chest, x, y, z, destroyStage, 0.0F, alpha);
+		renderChest(chest, x, y, z, 0.0F, destroyStage, alpha);
 	}
 
 	protected boolean canRenderNameTag(TileMetalChest chest) {
