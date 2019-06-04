@@ -16,7 +16,6 @@
 package T145.metalchests.api.chests;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -158,6 +157,11 @@ public class ChestAnimator {
 		return (a > b) ? (a - b < max ? b : a - max) : (b - a < max ? b : a + max);
 	}
 
+	public void tick() {
+		prevLidAngle = lidAngle;
+		lidAngle = lerp(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
+	}
+
 	public void tick(BlockPos pos) {
 		if (provider.hasTileEntity()) {
 			World world = provider.getWorld();
@@ -167,8 +171,7 @@ public class ChestAnimator {
 			}
 		}
 
-		prevLidAngle = lidAngle;
-		lidAngle = lerp(lidAngle, numPlayersUsing > 0 ? 1.0F : 0.0F, 0.1F);
+		tick();
 	}
 
 	public boolean receiveClientEvent(int event, int data) {
