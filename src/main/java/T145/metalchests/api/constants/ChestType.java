@@ -82,19 +82,19 @@ public enum ChestType implements IStringSerializable {
 		}
 	}
 
-	public static final LinkedHashSet<ChestType> TIERS = new LinkedHashSet<>(ChestType.values().length + 1, 1);
-	private static final List<ChestType> TYPES = new ArrayList<>(TIERS);
+	public static final List<ChestType> TIERS = new ArrayList<>(ChestType.values().length);
+	private static final LinkedHashSet<ChestType> TYPES;
 
 	static {
-		for (int i = 0; i < ConfigMC.upgradePath.length; ++i) {
-			String typeName = ConfigMC.upgradePath[i];
-			ChestType type = ChestType.valueOf(typeName.toUpperCase());
+		for (String upgrade : ConfigMC.upgradePath) {
+			ChestType type = ChestType.valueOf(upgrade.toUpperCase());
 
 			if (type.hasOre()) {
-				TIERS.add(type); // for O(1) contains calls
-				TYPES.add(type);
+				TIERS.add(type);
 			}
 		}
+
+		TYPES = new LinkedHashSet<>(TIERS);
 	}
 
 	private final InventorySize invSize;
@@ -149,7 +149,7 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public boolean isRegistered() {
-		return hasOre() && TIERS.contains(this);
+		return hasOre() && TYPES.contains(this);
 	}
 
 	public boolean isLarge() {
@@ -185,8 +185,8 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static void registerRecipes(Object baseChest, Block metalChest, String postfix) {
-		for (short meta = 0; meta < TIERS.size(); ++meta) {
-			ChestType type = TYPES.get(meta);
+		for (short meta = 0; meta < TYPES.size(); ++meta) {
+			ChestType type = TIERS.get(meta);
 			ChestType trueType = ChestType.byOreName(type.getOreName());
 			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
 
@@ -194,7 +194,7 @@ public enum ChestType implements IStringSerializable {
 					result,
 					"aaa", "aba", "aaa",
 					'a', type.getOreName(),
-					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, TYPES.get(meta - 1).ordinal()));
+					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, TIERS.get(meta - 1).ordinal()));
 
 			// may want to register OreDictionary entries here
 		}
