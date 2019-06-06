@@ -18,15 +18,15 @@ package T145.metalchests.network.client;
 import java.io.IOException;
 
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.network.MessageBase;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.tbone.network.TMessage;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageSyncMetalChest extends MessageBase {
+public class MessageSyncMetalChest extends TMessage {
 
 	protected BlockPos pos;
 	protected boolean trapped;

@@ -19,7 +19,6 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.ItemsMC;
-import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ChestUpgrade;
@@ -27,6 +26,7 @@ import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.core.MetalChests;
 import T145.metalchests.items.ItemChestUpgrade;
+import T145.tbone.lib.ChestAnimator;
 import mods.railcraft.api.carts.IItemCart;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -52,23 +52,32 @@ import net.minecraftforge.items.ItemStackHandler;
 @Optional.Interface(modid = RegistryMC.ID_RAILCRAFT, iface = RegistryMC.IFACE_ITEM_CART, striprefs = true)
 public class EntityMinecartMetalChest extends EntityMinecart implements IMetalChest, IItemCart {
 
-	public ChestAnimator animator;
-
 	private static final DataParameter<ChestType> CHEST_TYPE = EntityDataManager.createKey(EntityMinecartMetalChest.class, MetalChests.CHEST_TYPE);
 	private static final DataParameter<Byte> ENCHANT_LEVEL = EntityDataManager.createKey(EntityMinecartMetalChest.class, DataSerializers.BYTE);
 	private final ItemStackHandler inventory = new ItemStackHandler(getChestType().getInventorySize());
+	private final ChestAnimator animator;
 
 	public EntityMinecartMetalChest(World world) {
 		super(world);
 		this.animator = new ChestAnimator(this);
 	}
 
-	public EntityMinecartMetalChest(World world, double x, double y, double z) {
-		super(world, x, y, z);
+	public EntityMinecartMetalChest(World world, ChestType type) {
+		this(world);
+		setChestType(type);
 	}
 
-	public EntityMinecartMetalChest(EntityMinecart cart) {
-		this(cart.getEntityWorld(), cart.prevPosX, cart.prevPosY, cart.prevPosZ);
+	public EntityMinecartMetalChest(World world, double x, double y, double z) {
+		super(world, x, y, z);
+		this.animator = new ChestAnimator(this);
+	}
+
+	public EntityMinecartMetalChest(World world, double x, double y, double z, ChestType type) {
+		this(world, x, y, z);
+		setChestType(type);
+	}
+
+	private void setCartData(EntityMinecart cart) {
 		this.posX = cart.posX;
 		this.posY = cart.posY;
 		this.posZ = cart.posZ;
@@ -77,6 +86,16 @@ public class EntityMinecartMetalChest extends EntityMinecart implements IMetalCh
 		this.motionZ = cart.motionZ;
 		this.rotationPitch = cart.rotationPitch;
 		this.rotationYaw = cart.rotationYaw;
+	}
+
+	public EntityMinecartMetalChest(EntityMinecart cart, ChestType type) {
+		this(cart.getEntityWorld(), cart.prevPosX, cart.prevPosY, cart.prevPosZ, type);
+		setCartData(cart);
+	}
+
+	public EntityMinecartMetalChest(EntityMinecart cart) {
+		this(cart.getEntityWorld(), cart.prevPosX, cart.prevPosY, cart.prevPosZ);
+		setCartData(cart);
 	}
 
 	@Override

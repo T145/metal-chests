@@ -20,11 +20,11 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.lib.ChestHandler;
+import T145.tbone.lib.ChestAnimator;
+import T145.tbone.lib.ChestHandler;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -72,7 +72,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	protected ChestHandler initInventory() {
-		return new ChestHandler(chestType);
+		return new ChestHandler(chestType.getInventorySize());
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	public void update() {
 		inventory.tick(world, pos, getBlockType());
-		animator.tick(pos);
+		animator.tickTileEntity(pos);
 	}
 
 	@Override

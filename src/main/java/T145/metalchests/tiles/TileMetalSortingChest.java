@@ -19,7 +19,7 @@ import javax.annotation.Nullable;
 
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.lib.ChestHandler;
+import T145.tbone.lib.ChestHandler;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.INameTaggable;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -48,7 +48,7 @@ public class TileMetalSortingChest extends TileMetalChest {
 
 	@Override
 	protected ChestHandler initInventory() {
-		return new ChestHandler(chestType) {
+		return new ChestHandler(chestType.getInventorySize()) {
 
 			@Override
 			protected void onContentsChanged(int slot) {

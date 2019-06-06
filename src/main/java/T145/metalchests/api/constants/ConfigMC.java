@@ -27,9 +27,6 @@ public class ConfigMC {
 
 	private ConfigMC() {}
 
-	@Config.Comment("Whether or not you want to recieve an in-game notification if an update is available.")
-	public static boolean checkForUpdates = true;
-
 	@Config.Comment("The upgrade path for metal chests. Recipes will update to reflect this.\n Current valid options are: { \"copper\", \"iron\", \"silver\", \"gold\", \"diamond\", \"obsidian\" }")
 	@Config.RequiresMcRestart
 	public static String[] upgradePath = new String[] { "copper", "iron", "silver", "gold", "diamond", "obsidian" };

@@ -22,6 +22,7 @@ import javax.annotation.Nullable;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
+import T145.tbone.items.TItemBlock;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
 import cofh.core.util.helpers.MathHelper;
@@ -30,7 +31,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -40,18 +40,10 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
 
 @Optional.Interface(modid = RegistryMC.ID_THERMALEXPANSION, iface = RegistryMC.IFACE_ENCHANTABLE_ITEM, striprefs = true)
-public class BlockModItem extends ItemBlock implements IEnchantableItem {
+public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem {
 
-	private final Class<? extends Enum<? extends IStringSerializable>> blockTypes;
-
-	public BlockModItem(Block block, Class<? extends Enum<? extends IStringSerializable>> blockTypes) {
-		super(block);
-		this.blockTypes = blockTypes;
-		setHasSubtypes(blockTypes != null);
-	}
-
-	public BlockModItem(Block block) {
-		this(block, null);
+	public BlockMetalChestItem(List<? extends IStringSerializable> types, Block block) {
+		super(types, block);
 	}
 
 	@Nullable
@@ -63,17 +55,6 @@ public class BlockModItem extends ItemBlock implements IEnchantableItem {
 	@Override
 	public int getMetadata(int meta) {
 		return meta;
-	}
-
-	@Override
-	public String getTranslationKey(ItemStack stack) {
-		StringBuilder name = new StringBuilder(super.getTranslationKey());
-
-		if (hasSubtypes) {
-			name.append('.').append(blockTypes.getEnumConstants()[stack.getMetadata()].name().toLowerCase());
-		}
-
-		return name.toString();
 	}
 
 	@Override

@@ -32,7 +32,7 @@ import T145.metalchests.api.constants.ChestUpgrade;
 import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockModItem;
+import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.entities.RenderBoatMetalChest;
@@ -47,11 +47,11 @@ import T145.metalchests.network.client.MessageSyncMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
+import T145.tbone.core.TBone;
+import T145.tbone.network.TPacketHandler;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.util.helpers.MathHelper;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -65,7 +65,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.network.PacketBuffer;
@@ -73,17 +72,13 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StringUtils;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
-import net.minecraft.util.datafix.walkers.ItemStackDataLists;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
@@ -91,7 +86,6 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -107,7 +101,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -124,7 +117,7 @@ public class MetalChests {
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 
 	public static final Logger LOG = LogManager.getLogger(RegistryMC.ID);
-
+	public static final TPacketHandler NETWORK = new PacketHandler();
 	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.ID) {
 
 		@Override
@@ -158,6 +151,10 @@ public class MetalChests {
 
 	@Instance(RegistryMC.ID)
 	public static MetalChests instance;
+
+	public MetalChests() {
+		TBone.registerMod(RegistryMC.ID, RegistryMC.NAME);
+	}
 
 	public static final DataSerializer<ChestType> CHEST_TYPE = new DataSerializer<ChestType>() {
 
@@ -202,15 +199,7 @@ public class MetalChests {
 		meta.url = "https://github.com/T145/metalchests";
 		meta.useDependencyInformation = false;
 		meta.version = VERSION;
-		PacketHandler.registerMessages();
-	}
-
-	private void registerFixes(DataFixer fixer, Class tileClass) {
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new ItemStackDataLists(tileClass, new String[] { "Items" }));
-	}
-
-	private void registerEntityFixes(DataFixer fixer, Class entityClass) {
-		fixer.registerWalker(FixTypes.ENTITY, new ItemStackDataLists(entityClass, new String[] { "Items" }));
+		NETWORK.registerMessages();
 	}
 
 	@EventHandler
@@ -219,16 +208,16 @@ public class MetalChests {
 
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
-		registerFixes(fixer, TileMetalChest.class);
+		TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalChest.class);
 		EntityMinecartContainer.addDataFixers(fixer, EntityMinecartMetalChest.class);
-		registerEntityFixes(fixer, EntityBoatMetalChest.class);
+		TBone.registerInventoryFixes(fixer, FixTypes.ENTITY, TileMetalChest.class);
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			registerFixes(fixer, TileMetalSortingChest.class);
+			TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingChest.class);
 		}
 
 		if (ConfigMC.hasThaumcraft() && ConfigMC.hasRefinedRelocation()) {
-			registerFixes(fixer, TileMetalHungrySortingChest.class);
+			TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalHungrySortingChest.class);
 		}
 	}
 
@@ -239,18 +228,6 @@ public class MetalChests {
 		});
 
 		UpgradeRegistry.registerChest(Blocks.TRAPPED_CHEST, BlocksMC.METAL_CHEST);
-	}
-
-	public static void registerTileEntity(Class tileClass) {
-		GameRegistry.registerTileEntity(tileClass, new ResourceLocation(RegistryMC.ID, tileClass.getSimpleName()));
-	}
-
-	public static void registerItemBlock(IForgeRegistry<Item> registry, Block block) {
-		registry.register(new ItemBlock(block).setRegistryName(block.getRegistryName()));
-	}
-
-	public static void registerItemBlock(IForgeRegistry<Item> registry, Block block, Class types) {
-		registry.register(new BlockModItem(block, types).setRegistryName(block.getRegistryName()));
 	}
 
 	@SubscribeEvent
@@ -265,15 +242,15 @@ public class MetalChests {
 		final IForgeRegistry<Block> registry = event.getRegistry();
 
 		registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
-		registerTileEntity(TileMetalChest.class);
+		TBone.registerTileEntity(TileMetalChest.class, RegistryMC.ID);
 	}
 
 	@SubscribeEvent
 	public static void metalchests$registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		registerItemBlock(registry, BlocksMC.METAL_CHEST, ChestType.class);
-		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
+		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_CHEST));
+		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade());
 
 		if (ConfigMC.enableMinecarts) {
 			registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
@@ -314,66 +291,21 @@ public class MetalChests {
 	}
 
 	@SideOnly(Side.CLIENT)
-	public static ModelResourceLocation getCustomModel(Item item, String customDomain, StringBuilder variantPath) {
-		if (StringUtils.isNullOrEmpty(customDomain)) {
-			return new ModelResourceLocation(item.getRegistryName(), variantPath.toString());
-		} else {
-			return new ModelResourceLocation(String.format("%s:%s", RegistryMC.ID, customDomain), variantPath.toString());
-		}
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Item item, String customDomain, int meta, String... variants) {
-		StringBuilder variantPath = new StringBuilder(variants[0]);
-
-		for (int i = 1; i < variants.length; ++i) {
-			variantPath.append(',').append(variants[i]);
-		}
-
-		ModelLoader.setCustomModelResourceLocation(item, meta, getCustomModel(item, customDomain, variantPath));
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Block block, String customDomain, int meta, String... variants) {
-		registerModel(Item.getItemFromBlock(block), customDomain, meta, variants);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Item item, int meta, String... variants) {
-		registerModel(item, null, meta, variants);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void registerModel(Block block, int meta, String... variants) {
-		registerModel(block, null, meta, variants);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static void registerTileRenderer(Class tileClass, TileEntitySpecialRenderer tileRenderer) {
-		ClientRegistry.bindTileEntitySpecialRenderer(tileClass, tileRenderer);
-	}
-
-	@SideOnly(Side.CLIENT)
-	public static String getVariantName(IStringSerializable variant) {
-		return String.format("variant=%s", variant.getName());
-	}
-
-	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void metalchests$registerModels(ModelRegistryEvent event) {
 		for (ChestType type : ChestType.values()) {
-			registerModel(BlocksMC.METAL_CHEST, type.ordinal(), getVariantName(type));
+			TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), TBone.getVariantName(type));
 
 			if (ConfigMC.enableMinecarts) {
-				registerModel(ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), String.format("item=%s_chest", type.getName()));
+				TBone.registerModel(RegistryMC.ID, ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), String.format("item=%s_chest", type.getName()));
 			}
 		}
 
-		registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
+		TBone.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 		for (int i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
 			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
-			registerModel(ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", i, String.format("item=%s", type.getName()));
+			TBone.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", i, String.format("item=%s", type.getName()));
 		}
 
 		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
@@ -499,7 +431,7 @@ public class MetalChests {
 					}
 					chest.setTrapped(true);
 				}
-				PacketHandler.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
+				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
 			}
 
 			if (hasGlowstone) {
@@ -511,7 +443,7 @@ public class MetalChests {
 					}
 					chest.setLuminous(true);
 				}
-				PacketHandler.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
+				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
 			}
 		}
 	}

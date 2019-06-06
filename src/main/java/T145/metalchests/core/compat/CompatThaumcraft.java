@@ -21,17 +21,18 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.chests.ChestAnimator;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ConfigMC;
 import T145.metalchests.api.constants.RegistryMC;
 import T145.metalchests.blocks.BlockMetalChest;
+import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.core.MetalChests;
 import T145.metalchests.tiles.TileMetalHungryChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
+import T145.tbone.core.TBone;
+import T145.tbone.lib.ChestAnimator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -130,7 +131,7 @@ class CompatThaumcraft {
 			}
 		});
 
-		MetalChests.registerTileEntity(TileMetalHungryChest.class);
+		TBone.registerTileEntity(TileMetalHungryChest.class, RegistryMC.ID);
 
 		if (ConfigMC.hasRefinedRelocation()) {
 			registry.register(BlocksMC.METAL_HUNGRY_SORTING_CHEST = new BlockMetalChest() {
@@ -151,7 +152,7 @@ class CompatThaumcraft {
 				}
 			});
 
-			MetalChests.registerTileEntity(TileMetalHungrySortingChest.class);
+			TBone.registerTileEntity(TileMetalHungrySortingChest.class, RegistryMC.ID);
 		}
 	}
 
@@ -160,10 +161,10 @@ class CompatThaumcraft {
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		MetalChests.registerItemBlock(registry, BlocksMC.METAL_HUNGRY_CHEST, ChestType.class);
+		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_HUNGRY_CHEST));
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			MetalChests.registerItemBlock(registry, BlocksMC.METAL_HUNGRY_SORTING_CHEST, ChestType.class);
+			registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_HUNGRY_SORTING_CHEST));
 		}
 	}
 
@@ -172,10 +173,10 @@ class CompatThaumcraft {
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
 		for (ChestType type : ChestType.values()) {
-			MetalChests.registerModel(BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), MetalChests.getVariantName(type));
+			TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type));
 		}
 
-		MetalChests.registerTileRenderer(TileMetalHungryChest.class, new RenderMetalChest() {
+		TBone.registerTileRenderer(TileMetalHungryChest.class, new RenderMetalChest() {
 
 			@Override
 			protected ResourceLocation getActiveResource(ChestType type) {

@@ -19,6 +19,9 @@ import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ChestUpgrade;
+import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.core.MetalChests;
+import T145.tbone.items.TItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -32,20 +35,16 @@ import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
-public class ItemChestUpgrade extends ItemMod {
+public class ItemChestUpgrade extends TItem {
 
-	public ItemChestUpgrade(ResourceLocation registryName) {
-		super(registryName, ChestUpgrade.TIERS.toArray());
+	public ItemChestUpgrade() {
+		super(ChestUpgrade.TIERS, RegistryMC.RESOURCE_CHEST_UPGRADE, MetalChests.TAB);
 		setMaxStackSize(1);
 	}
 
@@ -168,17 +167,5 @@ public class ItemChestUpgrade extends ItemMod {
 		player.world.playSound(null, player.getPosition(), SoundEvents.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 0.4F, 0.8F);
 
 		return EnumActionResult.SUCCESS;
-	}
-
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void prepareCreativeTab(NonNullList<ItemStack> items) {
-		for (int i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
-			ChestUpgrade upgrade = ChestUpgrade.byMetadata(i);
-
-			if (upgrade.isRegistered()) {
-				items.add(new ItemStack(this, 1, i));
-			}
-		}
 	}
 }
