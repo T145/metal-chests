@@ -13,25 +13,21 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.render.entities;
+package T145.metalchests.network;
 
-import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.entities.EntityMinecartMetalChest;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.entity.RenderMinecart;
+import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.network.client.MessageSyncMetalChest;
+import T145.tbone.network.TPacketHandler;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
-public class RenderMinecartMetalChest extends RenderMinecart<EntityMinecartMetalChest> {
+public class PacketHandlerMC extends TPacketHandler {
 
-	public RenderMinecartMetalChest(RenderManager manager) {
-		super(manager);
+	public PacketHandlerMC() {
+		super(RegistryMC.ID);
 	}
 
 	@Override
-	protected void renderCartContents(EntityMinecartMetalChest cart, float partialTicks, IBlockState state) {
-		RenderMetalChest.INSTANCE.renderStatic(cart, 0, 0, -1, -1, 1);
+	public void registerMessages() {
+		registerMessage(MessageSyncMetalChest.class, Side.CLIENT);
 	}
 }

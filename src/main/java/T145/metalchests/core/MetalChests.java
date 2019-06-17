@@ -23,9 +23,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.EntitiesMC;
 import T145.metalchests.api.ItemsMC;
-import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.constants.ChestType;
 import T145.metalchests.api.constants.ChestUpgrade;
@@ -35,31 +33,20 @@ import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.client.render.entities.RenderBoatMetalChest;
-import T145.metalchests.client.render.entities.RenderMinecartMetalChest;
-import T145.metalchests.entities.EntityBoatMetalChest;
-import T145.metalchests.entities.EntityMinecartMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
-import T145.metalchests.items.ItemMetalMinecart;
-import T145.metalchests.network.PacketHandler;
+import T145.metalchests.network.PacketHandlerMC;
 import T145.metalchests.network.client.MessageSyncMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
 import T145.tbone.core.TBone;
 import T145.tbone.network.TPacketHandler;
-import cofh.core.init.CoreEnchantments;
-import cofh.core.util.helpers.MathHelper;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityMinecartContainer;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -71,9 +58,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.math.BlockPos;
@@ -83,10 +68,8 @@ import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent.EntityInteract;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -100,8 +83,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -117,7 +98,7 @@ public class MetalChests {
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 
 	public static final Logger LOG = LogManager.getLogger(RegistryMC.ID);
-	public static final TPacketHandler NETWORK = new PacketHandler();
+	public static final TPacketHandler NETWORK = new PacketHandlerMC();
 	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.ID) {
 
 		@Override
@@ -141,10 +122,6 @@ public class MetalChests {
 
 			if (BlocksMC.METAL_HUNGRY_SORTING_CHEST != null) {
 				BlocksMC.METAL_HUNGRY_SORTING_CHEST.getSubBlocks(this, items);
-			}
-
-			if (ConfigMC.enableMinecarts) {
-				ItemsMC.MINECART_METAL_CHEST.getSubItems(this, items);
 			}
 		}
 	}.setBackgroundImageName("item_search.png");
@@ -209,7 +186,6 @@ public class MetalChests {
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
 		TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalChest.class);
-		EntityMinecartContainer.addDataFixers(fixer, EntityMinecartMetalChest.class);
 		TBone.registerInventoryFixes(fixer, FixTypes.ENTITY, TileMetalChest.class);
 
 		if (ConfigMC.hasRefinedRelocation()) {
@@ -251,10 +227,6 @@ public class MetalChests {
 
 		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_CHEST));
 		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade());
-
-		if (ConfigMC.enableMinecarts) {
-			registry.register(ItemsMC.MINECART_METAL_CHEST = new ItemMetalMinecart());
-		}
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -266,11 +238,6 @@ public class MetalChests {
 				ItemStack result = new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal());
 				OreDictionary.registerOre("chest", result);
 				OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), result);
-				GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_minecart_chest_%s", type.getName())), null,
-						new ItemStack(ItemsMC.MINECART_METAL_CHEST, 1, type.ordinal()),
-						"a", "b",
-						'a', new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal()),
-						'b', Items.MINECART);
 			}
 		}
 
@@ -280,14 +247,7 @@ public class MetalChests {
 	@SubscribeEvent
 	public static void metalchests$registerEntities(final RegistryEvent.Register<EntityEntry> event) {
 		final IForgeRegistry<EntityEntry> registry = event.getRegistry();
-
-		if (ConfigMC.enableMinecarts) {
-			registry.register(EntitiesMC.MINECART_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_MINECART_METAL_CHEST, 0).name(RegistryMC.KEY_MINECART_METAL_CHEST).entity(EntityMinecartMetalChest.class).tracker(80, 3, true).build());
-		}
-
-		if (ConfigMC.enableBoats) {
-			registry.register(EntitiesMC.BOAT_METAL_CHEST = EntityEntryBuilder.create().id(RegistryMC.KEY_BOAT_METAL_CHEST, 1).name(RegistryMC.KEY_BOAT_METAL_CHEST).entity(EntityBoatMetalChest.class).tracker(80, 3, true).build());
-		}
+		
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -295,10 +255,6 @@ public class MetalChests {
 	public static void metalchests$registerModels(ModelRegistryEvent event) {
 		for (ChestType type : ChestType.values()) {
 			TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), TBone.getVariantName(type));
-
-			if (ConfigMC.enableMinecarts) {
-				TBone.registerModel(RegistryMC.ID, ItemsMC.MINECART_METAL_CHEST, "item_minecart", type.ordinal(), String.format("item=%s_chest", type.getName()));
-			}
 		}
 
 		TBone.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
@@ -307,9 +263,6 @@ public class MetalChests {
 			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
 			TBone.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", i, String.format("item=%s", type.getName()));
 		}
-
-		RenderingRegistry.registerEntityRenderingHandler(EntityMinecartMetalChest.class, manager -> new RenderMinecartMetalChest(manager));
-		RenderingRegistry.registerEntityRenderingHandler(EntityBoatMetalChest.class, manager -> new RenderBoatMetalChest(manager));
 	}
 
 	@SubscribeEvent
@@ -330,72 +283,6 @@ public class MetalChests {
 				ocelot.tasks.removeTask(task.action);
 				ocelot.tasks.addTask(task.priority, new EntityAIOcelotSitOnChest(ocelot, 0.4F));
 			}
-		}
-	}
-
-	public static void createChestEntityFromInteraction(Entity target, IMetalChest chest, EntityInteract event) {
-		if (chest instanceof Entity && target.getPassengers().isEmpty()) {
-			EntityPlayer player = event.getEntityPlayer();
-			EnumHand hand = EnumHand.MAIN_HAND;
-			ItemStack stack = player.getHeldItemMainhand();
-			Item chestItem = Item.getItemFromBlock(BlocksMC.METAL_CHEST);
-			boolean hasChest = stack.getItem().equals(chestItem);
-
-			if (stack.isEmpty() || !hasChest) {
-				stack = player.getHeldItemOffhand();
-				hand = EnumHand.OFF_HAND;
-			}
-
-			if (!stack.isEmpty() && hasChest) {
-				player.swingArm(hand);
-
-				World world = event.getWorld();
-
-				if (!world.isRemote) {
-					chest.setChestType(ChestType.byMetadata(stack.getItemDamage()));
-
-					if (ConfigMC.hasThermalExpansion() && stack.getTagCompound() != null) {
-						chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
-
-						if (stack.getTagCompound().hasKey("Inventory")) {
-							chest.readFromNBT(stack.getTagCompound());
-						}
-					}
-
-					if (chest != null) {
-						target.setDead();
-						world.spawnEntity((Entity) chest);
-						event.setCanceled(true);
-
-						if (!player.capabilities.isCreativeMode) {
-							stack.shrink(1);
-
-							if (stack.getCount() <= 0) {
-								player.setHeldItem(hand, ItemStack.EMPTY);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	@SubscribeEvent
-	public static void metalchests$activateBoat(EntityInteract event) {
-		if (!ConfigMC.enableBoats) {
-			return;
-		}
-
-		Entity target = event.getTarget();
-
-		if (target instanceof EntityBoat) {
-			EntityBoat boat = (EntityBoat) target;
-
-			if (boat.getBoatType() == null) {
-				boat.setBoatType(EntityBoat.Type.OAK);
-			}
-
-			createChestEntityFromInteraction(target, new EntityBoatMetalChest(boat), event);
 		}
 	}
 
