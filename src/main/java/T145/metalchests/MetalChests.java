@@ -35,8 +35,8 @@ import T145.metalchests.client.gui.GuiHandler;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
-import T145.metalchests.network.PacketHandlerMC;
-import T145.metalchests.network.client.MessageSyncMetalChest;
+import T145.metalchests.net.PacketHandlerMC;
+import T145.metalchests.net.client.MessageSyncMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
@@ -82,7 +82,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -244,12 +243,6 @@ public class MetalChests {
 		ChestUpgrade.registerRecipes();
 	}
 
-	@SubscribeEvent
-	public static void metalchests$registerEntities(final RegistryEvent.Register<EntityEntry> event) {
-		final IForgeRegistry<EntityEntry> registry = event.getRegistry();
-		
-	}
-
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void metalchests$registerModels(ModelRegistryEvent event) {
@@ -318,7 +311,7 @@ public class MetalChests {
 					}
 					chest.setTrapped(true);
 				}
-				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
+				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest));
 			}
 
 			if (hasGlowstone) {
@@ -330,7 +323,7 @@ public class MetalChests {
 					}
 					chest.setLuminous(true);
 				}
-				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest), world, pos);
+				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest));
 			}
 		}
 	}

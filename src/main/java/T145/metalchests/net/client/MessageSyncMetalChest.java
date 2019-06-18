@@ -13,12 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.network.client;
+package T145.metalchests.net.client;
 
 import java.io.IOException;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
+import T145.tbone.api.network.IWorldPositionedMessage;
 import T145.tbone.network.TMessage;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
@@ -26,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageSyncMetalChest extends TMessage {
+public class MessageSyncMetalChest extends TMessage implements IWorldPositionedMessage {
 
 	protected BlockPos pos;
 	protected boolean trapped;
@@ -46,6 +47,16 @@ public class MessageSyncMetalChest extends TMessage {
 	public MessageSyncMetalChest(BlockPos pos, IMetalChest chest) {
 		this.pos = pos;
 		this.setChestData(chest);
+	}
+
+	@Override
+	public BlockPos getPos() {
+		return pos;
+	}
+
+	@Override
+	public World getWorld() {
+		return this.getClientWorld();
 	}
 
 	@Override

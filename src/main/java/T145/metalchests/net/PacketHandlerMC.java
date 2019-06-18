@@ -13,10 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.network;
+package T145.metalchests.net;
 
 import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.network.client.MessageSyncMetalChest;
+import T145.metalchests.net.client.MessageSyncMetalChest;
 import T145.tbone.network.TPacketHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
