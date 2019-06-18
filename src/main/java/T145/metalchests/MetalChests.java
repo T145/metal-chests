@@ -90,7 +90,7 @@ import net.minecraftforge.registries.DataSerializerEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
-dependencies = "after:chesttransporter;after:quark;after:thaumcraft;after:refinedrelocation")
+dependencies = "required-after:tbone;after:chesttransporter;after:quark;after:thaumcraft;after:refinedrelocation")
 @EventBusSubscriber(modid = RegistryMC.ID)
 public class MetalChests {
 
