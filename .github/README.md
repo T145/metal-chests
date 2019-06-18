@@ -93,11 +93,6 @@ To use any mod assets, you may contatct [myself](https://github.com/T145) or the
 
 <div align="center">
 
-**Patreon**: [patreon.com/user=152139](https://www.patreon.com/user?u=152139)
-</div>
-
-<div align="center">
-
 **Paypal**: *Check the top right of the [CurseForge page](https://minecraft.curseforge.com/projects/metalchests)!*
 </div>
 
