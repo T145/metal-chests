@@ -9,15 +9,20 @@ buildscript {
 }
 
 plugins {
+    id 'java'
     id 'de.undercouch.download' version '3.4.3'
     id 'com.palantir.git-version' version '0.11.0'
     //id 'com.matthewprenger.cursegradle' version '1.2.0'
 }
 
-apply plugin: 'java'
-apply plugin: 'idea'
 apply plugin: 'maven-publish'
 apply plugin: 'net.minecraftforge.gradle.forge'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+compileJava.sourceCompatibility = JavaVersion.VERSION_1_8
+compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
