@@ -35,7 +35,7 @@ import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.net.PacketHandlerMC;
-import T145.metalchests.net.client.MessageSyncMetalChest;
+import T145.metalchests.net.client.SyncMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
@@ -302,7 +302,7 @@ public class MetalChests {
 					}
 					chest.setTrapped(true);
 				}
-				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest));
+				NETWORK.sendToAllAround(new SyncMetalChest(pos, chest));
 			}
 
 			if (hasGlowstone) {
@@ -314,7 +314,7 @@ public class MetalChests {
 					}
 					chest.setLuminous(true);
 				}
-				NETWORK.sendToAllAround(new MessageSyncMetalChest(pos, chest));
+				NETWORK.sendToAllAround(new SyncMetalChest(pos, chest));
 			}
 		}
 	}

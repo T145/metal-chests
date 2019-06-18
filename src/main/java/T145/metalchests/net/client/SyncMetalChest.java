@@ -27,26 +27,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
-public class MessageSyncMetalChest extends TMessage implements IWorldPositionedMessage {
+public class SyncMetalChest extends TMessage implements IWorldPositionedMessage {
 
 	protected BlockPos pos;
 	protected boolean trapped;
 	protected boolean luminous;
 	protected byte enchantLevel;
 
-	public MessageSyncMetalChest() {
+	public SyncMetalChest() {
 		// DEFAULT CONSTRUCTOR REQUIRED
 	}
 
-	protected void setChestData(IMetalChest chest) {
+	public SyncMetalChest(BlockPos pos, IMetalChest chest) {
+		this.pos = pos;
 		this.trapped = chest.isTrapped();
 		this.luminous = chest.isLuminous();
 		this.enchantLevel = chest.getEnchantLevel();
-	}
-
-	public MessageSyncMetalChest(BlockPos pos, IMetalChest chest) {
-		this.pos = pos;
-		this.setChestData(chest);
 	}
 
 	@Override
@@ -75,12 +71,6 @@ public class MessageSyncMetalChest extends TMessage implements IWorldPositionedM
 		enchantLevel = buf.readByte();
 	}
 
-	protected void syncChestData(IMetalChest chest) {
-		chest.setTrapped(trapped);
-		chest.setLuminous(luminous);
-		chest.setEnchantLevel(enchantLevel);
-	}
-
 	@Override
 	public void process(MessageContext ctx) {
 		World world = getClientWorld();
@@ -89,7 +79,10 @@ public class MessageSyncMetalChest extends TMessage implements IWorldPositionedM
 			TileEntity te = world.getTileEntity(pos);
 
 			if (te instanceof TileMetalChest) {
-				this.syncChestData((TileMetalChest) te);
+				TileMetalChest chest = (TileMetalChest) te;
+				chest.setTrapped(trapped);
+				chest.setLuminous(luminous);
+				chest.setEnchantLevel(enchantLevel);
 			}
 		}
 	}

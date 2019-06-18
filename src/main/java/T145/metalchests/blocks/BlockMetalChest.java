@@ -126,7 +126,7 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
-		return Blocks.ENDER_CHEST.getBoundingBox(state, world, pos);
+		return Blocks.ENDER_CHEST.getDefaultState().getBoundingBox(world, pos);
 	}
 
 	@Nullable
@@ -400,7 +400,6 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	public boolean eventReceived(IBlockState state, World world, BlockPos pos, int id, int param) {
-		super.eventReceived(state, world, pos, id, param);
 		TileEntity te = world.getTileEntity(pos);
 		return te != null && te.receiveClientEvent(id, param);
 	}

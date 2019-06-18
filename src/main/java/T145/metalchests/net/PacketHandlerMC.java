@@ -16,7 +16,7 @@
 package T145.metalchests.net;
 
 import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.net.client.MessageSyncMetalChest;
+import T145.metalchests.net.client.SyncMetalChest;
 import T145.tbone.network.TPacketHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -28,6 +28,6 @@ public class PacketHandlerMC extends TPacketHandler {
 
 	@Override
 	public void registerMessages() {
-		registerMessage(MessageSyncMetalChest.class, Side.CLIENT);
+		registerMessage(SyncMetalChest.class, Side.CLIENT);
 	}
 }

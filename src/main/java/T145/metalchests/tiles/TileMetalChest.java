@@ -58,7 +58,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected byte enchantLevel;
 	protected boolean trapped;
 	protected boolean luminous;
-	private boolean updateComparator;
 
 	public TileMetalChest(ChestType chestType) {
 		super();

@@ -15,10 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
-import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.containers.ContainerMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -30,19 +28,8 @@ public class GuiHandler implements IGuiHandler {
 
 	@Override
 	public ContainerMetalChest getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		switch (ID) {
-		case 0:
-			TileMetalChest chest = (TileMetalChest) world.getTileEntity(new BlockPos(x, y, z));
-			return new ContainerMetalChest(chest, player);
-		default:
-			Entity entity = world.getEntityByID(ID);
-
-			if (entity instanceof IMetalChest) {
-				return new ContainerMetalChest((IMetalChest) entity, player);
-			}
-
-			return null;
-		}
+		TileMetalChest chest = (TileMetalChest) world.getTileEntity(new BlockPos(x, y, z));
+		return new ContainerMetalChest(chest, player);
 	}
 
 	@Override

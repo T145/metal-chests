@@ -70,7 +70,7 @@ public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem 
 		if (ConfigMC.hasThermalExpansion() && stack.hasTagCompound()) {
 			byte enchantLevel = (byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel());
 
-			if (!(enchantLevel > 0)) {
+			if (enchantLevel <= 0) {
 				return;
 			}
 
