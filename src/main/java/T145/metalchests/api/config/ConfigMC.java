@@ -35,14 +35,6 @@ public class ConfigMC {
 	@Config.Comment("Whether or not all metal chest model textures are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
 	public static boolean hollowModelTextures = false;
 
-	@Config.Comment("Whether or not you want to enable the Minecarts with Metal Chests.")
-	@Config.RequiresMcRestart
-	public static boolean enableMinecarts = true;
-
-	@Config.Comment("Whether or not you want to enable placing Metal Chests in boats.")
-	@Config.RequiresMcRestart
-	public static boolean enableBoats = true;
-
 	@Config.Comment("If Thaumcraft is installed, whether or not you want to enable the Metal Hungry Chests.")
 	@Config.RequiresMcRestart
 	public static boolean enableMetalHungryChests = true;
