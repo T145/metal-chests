@@ -17,11 +17,11 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
+import T145.metalchests.MetalChests;
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.ConfigMC;
-import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.core.MetalChests;
+import T145.metalchests.api.config.ConfigMC;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.tiles.TileMetalChest;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.util.helpers.MathHelper;

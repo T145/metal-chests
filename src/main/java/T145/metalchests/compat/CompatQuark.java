@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core.compat;
+package T145.metalchests.compat;
 
-import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.consts.RegistryMC;
+import T145.metalchests.api.obj.BlocksMC;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;

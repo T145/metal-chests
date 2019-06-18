@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core;
+package T145.metalchests;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -22,13 +22,13 @@ import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.ItemsMC;
 import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.ChestUpgrade;
-import T145.metalchests.api.constants.ConfigMC;
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.config.ConfigMC;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.ChestUpgrade;
+import T145.metalchests.api.consts.RegistryMC;
+import T145.metalchests.api.obj.BlocksMC;
+import T145.metalchests.api.obj.ItemsMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.gui.GuiHandler;

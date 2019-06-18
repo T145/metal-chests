@@ -13,14 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.constants;
+package T145.metalchests.api.consts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import T145.metalchests.api.BlocksMC;
+import T145.metalchests.api.config.ConfigMC;
+import T145.metalchests.api.obj.BlocksMC;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;

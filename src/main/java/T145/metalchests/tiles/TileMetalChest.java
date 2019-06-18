@@ -21,8 +21,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.RegistryMC;
 import T145.tbone.lib.ChestAnimator;
 import T145.tbone.lib.ChestHandler;
 import net.dries007.holoInventory.api.INamedItemHandler;

@@ -15,7 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.api.chests;
 
-import T145.metalchests.api.constants.ChestType;
+import T145.metalchests.api.consts.ChestType;
+import T145.tbone.api.IInventoryHandler;
 import T145.tbone.lib.ChestAnimator;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.util.EnumFacing;

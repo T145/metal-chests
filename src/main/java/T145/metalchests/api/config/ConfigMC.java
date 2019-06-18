@@ -13,11 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.constants;
+package T145.metalchests.api.config;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import T145.metalchests.api.consts.RegistryMC;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.fml.common.Loader;
 

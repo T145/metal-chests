@@ -17,10 +17,10 @@ package T145.metalchests.containers;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.chests.IInventoryHandler;
 import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.ChestType.GUI;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.ChestType.GUI;
+import T145.tbone.api.IInventoryHandler;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;

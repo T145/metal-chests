@@ -15,12 +15,12 @@
  ******************************************************************************/
 package T145.metalchests.items;
 
+import T145.metalchests.MetalChests;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.ChestUpgrade;
-import T145.metalchests.api.constants.RegistryMC;
-import T145.metalchests.core.MetalChests;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.ChestUpgrade;
+import T145.metalchests.api.consts.RegistryMC;
 import T145.tbone.items.TItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;

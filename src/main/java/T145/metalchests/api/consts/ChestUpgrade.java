@@ -13,14 +13,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.constants;
+package T145.metalchests.api.consts;
 
 import java.util.ArrayDeque;
 import java.util.LinkedList;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.ItemsMC;
+import T145.metalchests.api.obj.ItemsMC;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;

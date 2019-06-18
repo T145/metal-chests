@@ -13,19 +13,19 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core.compat;
+package T145.metalchests.compat;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import T145.metalchests.api.BlocksMC;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.ConfigMC;
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.config.ConfigMC;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.RegistryMC;
+import T145.metalchests.api.obj.BlocksMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;

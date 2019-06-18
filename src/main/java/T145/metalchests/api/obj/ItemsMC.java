@@ -13,9 +13,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api;
+package T145.metalchests.api.obj;
 
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.consts.RegistryMC;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 

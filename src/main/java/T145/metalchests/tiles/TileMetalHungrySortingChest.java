@@ -15,8 +15,8 @@
  ******************************************************************************/
 package T145.metalchests.tiles;
 
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.RegistryMC;
 
 public class TileMetalHungrySortingChest extends TileMetalSortingChest {
 

@@ -15,7 +15,7 @@
  ******************************************************************************/
 package T145.metalchests.network;
 
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.network.client.MessageSyncMetalChest;
 import T145.tbone.network.TPacketHandler;
 import net.minecraftforge.fml.relauncher.Side;

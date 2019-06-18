@@ -13,16 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.core.compat;
+package T145.metalchests.compat;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import T145.metalchests.api.BlocksMC;
-import T145.metalchests.api.constants.ChestType;
-import T145.metalchests.api.constants.ConfigMC;
-import T145.metalchests.api.constants.RegistryMC;
+import T145.metalchests.api.config.ConfigMC;
+import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.RegistryMC;
+import T145.metalchests.api.obj.BlocksMC;
 import cubex2.mods.chesttransporter.api.TransportableChest;
 import cubex2.mods.chesttransporter.chests.TransportableChestImpl;
 import cubex2.mods.chesttransporter.chests.TransportableChestOld;
