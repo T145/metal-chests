@@ -17,8 +17,12 @@ package T145.metalchests.api.consts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 
 import T145.metalchests.api.config.ConfigMC;
 import T145.metalchests.api.obj.BlocksMC;
@@ -84,7 +88,7 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static final List<ChestType> TIERS = new ArrayList<>(ChestType.values().length);
-	private static final LinkedHashSet<ChestType> TYPES;
+	private static final Set<ChestType> TYPES;
 
 	static {
 		for (String upgrade : ConfigMC.upgradePath) {
@@ -95,7 +99,7 @@ public enum ChestType implements IStringSerializable {
 			}
 		}
 
-		TYPES = new LinkedHashSet<>(TIERS);
+		TYPES = new HashSet<>(TIERS);
 	}
 
 	private final InventorySize invSize;
@@ -186,27 +190,25 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static void registerRecipes(Object baseChest, Block metalChest, String postfix) {
-		for (short meta = 0; meta < TYPES.size(); ++meta) {
+		for (short meta = 0; meta < TIERS.size(); ++meta) {
 			ChestType type = TIERS.get(meta);
 			ChestType trueType = ChestType.byOreName(type.getOreName());
 			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
+			String recipeName = String.format("chest%s%s", WordUtils.capitalize(type.getName()), postfix);
 
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_%s", type.getName(), postfix)), RegistryMC.RECIPE_GROUP,
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe%s", WordUtils.capitalize(recipeName))), RegistryMC.RECIPE_GROUP,
 					result,
 					"aaa", "aba", "aaa",
 					'a', type.getOreName(),
 					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, TIERS.get(meta - 1).ordinal()));
 
-			// may want to register OreDictionary entries here
+			OreDictionary.registerOre("chest", result);
+			OreDictionary.registerOre(recipeName, result);
 		}
 	}
 
-	public static void registerRecipes(Object baseChest, Block metalChest) {
-		registerRecipes(baseChest, metalChest, "chest");
-	}
-
 	public static void registerRecipes(Block metalChest) {
-		registerRecipes("chestWood", metalChest);
+		registerRecipes("chestWood", metalChest, StringUtils.EMPTY);
 	}
 
 	public static void registerRecipes() {

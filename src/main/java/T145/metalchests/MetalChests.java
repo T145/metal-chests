@@ -18,7 +18,6 @@ package T145.metalchests;
 import java.io.IOException;
 import java.util.HashSet;
 
-import org.apache.commons.lang3.text.WordUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -231,15 +230,6 @@ public class MetalChests {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void metalchests$registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		ChestType.registerRecipes();
-
-		for (ChestType type : ChestType.values()) {
-			if (type.isRegistered()) {
-				ItemStack result = new ItemStack(BlocksMC.METAL_CHEST, 1, type.ordinal());
-				OreDictionary.registerOre("chest", result);
-				OreDictionary.registerOre("chest" + WordUtils.capitalize(type.getName()), result);
-			}
-		}
-
 		ChestUpgrade.registerRecipes();
 	}
 

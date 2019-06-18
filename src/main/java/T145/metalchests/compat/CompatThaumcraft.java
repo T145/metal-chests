@@ -18,8 +18,6 @@ package T145.metalchests.compat;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.config.ConfigMC;
@@ -54,7 +52,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 import thaumcraft.api.blocks.BlocksTC;
 
@@ -188,23 +185,10 @@ class CompatThaumcraft {
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		ChestType.registerRecipes(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "hungry_chest");
+		ChestType.registerRecipes(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "Hungry");
 
-		for (ChestType type : ChestType.values()) {
-			if (type.isRegistered()) {
-				String capitalizedName = WordUtils.capitalize(type.getName());
-				ItemStack stack = new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal());
-
-				OreDictionary.registerOre("chest", stack);
-				OreDictionary.registerOre(String.format("chestHungry%s", capitalizedName), stack);
-
-				if (ConfigMC.hasRefinedRelocation()) {
-					stack = new ItemStack(BlocksMC.METAL_HUNGRY_SORTING_CHEST, 1, type.ordinal());
-
-					OreDictionary.registerOre("chest", stack);
-					OreDictionary.registerOre(String.format("chestSortingHungry%s", capitalizedName), stack);
-				}
-			}
+		if (ConfigMC.hasRefinedRelocation()) {
+			ChestType.registerRecipes(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, "SortingHungry");
 		}
 
 		UpgradeRegistry.registerChest(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);

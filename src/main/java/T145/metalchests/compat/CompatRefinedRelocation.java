@@ -57,7 +57,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
@@ -125,8 +124,8 @@ class CompatRefinedRelocation {
 		}
 	}
 
-	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String name) {
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_%s_sorting_%s", type.getName(), name)), null,
+	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String postfix) {
+		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipeChest%s%sAlt", WordUtils.capitalize(type.getName()), postfix)), null,
 				new ItemStack(metalChest, 1, type.ordinal()),
 				" a ", "bcb", " d ",
 				'a', Items.WRITABLE_BOOK,
@@ -139,16 +138,14 @@ class CompatRefinedRelocation {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		UpgradeRegistry.registerChest(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
+		ChestType.registerRecipes(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST, "Sorting");
 
 		for (ChestType type : ChestType.values()) {
 			if (type.isRegistered()) {
-				ItemStack stack = new ItemStack(BlocksMC.METAL_SORTING_CHEST, 1, type.ordinal());
-				OreDictionary.registerOre("chest", stack);
-				OreDictionary.registerOre(String.format("chestSorting%s", WordUtils.capitalize(type.getName())), stack);
-				registerSortingChestRecipe(BlocksMC.METAL_CHEST, BlocksMC.METAL_SORTING_CHEST, type, "chest");
+				registerSortingChestRecipe(BlocksMC.METAL_CHEST, BlocksMC.METAL_SORTING_CHEST, type, "Sorting");
 
 				if (ConfigMC.hasThaumcraft()) {
-					registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, type, "hungry_chest");
+					registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, type, "SortingHungry");
 				}
 			}
 		}
