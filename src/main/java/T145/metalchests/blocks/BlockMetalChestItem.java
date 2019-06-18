@@ -77,24 +77,26 @@ public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem 
 			ChestType chestType = ChestType.byMetadata(stack.getItemDamage());
 
 			if (enchantLevel >= chestType.getHoldingEnchantBound()) {
-				if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
-					tooltip.add(StringHelper.shiftForDetails());
-				}
-
-				if (!StringHelper.isShiftKeyDown()) {
-					return;
-				}
-
 				NBTTagCompound tag = stack.getTagCompound().getCompoundTag("Inventory");
 				NBTTagList tagList = tag.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 
-				for (int i = 0; i < tagList.tagCount(); i++) {
-					NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
-					int slot = itemTags.getInteger("Slot");
-					ItemStack slotStack = new ItemStack(itemTags);
+				if (tagList.tagCount() > 0) {
+					if (StringHelper.displayShiftForDetail && !StringHelper.isShiftKeyDown()) {
+						tooltip.add(StringHelper.shiftForDetails());
+					}
 
-					if (slot >= 0 && slot < chestType.getInventorySize()) {
-						tooltip.add(String.format("    %sx %s", itemTags.getInteger("Count"), slotStack.getDisplayName()));
+					if (!StringHelper.isShiftKeyDown()) {
+						return;
+					}
+
+					for (int i = 0; i < tagList.tagCount(); i++) {
+						NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
+						int slot = itemTags.getInteger("Slot");
+						ItemStack slotStack = new ItemStack(itemTags);
+
+						if (slot >= 0 && slot < chestType.getInventorySize()) {
+							tooltip.add(String.format("    %sx %s", itemTags.getInteger("Count"), slotStack.getDisplayName()));
+						}
 					}
 				}
 			} else {
