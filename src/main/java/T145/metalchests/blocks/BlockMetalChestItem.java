@@ -58,6 +58,14 @@ public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem 
 	}
 
 	@Override
+	public String getTranslationKey(ItemStack stack) {
+		if (hasSubtypes) {
+			return String.format("%s.%s", super.getTranslationKey(), ChestType.byMetadata(stack.getItemDamage()).getName());
+		}
+		return super.getTranslationKey(stack);
+	}
+
+	@Override
 	public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag flagIn) {
 		if (ConfigMC.hasThermalExpansion() && stack.hasTagCompound()) {
 			byte enchantLevel = (byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel());
