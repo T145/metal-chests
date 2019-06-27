@@ -33,6 +33,7 @@ public class ContainerMetalChest extends Container {
 
 	private final IInventoryHandler handler;
 	private final ChestType type;
+	private final int containerSlots;
 
 	public ContainerMetalChest(IInventoryHandler handler, EntityPlayer player, ChestType type) {
 		this.handler = handler;
@@ -57,6 +58,8 @@ public class ContainerMetalChest extends Container {
 		for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
 			this.addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, type.getGui().getSizeY() - 24));
 		}
+
+		this.containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
 	}
 
 	public ContainerMetalChest(IMetalChest chest, EntityPlayer player) {
@@ -91,8 +94,6 @@ public class ContainerMetalChest extends Container {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack slotStack = slot.getStack();
 			stack = slotStack.copy();
-
-			int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
 
 			if (index < containerSlots) {
 				if (!this.mergeItemStack(slotStack, containerSlots, inventorySlots.size(), true)) {

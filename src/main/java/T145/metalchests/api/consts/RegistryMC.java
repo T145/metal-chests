@@ -113,8 +113,8 @@ public class RegistryMC {
 	public static final String KEY_CHEST_UPGRADE = "chest_upgrade";
 	public static final String KEY_HUNGRY_CHEST_UPGRADE = "hungry_chest_upgrade";
 
-	public static final ResourceLocation RESOURCE_CHEST_UPGRADE = new ResourceLocation(ID, KEY_CHEST_UPGRADE);
-	public static final ResourceLocation RESOURCE_HUNGRY_CHEST_UPGRADE = new ResourceLocation(ID, KEY_HUNGRY_CHEST_UPGRADE);
+	public static final ResourceLocation RESOURCE_CHEST_UPGRADE = getResource(KEY_CHEST_UPGRADE);
+	public static final ResourceLocation RESOURCE_HUNGRY_CHEST_UPGRADE = getResource(KEY_HUNGRY_CHEST_UPGRADE);
 
 	public static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	public static final ResourceLocation OVERLAY_TRAP = getResource("textures/entity/chest/overlay/trap.png");
