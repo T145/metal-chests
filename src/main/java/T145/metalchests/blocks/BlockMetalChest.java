@@ -17,7 +17,6 @@ package T145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.MetalChests;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.config.ConfigMC;
 import T145.metalchests.api.consts.ChestType;
@@ -65,7 +64,7 @@ public class BlockMetalChest extends Block {
 		registerResource();
 		setDefaultState(blockState.getBaseState().withProperty(IMetalChest.VARIANT, ChestType.IRON));
 		setHardness(3F);
-		setCreativeTab(MetalChests.TAB);
+		setCreativeTab(RegistryMC.TAB);
 	}
 
 	protected void registerResource(ResourceLocation resource) {

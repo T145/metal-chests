@@ -118,11 +118,8 @@ public class TileMetalSortingChest extends TileMetalChest {
 	@Override
 	public void readFromNBT(NBTTagCompound compound) {
 		super.readFromNBT(compound);
-		inventory.deserializeNBT(compound.getCompoundTag("ItemHandler"));
 		sortingInventory.deserializeNBT(compound.getCompoundTag("SortingInventory"));
-
 		fixRootFilterTag(compound);
-
 		rootFilter.deserializeNBT(compound.getCompoundTag("RootFilter"));
 		nameTaggable.deserializeNBT(compound.getCompoundTag("NameTaggable"));
 		nameTaggable.setCustomName(compound.getString("CustomName"));
@@ -131,7 +128,6 @@ public class TileMetalSortingChest extends TileMetalChest {
 	@Override
 	public NBTTagCompound writeToNBT(NBTTagCompound compound) {
 		super.writeToNBT(compound);
-		compound.setTag("ItemHandler", inventory.serializeNBT());
 		compound.setTag("SortingInventory", sortingInventory.serializeNBT());
 		compound.setTag("RootFilter", rootFilter.serializeNBT());
 		compound.setTag("NameTaggable", nameTaggable.serializeNBT());

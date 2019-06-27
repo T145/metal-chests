@@ -17,6 +17,8 @@ package T145.metalchests.tiles;
 
 import T145.metalchests.api.consts.ChestType;
 import T145.metalchests.api.consts.RegistryMC;
+import T145.metalchests.api.obj.ItemsMC;
+import net.minecraft.item.Item;
 
 public class TileMetalHungryChest extends TileMetalChest {
 
@@ -26,6 +28,11 @@ public class TileMetalHungryChest extends TileMetalChest {
 
 	public TileMetalHungryChest() {
 		super();
+	}
+
+	@Override
+	public boolean canUpgradeUsing(Item upgrade) {
+		return upgrade == ItemsMC.HUNGRY_CHEST_UPGRADE;
 	}
 
 	@Override

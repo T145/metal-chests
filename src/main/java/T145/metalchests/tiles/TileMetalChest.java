@@ -23,11 +23,13 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.consts.ChestType;
 import T145.metalchests.api.consts.RegistryMC;
+import T145.metalchests.api.obj.ItemsMC;
 import T145.tbone.lib.ChestAnimator;
 import T145.tbone.lib.ChestHandler;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
@@ -129,20 +131,29 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		this.enchantLevel = enchantLevel;
 	}
 
+	@Override
 	public boolean isTrapped() {
 		return trapped;
 	}
 
+	@Override
 	public void setTrapped(boolean trapped) {
 		this.trapped = trapped;
 	}
 
+	@Override
 	public boolean isLuminous() {
 		return luminous;
 	}
 
+	@Override
 	public void setLuminous(boolean luminous) {
 		this.luminous = luminous;
+	}
+
+	@Override
+	public boolean canUpgradeUsing(Item upgrade) {
+		return upgrade == ItemsMC.CHEST_UPGRADE;
 	}
 
 	@Override

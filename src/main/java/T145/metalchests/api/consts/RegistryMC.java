@@ -15,7 +15,17 @@
  ******************************************************************************/
 package T145.metalchests.api.consts;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import T145.metalchests.api.obj.BlocksMC;
+import T145.metalchests.api.obj.ItemsMC;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class RegistryMC {
 
@@ -23,8 +33,46 @@ public class RegistryMC {
 
 	public static final String NAME = "MetalChests";
 	public static final String ID = "metalchests";
+	public static final Logger LOG = LogManager.getLogger(ID);
+	public static final ResourceLocation RECIPE_GROUP = new ResourceLocation(ID);
 
-	public static final ResourceLocation RECIPE_GROUP = new ResourceLocation(RegistryMC.ID);
+	public static ResourceLocation getResource(String path) {
+		return new ResourceLocation(ID, path);
+	}
+
+	public static final CreativeTabs TAB = new CreativeTabs(ID) {
+
+		@Override
+		public boolean hasSearchBar() {
+			return true;
+		}
+
+		@SideOnly(Side.CLIENT)
+		@Override
+		public ItemStack createIcon() {
+			return new ItemStack(BlocksMC.METAL_CHEST, 1, 1);
+		}
+
+		@SideOnly(Side.CLIENT)
+		@Override
+		public void displayAllRelevantItems(NonNullList<ItemStack> items) {
+			BlocksMC.METAL_CHEST.getSubBlocks(this, items);
+			ItemsMC.CHEST_UPGRADE.getSubItems(this, items);
+
+			if (BlocksMC.METAL_HUNGRY_CHEST != null) {
+				BlocksMC.METAL_HUNGRY_CHEST.getSubBlocks(this, items);
+				ItemsMC.HUNGRY_CHEST_UPGRADE.getSubItems(this, items);
+			}
+
+			if (BlocksMC.METAL_SORTING_CHEST != null) {
+				BlocksMC.METAL_SORTING_CHEST.getSubBlocks(this, items);
+			}
+
+			if (BlocksMC.METAL_HUNGRY_SORTING_CHEST != null) {
+				BlocksMC.METAL_HUNGRY_SORTING_CHEST.getSubBlocks(this, items);
+			}
+		}
+	}.setBackgroundImageName("item_search.png");
 
 	public static final String ID_INVTWEAKS = "invtweaks";
 	public static final String IFACE_CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
@@ -62,13 +110,9 @@ public class RegistryMC {
 
 	public static final String KEY_CHEST_UPGRADE = "chest_upgrade";
 	public static final String KEY_HUNGRY_CHEST_UPGRADE = "hungry_chest_upgrade";
-	public static final String KEY_MINECART_METAL_CHEST = "minecart_metal_chest";
-	public static final String KEY_BOAT_METAL_CHEST = "boat_metal_chest";
 
 	public static final ResourceLocation RESOURCE_CHEST_UPGRADE = new ResourceLocation(ID, KEY_CHEST_UPGRADE);
 	public static final ResourceLocation RESOURCE_HUNGRY_CHEST_UPGRADE = new ResourceLocation(ID, KEY_HUNGRY_CHEST_UPGRADE);
-	public static final ResourceLocation RESOURCE_MINECART_METAL_CHEST = new ResourceLocation(ID, KEY_MINECART_METAL_CHEST);
-	public static final ResourceLocation RESOURCE_BOAT_CHEST = new ResourceLocation(ID, KEY_BOAT_METAL_CHEST);
 
 	public static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	public static final ResourceLocation OVERLAY_TRAP = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/trap.png");

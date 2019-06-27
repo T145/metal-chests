@@ -18,15 +18,20 @@ package T145.metalchests.compat;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.config.ConfigMC;
 import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.ChestUpgrade;
 import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.api.obj.BlocksMC;
+import T145.metalchests.api.obj.ItemsMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
+import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileMetalHungryChest;
 import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.tbone.core.TBone;
@@ -53,7 +58,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
+import thaumcraft.api.crafting.CrucibleRecipe;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatThaumcraft {
@@ -163,6 +172,8 @@ class CompatThaumcraft {
 		if (ConfigMC.hasRefinedRelocation()) {
 			registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_HUNGRY_SORTING_CHEST));
 		}
+
+		registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE));
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
@@ -171,6 +182,11 @@ class CompatThaumcraft {
 	public static void registerModels(ModelRegistryEvent event) {
 		for (ChestType type : ChestType.values()) {
 			TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type));
+		}
+
+		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
+			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
+			TBone.registerModel(RegistryMC.ID, ItemsMC.HUNGRY_CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_HUNGRY_CHEST_UPGRADE), i, String.format("item=%s", type.getName()));
 		}
 
 		TBone.registerTileRenderer(TileMetalHungryChest.class, new RenderMetalChest() {
@@ -182,15 +198,28 @@ class CompatThaumcraft {
 		});
 	}
 
+	private static void registerUpgradeRecipes(Item upgrade, Object base, String postfix) {
+		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
+			ChestUpgrade type = ChestUpgrade.byMetadata(i);
+			String recipeName = String.format("upgrade%s%s", WordUtils.capitalize(type.getName()), postfix);
+
+			ThaumcraftApi.addCrucibleRecipe(
+					RegistryMC.getResource(recipeName),
+					new CrucibleRecipe(recipeName.toUpperCase(),
+							new ItemStack(upgrade, 1, i),
+							new ItemStack(ItemsMC.CHEST_UPGRADE, 1, i), new AspectList().merge(Aspect.EARTH, 1).merge(Aspect.WATER, 1)));
+		}
+	}
+
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		ChestType.registerRecipes(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "Hungry");
+		registerUpgradeRecipes(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.plankGreatwood, "Hungry");
+		UpgradeRegistry.register(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
 
 		if (ConfigMC.hasRefinedRelocation()) {
 			ChestType.registerRecipes(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, "SortingHungry");
 		}
-
-		UpgradeRegistry.registerChest(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
 	}
 }

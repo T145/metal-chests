@@ -19,6 +19,7 @@ import T145.metalchests.api.consts.ChestType;
 import T145.tbone.api.IInventoryHandler;
 import T145.tbone.lib.ChestAnimator;
 import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
 
@@ -52,6 +53,8 @@ public interface IMetalChest extends IInventoryHandler {
 	byte getEnchantLevel();
 
 	void setEnchantLevel(byte enchantLevel);
+
+	boolean canUpgradeUsing(Item upgrade);
 
 	default void setInventory(IItemHandler inv) {
 		for (int slot = 0; slot < inv.getSlots(); ++slot) {

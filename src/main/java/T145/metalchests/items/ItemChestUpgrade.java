@@ -15,7 +15,6 @@
  ******************************************************************************/
 package T145.metalchests.items;
 
-import T145.metalchests.MetalChests;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.consts.ChestType;
@@ -35,6 +34,7 @@ import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -43,8 +43,8 @@ import net.minecraftforge.items.IItemHandler;
 
 public class ItemChestUpgrade extends TItem {
 
-	public ItemChestUpgrade() {
-		super(ChestUpgrade.TIERS, RegistryMC.RESOURCE_CHEST_UPGRADE, MetalChests.TAB);
+	public ItemChestUpgrade(ResourceLocation resource) {
+		super(ChestUpgrade.TIERS, resource, RegistryMC.TAB);
 		setMaxStackSize(1);
 	}
 
@@ -52,12 +52,12 @@ public class ItemChestUpgrade extends TItem {
 		if (te instanceof IMetalChest) {
 			IMetalChest chest = (IMetalChest) te;
 
-			if (chest.getChestType() != base || chest.getChestAnimator().isOpen()) {
+			if (chest.getChestType() != base || chest.getChestAnimator().isOpen() || !chest.canUpgradeUsing(this)) {
 				return false;
 			}
 
 			return true;
-		} else if (UpgradeRegistry.hasChest(te.getBlockType())) {
+		} else if (UpgradeRegistry.hasMetalChest(this, te.getBlockType())) {
 			te.updateContainingBlockInfo();
 
 			if (te instanceof TileEntityChest) {
@@ -123,7 +123,7 @@ public class ItemChestUpgrade extends TItem {
 			boolean trapped = world.getBlockState(pos).canProvidePower();
 			EnumFacing front = getBlockFront(player, world, pos);
 			IItemHandler inv = getChestInventory(te, front);
-			block = UpgradeRegistry.getDestTile(block);
+			block = UpgradeRegistry.getMetalChest(this, block);
 			IBlockState state = createBlockState(block, upgrade);
 
 			world.removeTileEntity(pos);

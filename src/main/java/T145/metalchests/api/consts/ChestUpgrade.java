@@ -20,7 +20,11 @@ import java.util.LinkedList;
 
 import javax.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
+
 import T145.metalchests.api.obj.ItemsMC;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
@@ -63,11 +67,8 @@ public class ChestUpgrade implements IStringSerializable {
 
 	@Override
 	public String getName() {
-		if (base == null) {
-			return String.format("wood_%s", upgrade.getName());
-		} else {
-			return String.format("%s_%s", base.getName(), upgrade.getName());
-		}
+		String upgradeName = WordUtils.capitalize(upgrade.getName());
+		return base == null ? String.format("wood%s", upgradeName) : String.format("%s%s", base.getName(), upgradeName);
 	}
 
 	public boolean isForWood() {
@@ -82,7 +83,7 @@ public class ChestUpgrade implements IStringSerializable {
 		return TIERS.get(meta);
 	}
 
-	private static Object getBaseIngredient(Object base, short meta) {
+	public static Object getBaseIngredient(Item upgrade, Object base, short meta) {
 		ChestUpgrade curr = ChestUpgrade.byMetadata(meta);
 
 		if (curr.isForWood()) {
@@ -90,31 +91,32 @@ public class ChestUpgrade implements IStringSerializable {
 				return base;
 			}
 
-			return new ItemStack(ItemsMC.CHEST_UPGRADE, 1, meta - 1);
+			return new ItemStack(upgrade, 1, meta - 1);
 		} else {
 			ChestUpgrade prior = ChestUpgrade.byMetadata(meta - 1);
 
 			if (prior.getBase() == curr.getBase()) {
-				return new ItemStack(ItemsMC.CHEST_UPGRADE, 1, meta - 1);
+				return new ItemStack(upgrade, 1, meta - 1);
 			} else {
 				return curr.getBase().getOreName();
 			}
 		}
 	}
 
-	public static void registerRecipes(Object base) {
+	public static void registerRecipes(Item upgrade, Object base, String postfix) {
 		for (short i = 0; i < TIERS.size(); ++i) {
 			ChestUpgrade type = ChestUpgrade.byMetadata(i);
+			String recipeName = String.format("upgrade%s%s", WordUtils.capitalize(type.getName()), postfix);
 
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe_chest_upgrade_%s", type.getName())), RegistryMC.RECIPE_GROUP,
-					new ItemStack(ItemsMC.CHEST_UPGRADE, 1, i),
+			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe%s", WordUtils.capitalize(recipeName))), RegistryMC.RECIPE_GROUP,
+					new ItemStack(upgrade, 1, i),
 					"aaa", "aaa", "baa",
 					'a', type.getUpgrade().getOreName(),
-					'b', getBaseIngredient(base, i));
+					'b', getBaseIngredient(upgrade, base, i));
 		}
 	}
 
 	public static void registerRecipes() {
-		registerRecipes("plankWood");
+		registerRecipes(ItemsMC.CHEST_UPGRADE, "plankWood", StringUtils.EMPTY);
 	}
 }

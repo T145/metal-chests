@@ -25,6 +25,7 @@ import T145.metalchests.api.config.ConfigMC;
 import T145.metalchests.api.consts.ChestType;
 import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.api.obj.BlocksMC;
+import T145.metalchests.api.obj.ItemsMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
@@ -137,7 +138,7 @@ class CompatRefinedRelocation {
 	@Optional.Method(modid = RegistryMC.ID_RR2)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		UpgradeRegistry.registerChest(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
+		UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
 		ChestType.registerRecipes(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST, "Sorting");
 
 		for (ChestType type : ChestType.values()) {

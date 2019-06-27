@@ -18,9 +18,6 @@ package T145.metalchests;
 import java.io.IOException;
 import java.util.HashSet;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.config.ConfigMC;
 import T145.metalchests.api.consts.ChestType;
@@ -42,7 +39,6 @@ import T145.metalchests.tiles.TileMetalSortingChest;
 import T145.tbone.core.TBone;
 import T145.tbone.network.TPacketHandler;
 import net.minecraft.block.Block;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -56,7 +52,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.math.BlockPos;
@@ -94,34 +89,7 @@ public class MetalChests {
 	static final String VERSION = "@VERSION@";
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 
-	public static final Logger LOG = LogManager.getLogger(RegistryMC.ID);
 	public static final TPacketHandler NETWORK = new PacketHandlerMC();
-	public static final CreativeTabs TAB = new CreativeTabs(RegistryMC.ID) {
-
-		@Override
-		@SideOnly(Side.CLIENT)
-		public ItemStack createIcon() {
-			return new ItemStack(BlocksMC.METAL_CHEST, 1, 1);
-		}
-
-		@SideOnly(Side.CLIENT)
-		public void displayAllRelevantItems(NonNullList<ItemStack> items) {
-			BlocksMC.METAL_CHEST.getSubBlocks(this, items);
-			ItemsMC.CHEST_UPGRADE.getSubItems(this, items);
-
-			if (BlocksMC.METAL_HUNGRY_CHEST != null) {
-				BlocksMC.METAL_HUNGRY_CHEST.getSubBlocks(this, items);
-			}
-
-			if (BlocksMC.METAL_SORTING_CHEST != null) {
-				BlocksMC.METAL_SORTING_CHEST.getSubBlocks(this, items);
-			}
-
-			if (BlocksMC.METAL_HUNGRY_SORTING_CHEST != null) {
-				BlocksMC.METAL_HUNGRY_SORTING_CHEST.getSubBlocks(this, items);
-			}
-		}
-	}.setBackgroundImageName("item_search.png");
 
 	@Instance(RegistryMC.ID)
 	public static MetalChests instance;
@@ -197,11 +165,11 @@ public class MetalChests {
 	@EventHandler
 	public void metalchests$postInit(FMLPostInitializationEvent event) {
 		OreDictionary.getOres("chestWood").forEach(stack -> {
-			UpgradeRegistry.registerChest(Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
+			UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
 		});
 
 		OreDictionary.getOres("chestTrapped").forEach(stack -> {
-			UpgradeRegistry.registerChest(Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
+			UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
 		});
 	}
 
@@ -225,7 +193,7 @@ public class MetalChests {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
 		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_CHEST));
-		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade());
+		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
 	}
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -243,9 +211,9 @@ public class MetalChests {
 
 		TBone.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
-		for (int i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
+		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
 			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
-			TBone.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, "item_chest_upgrade", i, String.format("item=%s", type.getName()));
+			TBone.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_CHEST_UPGRADE), i, String.format("item=%s", type.getName()));
 		}
 	}
 
