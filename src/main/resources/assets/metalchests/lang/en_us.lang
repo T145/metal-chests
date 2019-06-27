@@ -24,12 +24,12 @@ tile.metalchests:metal_hungry_chest.gold.name=Gold Hungry Chest
 tile.metalchests:metal_hungry_chest.diamond.name=Diamond Hungry Chest
 tile.metalchests:metal_hungry_chest.obsidian.name=Obsidian Hungry Chest
 
-tile.metalchests:metal_hungry_sorting_chest.copper.name=Copper Hungry Sorting Chest
-tile.metalchests:metal_hungry_sorting_chest.iron.name=Iron Hungry Sorting Chest
-tile.metalchests:metal_hungry_sorting_chest.silver.name=Silver Hungry Sorting Chest
-tile.metalchests:metal_hungry_sorting_chest.gold.name=Gold Hungry Sorting Chest
-tile.metalchests:metal_hungry_sorting_chest.diamond.name=Diamond Hungry Sorting Chest
-tile.metalchests:metal_hungry_sorting_chest.obsidian.name=Obsidian Hungry Sorting Chest
+tile.metalchests:metal_sorting_hungry_chest.copper.name=Copper Sorting Hungry Chest
+tile.metalchests:metal_sorting_hungry_chest.iron.name=Iron Sorting Hungry Chest
+tile.metalchests:metal_sorting_hungry_chest.silver.name=Silver Sorting Hungry Chest
+tile.metalchests:metal_sorting_hungry_chest.gold.name=Gold Sorting Hungry Chest
+tile.metalchests:metal_sorting_hungry_chest.diamond.name=Diamond Sorting Hungry Chest
+tile.metalchests:metal_sorting_hungry_chest.obsidian.name=Obsidian Sorting Hungry Chest
 
 ===
 
@@ -38,7 +38,7 @@ item.metalchests:chest_upgrade.woodIron.name=Wood to Iron Chest Upgrade
 item.metalchests:chest_upgrade.woodSilver.name=Wood to Silver Chest Upgrade
 item.metalchests:chest_upgrade.woodGold.name=Wood to Gold Chest Upgrade
 item.metalchests:chest_upgrade.woodDiamond.name=Wood to Diamond Chest Upgrade
-item.metalchests:chest_upgrade.woodDbsidian.name=Wood to Obsidian Chest Upgrade
+item.metalchests:chest_upgrade.woodObsidian.name=Wood to Obsidian Chest Upgrade
 
 item.metalchests:chest_upgrade.copperIron.name=Copper to Iron Chest Upgrade
 item.metalchests:chest_upgrade.copperSilver.name=Copper to Silver Chest Upgrade

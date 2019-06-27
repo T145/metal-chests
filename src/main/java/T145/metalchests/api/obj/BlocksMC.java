@@ -33,6 +33,6 @@ public class BlocksMC {
 	@ObjectHolder(RegistryMC.KEY_METAL_SORTING_CHEST)
 	public static Block METAL_SORTING_CHEST;
 
-	@ObjectHolder(RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST)
-	public static Block METAL_HUNGRY_SORTING_CHEST;
+	@ObjectHolder(RegistryMC.KEY_METAL_SORTING_HUNGRY_CHEST)
+	public static Block METAL_SORTING_HUNGRY_CHEST;
 }

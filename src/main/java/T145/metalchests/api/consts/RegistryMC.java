@@ -57,19 +57,21 @@ public class RegistryMC {
 		@Override
 		public void displayAllRelevantItems(NonNullList<ItemStack> items) {
 			BlocksMC.METAL_CHEST.getSubBlocks(this, items);
-			ItemsMC.CHEST_UPGRADE.getSubItems(this, items);
-
-			if (BlocksMC.METAL_HUNGRY_CHEST != null) {
-				BlocksMC.METAL_HUNGRY_CHEST.getSubBlocks(this, items);
-				ItemsMC.HUNGRY_CHEST_UPGRADE.getSubItems(this, items);
-			}
 
 			if (BlocksMC.METAL_SORTING_CHEST != null) {
 				BlocksMC.METAL_SORTING_CHEST.getSubBlocks(this, items);
 			}
 
-			if (BlocksMC.METAL_HUNGRY_SORTING_CHEST != null) {
-				BlocksMC.METAL_HUNGRY_SORTING_CHEST.getSubBlocks(this, items);
+			ItemsMC.CHEST_UPGRADE.getSubItems(this, items);
+
+			if (BlocksMC.METAL_HUNGRY_CHEST != null) {
+				BlocksMC.METAL_HUNGRY_CHEST.getSubBlocks(this, items);
+
+				if (BlocksMC.METAL_SORTING_HUNGRY_CHEST != null) {
+					BlocksMC.METAL_SORTING_HUNGRY_CHEST.getSubBlocks(this, items);
+				}
+
+				ItemsMC.HUNGRY_CHEST_UPGRADE.getSubItems(this, items);
 			}
 		}
 	}.setBackgroundImageName("item_search.png");
@@ -101,12 +103,12 @@ public class RegistryMC {
 	public static final String KEY_METAL_CHEST = "metal_chest";
 	public static final String KEY_METAL_HUNGRY_CHEST = "metal_hungry_chest";
 	public static final String KEY_METAL_SORTING_CHEST = "metal_sorting_chest";
-	public static final String KEY_METAL_HUNGRY_SORTING_CHEST = "metal_hungry_sorting_chest";
+	public static final String KEY_METAL_SORTING_HUNGRY_CHEST = "metal_sorting_hungry_chest";
 
-	public static final ResourceLocation RESOURCE_METAL_CHEST = new ResourceLocation(ID, KEY_METAL_CHEST);
-	public static final ResourceLocation RESOURCE_METAL_HUNGRY_CHEST = new ResourceLocation(ID, KEY_METAL_HUNGRY_CHEST);
-	public static final ResourceLocation RESOURCE_METAL_SORTING_CHEST = new ResourceLocation(ID, KEY_METAL_SORTING_CHEST);
-	public static final ResourceLocation RESOURCE_METAL_HUNGRY_SORTING_CHEST = new ResourceLocation(ID, KEY_METAL_HUNGRY_SORTING_CHEST);
+	public static final ResourceLocation RESOURCE_METAL_CHEST = getResource(KEY_METAL_CHEST);
+	public static final ResourceLocation RESOURCE_METAL_HUNGRY_CHEST = getResource(KEY_METAL_HUNGRY_CHEST);
+	public static final ResourceLocation RESOURCE_METAL_SORTING_CHEST = getResource(KEY_METAL_SORTING_CHEST);
+	public static final ResourceLocation RESOURCE_METAL_SORTING_HUNGRY_CHEST = getResource(KEY_METAL_SORTING_HUNGRY_CHEST);
 
 	public static final String KEY_CHEST_UPGRADE = "chest_upgrade";
 	public static final String KEY_HUNGRY_CHEST_UPGRADE = "hungry_chest_upgrade";
@@ -115,6 +117,6 @@ public class RegistryMC {
 	public static final ResourceLocation RESOURCE_HUNGRY_CHEST_UPGRADE = new ResourceLocation(ID, KEY_HUNGRY_CHEST_UPGRADE);
 
 	public static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-	public static final ResourceLocation OVERLAY_TRAP = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/trap.png");
-	public static final ResourceLocation OVERLAY_GLOW = new ResourceLocation(RegistryMC.ID, "textures/entity/chest/overlay/glow.png");
+	public static final ResourceLocation OVERLAY_TRAP = getResource("textures/entity/chest/overlay/trap.png");
+	public static final ResourceLocation OVERLAY_GLOW = getResource("textures/entity/chest/overlay/glow.png");
 }

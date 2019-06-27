@@ -31,8 +31,8 @@ import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalHungryChest;
-import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
+import T145.metalchests.tiles.TileMetalSortingHungryChest;
 import T145.tbone.core.TBone;
 import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.blay09.mods.refinedrelocation.item.ItemSortingUpgrade;
@@ -104,25 +104,6 @@ class CompatRefinedRelocation {
 		}
 
 		TBone.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
-
-		if (ConfigMC.hasThaumcraft()) {
-			for (ChestType type : ChestType.values()) {
-				TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_HUNGRY_SORTING_CHEST, type.ordinal(), TBone.getVariantName(type));
-			}
-
-			TBone.registerTileRenderer(TileMetalHungrySortingChest.class, new RenderMetalSortingChest() {
-
-				@Override
-				protected ResourceLocation getActiveResource(ChestType type) {
-					return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
-				}
-
-				@Override
-				protected ResourceLocation getActiveOverlay(ChestType type) {
-					return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/overlay/sorting_%s.png", type.getName()));
-				}
-			});
-		}
 	}
 
 	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String postfix) {
@@ -146,7 +127,7 @@ class CompatRefinedRelocation {
 				registerSortingChestRecipe(BlocksMC.METAL_CHEST, BlocksMC.METAL_SORTING_CHEST, type, "Sorting");
 
 				if (ConfigMC.hasThaumcraft()) {
-					registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, type, "SortingHungry");
+					registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type, "SortingHungry");
 				}
 			}
 		}
@@ -175,8 +156,8 @@ class CompatRefinedRelocation {
 			te.updateContainingBlockInfo();
 
 			TileMetalChest oldChest = (TileMetalChest) te;
-			TileMetalChest newChest = te instanceof TileMetalHungryChest ? new TileMetalHungrySortingChest(oldChest.getChestType()) : new TileMetalSortingChest(oldChest.getChestType());
-			Block chestBlock = newChest instanceof TileMetalHungrySortingChest ? BlocksMC.METAL_HUNGRY_SORTING_CHEST : BlocksMC.METAL_SORTING_CHEST;
+			TileMetalChest newChest = te instanceof TileMetalHungryChest ? new TileMetalSortingHungryChest(oldChest.getChestType()) : new TileMetalSortingChest(oldChest.getChestType());
+			Block chestBlock = newChest instanceof TileMetalSortingHungryChest ? BlocksMC.METAL_SORTING_HUNGRY_CHEST : BlocksMC.METAL_SORTING_CHEST;
 
 			world.removeTileEntity(pos);
 			world.setBlockToAir(pos);

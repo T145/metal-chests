@@ -20,13 +20,13 @@ import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.api.obj.ItemsMC;
 import net.minecraft.item.Item;
 
-public class TileMetalHungrySortingChest extends TileMetalSortingChest {
+public class TileMetalSortingHungryChest extends TileMetalSortingChest {
 
-	public TileMetalHungrySortingChest(ChestType chestType) {
+	public TileMetalSortingHungryChest(ChestType chestType) {
 		super(chestType);
 	}
 
-	public TileMetalHungrySortingChest() {
+	public TileMetalSortingHungryChest() {
 		super();
 	}
 
@@ -37,6 +37,6 @@ public class TileMetalHungrySortingChest extends TileMetalSortingChest {
 
 	@Override
 	public String getTranslationKey() {
-		return String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST, chestType.getName());
+		return String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_SORTING_HUNGRY_CHEST, chestType.getName());
 	}
 }

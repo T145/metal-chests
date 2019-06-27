@@ -112,7 +112,7 @@ class CompatChestTransporter {
 			registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_SORTING_CHEST, RegistryMC.KEY_METAL_SORTING_CHEST));
 
 			if (ConfigMC.hasThaumcraft()) {
-				registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_HUNGRY_SORTING_CHEST, "hungry/", RegistryMC.KEY_METAL_HUNGRY_SORTING_CHEST));
+				registry.register(new TransportableMetalChestImpl(BlocksMC.METAL_SORTING_HUNGRY_CHEST, "hungry/", RegistryMC.KEY_METAL_SORTING_HUNGRY_CHEST));
 			}
 		}
 	}

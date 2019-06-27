@@ -34,8 +34,8 @@ import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.net.PacketHandlerMC;
 import T145.metalchests.net.client.SyncMetalChest;
 import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileMetalHungrySortingChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
+import T145.metalchests.tiles.TileMetalSortingHungryChest;
 import T145.tbone.core.TBone;
 import T145.tbone.network.TPacketHandler;
 import net.minecraft.block.Block;
@@ -158,7 +158,7 @@ public class MetalChests {
 		}
 
 		if (ConfigMC.hasThaumcraft() && ConfigMC.hasRefinedRelocation()) {
-			TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalHungrySortingChest.class);
+			TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingHungryChest.class);
 		}
 	}
 

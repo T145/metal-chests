@@ -31,9 +31,10 @@ import T145.metalchests.api.obj.ItemsMC;
 import T145.metalchests.blocks.BlockMetalChest;
 import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
+import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.tiles.TileMetalHungryChest;
-import T145.metalchests.tiles.TileMetalHungrySortingChest;
+import T145.metalchests.tiles.TileMetalSortingHungryChest;
 import T145.tbone.core.TBone;
 import T145.tbone.lib.ChestAnimator;
 import net.minecraft.block.Block;
@@ -140,16 +141,16 @@ class CompatThaumcraft {
 		TBone.registerTileEntity(TileMetalHungryChest.class, RegistryMC.ID);
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			registry.register(BlocksMC.METAL_HUNGRY_SORTING_CHEST = new BlockMetalChest() {
+			registry.register(BlocksMC.METAL_SORTING_HUNGRY_CHEST = new BlockMetalChest() {
 
 				protected void registerResource() {
-					this.registerResource(RegistryMC.RESOURCE_METAL_HUNGRY_SORTING_CHEST);
+					this.registerResource(RegistryMC.RESOURCE_METAL_SORTING_HUNGRY_CHEST);
 				}
 
 				@Nullable
 				@Override
 				public TileEntity createTileEntity(World world, IBlockState state) {
-					return new TileMetalHungrySortingChest(state.getValue(IMetalChest.VARIANT));
+					return new TileMetalSortingHungryChest(state.getValue(IMetalChest.VARIANT));
 				}
 
 				@Override
@@ -158,7 +159,7 @@ class CompatThaumcraft {
 				}
 			});
 
-			TBone.registerTileEntity(TileMetalHungrySortingChest.class, RegistryMC.ID);
+			TBone.registerTileEntity(TileMetalSortingHungryChest.class, RegistryMC.ID);
 		}
 	}
 
@@ -170,7 +171,7 @@ class CompatThaumcraft {
 		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_HUNGRY_CHEST));
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_HUNGRY_SORTING_CHEST));
+			registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_SORTING_HUNGRY_CHEST));
 		}
 
 		registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE));
@@ -196,6 +197,25 @@ class CompatThaumcraft {
 				return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
 			}
 		});
+
+		if (ConfigMC.hasRefinedRelocation()) {
+			for (ChestType type : ChestType.values()) {
+				TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type));
+			}
+
+			TBone.registerTileRenderer(TileMetalSortingHungryChest.class, new RenderMetalSortingChest() {
+
+				@Override
+				protected ResourceLocation getActiveResource(ChestType type) {
+					return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
+				}
+
+				@Override
+				protected ResourceLocation getActiveOverlay(ChestType type) {
+					return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/overlay/sorting_%s.png", type.getName()));
+				}
+			});
+		}
 	}
 
 	private static void registerUpgradeRecipes(Item upgrade, Object base, String postfix) {
@@ -219,7 +239,7 @@ class CompatThaumcraft {
 		UpgradeRegistry.register(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			ChestType.registerRecipes(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_HUNGRY_SORTING_CHEST, "SortingHungry");
+			ChestType.registerRecipes(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_SORTING_HUNGRY_CHEST, "SortingHungry");
 		}
 	}
 }
