@@ -218,6 +218,7 @@ class CompatThaumcraft {
 		}
 	}
 
+	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	private static void registerUpgradeRecipes(Item upgrade, Object base, String postfix) {
 		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
 			ChestUpgrade type = ChestUpgrade.byMetadata(i);
