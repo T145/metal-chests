@@ -63,7 +63,7 @@ import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.crafting.CrucibleRecipe;
+import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatThaumcraft {
@@ -223,11 +223,19 @@ class CompatThaumcraft {
 			ChestUpgrade type = ChestUpgrade.byMetadata(i);
 			String recipeName = String.format("upgrade%s%s", WordUtils.capitalize(type.getName()), postfix);
 
-			ThaumcraftApi.addCrucibleRecipe(
-					RegistryMC.getResource(recipeName),
-					new CrucibleRecipe(recipeName.toUpperCase(),
+//			ThaumcraftApi.addCrucibleRecipe(
+//					RegistryMC.getResource(recipeName),
+//					new CrucibleRecipe("HUNGRYCHEST",
+//							new ItemStack(upgrade, 1, i),
+//							new ItemStack(ItemsMC.CHEST_UPGRADE, 1, i), new AspectList().merge(Aspect.EARTH, 1).merge(Aspect.WATER, 1)));
+
+			ThaumcraftApi.addArcaneCraftingRecipe(RegistryMC.getResource(recipeName),
+					new ShapedArcaneRecipe(RegistryMC.RECIPE_GROUP, "HUNGRYCHEST", 15,
+							new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
 							new ItemStack(upgrade, 1, i),
-							new ItemStack(ItemsMC.CHEST_UPGRADE, 1, i), new AspectList().merge(Aspect.EARTH, 1).merge(Aspect.WATER, 1)));
+							"aaa", "aaa", "baa",
+							'a', type.getUpgrade().getOreName(),
+							'b', ChestUpgrade.getBaseIngredient(upgrade, base, i)));
 		}
 	}
 
