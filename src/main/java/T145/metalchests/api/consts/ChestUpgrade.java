@@ -20,15 +20,9 @@ import java.util.LinkedList;
 
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-import T145.metalchests.api.obj.ItemsMC;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ChestUpgrade implements IStringSerializable {
 
@@ -81,42 +75,5 @@ public class ChestUpgrade implements IStringSerializable {
 
 	public static ChestUpgrade byMetadata(int meta) {
 		return TIERS.get(meta);
-	}
-
-	public static Object getBaseIngredient(Item upgrade, Object base, short meta) {
-		ChestUpgrade curr = ChestUpgrade.byMetadata(meta);
-
-		if (curr.isForWood()) {
-			if (meta == 0) {
-				return base;
-			}
-
-			return new ItemStack(upgrade, 1, meta - 1);
-		} else {
-			ChestUpgrade prior = ChestUpgrade.byMetadata(meta - 1);
-
-			if (prior.getBase() == curr.getBase()) {
-				return new ItemStack(upgrade, 1, meta - 1);
-			} else {
-				return curr.getBase().getOreName();
-			}
-		}
-	}
-
-	public static void registerRecipes(Item upgrade, Object base, String postfix) {
-		for (short i = 0; i < TIERS.size(); ++i) {
-			ChestUpgrade type = ChestUpgrade.byMetadata(i);
-			String recipeName = String.format("upgrade%s%s", WordUtils.capitalize(type.getName()), postfix);
-
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe%s", WordUtils.capitalize(recipeName))), RegistryMC.RECIPE_GROUP,
-					new ItemStack(upgrade, 1, i),
-					"aaa", "aaa", "baa",
-					'a', type.getUpgrade().getOreName(),
-					'b', getBaseIngredient(upgrade, base, i));
-		}
-	}
-
-	public static void registerRecipes() {
-		registerRecipes(ItemsMC.CHEST_UPGRADE, "plankWood", StringUtils.EMPTY);
 	}
 }

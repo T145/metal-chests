@@ -21,19 +21,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
-
 import T145.metalchests.api.config.ConfigMC;
-import T145.metalchests.api.obj.BlocksMC;
-import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 
 public enum ChestType implements IStringSerializable {
@@ -83,7 +76,7 @@ public enum ChestType implements IStringSerializable {
 
 		public ResourceLocation getGuiTexture() {
 			ChestType type = ChestType.byMetadata(ordinal());
-			return new ResourceLocation(RegistryMC.ID, String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
+			return RegistryMC.getResource(String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
 		}
 	}
 
@@ -187,31 +180,5 @@ public enum ChestType implements IStringSerializable {
 
 	public ResourceLocation getId() {
 		return new ResourceLocation(getIdName());
-	}
-
-	public static void registerRecipes(Object baseChest, Block metalChest, String postfix) {
-		for (short meta = 0; meta < TIERS.size(); ++meta) {
-			ChestType type = TIERS.get(meta);
-			ChestType trueType = ChestType.byOreName(type.getOreName());
-			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
-			String recipeName = String.format("chest%s%s", WordUtils.capitalize(type.getName()), postfix);
-
-			GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipe%s", WordUtils.capitalize(recipeName))), RegistryMC.RECIPE_GROUP,
-					result,
-					"aaa", "aba", "aaa",
-					'a', type.getOreName(),
-					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, TIERS.get(meta - 1).ordinal()));
-
-			OreDictionary.registerOre("chest", result);
-			OreDictionary.registerOre(recipeName, result);
-		}
-	}
-
-	public static void registerRecipes(Block metalChest) {
-		registerRecipes("chestWood", metalChest, StringUtils.EMPTY);
-	}
-
-	public static void registerRecipes() {
-		registerRecipes(BlocksMC.METAL_CHEST);
 	}
 }

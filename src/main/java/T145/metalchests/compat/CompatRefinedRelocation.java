@@ -45,7 +45,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -107,7 +106,7 @@ class CompatRefinedRelocation {
 	}
 
 	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String postfix) {
-		GameRegistry.addShapedRecipe(new ResourceLocation(RegistryMC.ID, String.format("recipeChest%s%sAlt", WordUtils.capitalize(type.getName()), postfix)), null,
+		GameRegistry.addShapedRecipe(RegistryMC.getResource(String.format("recipeChest%s%sAlt", WordUtils.capitalize(type.getName()), postfix)), null,
 				new ItemStack(metalChest, 1, type.ordinal()),
 				" a ", "bcb", " d ",
 				'a', Items.WRITABLE_BOOK,
@@ -120,7 +119,6 @@ class CompatRefinedRelocation {
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
-		ChestType.registerRecipes(ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST, "Sorting");
 
 		for (ChestType type : ChestType.values()) {
 			if (type.isRegistered()) {

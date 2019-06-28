@@ -18,6 +18,8 @@ package T145.metalchests;
 import java.io.IOException;
 import java.util.HashSet;
 
+import org.apache.commons.lang3.StringUtils;
+
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.config.ConfigMC;
 import T145.metalchests.api.consts.ChestType;
@@ -33,6 +35,7 @@ import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.net.PacketHandlerMC;
 import T145.metalchests.net.client.SyncMetalChest;
+import T145.metalchests.recipes.RecipeHandler;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
 import T145.metalchests.tiles.TileMetalSortingHungryChest;
@@ -198,8 +201,8 @@ public class MetalChests {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void metalchests$registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		ChestType.registerRecipes();
-		ChestUpgrade.registerRecipes();
+		RecipeHandler.registerChests("chestWood", BlocksMC.METAL_CHEST, StringUtils.EMPTY);
+		RecipeHandler.registerUpgrades(ItemsMC.CHEST_UPGRADE, "plankWood", StringUtils.EMPTY);
 	}
 
 	@SideOnly(Side.CLIENT)

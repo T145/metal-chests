@@ -18,8 +18,6 @@ package T145.metalchests.compat;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.config.ConfigMC;
@@ -33,6 +31,7 @@ import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
 import T145.metalchests.items.ItemChestUpgrade;
+import T145.metalchests.recipes.RecipeHandler;
 import T145.metalchests.tiles.TileMetalHungryChest;
 import T145.metalchests.tiles.TileMetalSortingHungryChest;
 import T145.tbone.core.TBone;
@@ -59,11 +58,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
-import thaumcraft.api.ThaumcraftApi;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatThaumcraft {
@@ -194,7 +189,7 @@ class CompatThaumcraft {
 
 			@Override
 			protected ResourceLocation getActiveResource(ChestType type) {
-				return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
+				return RegistryMC.getResource(String.format("textures/entity/chest/hungry/%s.png", type.getName()));
 			}
 		});
 
@@ -207,48 +202,22 @@ class CompatThaumcraft {
 
 				@Override
 				protected ResourceLocation getActiveResource(ChestType type) {
-					return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/%s.png", type.getName()));
+					return RegistryMC.getResource(String.format("textures/entity/chest/hungry/%s.png", type.getName()));
 				}
 
 				@Override
 				protected ResourceLocation getActiveOverlay(ChestType type) {
-					return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/hungry/overlay/sorting_%s.png", type.getName()));
+					return RegistryMC.getResource(String.format("textures/entity/chest/hungry/overlay/sorting_%s.png", type.getName()));
 				}
 			});
 		}
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
-	private static void registerUpgradeRecipes(Item upgrade, Object base, String postfix) {
-		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
-			ChestUpgrade type = ChestUpgrade.byMetadata(i);
-			String recipeName = String.format("upgrade%s%s", WordUtils.capitalize(type.getName()), postfix);
-
-//			ThaumcraftApi.addCrucibleRecipe(
-//					RegistryMC.getResource(recipeName),
-//					new CrucibleRecipe("HUNGRYCHEST",
-//							new ItemStack(upgrade, 1, i),
-//							new ItemStack(ItemsMC.CHEST_UPGRADE, 1, i), new AspectList().merge(Aspect.EARTH, 1).merge(Aspect.WATER, 1)));
-
-			ThaumcraftApi.addArcaneCraftingRecipe(RegistryMC.getResource(recipeName),
-					new ShapedArcaneRecipe(RegistryMC.RECIPE_GROUP, "HUNGRYCHEST", 15,
-							new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
-							new ItemStack(upgrade, 1, i),
-							"aaa", "aaa", "baa",
-							'a', type.getUpgrade().getOreName(),
-							'b', ChestUpgrade.getBaseIngredient(upgrade, base, i)));
-		}
-	}
-
-	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
-		ChestType.registerRecipes(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "Hungry");
-		registerUpgradeRecipes(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.plankGreatwood, "Hungry");
 		UpgradeRegistry.register(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
-
-		if (ConfigMC.hasRefinedRelocation()) {
-			ChestType.registerRecipes(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_SORTING_HUNGRY_CHEST, "SortingHungry");
-		}
+		RecipeHandler.registerHungryChests(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "Hungry");
+		RecipeHandler.registerHungryUpgrades();
 	}
 }

@@ -73,7 +73,7 @@ class CompatChestTransporter {
 		@Override
 		public ResourceLocation getChestModel(ItemStack transporter) {
 			NBTTagCompound tag = transporter.getTagCompound().getCompoundTag("ChestTile");
-			return new ResourceLocation(RegistryMC.ID, String.format("item/chesttransporter/%s%s", prefix, tag.getString("ChestType").toLowerCase()));
+			return RegistryMC.getResource(String.format("item/chesttransporter/%s%s", prefix, tag.getString("ChestType").toLowerCase()));
 		}
 
 		@Override
@@ -81,7 +81,7 @@ class CompatChestTransporter {
 			List<ResourceLocation> models = new ArrayList<>();
 
 			for (ChestType type : ChestType.values()) {
-				models.add(new ResourceLocation(RegistryMC.ID, String.format("item/chesttransporter/%s%s", prefix, type.getName())));
+				models.add(RegistryMC.getResource(String.format("item/chesttransporter/%s%s", prefix, type.getName())));
 			}
 
 			return models;

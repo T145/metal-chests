@@ -28,7 +28,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class RenderMetalSortingChest extends RenderMetalChest {
 
 	protected ResourceLocation getActiveOverlay(ChestType type) {
-		return new ResourceLocation(RegistryMC.ID, String.format("textures/entity/chest/overlay/sorting_%s.png", type.getName()));
+		return RegistryMC.getResource(String.format("textures/entity/chest/overlay/sorting_%s.png", type.getName()));
 	}
 
 	@Override
