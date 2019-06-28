@@ -57,7 +57,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			builder.append("_h");
 		}
 
-		return new ResourceLocation(RegistryMC.ID, builder.append(".png").toString());
+		return RegistryMC.getResource(builder.append(".png").toString());
 	}
 
 	protected void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
@@ -80,10 +80,6 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.translate(0.5F, 0.5F, 0.5F);
 		GlStateManager.rotate(getFrontAngle(chest.getFront()), 0.0F, 1.0F, 0.0F);
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
-	}
-
-	protected void preRender(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
-		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, destroyStage, alpha);
 	}
 
 	protected void postRenderModel(IMetalChest chest, float partialTicks) {
@@ -117,7 +113,8 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.popMatrix();
 	}
 
-	protected void postRender(IMetalChest chest, double x, double y, double z, int destroyStage, float partialTicks, float alpha) {
+	public void renderChest(IMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+		preRender(destroyStage >= 0 ? DESTROY_STAGES[destroyStage] : null, chest, x, y, z, destroyStage, alpha);
 		postRenderModel(chest, partialTicks);
 
 		if (chest.isTrapped()) {
@@ -172,11 +169,6 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		}
 	}
 
-	public void renderChest(IMetalChest chest, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-		preRender(chest, x, y, z, destroyStage, alpha);
-		postRender(chest, x, y, z, destroyStage, partialTicks, alpha);
-	}
-
 	// allows normal chest rendering w/out a new tile instance
 	public void renderStatic(IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {
 		renderChest(chest, x, y, z, 0.0F, destroyStage, alpha);
@@ -192,7 +184,6 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			super.render(chest, x, y, z, partialTicks, destroyStage, alpha);
 		}
 
-		preRender(chest, x, y, z, destroyStage, alpha);
-		postRender(chest, x, y, z, destroyStage, partialTicks, alpha);
+		renderChest(chest, x, y, z, partialTicks, destroyStage, alpha);
 	}
 }
