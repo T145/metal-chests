@@ -21,6 +21,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -54,13 +55,10 @@ public class GuiMetalChest extends GuiContainer implements IChestButtonCallback,
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-		// String title = (container.titleLocalized ? container.title :
-		// I18n.format(container.title));
-		// fontRenderer.drawString(title, container.getBorderSide() + 1, 6, 0x404040);
-		// int invTitleX = container.getPlayerInvXOffset() + 1;
-		// int invTitleY = container.getBorderTop() + container.getContainerInvHeight() + 3;
-		// fontRenderer.drawString(I18n.format("container.inventory"), invTitleX,
-		// invTitleY, 0x404040);
+		fontRenderer.drawString(container.mainInv.getDisplayName().getFormattedText(), container.getBorderSide() + 1, 6, 0x404040);
+		int invTitleX = container.getPlayerInvXOffset() + 1;
+		int invTitleY = container.getBorderTop() + container.getContainerInvHeight() + 3;
+		fontRenderer.drawString(I18n.format("container.inventory"), invTitleX, invTitleY, 0x404040);
 	}
 
 	@Override
@@ -106,7 +104,7 @@ public class GuiMetalChest extends GuiContainer implements IChestButtonCallback,
 		TEX.drawQuad(x1, y, tx1, ty, b, h);
 		TEX.drawQuad(x2, y, tx2, ty, w, h);
 		TEX.drawQuad(x3, y, tx3, ty, b, h);
-		
+
 		// Container slots
 		TEX.drawQuad(x + container.getContainerInvXOffset(), y, tx2, 256, container.getContainerInvWidth(), h);
 		y += h;

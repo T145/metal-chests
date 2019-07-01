@@ -16,7 +16,6 @@
 package T145.metalchests.tiles;
 
 import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.api.obj.ItemsMC;
 import net.minecraft.item.Item;
 
@@ -37,6 +36,6 @@ public class TileMetalSortingHungryChest extends TileMetalSortingChest {
 
 	@Override
 	public String getTranslationKey() {
-		return String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_SORTING_HUNGRY_CHEST, chestType.getName());
+		return "container.sorting_hungry_chest";
 	}
 }

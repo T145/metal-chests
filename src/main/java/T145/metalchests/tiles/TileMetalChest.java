@@ -232,7 +232,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	public String getTranslationKey() {
-		return String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_CHEST, chestType.getName());
+		return "container.chest";
 	}
 
 	@Override
