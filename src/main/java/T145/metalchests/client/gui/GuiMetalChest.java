@@ -15,18 +15,12 @@
  ******************************************************************************/
 package T145.metalchests.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.containers.ContainerMetalChest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -40,60 +34,117 @@ import vazkii.quark.api.IItemSearchBar;
 @SideOnly(Side.CLIENT)
 public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {
 
-	private final int invSize;
+	private static final GuiResource TEX = new GuiResource("chest", 512);
+	private final ContainerMetalChest container;
 
 	public GuiMetalChest(ContainerMetalChest container) {
 		super(container);
+		this.container = container;
 		this.allowUserInput = false;
-		this.invSize = container.getType().getInventorySize();
-		this.xSize = 14 + 18 * MathHelper.clamp(invSize, 9, 14);
-		this.ySize = 112 + 18 * MathHelper.clamp(invSize, 2, 9);
+		this.xSize = container.getWidth();
+		this.ySize = container.getHeight();
 	}
 
 	@Override
-	public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+	public void drawScreen(int x, int y, float partialTicks) {
 		drawDefaultBackground();
-		super.drawScreen(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+		super.drawScreen(x, y, partialTicks);
+		renderHoveredToolTip(x, y);
 	}
 
-	public void drawSizedTexturedModalRect(int x, int y, int u, int v, int width, int height, float texW, float texH) {
-		float texU = 1 / texW;
-		float texV = 1 / texH;
-		BufferBuilder buffer = Tessellator.getInstance().getBuffer();
-		buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-		buffer.pos(x, y + height, this.zLevel).tex((u) * texU, (v + height) * texV).endVertex();
-		buffer.pos(x + width, y + height, this.zLevel).tex((u + width) * texU, (v + height) * texV).endVertex();
-		buffer.pos(x + width, y, this.zLevel).tex((u + width) * texU, (v) * texV).endVertex();
-		buffer.pos(x, y, this.zLevel).tex((u) * texU, (v) * texV).endVertex();
-		Tessellator.getInstance().draw();
+	@Override
+	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+		// String title = (container.titleLocalized ? container.title :
+		// I18n.format(container.title));
+		// fontRenderer.drawString(title, container.getBorderSide() + 1, 6, 0x404040);
+		// int invTitleX = container.getPlayerInvXOffset() + 1;
+		// int invTitleY = container.getBorderTop() + container.getContainerInvHeight() + 3;
+		// fontRenderer.drawString(I18n.format("container.inventory"), invTitleX,
+		// invTitleY, 0x404040);
 	}
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
 		GlStateManager.color(1, 1, 1, 1);
-		mc.renderEngine.bindTexture(RegistryMC.getResource(String.format("textures/gui/%s.png", invSize)));
 
-		if (xSize > 256 || ySize > 256) {
-			drawSizedTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize, 512, 512);
-		} else {
-			drawTexturedModalRect(guiLeft, guiTop, 0, 0, xSize, ySize);
+		int x = (width - xSize) / 2;
+		int y = (height - ySize) / 2;
+
+		// Might have gone *a little* overboard with the local variables...
+		int b = container.getBorderSide();
+		int bTop = container.getBorderTop();
+		int bBot = container.getBorderBottom();
+		int w = xSize - b * 2;
+		int h = container.getContainerInvHeight();
+		int pw = container.getPlayerInvWidth();
+		int ph = container.getPlayerInvHeight();
+		int maxw = container.MAX_COLUMNS * 18;
+		int maxh = container.MAX_ROWS * 18;
+		int bufi = container.getBufferInventory();
+
+		int x1 = x;
+		int x2 = x + b;
+		int x3 = x + xSize - b;
+		int px = x + container.getPlayerInvXOffset();
+
+		int tx1 = 4;
+		int tx2 = tx1 + b + 2;
+		int tx3 = tx2 + maxw + 2;
+		int ty = 4;
+		int tpx = 2 + b + 2 + (maxw - (pw + b * 2)) / 2 + 2;
+
+		TEX.bind();
+
+		// Top
+		TEX.drawQuad(x1, y, tx1, ty, b, bTop);
+		TEX.drawQuad(x2, y, tx2, ty, w, bTop);
+		TEX.drawQuad(x3, y, tx3, ty, b, bTop);
+		y += bTop;
+		ty += bTop + 2;
+
+		// Container background
+		TEX.drawQuad(x1, y, tx1, ty, b, h);
+		TEX.drawQuad(x2, y, tx2, ty, w, h);
+		TEX.drawQuad(x3, y, tx3, ty, b, h);
+		
+		// Container slots
+		TEX.drawQuad(x + container.getContainerInvXOffset(), y, tx2, 256, container.getContainerInvWidth(), h);
+		y += h;
+		ty += maxh + 2;
+
+		// Space between container and player inventory
+		if (container.type.getColumns() > 9) {
+			int sw = (w - (pw + b * 2)) / 2;
+			TEX.drawQuad(x1, y, tx1 - 2, ty, b, bBot);
+			TEX.drawQuad(x2, y, tx1 + b, ty, sw, bBot);
+			TEX.drawQuad(px - b, y, tpx, ty, pw + b * 2, bufi);
+			TEX.drawQuad(px + pw + b, y, tx3 - sw, ty, sw, bBot);
+			TEX.drawQuad(x3, y, tx3 + 2, ty, b, bBot);
 		}
+
+		ty += bufi + 2;
+
+		if (container.type.getColumns() <= 9) {
+			TEX.drawQuad(x, y, tpx, ty, pw + b * 2, bufi);
+		}
+
+		y += bufi;
+		ty += bufi + 2;
+
+		// Player inventory
+		TEX.drawQuad(px - b, y, tpx, ty, pw + b * 2, ph + bBot);
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_QUARK)
 	@Override
 	public boolean onAddChestButton(GuiButton button, int buttonType) {
-		button.x += xSize + 20;
+		// button.x += xSize + 20;
 		return true;
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_QUARK)
 	@Override
 	public void onSearchBarAdded(GuiTextField bar) {
-		int xOffset = this.getXSize() - 95;
-		bar.y = this.getGuiTop() - 4;
-		xOffset -= 4;
-		bar.x = this.getGuiLeft() + xOffset;
+		bar.x = this.getGuiLeft() + (this.getXSize() - 95);
 	}
 }

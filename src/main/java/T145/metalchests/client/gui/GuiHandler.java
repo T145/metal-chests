@@ -29,7 +29,7 @@ public class GuiHandler implements IGuiHandler {
 	@Override
 	public ContainerMetalChest getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		TileMetalChest chest = (TileMetalChest) world.getTileEntity(new BlockPos(x, y, z));
-		return new ContainerMetalChest(chest, player);
+		return new ContainerMetalChest(chest, player.inventory);
 	}
 
 	@Override

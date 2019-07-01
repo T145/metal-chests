@@ -19,6 +19,7 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.consts.ChestType;
+import T145.metalchests.api.consts.RegistryMC;
 import T145.tbone.api.IInventoryHandler;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,111 +27,166 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.SlotItemHandler;
 
-@ChestContainer(isLargeChest = true)
+@ChestContainer
 public class ContainerMetalChest extends Container {
 
-	private final IInventoryHandler handler;
-	private final ChestType type;
-	private int rowSize;
+	public static final int MAX_COLUMNS = 17;
+	public static final int MAX_ROWS = 6;
 
-	public ContainerMetalChest(IInventoryHandler handler, EntityPlayer player, ChestType type) {
-		this.handler = handler;
+	public final IInventoryHandler mainInv;
+	public final ChestType type;
+
+	public ContainerMetalChest(IInventoryHandler mainInv, InventoryPlayer playerInv, ChestType type) {
+		this.mainInv = mainInv;
 		this.type = type;
-		this.rowSize = MathHelper.clamp(type.getInventorySize(), 9, 14);
+		mainInv.openInventory(playerInv.player);
+		this.setupChestSlots();
+		this.setupPlayerSlots(playerInv);
+	}
 
-		handler.openInventory(player);
+	public ContainerMetalChest(IMetalChest chest, InventoryPlayer playerInv) {
+		this(chest, playerInv, chest.getChestType());
+	}
 
-		int rows = MathHelper.clamp(type.getInventorySize(), 2, 9);
-		int slots = rowSize * rows;
-		int yOffset = 17;
+	public int getBorderTop() {
+		return 17;
+	}
 
-		if (type.getInventorySize() == 1) {
-			this.rowSize = 1;
-			this.addSlotToContainer(new SlotItemHandler(handler.getInventory(), 0, 80, 26));
-		} else {
-			for (int i = 0; i < slots; ++i) {
-				addSlotToContainer(new SlotItemHandler(handler.getInventory(), i, 8 + i % rowSize * 18, yOffset + i / rowSize * 18));
+	public int getBorderSide() {
+		return 7;
+	}
+
+	public int getBorderBottom() {
+		return 7;
+	}
+
+	/** Returns the space between container and player inventory in pixels. */
+	public int getBufferInventory() {
+		return 13;
+	}
+
+	/** Returns the space between player inventory and hotbar in pixels. */
+	public int getBufferHotbar() {
+		return 4;
+	}
+
+	public int getWidth() {
+		return Math.max(type.getColumns(), 9) * 18 + getBorderSide() * 2;
+	}
+
+	public int getHeight() {
+		return getBorderTop() + (type.getRows() * 18) + getBufferInventory() + (4 * 18) + getBufferHotbar() + getBorderBottom();
+	}
+
+	public int getContainerInvWidth() {
+		return type.getColumns() * 18;
+	}
+
+	public int getContainerInvHeight() {
+		return type.getRows() * 18;
+	}
+
+	public int getContainerInvXOffset() {
+		return getBorderSide() + Math.max(0, (getPlayerInvWidth() - getContainerInvWidth()) / 2);
+	}
+
+	public int getPlayerInvWidth() {
+		return 9 * 18;
+	}
+
+	public int getPlayerInvHeight() {
+		return 4 * 18 + getBufferHotbar();
+	}
+
+	public int getPlayerInvXOffset() {
+		return getBorderSide() + Math.max(0, (getContainerInvWidth() - getPlayerInvWidth()) / 2);
+	}
+
+	protected void setupChestSlots() {
+		int xOffset = 1 + getContainerInvXOffset();
+		int yOffset = 1 + getBorderTop();
+
+		for (int y = 0; y < type.getRows(); ++y, yOffset += 18) {
+			for (int x = 0; x < type.getColumns(); ++x) {
+				addSlotToContainer(new SlotItemHandler(mainInv.getInventory(), x + y * type.getColumns(), xOffset + x * 18, yOffset));
+			}
+		}
+	}
+
+	protected void setupPlayerSlots(InventoryPlayer playerInv) {
+		int xOffset = 1 + getPlayerInvXOffset();
+		int yOffset = 1 + getBorderTop() + getContainerInvHeight() + getBufferInventory();
+
+		// Inventory
+		for (int y = 0; y < 3; ++y, yOffset += 18) {
+			for (int x = 0; x < 9; ++x) {
+				addSlotToContainer(new Slot(playerInv, x + y * 9 + 9, xOffset + x * 18, yOffset));
 			}
 		}
 
-		layoutPlayerInventory(player.inventory);
-	}
+		// HotBar
+		yOffset += getBufferHotbar();
 
-	public ContainerMetalChest(IMetalChest chest, EntityPlayer player) {
-		this(chest, player, chest.getChestType());
-	}
-
-	protected void layoutPlayerInventory(InventoryPlayer inv) {
-		int xOffset = 8 + 9 * (rowSize - 9);
-		int yOffset = 30 + 18 * MathHelper.clamp(type.getInventorySize(), 2, 9);
-
-		for (int i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				addSlotToContainer(new Slot(inv, j + i * 9 + 9, xOffset + j * 18, yOffset + i * 18));
-			}
+		for (int x = 0; x < 9; ++x) {
+			addSlotToContainer(new Slot(playerInv, x, xOffset + x * 18, yOffset));
 		}
-
-		for (int i = 0; i < 9; ++i) {
-			addSlotToContainer(new Slot(inv, i, xOffset + i * 18, yOffset + 58));
-		}
-	}
-
-	public ChestType getType() {
-		return type;
-	}
-
-	@Override
-	@OverridingMethodsMustInvokeSuper
-	public void onContainerClosed(EntityPlayer player) {
-		super.onContainerClosed(player);
-		handler.closeInventory(player);
 	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer player) {
-		return handler.isUsableByPlayer(player);
+		return mainInv.isUsableByPlayer(player);
+	}
+
+	@OverridingMethodsMustInvokeSuper
+	@Override
+	public void onContainerClosed(EntityPlayer player) {
+		super.onContainerClosed(player);
+		mainInv.closeInventory(player);
 	}
 
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int index) {
-		ItemStack stack = ItemStack.EMPTY;
 		Slot slot = inventorySlots.get(index);
+		ItemStack result = ItemStack.EMPTY;
 
 		if (slot != null && slot.getHasStack()) {
-			ItemStack slotStack = slot.getStack();
-			stack = slotStack.copy();
+			ItemStack stack = slot.getStack();
+			result = stack.copy();
+			int slotCount = inventorySlots.size() - player.inventory.mainInventory.size();
 
-			int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
-
-			if (index < containerSlots) {
-				if (!this.mergeItemStack(slotStack, containerSlots, inventorySlots.size(), true)) {
+			if (index < slotCount) {
+				if (!mergeItemStack(stack, slotCount, inventorySlots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.mergeItemStack(slotStack, 0, containerSlots, false)) {
+			} else if (!mergeItemStack(stack, 0, slotCount, false)) {
 				return ItemStack.EMPTY;
 			}
 
-			if (slotStack.isEmpty()) {
-				slot.putStack(ItemStack.EMPTY);
-			} else {
-				slot.onSlotChanged();
-			}
-
-			if (slotStack.getCount() == stack.getCount()) {
-				return ItemStack.EMPTY;
-			}
-
-			slot.onTake(player, slotStack);
+			slot.onSlotChanged();
 		}
 
-		return stack;
+		return result;
 	}
 
+	//	@Optional.Method(modid = RegistryMC.ID_INVTWEAKS)
+	//	@ContainerSectionCallback
+	//	public Map<ContainerSection, List<Slot>> getContainerSections() {
+	//		return new Object2ObjectOpenHashMap() {
+	//			{
+	//				put(ContainerSection.INVENTORY, inventorySlots.subList(0, 36));
+	//				put(ContainerSection.INVENTORY_NOT_HOTBAR, inventorySlots.subList(0, 27));
+	//				put(ContainerSection.INVENTORY_HOTBAR, inventorySlots.subList(27, 36));
+	//				put(ContainerSection.CHEST, inventorySlots.subList(36, inventorySlots.size()));
+	//			}
+	//		};
+	//	}
+
+	@Optional.Method(modid = RegistryMC.ID_INVTWEAKS)
 	@ChestContainer.RowSizeCallback
-	public int getNumColumns() {
-		return rowSize;
+	public int getRowSize() {
+		return type.getColumns();
 	}
 }

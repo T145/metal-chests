@@ -53,7 +53,8 @@ public enum ChestType implements IStringSerializable {
 
 			if (isEnabled(type, props)) {
 				type.setRegistered(true);
-				type.setInventorySize(props.getAsJsonPrimitive("size").getAsInt());
+				type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
+				type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
 				type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
 				TIERS[props.getAsJsonPrimitive("index").getAsInt()] = type;
 			}
@@ -64,9 +65,10 @@ public enum ChestType implements IStringSerializable {
 	private final Material material;
 	private final MapColor color;
 	private final SoundType sound;
-	private int invSize;
-	private byte holding;
 	private boolean registered;
+	private int rows;
+	private int cols;
+	private byte holding;
 
 	ChestType(String ore, Material material, MapColor color, SoundType sound) {
 		this.ore = ore;
@@ -104,12 +106,24 @@ public enum ChestType implements IStringSerializable {
 		return sound;
 	}
 
-	void setInventorySize(int invSize) {
-		this.invSize = invSize;
+	void setRows(int rows) {
+		this.rows = rows;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	void setCols(int cols) {
+		this.cols = cols;
+	}
+
+	public int getColumns() {
+		return cols;
 	}
 
 	public int getInventorySize() {
-		return invSize;
+		return rows * cols;
 	}
 
 	void setHolding(byte holding) {
@@ -129,10 +143,10 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static ChestType byMetadata(int meta) {
-		return values()[meta];
+		return TIERS[meta];
 	}
 
 	public static ChestType byOre(String ore) {
-		return Arrays.stream(values()).filter(type -> type.ore.contentEquals(ore)).findFirst().get();
+		return Arrays.stream(TIERS).filter(type -> type.ore.contentEquals(ore)).findFirst().get();
 	}
 }

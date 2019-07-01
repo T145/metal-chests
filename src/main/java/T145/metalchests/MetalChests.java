@@ -125,47 +125,52 @@ public class MetalChests {
 				"    \"_comment_auto\": \"The auto option will enable the variant if it finds its corresponding oredict name existing.\",\r\n" + 
 				"    \"_comment_force_enable\": \"To enable the variant even if the oredict name does not exist, set enabled to true.\",\r\n" + 
 				"    \"_comment_force_disable\": \"To disable the variant even if the oredict name does exist, set enabled to false.\",\r\n" + 
-				"    \"_comment_size\": \"Sets the inventory size of the chest.\",\r\n" + 
-				"    \"_comment_size_options\": \"{ 1, 5, 6, 7, 8, 9, 10, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108, 117, 126 }\",\r\n" + 
+				"    \"_comment_size\": \"Change the number of rows & columns for chest inventories (max 17 cols. x 6 rows, or 102 slots)\",\r\n" + 
 				"    \"chests\": {\r\n" + 
 				"        \"copper\": {\r\n" + 
 				"            \"index\": 0,\r\n" + 
 				"            \"enabled\": \"auto\",\r\n" + 
-				"            \"size\": 45,\r\n" + 
+				"            \"rows\": 4,\r\n" + 
+				"            \"cols\": 9,\r\n" + 
 				"            \"holding\": 1\r\n" + 
 				"        },\r\n" + 
 				"        \"iron\": {\r\n" + 
 				"            \"index\": 1,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
-				"            \"size\": 54,\r\n" + 
+				"            \"rows\": 5,\r\n" + 
+				"            \"cols\": 9,\r\n" + 
 				"            \"holding\": 1\r\n" + 
 				"        },\r\n" + 
 				"        \"silver\": {\r\n" + 
 				"            \"index\": 2,\r\n" + 
 				"            \"enabled\": \"auto\",\r\n" + 
-				"            \"size\": 72,\r\n" + 
+				"            \"rows\": 6,\r\n" + 
+				"            \"cols\": 9,\r\n" + 
 				"            \"holding\": 2\r\n" + 
 				"        },\r\n" + 
 				"        \"gold\": {\r\n" + 
 				"            \"index\": 3,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
-				"            \"size\": 81,\r\n" + 
+				"            \"rows\": 6,\r\n" + 
+				"            \"cols\": 10,\r\n" + 
 				"            \"holding\": 2\r\n" + 
 				"        },\r\n" + 
 				"        \"diamond\": {\r\n" + 
 				"            \"index\": 4,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
-				"            \"size\": 108,\r\n" + 
+				"            \"rows\": 6,\r\n" + 
+				"            \"cols\": 11,\r\n" + 
 				"            \"holding\": 3\r\n" + 
 				"        },\r\n" + 
 				"        \"obsidian\": {\r\n" + 
 				"            \"index\": 5,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
-				"            \"size\": 108,\r\n" + 
+				"            \"rows\": 6,\r\n" + 
+				"            \"cols\": 12,\r\n" + 
 				"            \"holding\": 4\r\n" + 
 				"        }\r\n" + 
 				"    }\r\n" + 
-				"}", VERSION));
+				"}\r\n", VERSION));
 		writer.write(gson.toJson(je));
 		writer.close();
 	}
@@ -183,10 +188,12 @@ public class MetalChests {
 
 				if (VERSION.contentEquals(obj.get("version").getAsString())) {
 					return obj;
+				} else if (ConfigMC.regenConfig) {
+					generateConfig(cfg);
 				}
+			} else {
+				generateConfig(cfg);
 			}
-
-			generateConfig(cfg);
 
 			return getJsonObj(cfg);
 		} catch (JsonIOException | JsonSyntaxException | IOException err) {

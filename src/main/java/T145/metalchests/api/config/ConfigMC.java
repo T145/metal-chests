@@ -25,6 +25,9 @@ public class ConfigMC {
 
 	private ConfigMC() {}
 
+	@Config.Comment("Whether or not the JSON config will be regenerated on mod update.")
+	public static boolean regenConfig = true;
+
 	@Config.Comment("Whether or not all metal chest model textures are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
 	public static boolean hollowModelTextures = false;
 
