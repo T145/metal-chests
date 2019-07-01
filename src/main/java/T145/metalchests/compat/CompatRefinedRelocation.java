@@ -91,7 +91,7 @@ class CompatRefinedRelocation {
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_SORTING_CHEST));
+		registry.register(new BlockMetalChestItem(BlocksMC.METAL_SORTING_CHEST, ChestType.TIERS));
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_RR2)

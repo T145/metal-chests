@@ -25,7 +25,7 @@ import net.minecraftforge.items.IItemHandler;
 
 public interface IMetalChest extends IInventoryHandler {
 
-	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.<ChestType>create("variant", ChestType.class);
+	public static final PropertyEnum<ChestType> VARIANT = PropertyEnum.create("variant", ChestType.class);
 	public static final String TAG_CHEST_TYPE = "ChestType";
 	public static final String TAG_FRONT = "Front";
 	public static final String TAG_ENCHANT_LEVEL = "EnchantLevel";

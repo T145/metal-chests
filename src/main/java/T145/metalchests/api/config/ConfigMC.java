@@ -15,9 +15,6 @@
  ******************************************************************************/
 package T145.metalchests.api.config;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import T145.metalchests.api.consts.RegistryMC;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.fml.common.Loader;
@@ -28,38 +25,15 @@ public class ConfigMC {
 
 	private ConfigMC() {}
 
-	@Config.Comment("The upgrade path for metal chests. Recipes will update to reflect this.\n Current valid options are: { \"copper\", \"iron\", \"silver\", \"gold\", \"diamond\", \"obsidian\" }")
-	@Config.RequiresMcRestart
-	public static String[] upgradePath = new String[] { "copper", "iron", "silver", "gold", "diamond", "obsidian" };
-
 	@Config.Comment("Whether or not all metal chest model textures are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
 	public static boolean hollowModelTextures = false;
 
-	@Config.Comment("If Thaumcraft is installed, whether or not you want to enable the Metal Hungry Chests.")
-	@Config.RequiresMcRestart
-	public static boolean enableMetalHungryChests = true;
-
-	@Config.Comment("If Refined Relocation 2 is installed, whether or not you want to enable the Metal Hungry Sorting Chests.")
-	@Config.RequiresMcRestart
-	public static boolean enableMetalHungrySortingChests = true;
-
-	@Config.Comment("If Thermal Expansion is installed, what the holding enchant bounds for each chest are.")
-	@Config.RequiresMcRestart
-	public static Map<String, Integer> holdingEnchantBounds = new HashMap() {{
-		put("copper", 1);
-		put("iron", 1);
-		put("silver", 2);
-		put("gold", 2);
-		put("diamond", 3);
-		put("obsidian", 4);
-	}};
-
 	public static boolean hasThaumcraft() {
-		return Loader.isModLoaded(RegistryMC.ID_THAUMCRAFT) && enableMetalHungryChests;
+		return Loader.isModLoaded(RegistryMC.ID_THAUMCRAFT);
 	}
 
 	public static boolean hasRefinedRelocation() {
-		return Loader.isModLoaded(RegistryMC.ID_THAUMCRAFT) && enableMetalHungrySortingChests;
+		return Loader.isModLoaded(RegistryMC.ID_THAUMCRAFT);
 	}
 
 	public static boolean hasThermalExpansion() {

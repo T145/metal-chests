@@ -42,8 +42,8 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(modid = RegistryMC.ID_THERMALEXPANSION, iface = RegistryMC.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem {
 
-	public BlockMetalChestItem(List<? extends IStringSerializable> types, Block block) {
-		super(types, block);
+	public BlockMetalChestItem(Block block, IStringSerializable[] types) {
+		super(block, types);
 	}
 
 	@Nullable
@@ -76,7 +76,7 @@ public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem 
 
 			ChestType chestType = ChestType.byMetadata(stack.getItemDamage());
 
-			if (enchantLevel >= chestType.getHoldingEnchantBound()) {
+			if (enchantLevel >= chestType.getHolding()) {
 				NBTTagCompound tag = stack.getTagCompound().getCompoundTag("Inventory");
 				NBTTagList tagList = tag.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 

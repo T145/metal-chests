@@ -19,13 +19,14 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.ChestType.GUI;
 import T145.tbone.api.IInventoryHandler;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.items.SlotItemHandler;
 
 @ChestContainer(isLargeChest = true)
@@ -33,45 +34,52 @@ public class ContainerMetalChest extends Container {
 
 	private final IInventoryHandler handler;
 	private final ChestType type;
-	private final int containerSlots;
+	private int rowSize;
 
 	public ContainerMetalChest(IInventoryHandler handler, EntityPlayer player, ChestType type) {
 		this.handler = handler;
 		this.type = type;
+		this.rowSize = MathHelper.clamp(type.getInventorySize(), 9, 14);
 
 		handler.openInventory(player);
 
-		for (int chestRow = 0; chestRow < type.getRowCount(); ++chestRow) {
-			for (int chestCol = 0; chestCol < type.getRowLength(); ++chestCol) {
-				this.addSlotToContainer(new SlotItemHandler(handler.getInventory(), chestCol + chestRow * type.getRowLength(), 12 + chestCol * 18, 8 + chestRow * 18));
+		int rows = MathHelper.clamp(type.getInventorySize(), 2, 9);
+		int slots = rowSize * rows;
+		int yOffset = 17;
+
+		if (type.getInventorySize() == 1) {
+			this.rowSize = 1;
+			this.addSlotToContainer(new SlotItemHandler(handler.getInventory(), 0, 80, 26));
+		} else {
+			for (int i = 0; i < slots; ++i) {
+				addSlotToContainer(new SlotItemHandler(handler.getInventory(), i, 8 + i % rowSize * 18, yOffset + i / rowSize * 18));
 			}
 		}
 
-		int leftCol = (type.getGui().getSizeX() - 162) / 2 + 1;
-
-		for (int playerInvRow = 0; playerInvRow < 3; ++playerInvRow) {
-			for (int playerInvCol = 0; playerInvCol < 9; ++playerInvCol) {
-				this.addSlotToContainer(new Slot(player.inventory, playerInvCol + playerInvRow * 9 + 9, leftCol + playerInvCol * 18, type.getGui().getSizeY() - (4 - playerInvRow) * 18 - 10));
-			}
-		}
-
-		for (int hotbarSlot = 0; hotbarSlot < 9; ++hotbarSlot) {
-			this.addSlotToContainer(new Slot(player.inventory, hotbarSlot, leftCol + hotbarSlot * 18, type.getGui().getSizeY() - 24));
-		}
-
-		this.containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
+		layoutPlayerInventory(player.inventory);
 	}
 
 	public ContainerMetalChest(IMetalChest chest, EntityPlayer player) {
 		this(chest, player, chest.getChestType());
 	}
 
-	public ChestType getType() {
-		return type;
+	protected void layoutPlayerInventory(InventoryPlayer inv) {
+		int xOffset = 8 + 9 * (rowSize - 9);
+		int yOffset = 30 + 18 * MathHelper.clamp(type.getInventorySize(), 2, 9);
+
+		for (int i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				addSlotToContainer(new Slot(inv, j + i * 9 + 9, xOffset + j * 18, yOffset + i * 18));
+			}
+		}
+
+		for (int i = 0; i < 9; ++i) {
+			addSlotToContainer(new Slot(inv, i, xOffset + i * 18, yOffset + 58));
+		}
 	}
 
-	public GUI getGui() {
-		return type.getGui();
+	public ChestType getType() {
+		return type;
 	}
 
 	@Override
@@ -94,6 +102,8 @@ public class ContainerMetalChest extends Container {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack slotStack = slot.getStack();
 			stack = slotStack.copy();
+
+			int containerSlots = inventorySlots.size() - player.inventory.mainInventory.size();
 
 			if (index < containerSlots) {
 				if (!this.mergeItemStack(slotStack, containerSlots, inventorySlots.size(), true)) {
@@ -121,6 +131,6 @@ public class ContainerMetalChest extends Container {
 
 	@ChestContainer.RowSizeCallback
 	public int getNumColumns() {
-		return type.getRowLength();
+		return rowSize;
 	}
 }

@@ -23,17 +23,17 @@ public class RecipeHandler {
 	private RecipeHandler() {}
 
 	public static void registerChests(Object baseChest, Block metalChest, String postfix) {
-		for (short meta = 0; meta < ChestType.TIERS.size(); ++meta) {
-			ChestType type = ChestType.TIERS.get(meta);
-			ChestType trueType = ChestType.byOreName(type.getOreName());
+		for (short meta = 0; meta < ChestType.TIERS.length; ++meta) {
+			ChestType type = ChestType.TIERS[meta];
+			ChestType trueType = ChestType.byOre(type.getOre());
 			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
 			String recipeName = String.format("chest%s%s", WordUtils.capitalize(type.getName()), postfix);
 
 			GameRegistry.addShapedRecipe(RegistryMC.getResource(String.format("recipe%s", WordUtils.capitalize(recipeName))), RegistryMC.RECIPE_GROUP,
 					result,
 					"aaa", "aba", "aaa",
-					'a', type.getOreName(),
-					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.TIERS.get(meta - 1).ordinal()));
+					'a', type.getOre(),
+					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.TIERS[meta - 1].ordinal()));
 
 			OreDictionary.registerOre("chest", result);
 			OreDictionary.registerOre(recipeName, result);
@@ -55,7 +55,7 @@ public class RecipeHandler {
 			if (prior.getBase() == curr.getBase()) {
 				return new ItemStack(upgrade, 1, meta - 1);
 			} else {
-				return curr.getBase().getOreName();
+				return curr.getBase().getOre();
 			}
 		}
 	}
@@ -68,16 +68,16 @@ public class RecipeHandler {
 			GameRegistry.addShapedRecipe(RegistryMC.getResource(String.format("recipe%s", WordUtils.capitalize(recipeName))), RegistryMC.RECIPE_GROUP,
 					new ItemStack(upgrade, 1, i),
 					"aaa", "aaa", "baa",
-					'a', type.getUpgrade().getOreName(),
+					'a', type.getUpgrade().getOre(),
 					'b', getBaseIngredient(upgrade, base, i));
 		}
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	public static void registerHungryChests(Object baseChest, Block metalChest, String postfix) {
-		for (short meta = 0; meta < ChestType.TIERS.size(); ++meta) {
-			ChestType type = ChestType.TIERS.get(meta);
-			ChestType trueType = ChestType.byOreName(type.getOreName());
+		for (short meta = 0; meta < ChestType.TIERS.length; ++meta) {
+			ChestType type = ChestType.TIERS[meta];
+			ChestType trueType = ChestType.byOre(type.getOre());
 			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
 			String recipeName = String.format("chest%s%s", WordUtils.capitalize(type.getName()), postfix);
 
@@ -86,8 +86,8 @@ public class RecipeHandler {
 							new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
 							result,
 							"aaa", "aba", "aaa",
-							'a', type.getOreName(),
-							'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.TIERS.get(meta - 1).ordinal())));
+							'a', type.getOre(),
+							'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.TIERS[meta - 1].ordinal())));
 
 			OreDictionary.registerOre("chest", result);
 			OreDictionary.registerOre(recipeName, result);
@@ -105,7 +105,7 @@ public class RecipeHandler {
 							new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1),
 							new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, i),
 							"aaa", "aaa", "baa",
-							'a', type.getUpgrade().getOreName(),
+							'a', type.getUpgrade().getOre(),
 							'b', getBaseIngredient(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.plankGreatwood, i)));
 		}
 	}

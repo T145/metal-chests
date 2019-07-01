@@ -159,7 +159,7 @@ public class BlockMetalChest extends Block {
 				CoreEnchantments.addEnchantment(tag, CoreEnchantments.holding, chest.getEnchantLevel());
 			}
 
-			if (chest.getEnchantLevel() >= chest.getChestType().getHoldingEnchantBound()) {
+			if (chest.getEnchantLevel() >= chest.getChestType().getHolding()) {
 				chest.writeToNBT(tag);
 			}
 
@@ -207,7 +207,7 @@ public class BlockMetalChest extends Block {
 	}
 
 	public static void dropItems(IMetalChest chest, World world, BlockPos pos) {
-		if (!ConfigMC.hasThermalExpansion() || chest.getEnchantLevel() < chest.getChestType().getHoldingEnchantBound()) {
+		if (!ConfigMC.hasThermalExpansion() || chest.getEnchantLevel() < chest.getChestType().getHolding()) {
 			for (int i = 0; i < chest.getInventory().getSlots(); ++i) {
 				ItemStack stack = chest.getInventory().getStackInSlot(i);
 
@@ -343,7 +343,9 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
-		ChestType.TIERS.forEach(type -> items.add(new ItemStack(this, 1, type.ordinal())));
+		for (ChestType type : ChestType.TIERS) {
+			items.add(new ItemStack(this, 1, type.ordinal()));
+		}
 	}
 
 	@Override

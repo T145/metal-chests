@@ -15,10 +15,22 @@
  ******************************************************************************/
 package T145.metalchests;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 
 import org.apache.commons.lang3.StringUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.config.ConfigMC;
@@ -67,6 +79,7 @@ import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent.OnConfigChangedEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -85,13 +98,14 @@ import net.minecraftforge.registries.DataSerializerEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
-dependencies = "required-after:tbone;after:chesttransporter;after:quark;after:thaumcraft;after:refinedrelocation")
+dependencies = "required-after:tbone;after:chesttransporter;after:thaumcraft")
 @EventBusSubscriber(modid = RegistryMC.ID)
 public class MetalChests {
 
 	static final String VERSION = "@VERSION@";
 	static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
 
+	public static final JsonObject SETTINGS = loadSettings();
 	public static final TPacketHandler NETWORK = new PacketHandlerMC();
 
 	@Instance(RegistryMC.ID)
@@ -99,6 +113,86 @@ public class MetalChests {
 
 	public MetalChests() {
 		TBone.registerMod(RegistryMC.ID, RegistryMC.NAME);
+	}
+
+	private static void generateConfig(File cfg) throws IOException {
+		FileWriter writer = new FileWriter(cfg.getAbsolutePath());
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		JsonParser jp = new JsonParser();
+		JsonElement je = jp.parse(String.format("{\r\n" + 
+				"    \"_comment_version\": \"The mod version this config was generated under. If this mismatches the current version, this config will be regenerated.\",\r\n" + 
+				"    \"version\": \"%s\",\r\n" + 
+				"    \"_comment_auto\": \"The auto option will enable the variant if it finds its corresponding oredict name existing.\",\r\n" + 
+				"    \"_comment_force_enable\": \"To enable the variant even if the oredict name does not exist, set enabled to true.\",\r\n" + 
+				"    \"_comment_force_disable\": \"To disable the variant even if the oredict name does exist, set enabled to false.\",\r\n" + 
+				"    \"_comment_size\": \"Sets the inventory size of the chest.\",\r\n" + 
+				"    \"_comment_size_options\": \"{ 1, 5, 6, 7, 8, 9, 10, 18, 27, 36, 45, 54, 63, 72, 81, 90, 99, 108, 117, 126 }\",\r\n" + 
+				"    \"chests\": {\r\n" + 
+				"        \"copper\": {\r\n" + 
+				"            \"index\": 0,\r\n" + 
+				"            \"enabled\": \"auto\",\r\n" + 
+				"            \"size\": 45,\r\n" + 
+				"            \"holding\": 1\r\n" + 
+				"        },\r\n" + 
+				"        \"iron\": {\r\n" + 
+				"            \"index\": 1,\r\n" + 
+				"            \"enabled\": true,\r\n" + 
+				"            \"size\": 54,\r\n" + 
+				"            \"holding\": 1\r\n" + 
+				"        },\r\n" + 
+				"        \"silver\": {\r\n" + 
+				"            \"index\": 2,\r\n" + 
+				"            \"enabled\": \"auto\",\r\n" + 
+				"            \"size\": 72,\r\n" + 
+				"            \"holding\": 2\r\n" + 
+				"        },\r\n" + 
+				"        \"gold\": {\r\n" + 
+				"            \"index\": 3,\r\n" + 
+				"            \"enabled\": true,\r\n" + 
+				"            \"size\": 81,\r\n" + 
+				"            \"holding\": 2\r\n" + 
+				"        },\r\n" + 
+				"        \"diamond\": {\r\n" + 
+				"            \"index\": 4,\r\n" + 
+				"            \"enabled\": true,\r\n" + 
+				"            \"size\": 108,\r\n" + 
+				"            \"holding\": 3\r\n" + 
+				"        },\r\n" + 
+				"        \"obsidian\": {\r\n" + 
+				"            \"index\": 5,\r\n" + 
+				"            \"enabled\": true,\r\n" + 
+				"            \"size\": 108,\r\n" + 
+				"            \"holding\": 4\r\n" + 
+				"        }\r\n" + 
+				"    }\r\n" + 
+				"}", VERSION));
+		writer.write(gson.toJson(je));
+		writer.close();
+	}
+
+	private static JsonObject getJsonObj(File cfg) throws JsonIOException, JsonSyntaxException, FileNotFoundException {
+		return (JsonObject) new JsonParser().parse(new FileReader(cfg));
+	}
+
+	private static JsonObject loadSettings() {
+		File cfg = new File(String.format("%s/T145/%s.json", Loader.instance().getConfigDir(), RegistryMC.NAME));
+
+		try {
+			if (cfg.exists()) {
+				JsonObject obj = getJsonObj(cfg);
+
+				if (VERSION.contentEquals(obj.get("version").getAsString())) {
+					return obj;
+				}
+			}
+
+			generateConfig(cfg);
+
+			return getJsonObj(cfg);
+		} catch (JsonIOException | JsonSyntaxException | IOException err) {
+			RegistryMC.LOG.catching(err);
+		}
+		return null;
 	}
 
 	public static final DataSerializer<ChestType> CHEST_TYPE = new DataSerializer<ChestType>() {
@@ -154,7 +248,6 @@ public class MetalChests {
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
 		TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalChest.class);
-		TBone.registerInventoryFixes(fixer, FixTypes.ENTITY, TileMetalChest.class);
 
 		if (ConfigMC.hasRefinedRelocation()) {
 			TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingChest.class);
@@ -195,7 +288,7 @@ public class MetalChests {
 	public static void metalchests$registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_CHEST));
+		registry.register(new BlockMetalChestItem(BlocksMC.METAL_CHEST, ChestType.TIERS));
 		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
 	}
 

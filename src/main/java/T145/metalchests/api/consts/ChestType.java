@@ -15,102 +15,72 @@
  ******************************************************************************/
 package T145.metalchests.api.consts;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
-import T145.metalchests.api.config.ConfigMC;
+import com.google.gson.JsonObject;
+
+import T145.metalchests.MetalChests;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.oredict.OreDictionary;
 
 public enum ChestType implements IStringSerializable {
 
-	COPPER(InventorySize.COPPER, MapColor.SAND, SoundType.METAL, "ingotCopper"),
-	IRON(InventorySize.IRON, MapColor.IRON, SoundType.METAL, "ingotIron"),
-	SILVER(InventorySize.SILVER, MapColor.SILVER, SoundType.METAL, "ingotSilver"),
-	GOLD(InventorySize.GOLD, MapColor.GOLD, SoundType.METAL, "ingotGold"),
-	DIAMOND(InventorySize.DIAMOND, MapColor.DIAMOND, SoundType.METAL, "gemDiamond"),
-	OBSIDIAN(InventorySize.DIAMOND, Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE, "obsidian");
+	COPPER("ingotCopper", MapColor.SAND),
+	IRON("ingotIron", MapColor.IRON),
+	SILVER("ingotSilver", MapColor.SILVER),
+	GOLD("ingotGold", MapColor.GOLD),
+	DIAMOND("gemDiamond", MapColor.DIAMOND),
+	OBSIDIAN("obsidian", Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
 
-	enum InventorySize {
-		COPPER(45), IRON(54), SILVER(72), GOLD(81), DIAMOND(108);
+	public static final ChestType[] TIERS = new ChestType[values().length];
 
-		private final int size;
+	private static boolean isEnabled(ChestType type, JsonObject obj) {
+		String enabled = obj.getAsJsonPrimitive("enabled").getAsString();
 
-		InventorySize(int size) {
-			this.size = size;
+		if (enabled.contentEquals("auto")) {
+			return OreDictionary.doesOreNameExist(type.ore);
 		}
+
+		return Boolean.parseBoolean(enabled);
 	}
-
-	public enum GUI {
-
-		COPPER(184), IRON(202), SILVER(238), GOLD(256), DIAMOND(256), OBSIDIAN(256);
-
-		private final int ySize;
-
-		GUI(int ySize) {
-			this.ySize = ySize;
-		}
-
-		public int getSizeX() {
-			return ChestType.byMetadata(ordinal()).isLarge() ? 238 : 184;
-		}
-
-		public int getSizeY() {
-			return ySize;
-		}
-
-		public static GUI byMetadata(int meta) {
-			return values()[meta];
-		}
-
-		public static GUI byType(ChestType type) {
-			return byMetadata(type.ordinal());
-		}
-
-		public ResourceLocation getGuiTexture() {
-			ChestType type = ChestType.byMetadata(ordinal());
-			return RegistryMC.getResource(String.format("textures/gui/%s_container.png", type.isLarge() ? "diamond" : type.getName()));
-		}
-	}
-
-	public static final List<ChestType> TIERS = new ArrayList<>(ChestType.values().length);
-	private static final Set<ChestType> TYPES;
 
 	static {
-		for (String upgrade : ConfigMC.upgradePath) {
-			ChestType type = ChestType.valueOf(upgrade.toUpperCase());
+		for (ChestType type : values()) {
+			JsonObject props = MetalChests.SETTINGS.getAsJsonObject("chests").getAsJsonObject(type.getName());
 
-			if (type.hasOre()) {
-				TIERS.add(type);
+			if (isEnabled(type, props)) {
+				type.setRegistered(true);
+				type.setInventorySize(props.getAsJsonPrimitive("size").getAsInt());
+				type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
+				TIERS[props.getAsJsonPrimitive("index").getAsInt()] = type;
 			}
 		}
-
-		TYPES = new HashSet<>(TIERS);
 	}
 
-	private final InventorySize invSize;
+	private final String ore;
 	private final Material material;
 	private final MapColor color;
 	private final SoundType sound;
-	private final String oreName;
+	private int invSize;
+	private byte holding;
+	private boolean registered;
 
-	ChestType(InventorySize invSize, Material material, MapColor color, SoundType sound, String oreName) {
-		this.invSize = invSize;
+	ChestType(String ore, Material material, MapColor color, SoundType sound) {
+		this.ore = ore;
 		this.material = material;
 		this.color = color;
 		this.sound = sound;
-		this.oreName = oreName;
 	}
 
-	ChestType(InventorySize invSize, MapColor color, SoundType sound, String oreName) {
-		this(invSize, Material.IRON, color, sound, oreName);
+	ChestType(String ore, MapColor color, SoundType sound) {
+		this(ore, Material.IRON, color, sound);
+	}
+
+	ChestType(String ore, MapColor color) {
+		this(ore, color, SoundType.METAL);
 	}
 
 	@Override
@@ -118,8 +88,8 @@ public enum ChestType implements IStringSerializable {
 		return name().toLowerCase();
 	}
 
-	public int getInventorySize() {
-		return invSize.size;
+	public String getOre() {
+		return ore;
 	}
 
 	public Material getMaterial() {
@@ -134,51 +104,35 @@ public enum ChestType implements IStringSerializable {
 		return sound;
 	}
 
-	public String getOreName() {
-		return oreName;
+	void setInventorySize(int invSize) {
+		this.invSize = invSize;
 	}
 
-	public int getHoldingEnchantBound() {
-		return ConfigMC.holdingEnchantBounds.get(getName());
+	public int getInventorySize() {
+		return invSize;
 	}
 
-	public boolean hasOre() {
-		return OreDictionary.doesOreNameExist(oreName);
+	void setHolding(byte holding) {
+		this.holding = holding;
+	}
+
+	public byte getHolding() {
+		return holding;
+	}
+
+	void setRegistered(boolean registered) {
+		this.registered = registered;
 	}
 
 	public boolean isRegistered() {
-		return hasOre() && TYPES.contains(this);
-	}
-
-	public boolean isLarge() {
-		return getInventorySize() > 100;
-	}
-
-	public int getRowLength() {
-		return isLarge() ? 12 : 9;
-	}
-
-	public int getRowCount() {
-		return getInventorySize() / getRowLength();
+		return registered;
 	}
 
 	public static ChestType byMetadata(int meta) {
 		return values()[meta];
 	}
 
-	public static ChestType byOreName(String dictName) {
-		return Arrays.stream(values()).filter(type -> type.getOreName() == dictName).findFirst().get();
-	}
-
-	public GUI getGui() {
-		return GUI.byType(this);
-	}
-
-	public String getIdName() {
-		return String.format("%s:%s_chest", RegistryMC.ID, getName());
-	}
-
-	public ResourceLocation getId() {
-		return new ResourceLocation(getIdName());
+	public static ChestType byOre(String ore) {
+		return Arrays.stream(values()).filter(type -> type.ore.contentEquals(ore)).findFirst().get();
 	}
 }
