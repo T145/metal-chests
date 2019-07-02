@@ -42,8 +42,8 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(modid = RegistryMC.ID_THERMALEXPANSION, iface = RegistryMC.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem {
 
-	public BlockMetalChestItem(Block block, IStringSerializable[] types) {
-		super(block, types);
+	public BlockMetalChestItem(IStringSerializable[] types, Block block) {
+		super(types, block);
 	}
 
 	@Nullable
@@ -60,7 +60,7 @@ public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem 
 	@Override
 	public String getTranslationKey(ItemStack stack) {
 		if (hasSubtypes) {
-			return String.format("%s.%s", super.getTranslationKey(), ChestType.byMetadata(stack.getItemDamage()).getName());
+			return String.format("%s.%s", super.getTranslationKey(), ChestType.values()[stack.getItemDamage()].getName());
 		}
 		return super.getTranslationKey(stack);
 	}
@@ -74,9 +74,9 @@ public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem 
 				return;
 			}
 
-			ChestType chestType = ChestType.byMetadata(stack.getItemDamage());
+			ChestType type = ChestType.values()[stack.getItemDamage()];
 
-			if (enchantLevel >= chestType.getHolding()) {
+			if (enchantLevel >= type.getHolding()) {
 				NBTTagCompound tag = stack.getTagCompound().getCompoundTag("Inventory");
 				NBTTagList tagList = tag.getTagList("Items", Constants.NBT.TAG_COMPOUND);
 
@@ -94,7 +94,7 @@ public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem 
 						int slot = itemTags.getInteger("Slot");
 						ItemStack slotStack = new ItemStack(itemTags);
 
-						if (slot >= 0 && slot < chestType.getInventorySize()) {
+						if (slot >= 0 && slot < type.getInventorySize()) {
 							tooltip.add(String.format("    %sx %s", itemTags.getInteger("Count"), slotStack.getDisplayName()));
 						}
 					}

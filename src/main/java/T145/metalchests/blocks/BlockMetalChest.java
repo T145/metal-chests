@@ -343,8 +343,10 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	public void getSubBlocks(CreativeTabs tab, NonNullList<ItemStack> items) {
-		for (ChestType type : ChestType.TIERS) {
-			items.add(new ItemStack(this, 1, type.ordinal()));
+		for (ChestType type : ChestType.values()) {
+			if (type.isRegistered()) {
+				items.add(new ItemStack(this, 1, type.ordinal()));
+			}
 		}
 	}
 
@@ -386,7 +388,7 @@ public class BlockMetalChest extends Block {
 
 	@Override
 	public IBlockState getStateFromMeta(int meta) {
-		return getDefaultState().withProperty(IMetalChest.VARIANT, ChestType.byMetadata(meta));
+		return getDefaultState().withProperty(IMetalChest.VARIANT, ChestType.values()[meta]);
 	}
 
 	@Override

@@ -15,16 +15,15 @@
  ******************************************************************************/
 package T145.metalchests.api.consts;
 
-import java.util.Arrays;
+import java.util.Map;
 
 import com.google.gson.JsonObject;
 
-import T145.metalchests.MetalChests;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.IStringSerializable;
-import net.minecraftforge.oredict.OreDictionary;
 
 public enum ChestType implements IStringSerializable {
 
@@ -35,30 +34,33 @@ public enum ChestType implements IStringSerializable {
 	DIAMOND("gemDiamond", MapColor.DIAMOND),
 	OBSIDIAN("obsidian", Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
 
-	public static final ChestType[] TIERS = new ChestType[values().length];
+	private static Map<String, Integer> ores = new Object2ObjectOpenHashMap<>(values().length);
 
 	private static boolean isEnabled(ChestType type, JsonObject obj) {
 		String enabled = obj.getAsJsonPrimitive("enabled").getAsString();
-
-		if (enabled.contentEquals("auto")) {
-			return OreDictionary.doesOreNameExist(type.ore);
-		}
-
+		type.auto = enabled.contentEquals("auto");
 		return Boolean.parseBoolean(enabled);
 	}
 
-	static {
-		for (ChestType type : values()) {
-			JsonObject props = MetalChests.SETTINGS.getAsJsonObject("chests").getAsJsonObject(type.getName());
+	public static void setTiers(JsonObject settings) {
+		ChestType[] temp = new ChestType[values().length];
 
-			if (isEnabled(type, props)) {
-				type.setRegistered(true);
-				type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
-				type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
-				type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
-				TIERS[props.getAsJsonPrimitive("index").getAsInt()] = type;
-			}
+		for (ChestType type : values()) {
+			JsonObject props = settings.getAsJsonObject("chests").getAsJsonObject(type.getName());
+			int index = props.getAsJsonPrimitive("index").getAsInt();
+
+			type.setRegistered(isEnabled(type, props));
+			type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
+			type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
+			type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
+			temp[index] = type;
+			ores.put(type.ore, index);
 		}
+
+		// the metal chest block & item block *need* access to values(),
+		// specifically item block's getTranslationKey & block's getStateFromMeta()
+		// (anything else causes crashes)
+		System.arraycopy(temp, 0, values(), 0, temp.length);
 	}
 
 	private final String ore;
@@ -66,6 +68,7 @@ public enum ChestType implements IStringSerializable {
 	private final MapColor color;
 	private final SoundType sound;
 	private boolean registered;
+	private boolean auto;
 	private int rows;
 	private int cols;
 	private byte holding;
@@ -134,7 +137,11 @@ public enum ChestType implements IStringSerializable {
 		return holding;
 	}
 
-	void setRegistered(boolean registered) {
+	public boolean shouldAutoRegister() {
+		return auto && !registered;
+	}
+
+	public void setRegistered(boolean registered) {
 		this.registered = registered;
 	}
 
@@ -142,11 +149,11 @@ public enum ChestType implements IStringSerializable {
 		return registered;
 	}
 
-	public static ChestType byMetadata(int meta) {
-		return TIERS[meta];
+	public static boolean hasOre(String ore) {
+		return ores.containsKey(ore);
 	}
 
 	public static ChestType byOre(String ore) {
-		return Arrays.stream(TIERS).filter(type -> type.ore.contentEquals(ore)).findFirst().get();
+		return values()[ores.get(ore)];
 	}
 }

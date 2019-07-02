@@ -163,10 +163,10 @@ class CompatThaumcraft {
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		registry.register(new BlockMetalChestItem(BlocksMC.METAL_HUNGRY_CHEST, ChestType.TIERS));
+		registry.register(new BlockMetalChestItem(ChestType.values(), BlocksMC.METAL_HUNGRY_CHEST));
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			registry.register(new BlockMetalChestItem(BlocksMC.METAL_SORTING_HUNGRY_CHEST, ChestType.TIERS));
+			registry.register(new BlockMetalChestItem(ChestType.values(), BlocksMC.METAL_SORTING_HUNGRY_CHEST));
 		}
 
 		registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE));

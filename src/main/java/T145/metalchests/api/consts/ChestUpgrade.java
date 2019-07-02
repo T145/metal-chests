@@ -16,6 +16,7 @@
 package T145.metalchests.api.consts;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 
@@ -24,18 +25,19 @@ import javax.annotation.Nullable;
 import org.apache.commons.lang3.text.WordUtils;
 
 import net.minecraft.util.IStringSerializable;
-import scala.actors.threadpool.Arrays;
 
 public class ChestUpgrade implements IStringSerializable {
 
 	public static final LinkedList<ChestUpgrade> TIERS = new LinkedList<>();
 
 	static {
-		for (ChestType type : ChestType.TIERS) {
-			TIERS.add(new ChestUpgrade(null, type));
+		for (ChestType type : ChestType.values()) {
+			if (type.isRegistered()) {
+				TIERS.add(new ChestUpgrade(null, type));
+			}
 		}
 
-		Deque<ChestType> temp = new ArrayDeque<>(Arrays.asList(ChestType.TIERS));
+		Deque<ChestType> temp = new ArrayDeque<>(Arrays.asList(ChestType.values()));
 
 		while (!temp.isEmpty()) {
 			ChestType base = temp.remove();
