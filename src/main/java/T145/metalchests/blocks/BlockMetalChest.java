@@ -240,6 +240,10 @@ public class BlockMetalChest extends Block {
 			TileMetalChest chest = (TileMetalChest) te;
 			chest.setFront(placer.getHorizontalFacing().getOpposite());
 
+			if (stack.hasDisplayName()) {
+				chest.setCustomName(stack.getDisplayName());
+			}
+
 			if (ConfigMC.hasThermalExpansion() && stack.getTagCompound() != null) {
 				chest.setEnchantLevel((byte) MathHelper.clamp(EnchantmentHelper.getEnchantmentLevel(CoreEnchantments.holding, stack), 0, CoreEnchantments.holding.getMaxLevel()));
 

@@ -36,8 +36,10 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
+import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
@@ -57,6 +59,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected ChestType chestType;
 	protected EnumFacing front;
 	protected ChestHandler inventory;
+	protected String customName;
 	protected byte enchantLevel;
 	protected boolean trapped;
 	protected boolean luminous;
@@ -119,6 +122,14 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	public void setFront(EnumFacing front) {
 		this.front = front;
+	}
+
+	public String getCustomName() {
+		return customName;
+	}
+
+	public void setCustomName(String customName) {
+		this.customName = customName;
 	}
 
 	@Override
@@ -202,6 +213,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		tag.setString(TAG_CHEST_TYPE, chestType.toString());
 		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
 		tag.setString(TAG_FRONT, front.toString());
+		tag.setString("CustomName", customName);
 		tag.setByte(TAG_ENCHANT_LEVEL, enchantLevel);
 		tag.setBoolean(TAG_TRAPPED, trapped);
 		tag.setBoolean(TAG_LUMINOUS, luminous);
@@ -215,6 +227,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		this.setChestType(ChestType.valueOf(tag.getString(TAG_CHEST_TYPE)));
 		inventory.deserializeNBT(tag.getCompoundTag(TAG_INVENTORY));
 		this.setFront(EnumFacing.byName(tag.getString(TAG_FRONT)));
+		this.setCustomName(tag.getString("CustomName"));
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 		this.setTrapped(tag.getBoolean(TAG_TRAPPED));
 		this.setLuminous(tag.getBoolean(TAG_LUMINOUS));
@@ -237,7 +250,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	public boolean hasCustomName() {
-		return false;
+		return !StringUtils.isNullOrEmpty(customName);
 	}
 
 	@Override
@@ -247,7 +260,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return new TextComponentTranslation(getTranslationKey());
+		return hasCustomName() ? new TextComponentString(customName) : new TextComponentTranslation(getTranslationKey());
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_HOLOINVENTORY)
