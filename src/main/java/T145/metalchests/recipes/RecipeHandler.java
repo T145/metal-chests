@@ -23,8 +23,8 @@ public class RecipeHandler {
 	private RecipeHandler() {}
 
 	public static void registerChests(Object baseChest, Block metalChest, String postfix) {
-		for (short meta = 0; meta < ChestType.values().length; ++meta) {
-			ChestType type = ChestType.values()[meta];
+		for (short meta = 0; meta < ChestType.TIERS.size(); ++meta) {
+			ChestType type = ChestType.TIERS.get(meta);
 			ChestType trueType = ChestType.byOre(type.getOre());
 			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
 			String recipeName = String.format("chest%s%s", WordUtils.capitalize(type.getName()), postfix);
@@ -33,7 +33,7 @@ public class RecipeHandler {
 					result,
 					"aaa", "aba", "aaa",
 					'a', type.getOre(),
-					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.values()[meta - 1].ordinal()));
+					'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.TIERS.get(meta - 1).ordinal()));
 
 			OreDictionary.registerOre("chest", result);
 			OreDictionary.registerOre(recipeName, result);
@@ -75,8 +75,8 @@ public class RecipeHandler {
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	public static void registerHungryChests(Object baseChest, Block metalChest, String postfix) {
-		for (short meta = 0; meta < ChestType.values().length; ++meta) {
-			ChestType type = ChestType.values()[meta];
+		for (short meta = 0; meta < ChestType.TIERS.size(); ++meta) {
+			ChestType type = ChestType.TIERS.get(meta);
 			ChestType trueType = ChestType.byOre(type.getOre());
 			ItemStack result = new ItemStack(metalChest, 1, trueType.ordinal());
 			String recipeName = String.format("chest%s%s", WordUtils.capitalize(type.getName()), postfix);
@@ -87,7 +87,7 @@ public class RecipeHandler {
 							result,
 							"aaa", "aba", "aaa",
 							'a', type.getOre(),
-							'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.values()[meta - 1].ordinal())));
+							'b', meta == 0 ? baseChest : new ItemStack(metalChest, 1, ChestType.TIERS.get(meta - 1).ordinal())));
 
 			OreDictionary.registerOre("chest", result);
 			OreDictionary.registerOre(recipeName, result);

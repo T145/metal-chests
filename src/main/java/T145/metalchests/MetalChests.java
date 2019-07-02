@@ -294,7 +294,7 @@ public class MetalChests {
 	public static void metalchests$registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		registry.register(new BlockMetalChestItem(ChestType.values(), BlocksMC.METAL_CHEST));
+		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_CHEST));
 		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
 	}
 
@@ -312,10 +312,7 @@ public class MetalChests {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void metalchests$registerModels(ModelRegistryEvent event) {
-		for (ChestType type : ChestType.values()) {
-			TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), TBone.getVariantName(type));
-		}
-
+		ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), TBone.getVariantName(type)));
 		TBone.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {

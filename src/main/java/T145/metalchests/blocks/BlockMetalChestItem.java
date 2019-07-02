@@ -34,7 +34,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
@@ -42,7 +41,7 @@ import net.minecraftforge.fml.common.Optional;
 @Optional.Interface(modid = RegistryMC.ID_THERMALEXPANSION, iface = RegistryMC.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem {
 
-	public BlockMetalChestItem(IStringSerializable[] types, Block block) {
+	public BlockMetalChestItem(List<ChestType> types, Block block) {
 		super(types, block);
 	}
 

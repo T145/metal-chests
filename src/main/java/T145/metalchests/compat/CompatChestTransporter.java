@@ -79,11 +79,7 @@ class CompatChestTransporter {
 		@Override
 		public Collection<ResourceLocation> getChestModels() {
 			List<ResourceLocation> models = new ArrayList<>();
-
-			for (ChestType type : ChestType.values()) {
-				models.add(RegistryMC.getResource(String.format("item/chesttransporter/%s%s", prefix, type.getName())));
-			}
-
+			ChestType.TIERS.forEach(type -> models.add(RegistryMC.getResource(String.format("item/chesttransporter/%s%s", prefix, type.getName()))));
 			return models;
 		}
 

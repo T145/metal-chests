@@ -163,10 +163,10 @@ class CompatThaumcraft {
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		registry.register(new BlockMetalChestItem(ChestType.values(), BlocksMC.METAL_HUNGRY_CHEST));
+		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_HUNGRY_CHEST));
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			registry.register(new BlockMetalChestItem(ChestType.values(), BlocksMC.METAL_SORTING_HUNGRY_CHEST));
+			registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_SORTING_HUNGRY_CHEST));
 		}
 
 		registry.register(ItemsMC.HUNGRY_CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_HUNGRY_CHEST_UPGRADE));
@@ -176,9 +176,7 @@ class CompatThaumcraft {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		for (ChestType type : ChestType.values()) {
-			TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type));
-		}
+		ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type)));
 
 		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
 			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
@@ -194,9 +192,7 @@ class CompatThaumcraft {
 		});
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			for (ChestType type : ChestType.values()) {
-				TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type));
-			}
+			ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type)));
 
 			TBone.registerTileRenderer(TileMetalSortingHungryChest.class, new RenderMetalSortingChest() {
 

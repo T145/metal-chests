@@ -20,6 +20,8 @@ import java.util.Map;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -34,6 +36,7 @@ public enum ChestType implements IStringSerializable {
 	DIAMOND("gemDiamond", MapColor.DIAMOND),
 	OBSIDIAN("obsidian", Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
 
+	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(values().length);
 	private static final Map<String, Integer> ORES = new Object2ObjectOpenHashMap<>(values().length);
 
 	private static boolean isEnabled(ChestType type, JsonObject obj) {
@@ -55,6 +58,10 @@ public enum ChestType implements IStringSerializable {
 			type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
 			temp[index] = type;
 			ORES.put(type.ore, index);
+
+			if (type.registered) {
+				TIERS.add(type);
+			}
 		}
 
 		// the metal chest block & item block *need* access to values(),
@@ -159,6 +166,7 @@ public enum ChestType implements IStringSerializable {
 
 			if (type.auto && !type.registered) {
 				type.setRegistered(true);
+				TIERS.add(type.ordinal(), type);
 			}
 		}
 	}

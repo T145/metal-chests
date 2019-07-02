@@ -91,17 +91,14 @@ class CompatRefinedRelocation {
 	public static void registerItems(final RegistryEvent.Register<Item> event) {
 		final IForgeRegistry<Item> registry = event.getRegistry();
 
-		registry.register(new BlockMetalChestItem(ChestType.values(), BlocksMC.METAL_SORTING_CHEST));
+		registry.register(new BlockMetalChestItem(ChestType.TIERS, BlocksMC.METAL_SORTING_CHEST));
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_RR2)
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		for (ChestType type : ChestType.values()) {
-			TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_CHEST, type.ordinal(), TBone.getVariantName(type));
-		}
-
+		ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_CHEST, type.ordinal(), TBone.getVariantName(type)));
 		TBone.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
 	}
 
@@ -120,13 +117,11 @@ class CompatRefinedRelocation {
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, ModBlocks.sortingChest, BlocksMC.METAL_SORTING_CHEST);
 
-		for (ChestType type : ChestType.values()) {
-			if (type.isRegistered()) {
-				registerSortingChestRecipe(BlocksMC.METAL_CHEST, BlocksMC.METAL_SORTING_CHEST, type, "Sorting");
+		for (ChestType type : ChestType.TIERS) {
+			registerSortingChestRecipe(BlocksMC.METAL_CHEST, BlocksMC.METAL_SORTING_CHEST, type, "Sorting");
 
-				if (ConfigMC.hasThaumcraft()) {
-					registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type, "SortingHungry");
-				}
+			if (ConfigMC.hasThaumcraft()) {
+				registerSortingChestRecipe(BlocksMC.METAL_HUNGRY_CHEST, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type, "SortingHungry");
 			}
 		}
 	}
