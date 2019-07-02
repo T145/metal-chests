@@ -34,7 +34,7 @@ public enum ChestType implements IStringSerializable {
 	DIAMOND("gemDiamond", MapColor.DIAMOND),
 	OBSIDIAN("obsidian", Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
 
-	private static Map<String, Integer> ores = new Object2ObjectOpenHashMap<>(values().length);
+	private static final Map<String, Integer> ORES = new Object2ObjectOpenHashMap<>(values().length);
 
 	private static boolean isEnabled(ChestType type, JsonObject obj) {
 		String enabled = obj.getAsJsonPrimitive("enabled").getAsString();
@@ -54,7 +54,7 @@ public enum ChestType implements IStringSerializable {
 			type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
 			type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
 			temp[index] = type;
-			ores.put(type.ore, index);
+			ORES.put(type.ore, index);
 		}
 
 		// the metal chest block & item block *need* access to values(),
@@ -137,11 +137,7 @@ public enum ChestType implements IStringSerializable {
 		return holding;
 	}
 
-	public boolean shouldAutoRegister() {
-		return auto && !registered;
-	}
-
-	public void setRegistered(boolean registered) {
+	void setRegistered(boolean registered) {
 		this.registered = registered;
 	}
 
@@ -150,10 +146,20 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static boolean hasOre(String ore) {
-		return ores.containsKey(ore);
+		return ORES.containsKey(ore);
 	}
 
 	public static ChestType byOre(String ore) {
-		return values()[ores.get(ore)];
+		return values()[ORES.get(ore)];
+	}
+
+	public static void attemptRegister(String ore) {
+		if (hasOre(ore)) {
+			ChestType type = byOre(ore);
+
+			if (type.auto && !type.registered) {
+				type.setRegistered(true);
+			}
+		}
 	}
 }

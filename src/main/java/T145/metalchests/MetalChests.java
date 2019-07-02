@@ -306,15 +306,7 @@ public class MetalChests {
 
 	@SubscribeEvent
 	public static void metalchests$registerOre(final OreDictionary.OreRegisterEvent event) {
-		String ore = event.getName();
-
-		if (ChestType.hasOre(ore)) {
-			ChestType type = ChestType.byOre(ore);
-
-			if (type.shouldAutoRegister()) {
-				type.setRegistered(true);
-			}
-		}
+		ChestType.attemptRegister(event.getName());
 	}
 
 	@SideOnly(Side.CLIENT)
