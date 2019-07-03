@@ -154,7 +154,7 @@ public class ItemChestUpgrade extends TItem {
 
 		TileEntity te = world.getTileEntity(pos);
 		ItemStack stack = player.getHeldItem(hand);
-		ChestUpgrade upgrade = ChestUpgrade.byMetadata(stack.getItemDamage());
+		ChestUpgrade upgrade = ChestUpgrade.TIERS.get(stack.getItemDamage());
 
 		if (!canUpdateChest(te, upgrade.getBase()) || !updateChest(upgrade.getUpgrade(), te, player, world, pos)) {
 			return EnumActionResult.FAIL;

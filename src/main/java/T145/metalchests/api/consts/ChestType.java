@@ -15,8 +15,10 @@
  ******************************************************************************/
 package T145.metalchests.api.consts;
 
+import java.util.Collections;
 import java.util.Map;
 
+import com.google.common.collect.Iterables;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -36,7 +38,7 @@ public enum ChestType implements IStringSerializable {
 	DIAMOND("gemDiamond", MapColor.DIAMOND),
 	OBSIDIAN("obsidian", Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
 
-	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(values().length);
+	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(Collections.nCopies(values().length, ChestType.IRON));
 	private static final Map<String, Integer> ORES = new Object2ObjectOpenHashMap<>(values().length);
 
 	private static boolean isEnabled(ChestType type, JsonObject obj) {
@@ -46,8 +48,6 @@ public enum ChestType implements IStringSerializable {
 	}
 
 	public static void setTiers(JsonObject settings) {
-		ChestType[] temp = new ChestType[values().length];
-
 		for (ChestType type : values()) {
 			JsonObject props = settings.getAsJsonObject("chests").getAsJsonObject(type.getName());
 			int index = props.getAsJsonPrimitive("index").getAsInt();
@@ -56,18 +56,17 @@ public enum ChestType implements IStringSerializable {
 			type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
 			type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
 			type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
-			temp[index] = type;
+			type.setIndex(index);
+			TIERS.set(index, type);
 			ORES.put(type.ore, index);
-
-			if (type.registered) {
-				TIERS.add(type);
-			}
 		}
+
+		Iterables.removeIf(TIERS, type -> !type.registered);
+		TIERS.forEach(type -> RegistryMC.LOG.info(type + " : " + type.ordinal() + " : " + type.getIndex()));
 
 		// the metal chest block & item block *need* access to values(),
 		// specifically item block's getTranslationKey & block's getStateFromMeta()
 		// (anything else causes crashes)
-		System.arraycopy(temp, 0, values(), 0, temp.length);
 	}
 
 	private final String ore;
@@ -76,6 +75,7 @@ public enum ChestType implements IStringSerializable {
 	private final SoundType sound;
 	private boolean registered;
 	private boolean auto;
+	private int index;
 	private int rows;
 	private int cols;
 	private byte holding;
@@ -130,6 +130,14 @@ public enum ChestType implements IStringSerializable {
 
 	public int getColumns() {
 		return cols;
+	}
+
+	void setIndex(int index) {
+		this.index = index;
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 	public int getInventorySize() {

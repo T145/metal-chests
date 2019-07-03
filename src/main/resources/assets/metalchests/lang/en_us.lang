@@ -2,7 +2,10 @@
 itemGroup.metalchests=MetalChests
 
 container.sorting_hungry_chest=Sorting Hungry Chest
+
 info.metalchests.chest_info.fail=WARNING! The Holding enchantment level on this chest is not high enough to retain items!
+info.metalchests.jei_hungry_reminder=Crafted using the Arcane Workbench.
+info.metalchests.jei_hungry_cost=Costs are the same as a normal Hungry Chest.
 
 tile.metalchests:metal_chest.copper.name=Copper Chest
 tile.metalchests:metal_chest.iron.name=Iron Chest

@@ -44,12 +44,19 @@ public class ChestUpgrade implements IStringSerializable {
 		}
 	}
 
+	private static int meta;
+	private int ordinal;
 	private final ChestType base;
 	private final ChestType upgrade;
 
 	private ChestUpgrade(@Nullable ChestType base, ChestType upgrade) {
 		this.base = base;
 		this.upgrade = upgrade;
+		this.ordinal = meta++;
+	}
+
+	public int ordinal() {
+		return ordinal;
 	}
 
 	@Nullable
@@ -73,9 +80,5 @@ public class ChestUpgrade implements IStringSerializable {
 
 	public boolean isRegistered() {
 		return base == null ? upgrade.isRegistered() : base.isRegistered() && upgrade.isRegistered();
-	}
-
-	public static ChestUpgrade byMetadata(int meta) {
-		return TIERS.get(meta);
 	}
 }
