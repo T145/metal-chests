@@ -21,8 +21,10 @@ public class CompatJEI implements IModPlugin {
 	public void register(final IModRegistry registry) {
 		this.blacklist = registry.getJeiHelpers().getItemBlacklist();
 
-		ChestType.TIERS.forEach(type -> registry.addDescription(new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal()), "info.metalchests.jei_hungry_reminder", "info.metalchests.jei_hungry_cost"));
-		ChestUpgrade.TIERS.forEach(type -> registry.addDescription(new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()), "info.metalchests.jei_hungry_reminder", "info.metalchests.jei_hungry_cost"));
+		if (ConfigMC.hasThaumcraft()) {
+			ChestType.TIERS.forEach(type -> registry.addDescription(new ItemStack(BlocksMC.METAL_HUNGRY_CHEST, 1, type.ordinal()), "info.metalchests.jei_hungry_reminder", "info.metalchests.jei_hungry_cost"));
+			ChestUpgrade.TIERS.forEach(type -> registry.addDescription(new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()), "info.metalchests.jei_hungry_reminder", "info.metalchests.jei_hungry_cost"));
+		}
 	}
 
 	/*
