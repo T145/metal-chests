@@ -18,7 +18,6 @@ package T145.metalchests.compat;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import T145.metalchests.MetalChests;
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.chests.UpgradeRegistry;
 import T145.metalchests.api.config.ConfigMC;
@@ -32,6 +31,7 @@ import T145.metalchests.blocks.BlockMetalChestItem;
 import T145.metalchests.client.render.blocks.RenderMetalChest;
 import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
 import T145.metalchests.items.ItemChestUpgrade;
+import T145.metalchests.recipes.RecipeHandler;
 import T145.metalchests.tiles.TileMetalHungryChest;
 import T145.metalchests.tiles.TileMetalSortingHungryChest;
 import T145.tbone.core.TBone;
@@ -57,13 +57,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
-import thaumcraft.api.ThaumcraftApi;
-import thaumcraft.api.aspects.Aspect;
-import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
-import thaumcraft.api.crafting.ShapedArcaneRecipe;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatThaumcraft {
@@ -215,30 +210,10 @@ class CompatThaumcraft {
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
-	public static void registerHungryChestRecipes(Object baseChest, Block metalChest, String postfix) {
-		ChestType.TIERS.forEach(type -> {
-			ItemStack result = new ItemStack(metalChest, 1, type.ordinal());
-
-			ThaumcraftApi.addArcaneCraftingRecipe(MetalChests.getChestResource(type, postfix), new ShapedArcaneRecipe(RegistryMC.RECIPE_GROUP, "HUNGRYCHEST", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), result,
-					"aaa", "aba", "aaa", 'a', type.getOre(), 'b', MetalChests.getChestBase(metalChest, baseChest, type)));
-
-			OreDictionary.registerOre("chest", result);
-			OreDictionary.registerOre(MetalChests.getOre(type, postfix), result);
-		});
-	}
-
-	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
-	public static void registerHungryUpgradeRecipes() {
-		ChestUpgrade.TIERS.forEach(type -> ThaumcraftApi.addArcaneCraftingRecipe(MetalChests.getUpgradeResource(type, "Hungry"),
-				new ShapedArcaneRecipe(RegistryMC.RECIPE_GROUP, "HUNGRYCHEST", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()),
-						"aaa", "aaa", "baa", 'a', type.getUpgrade().getOre(), 'b', MetalChests.getUpgradeBase(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.plankGreatwood, type))));
-	}
-
-	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		UpgradeRegistry.register(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST);
-		registerHungryChestRecipes(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "Hungry");
-		registerHungryUpgradeRecipes();
+		RecipeHandler.registerHungryChests(BlocksTC.hungryChest, BlocksMC.METAL_HUNGRY_CHEST, "Hungry");
+		RecipeHandler.registerHungryUpgrades();
 	}
 }

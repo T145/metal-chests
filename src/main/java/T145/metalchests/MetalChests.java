@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.util.HashSet;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,6 +47,7 @@ import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import T145.metalchests.items.ItemChestUpgrade;
 import T145.metalchests.net.PacketHandlerMC;
 import T145.metalchests.net.client.SyncMetalChest;
+import T145.metalchests.recipes.RecipeHandler;
 import T145.metalchests.tiles.TileMetalChest;
 import T145.metalchests.tiles.TileMetalSortingChest;
 import T145.metalchests.tiles.TileMetalSortingHungryChest;
@@ -67,7 +67,6 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.math.BlockPos;
@@ -92,7 +91,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
@@ -301,68 +299,11 @@ public class MetalChests {
 		registry.register(ItemsMC.CHEST_UPGRADE = new ItemChestUpgrade(RegistryMC.RESOURCE_CHEST_UPGRADE));
 	}
 
-	public static Object getChestBase(Block chest, Object base, ChestType type) {
-		if (type.getIndex() == 0) {
-			return base;
-		} else {
-			return new ItemStack(chest, 1, ChestType.TIERS.get(type.getIndex() - 1).ordinal());
-		}
-	}
-
-	public static String getOre(ChestType type, String postfix) {
-		return String.format("chest%s%s", WordUtils.capitalize(type.getName()), postfix);
-	}
-
-	public static ResourceLocation getChestResource(ChestType type, String postfix) {
-		return RegistryMC.getResource(String.format("recipe%s", WordUtils.capitalize(getOre(type, postfix))));
-	}
-
-	public static void registerChestRecipes(Object baseChest, Block metalChest, String postfix) {
-		ChestType.TIERS.forEach(type -> {
-			ItemStack result = new ItemStack(metalChest, 1, type.ordinal());
-
-			GameRegistry.addShapedRecipe(getChestResource(type, StringUtils.EMPTY), RegistryMC.RECIPE_GROUP, result,
-					"aaa", "aba", "aaa", 'a', type.getOre(), 'b', getChestBase(metalChest, baseChest, type));
-
-			OreDictionary.registerOre("chest", result);
-			OreDictionary.registerOre(getOre(type, postfix), result);
-		});
-	}
-
-	public static Object getUpgradeBase(Item upgrade, Object base, ChestUpgrade curr) {
-		short meta = (short) curr.ordinal();
-
-		if (curr.isForWood()) {
-			if (meta == 0) {
-				return base;
-			}
-
-			return new ItemStack(upgrade, 1, meta - 1);
-		} else {
-			ChestUpgrade prior = ChestUpgrade.TIERS.get(meta - 1);
-
-			if (prior.getBase() == curr.getBase()) {
-				return new ItemStack(upgrade, 1, meta - 1);
-			} else {
-				return curr.getBase().getOre();
-			}
-		}
-	}
-
-	public static ResourceLocation getUpgradeResource(ChestUpgrade type, String postfix) {
-		return RegistryMC.getResource(String.format("recipeUpgrade%s%s", WordUtils.capitalize(type.getName()), postfix));
-	}
-
-	public static void registerUpgradeRecipes(Item upgrade, Object base, String postfix) {
-		ChestUpgrade.TIERS.forEach(type -> GameRegistry.addShapedRecipe(getUpgradeResource(type, postfix), RegistryMC.RECIPE_GROUP, new ItemStack(upgrade, 1, type.ordinal()),
-				"aaa", "aaa", "baa", 'a', type.getUpgrade().getOre(), 'b', getUpgradeBase(upgrade, base, type)));
-	}
-
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void metalchests$registerRecipes(RegistryEvent.Register<IRecipe> event) {
 		ChestType.postInit();
-		registerChestRecipes("chestWood", BlocksMC.METAL_CHEST, StringUtils.EMPTY);
-		registerUpgradeRecipes(ItemsMC.CHEST_UPGRADE, "plankWood", StringUtils.EMPTY);
+		RecipeHandler.registerChests("chestWood", BlocksMC.METAL_CHEST, StringUtils.EMPTY);
+		RecipeHandler.registerUpgrades(ItemsMC.CHEST_UPGRADE, "plankWood", StringUtils.EMPTY);
 	}
 
 	@SubscribeEvent
