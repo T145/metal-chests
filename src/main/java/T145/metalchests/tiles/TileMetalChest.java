@@ -20,6 +20,8 @@ import java.util.function.Supplier;
 import javax.annotation.Nonnull;
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
+import org.apache.commons.lang3.StringUtils;
+
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.consts.ChestType;
 import T145.metalchests.api.consts.RegistryMC;
@@ -36,7 +38,6 @@ import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.StringUtils;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -59,7 +60,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected ChestType chestType;
 	protected EnumFacing front;
 	protected ChestHandler inventory;
-	protected String customName;
+	protected String customName = StringUtils.EMPTY;
 	protected byte enchantLevel;
 	protected boolean trapped;
 	protected boolean luminous;
@@ -250,7 +251,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	public boolean hasCustomName() {
-		return !StringUtils.isNullOrEmpty(customName);
+		return !StringUtils.isEmpty(customName);
 	}
 
 	@Override
