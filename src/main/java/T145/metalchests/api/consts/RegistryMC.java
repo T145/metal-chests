@@ -76,9 +76,6 @@ public class RegistryMC {
 		}
 	}.setBackgroundImageName("item_search.png");
 
-	public static final String ID_INVTWEAKS = "invtweaks";
-	public static final String IFACE_CHEST_CONTAINER = "invtweaks.api.container.ChestContainer";
-
 	public static final String ID_HOLOINVENTORY = "holoinventory";
 	public static final String IFACE_NAMED_ITEM_HANDLER = "net.dries007.holoInventory.api.INamedItemHandler";
 

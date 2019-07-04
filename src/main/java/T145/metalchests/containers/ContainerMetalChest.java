@@ -19,7 +19,6 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import T145.metalchests.api.chests.IMetalChest;
 import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.RegistryMC;
 import T145.tbone.api.IInventoryHandler;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,10 +26,9 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.SlotItemHandler;
 
-@ChestContainer
+@ChestContainer(isLargeChest = true)
 public class ContainerMetalChest extends Container {
 
 	public static final int MAX_COLUMNS = 17;
@@ -184,7 +182,6 @@ public class ContainerMetalChest extends Container {
 	//		};
 	//	}
 
-	@Optional.Method(modid = RegistryMC.ID_INVTWEAKS)
 	@ChestContainer.RowSizeCallback
 	public int getRowSize() {
 		return type.getColumns();
