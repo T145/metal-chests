@@ -300,6 +300,7 @@ public class MetalChests {
 
 	@SubscribeEvent(priority = EventPriority.HIGHEST)
 	public static void metalchests$registerRecipes(RegistryEvent.Register<IRecipe> event) {
+		ChestType.postInit();
 		RecipeHandler.registerChests("chestWood", BlocksMC.METAL_CHEST, StringUtils.EMPTY);
 		RecipeHandler.registerUpgrades(ItemsMC.CHEST_UPGRADE, "plankWood", StringUtils.EMPTY);
 	}

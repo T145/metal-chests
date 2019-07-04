@@ -38,7 +38,7 @@ public enum ChestType implements IStringSerializable {
 	DIAMOND("gemDiamond", MapColor.DIAMOND),
 	OBSIDIAN("obsidian", Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
 
-	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(Collections.nCopies(values().length, ChestType.IRON));
+	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(Collections.nCopies(values().length - 1, ChestType.IRON));
 	private static final Map<String, Integer> ORES = new Object2ObjectOpenHashMap<>(values().length);
 
 	private static boolean isEnabled(ChestType type, JsonObject obj) {
@@ -62,7 +62,19 @@ public enum ChestType implements IStringSerializable {
 		}
 
 		Iterables.removeIf(TIERS, type -> !type.registered);
-		TIERS.forEach(type -> RegistryMC.LOG.info(type + " : " + type.ordinal() + " : " + type.getIndex()));
+
+		// If a type got disabled, then there will be lingering IRON types to be removed.
+		for (short i = 0, ironCount = 0; i < TIERS.size(); ++i) {
+			ChestType type = TIERS.get(i);
+
+			if (type == IRON) {
+				++ironCount;
+
+				if (ironCount > 1) {
+					TIERS.remove(i);
+				}
+			}
+		}
 
 		// the metal chest block & item block *need* access to values(),
 		// specifically item block's getTranslationKey & block's getStateFromMeta()
@@ -168,14 +180,21 @@ public enum ChestType implements IStringSerializable {
 		return values()[ORES.get(ore)];
 	}
 
+	// TODO: If ores have been added, mark the types "dirty" and clean up the indices
 	public static void attemptRegister(String ore) {
 		if (hasOre(ore)) {
 			ChestType type = byOre(ore);
 
 			if (type.auto && !type.registered) {
 				type.setRegistered(true);
-				TIERS.add(type.ordinal(), type);
+				TIERS.add(type.getIndex(), type);
 			}
+		}
+	}
+
+	public static void postInit() {
+		for (short i = 0; i < ChestType.TIERS.size(); ++i) {
+			ChestType.TIERS.get(i).setIndex(i);
 		}
 	}
 }
