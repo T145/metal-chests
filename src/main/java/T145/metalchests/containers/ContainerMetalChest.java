@@ -28,7 +28,7 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 
-@ChestContainer(isLargeChest = true)
+@ChestContainer
 public class ContainerMetalChest extends Container {
 
 	public static final int MAX_COLUMNS = 17;
@@ -168,19 +168,6 @@ public class ContainerMetalChest extends Container {
 
 		return result;
 	}
-
-	//	@Optional.Method(modid = RegistryMC.ID_INVTWEAKS)
-	//	@ContainerSectionCallback
-	//	public Map<ContainerSection, List<Slot>> getContainerSections() {
-	//		return new Object2ObjectOpenHashMap() {
-	//			{
-	//				put(ContainerSection.INVENTORY, inventorySlots.subList(0, 36));
-	//				put(ContainerSection.INVENTORY_NOT_HOTBAR, inventorySlots.subList(0, 27));
-	//				put(ContainerSection.INVENTORY_HOTBAR, inventorySlots.subList(27, 36));
-	//				put(ContainerSection.CHEST, inventorySlots.subList(36, inventorySlots.size()));
-	//			}
-	//		};
-	//	}
 
 	@ChestContainer.RowSizeCallback
 	public int getRowSize() {
