@@ -120,22 +120,23 @@ public class MetalChests {
 		JsonElement je = jp.parse(String.format("{\r\n" + 
 				"    \"_comment_version\": \"The mod version this config was generated under. If this mismatches the current version, this config will be regenerated.\",\r\n" + 
 				"    \"version\": \"%s\",\r\n" + 
-				"    \"_comment_auto\": \"The auto option will enable the variant if it finds its corresponding oredict name existing.\",\r\n" + 
-				"    \"_comment_force_enable\": \"To enable the variant even if the oredict name does not exist, set enabled to true.\",\r\n" + 
-				"    \"_comment_force_disable\": \"To disable the variant even if the oredict name does exist, set enabled to false.\",\r\n" + 
-				"    \"_comment_size\": \"Change the number of rows & columns for chest inventories (max 17 cols. x 6 rows, or 102 slots)\",\r\n" + 
+				"    \"_comment_toggle\": \"The enabled auto option will enable the variant if it finds its corresponding oredict name existing.\",\r\n" + 
+				"    \"_comment_toggle_1\": \"Automatically configured variants behave as though they don't exist when first loading the mod,\",\r\n" + 
+				"    \"_comment_toggle_2\": \"so label their index at the *expected* position in the order if they are loaded.\",\r\n" + 
+				"    \"_comment_toggle_3\": \"Set enabled to true or false for explicit variant toggling.\",\r\n" + 
+				"    \"_comment_size\": \"Change the number of rows and columns for chest inventories (max 17 cols. x 6 rows, or 102 slots)\",\r\n" + 
 				"    \"chests\": {\r\n" + 
 				"        \"copper\": {\r\n" + 
 				"            \"index\": 0,\r\n" + 
 				"            \"enabled\": \"auto\",\r\n" + 
-				"            \"rows\": 4,\r\n" + 
+				"            \"rows\": 5,\r\n" + 
 				"            \"cols\": 9,\r\n" + 
 				"            \"holding\": 1\r\n" + 
 				"        },\r\n" + 
 				"        \"iron\": {\r\n" + 
-				"            \"index\": 1,\r\n" + 
+				"            \"index\": 0,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
-				"            \"rows\": 5,\r\n" + 
+				"            \"rows\": 6,\r\n" + 
 				"            \"cols\": 9,\r\n" + 
 				"            \"holding\": 1\r\n" + 
 				"        },\r\n" + 
@@ -143,28 +144,28 @@ public class MetalChests {
 				"            \"index\": 2,\r\n" + 
 				"            \"enabled\": \"auto\",\r\n" + 
 				"            \"rows\": 6,\r\n" + 
-				"            \"cols\": 9,\r\n" + 
+				"            \"cols\": 12,\r\n" + 
 				"            \"holding\": 2\r\n" + 
 				"        },\r\n" + 
 				"        \"gold\": {\r\n" + 
-				"            \"index\": 3,\r\n" + 
+				"            \"index\": 1,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
-				"            \"rows\": 6,\r\n" + 
-				"            \"cols\": 10,\r\n" + 
+				"            \"rows\": 5,\r\n" + 
+				"            \"cols\": 16,\r\n" + 
 				"            \"holding\": 2\r\n" + 
 				"        },\r\n" + 
 				"        \"diamond\": {\r\n" + 
-				"            \"index\": 4,\r\n" + 
+				"            \"index\": 2,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
 				"            \"rows\": 6,\r\n" + 
-				"            \"cols\": 11,\r\n" + 
+				"            \"cols\": 17,\r\n" + 
 				"            \"holding\": 3\r\n" + 
 				"        },\r\n" + 
 				"        \"obsidian\": {\r\n" + 
-				"            \"index\": 5,\r\n" + 
+				"            \"index\": 3,\r\n" + 
 				"            \"enabled\": true,\r\n" + 
 				"            \"rows\": 6,\r\n" + 
-				"            \"cols\": 12,\r\n" + 
+				"            \"cols\": 17,\r\n" + 
 				"            \"holding\": 4\r\n" + 
 				"        }\r\n" + 
 				"    }\r\n" + 
