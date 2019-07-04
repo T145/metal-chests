@@ -54,7 +54,7 @@ public class RecipeHandler {
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	public static void registerHungryChests(Object baseChest, Block metalChest, String postfix) {
-		ChestType.TIERS.forEach(type -> {
+		for (ChestType type : ChestType.TIERS) {
 			ItemStack result = new ItemStack(metalChest, 1, type.ordinal());
 
 			ThaumcraftApi.addArcaneCraftingRecipe(getChestResource(type, postfix), new ShapedArcaneRecipe(RegistryMC.RECIPE_GROUP, "HUNGRYCHEST", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), result,
@@ -62,7 +62,7 @@ public class RecipeHandler {
 
 			OreDictionary.registerOre("chest", result);
 			OreDictionary.registerOre(getOre(type, postfix), result);
-		});
+		}
 	}
 
 	private static Object getUpgradeBase(Item upgrade, Object base, ChestUpgrade curr) {
@@ -96,8 +96,10 @@ public class RecipeHandler {
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	public static void registerHungryUpgrades() {
-		ChestUpgrade.TIERS.forEach(type -> ThaumcraftApi.addArcaneCraftingRecipe(getUpgradeResource(type, "Hungry"),
-				new ShapedArcaneRecipe(RegistryMC.RECIPE_GROUP, "HUNGRYCHEST", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()),
-						"aaa", "aaa", "baa", 'a', type.getUpgrade().getOre(), 'b', getUpgradeBase(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.plankGreatwood, type))));
+		for (ChestUpgrade type : ChestUpgrade.TIERS) {
+			ThaumcraftApi.addArcaneCraftingRecipe(getUpgradeResource(type, "Hungry"),
+					new ShapedArcaneRecipe(RegistryMC.RECIPE_GROUP, "HUNGRYCHEST", 15, new AspectList().add(Aspect.EARTH, 1).add(Aspect.WATER, 1), new ItemStack(ItemsMC.HUNGRY_CHEST_UPGRADE, 1, type.ordinal()),
+							"aaa", "aaa", "baa", 'a', type.getUpgrade().getOre(), 'b', getUpgradeBase(ItemsMC.HUNGRY_CHEST_UPGRADE, BlocksTC.plankGreatwood, type)));
+		}
 	}
 }
