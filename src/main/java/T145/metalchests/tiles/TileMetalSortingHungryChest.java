@@ -33,9 +33,4 @@ public class TileMetalSortingHungryChest extends TileMetalSortingChest {
 	public boolean canUpgradeUsing(Item upgrade) {
 		return upgrade == ItemsMC.HUNGRY_CHEST_UPGRADE;
 	}
-
-	@Override
-	public String getTranslationKey() {
-		return "container.sorting_hungry_chest";
-	}
 }
