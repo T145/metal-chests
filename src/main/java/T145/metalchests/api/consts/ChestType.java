@@ -38,7 +38,7 @@ public enum ChestType implements IStringSerializable {
 	DIAMOND("gemDiamond", MapColor.DIAMOND),
 	OBSIDIAN("obsidian", Material.ROCK, MapColor.OBSIDIAN, SoundType.STONE);
 
-	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(Collections.nCopies(values().length - 1, ChestType.IRON));
+	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(Collections.nCopies(values().length - 1, null));
 	private static final Map<String, Integer> ORES = new Object2ObjectOpenHashMap<>(values().length);
 
 	private static boolean isEnabled(ChestType type, JsonObject obj) {
@@ -47,6 +47,9 @@ public enum ChestType implements IStringSerializable {
 		return Boolean.parseBoolean(enabled);
 	}
 
+	// the metal chest block & item block *need* access to values(),
+	// specifically item block's getTranslationKey & block's getStateFromMeta()
+	// (anything else causes crashes)
 	public static void setTiers(JsonObject settings) {
 		for (ChestType type : values()) {
 			JsonObject props = settings.getAsJsonObject("chests").getAsJsonObject(type.getName());
@@ -61,24 +64,7 @@ public enum ChestType implements IStringSerializable {
 			ORES.put(type.ore, index);
 		}
 
-		Iterables.removeIf(TIERS, type -> !type.registered);
-
-		// If a type got disabled, then there will be lingering IRON types to be removed.
-		for (short i = 0, ironCount = 0; i < TIERS.size(); ++i) {
-			ChestType type = TIERS.get(i);
-
-			if (type == IRON) {
-				++ironCount;
-
-				if (ironCount > 1) {
-					TIERS.remove(i);
-				}
-			}
-		}
-
-		// the metal chest block & item block *need* access to values(),
-		// specifically item block's getTranslationKey & block's getStateFromMeta()
-		// (anything else causes crashes)
+		Iterables.removeIf(TIERS, type -> type == null || !type.registered);
 	}
 
 	private final String ore;
@@ -180,7 +166,6 @@ public enum ChestType implements IStringSerializable {
 		return values()[ORES.get(ore)];
 	}
 
-	// TODO: If ores have been added, mark the types "dirty" and clean up the indices
 	public static void attemptRegister(String ore) {
 		if (hasOre(ore)) {
 			ChestType type = byOre(ore);
