@@ -17,6 +17,7 @@ package T145.metalchests.client.gui;
 
 import T145.metalchests.api.consts.RegistryMC;
 import T145.metalchests.containers.ContainerMetalChest;
+import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -24,11 +25,15 @@ import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.api.IItemSearchBar;
 
-@Optional.Interface(modid = RegistryMC.ID_QUARK, iface = RegistryMC.IFACE_SEARCH_BAR, striprefs = true)
+@Optional.InterfaceList({
+	@Optional.Interface(modid = RegistryMC.ID_QUARK, iface = RegistryMC.IFACE_CHEST_BUTTON_CALLBACK, striprefs = true),
+	@Optional.Interface(modid = RegistryMC.ID_QUARK, iface = RegistryMC.IFACE_SEARCH_BAR, striprefs = true)
+})
 @SideOnly(Side.CLIENT)
-public class GuiMetalChest extends GuiContainer implements IItemSearchBar {
+public class GuiMetalChest extends GuiContainer implements IChestButtonCallback, IItemSearchBar {
 
 	private static final GuiResource TEX = new GuiResource("chest", 512);
 	private final ContainerMetalChest container;
@@ -126,6 +131,12 @@ public class GuiMetalChest extends GuiContainer implements IItemSearchBar {
 
 		// Player inventory
 		TEX.drawQuad(px - b, y, tpx, ty, pw + b * 2, ph + bBot);
+	}
+
+	@Optional.Method(modid = RegistryMC.ID_QUARK)
+	@Override
+	public boolean onAddChestButton(GuiButton button, int buttonType) {
+		return true;
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_QUARK)
