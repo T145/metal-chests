@@ -63,9 +63,6 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.datafix.FixTypes;
@@ -94,7 +91,6 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.DataSerializerEntry;
 import net.minecraftforge.registries.IForgeRegistry;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
@@ -201,29 +197,6 @@ public class MetalChests {
 		return null;
 	}
 
-	public static final DataSerializer<ChestType> CHEST_TYPE = new DataSerializer<ChestType>() {
-
-		@Override
-		public void write(PacketBuffer buf, ChestType value) {
-			buf.writeEnumValue(value);
-		}
-
-		@Override
-		public ChestType read(PacketBuffer buf) throws IOException {
-			return buf.readEnumValue(ChestType.class);
-		}
-
-		@Override
-		public DataParameter<ChestType> createKey(int id) {
-			return new DataParameter<ChestType>(id, this);
-		}
-
-		@Override
-		public ChestType copyValue(ChestType value) {
-			return value;
-		}
-	};
-
 	@SubscribeEvent
 	public static void metalchests$updateConfig(OnConfigChangedEvent event) {
 		if (event.getModID().equals(RegistryMC.ID)) {
@@ -274,13 +247,6 @@ public class MetalChests {
 		OreDictionary.getOres("chestTrapped").forEach(stack -> {
 			UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
 		});
-	}
-
-	@SubscribeEvent
-	public static void metalchests$registerSerializers(final RegistryEvent.Register<DataSerializerEntry> event) {
-		final IForgeRegistry<DataSerializerEntry> registry = event.getRegistry();
-
-		registry.register(new DataSerializerEntry(CHEST_TYPE).setRegistryName(RegistryMC.ID, "chest_type"));
 	}
 
 	@SubscribeEvent
