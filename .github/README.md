@@ -6,6 +6,7 @@
 [![versions](http://cf.way2muchnoise.eu/versions/metalchests.svg)](https://www.curseforge.com/minecraft/mc-mods/metalchests)
 [![packs](http://cf.way2muchnoise.eu/packs/metalchests.svg)](https://www.curseforge.com/minecraft/mc-mods/metalchests/relations/dependents)
 [![discord](https://img.shields.io/discord/265632935456014336.svg?colorB=%237289da&label=discord)](https://discord.gg/3a3RW7H)
+[![codacy](https://api.codacy.com/project/badge/Grade/04f5020887174b9aadcaa976556f0f74)](https://www.codacy.com/app/T145/metalchests?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=T145/metalchests&amp;utm_campaign=Badge_Grade)
 
 * * *
 
