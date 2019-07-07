@@ -118,7 +118,7 @@ If you see something wrong with it or want to add a new feature, then please for
 
 ## Support
 
-# BTC
+## BTC
 
 <div align="center">
 
@@ -126,7 +126,7 @@ If you see something wrong with it or want to add a new feature, then please for
 
 </div>
 
-## Forks
+### Forks
 
 <div align="center">
 
@@ -148,7 +148,7 @@ If you see something wrong with it or want to add a new feature, then please for
 
 * * *
 
-# Altcoins
+## Altcoins
 
 <div align="center">
 
@@ -248,7 +248,7 @@ If you see something wrong with it or want to add a new feature, then please for
 
 * * *
 
-# Ethereum Assets
+## Ethereum Assets
 
 <div align="center">
 
@@ -264,7 +264,7 @@ If you see something wrong with it or want to add a new feature, then please for
 
 <div align="center">
 
-## Supported Tokens:
+### Supported Tokens
 
 **0x**, _`Recommended`_
 

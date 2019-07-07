@@ -1,5 +1,3 @@
-<!-- Thank you for your contribution! -->
-
 ## Problem Details
 
 <!-- If this issue is about a problem: -->
@@ -22,3 +20,5 @@
 -   OS: <!-- Please write here -->
 -   Full Forge version: <!-- Please write here (include Minecraft version) -->
 -   Mod version: <!-- Please write here -->
+
+<!-- Thank you for your contribution! -->
