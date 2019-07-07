@@ -13,15 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.chests;
+package t145.metalchests.api.chests;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import T145.metalchests.api.consts.RegistryMC;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import t145.metalchests.api.consts.RegistryMC;
 
 public class UpgradeRegistry {
 

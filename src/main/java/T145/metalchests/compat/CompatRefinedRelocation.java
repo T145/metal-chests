@@ -13,26 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.compat;
+package t145.metalchests.compat;
 
 import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.config.ConfigMC;
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.api.obj.BlocksMC;
-import T145.metalchests.api.obj.ItemsMC;
-import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockMetalChestItem;
-import T145.metalchests.client.render.blocks.RenderMetalSortingChest;
-import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileMetalHungryChest;
-import T145.metalchests.tiles.TileMetalSortingChest;
-import T145.metalchests.tiles.TileMetalSortingHungryChest;
 import T145.tbone.core.TBone;
 import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.blay09.mods.refinedrelocation.item.ItemSortingUpgrade;
@@ -58,6 +44,20 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
+import t145.metalchests.api.chests.IMetalChest;
+import t145.metalchests.api.chests.UpgradeRegistry;
+import t145.metalchests.api.config.ConfigMC;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.api.obj.BlocksMC;
+import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.blocks.BlockMetalChest;
+import t145.metalchests.blocks.BlockMetalChestItem;
+import t145.metalchests.client.render.blocks.RenderMetalSortingChest;
+import t145.metalchests.tiles.TileMetalChest;
+import t145.metalchests.tiles.TileMetalHungryChest;
+import t145.metalchests.tiles.TileMetalSortingChest;
+import t145.metalchests.tiles.TileMetalSortingHungryChest;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatRefinedRelocation {

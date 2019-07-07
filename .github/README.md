@@ -13,8 +13,8 @@
 1. [Dependencies](https://github.com/T145/metalchests#dependencies)
 2. [Workspace Setup](https://github.com/T145/metalchests#workspace-setup)
 3. [Project License](https://github.com/T145/metalchests#license)
-4. [Dev Support](https://github.com/T145/metalchests#support)
-5. [Contributing](https://github.com/T145/metalchests/blob/master/.github/CONTRIBUTING.md)
+4. [Contributing](https://github.com/T145/metalchests#contributing)
+5. [Support](https://github.com/T145/metalchests#support)
 
 ---
 
@@ -97,7 +97,16 @@ To use any mod assets, you may contatct [myself](https://github.com/T145) or the
 
 ---
 
-## Financial Support
+## Contributing
+
+Thank you for wanting to contribute! This project is made specifically for the community and mainstream use!
+If you see something wrong with it or want to add a new feature, then please fork it and make a contribution.
+
+> Please  _DO NOT_ delete things and leave it at that: provide proper reasons explaining why they were deleted.
+
+---
+
+## Support
 
 # BTC
 

@@ -13,15 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.chests;
+package t145.metalchests.api.chests;
 
-import T145.metalchests.api.consts.ChestType;
 import T145.tbone.api.IInventoryHandler;
 import T145.tbone.lib.ChestAnimator;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.items.IItemHandler;
+import t145.metalchests.api.consts.ChestType;
 
 public interface IMetalChest extends IInventoryHandler {
 

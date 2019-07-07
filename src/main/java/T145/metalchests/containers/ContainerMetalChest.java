@@ -13,12 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.containers;
+package t145.metalchests.containers;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.consts.ChestType;
 import T145.tbone.api.IInventoryHandler;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +25,8 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
+import t145.metalchests.api.chests.IMetalChest;
+import t145.metalchests.api.consts.ChestType;
 
 @ChestContainer
 public class ContainerMetalChest extends Container {

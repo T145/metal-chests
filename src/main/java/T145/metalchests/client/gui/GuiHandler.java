@@ -13,16 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.gui;
+package t145.metalchests.client.gui;
 
-import T145.metalchests.containers.ContainerMetalChest;
-import T145.metalchests.tiles.TileMetalChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import t145.metalchests.containers.ContainerMetalChest;
+import t145.metalchests.tiles.TileMetalChest;
 
 public class GuiHandler implements IGuiHandler {
 

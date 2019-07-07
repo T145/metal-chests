@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests;
+package t145.metalchests;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,25 +32,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.config.ConfigMC;
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.ChestUpgrade;
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.api.obj.BlocksMC;
-import T145.metalchests.api.obj.ItemsMC;
-import T145.metalchests.blocks.BlockMetalChest;
-import T145.metalchests.blocks.BlockMetalChestItem;
-import T145.metalchests.client.gui.GuiHandler;
-import T145.metalchests.client.render.blocks.RenderMetalChest;
-import T145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
-import T145.metalchests.items.ItemChestUpgrade;
-import T145.metalchests.net.PacketHandlerMC;
-import T145.metalchests.net.client.SyncMetalChest;
-import T145.metalchests.recipes.RecipeHandler;
-import T145.metalchests.tiles.TileMetalChest;
-import T145.metalchests.tiles.TileMetalSortingChest;
-import T145.metalchests.tiles.TileMetalSortingHungryChest;
 import T145.tbone.core.TBone;
 import T145.tbone.network.TPacketHandler;
 import net.minecraft.block.Block;
@@ -92,6 +73,25 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.registries.IForgeRegistry;
+import t145.metalchests.api.chests.UpgradeRegistry;
+import t145.metalchests.api.config.ConfigMC;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.ChestUpgrade;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.api.obj.BlocksMC;
+import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.blocks.BlockMetalChest;
+import t145.metalchests.blocks.BlockMetalChestItem;
+import t145.metalchests.client.gui.GuiHandler;
+import t145.metalchests.client.render.blocks.RenderMetalChest;
+import t145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
+import t145.metalchests.items.ItemChestUpgrade;
+import t145.metalchests.net.PacketHandlerMC;
+import t145.metalchests.net.client.SyncMetalChest;
+import t145.metalchests.recipes.RecipeHandler;
+import t145.metalchests.tiles.TileMetalChest;
+import t145.metalchests.tiles.TileMetalSortingChest;
+import t145.metalchests.tiles.TileMetalSortingHungryChest;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
 dependencies = "required-after:tbone;after:chesttransporter;after:thaumcraft")

@@ -13,13 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.items;
+package t145.metalchests.items;
 
-import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.chests.UpgradeRegistry;
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.ChestUpgrade;
-import T145.metalchests.api.consts.RegistryMC;
 import T145.tbone.items.TItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -40,6 +35,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import t145.metalchests.api.chests.IMetalChest;
+import t145.metalchests.api.chests.UpgradeRegistry;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.ChestUpgrade;
+import t145.metalchests.api.consts.RegistryMC;
 
 public class ItemChestUpgrade extends TItem {
 
@@ -51,12 +51,7 @@ public class ItemChestUpgrade extends TItem {
 	private boolean canUpdateChest(TileEntity te, ChestType base) {
 		if (te instanceof IMetalChest) {
 			IMetalChest chest = (IMetalChest) te;
-
-			if (chest.getChestType() != base || chest.getChestAnimator().isOpen() || !chest.canUpgradeUsing(this)) {
-				return false;
-			}
-
-			return true;
+			return chest.getChestType() == base && !chest.getChestAnimator().isOpen() && chest.canUpgradeUsing(this);
 		} else if (UpgradeRegistry.hasMetalChest(this, te.getBlockType())) {
 			te.updateContainingBlockInfo();
 

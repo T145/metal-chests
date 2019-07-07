@@ -13,11 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.tiles;
+package t145.metalchests.tiles;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.consts.ChestType;
 import T145.tbone.lib.ChestHandler;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
@@ -28,6 +27,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
+import t145.metalchests.api.consts.ChestType;
 
 public class TileMetalSortingChest extends TileMetalChest {
 

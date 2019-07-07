@@ -13,11 +13,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.api.config;
+package t145.metalchests.api.config;
 
-import T145.metalchests.api.consts.RegistryMC;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.fml.common.Loader;
+import t145.metalchests.api.consts.RegistryMC;
 
 @Config(modid = RegistryMC.ID, name = "T145/" + RegistryMC.NAME)
 @Config.LangKey(RegistryMC.ID)

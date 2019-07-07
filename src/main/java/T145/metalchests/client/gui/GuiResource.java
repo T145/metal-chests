@@ -1,6 +1,5 @@
-package T145.metalchests.client.gui;
+package t145.metalchests.client.gui;
 
-import T145.metalchests.api.consts.RegistryMC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -8,6 +7,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import t145.metalchests.api.consts.RegistryMC;
 
 @SideOnly(Side.CLIENT)
 public class GuiResource extends ResourceLocation {

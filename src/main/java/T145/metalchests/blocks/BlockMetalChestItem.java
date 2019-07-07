@@ -13,15 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.blocks;
+package t145.metalchests.blocks;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.config.ConfigMC;
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.RegistryMC;
 import T145.tbone.items.TItemBlock;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
@@ -37,6 +34,9 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.Optional;
+import t145.metalchests.api.config.ConfigMC;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
 
 @Optional.Interface(modid = RegistryMC.ID_THERMALEXPANSION, iface = RegistryMC.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem {

@@ -13,15 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.blocks;
+package t145.metalchests.blocks;
 
 import javax.annotation.Nullable;
 
-import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.config.ConfigMC;
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.tiles.TileMetalChest;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.util.helpers.MathHelper;
 import net.minecraft.block.Block;
@@ -56,6 +51,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
+import t145.metalchests.api.chests.IMetalChest;
+import t145.metalchests.api.config.ConfigMC;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.tiles.TileMetalChest;
 
 public class BlockMetalChest extends Block {
 

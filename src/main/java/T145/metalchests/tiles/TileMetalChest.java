@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.tiles;
+package t145.metalchests.tiles;
 
 import java.util.function.Supplier;
 
@@ -22,10 +22,6 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import org.apache.commons.lang3.StringUtils;
 
-import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.api.obj.ItemsMC;
 import T145.tbone.lib.ChestAnimator;
 import T145.tbone.lib.ChestHandler;
 import net.dries007.holoInventory.api.INamedItemHandler;
@@ -48,6 +44,10 @@ import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
+import t145.metalchests.api.chests.IMetalChest;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.api.obj.ItemsMC;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({

@@ -13,16 +13,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.render.blocks;
+package t145.metalchests.client.render.blocks;
 
-import T145.metalchests.api.chests.IMetalChest;
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.tiles.TileMetalChest;
 import net.blay09.mods.refinedrelocation.RefinedRelocationConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import t145.metalchests.api.chests.IMetalChest;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.tiles.TileMetalChest;
 
 @SideOnly(Side.CLIENT)
 public class RenderMetalSortingChest extends RenderMetalChest {

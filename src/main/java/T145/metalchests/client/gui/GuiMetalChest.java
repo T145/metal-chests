@@ -13,10 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.client.gui;
+package t145.metalchests.client.gui;
 
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.containers.ContainerMetalChest;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -25,6 +23,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.containers.ContainerMetalChest;
 import vazkii.quark.api.IChestButtonCallback;
 import vazkii.quark.api.IItemSearchBar;
 

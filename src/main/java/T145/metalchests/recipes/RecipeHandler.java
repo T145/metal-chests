@@ -1,12 +1,8 @@
-package T145.metalchests.recipes;
+package t145.metalchests.recipes;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-import T145.metalchests.api.consts.ChestType;
-import T145.metalchests.api.consts.ChestUpgrade;
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.api.obj.ItemsMC;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,6 +10,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
+import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.ChestUpgrade;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.api.obj.ItemsMC;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;

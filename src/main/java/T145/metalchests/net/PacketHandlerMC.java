@@ -13,12 +13,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package T145.metalchests.net;
+package t145.metalchests.net;
 
-import T145.metalchests.api.consts.RegistryMC;
-import T145.metalchests.net.client.SyncMetalChest;
 import T145.tbone.network.TPacketHandler;
 import net.minecraftforge.fml.relauncher.Side;
+import t145.metalchests.api.consts.RegistryMC;
+import t145.metalchests.net.client.SyncMetalChest;
 
 public class PacketHandlerMC extends TPacketHandler {
 
