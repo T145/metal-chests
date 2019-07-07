@@ -126,10 +126,9 @@ public class ItemChestUpgrade extends TItem {
 			world.setTileEntity(pos, block.createTileEntity(world, state));
 			world.setBlockState(pos, state, 3);
 
-			te = world.getTileEntity(pos);
+			IMetalChest chest = (IMetalChest) world.getTileEntity(pos);
 
-			if (te instanceof IMetalChest) {
-				IMetalChest chest = (IMetalChest) te;
+			if (chest != null) {
 				chest.setChestType(upgrade);
 				chest.setTrapped(trapped);
 				chest.setFront(front);

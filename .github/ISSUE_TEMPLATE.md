@@ -10,6 +10,7 @@
   -- Detailed logs of the issue -->
 
 <!-- else: delete this section and detail your feature request! -->
+
 <!-- ## Feature Request -->
 
 ## Screenshots
@@ -18,6 +19,6 @@
 
 ## Environment
 
-- OS: <!-- Please write here -->
-- Full Forge version: <!-- Please write here (include Minecraft version) -->
-- Mod version: <!-- Please write here -->
+-   OS: <!-- Please write here -->
+-   Full Forge version: <!-- Please write here (include Minecraft version) -->
+-   Mod version: <!-- Please write here -->

@@ -6,8 +6,8 @@
 
 ## Check lists (check `x` in `[ ]` of list items)
 
-- [ ] Building successful
-- [ ] Proper formatting (indentation, etc)
+-   [ ] Building successful
+-   [ ] Proper formatting (indentation, etc)
 
 <!-- Please write here (add any other solutions / future goals) -->
 

@@ -65,26 +65,28 @@ class CompatThaumcraft {
 
 	private CompatThaumcraft() {}
 
-	private static ItemStack tryToInsertStack(IItemHandler inv, @Nonnull ItemStack stack) {
+	private static ItemStack tryToInsertStack(final IItemHandler inv, final @Nonnull ItemStack stack) {
+		ItemStack result = stack.copy();
+
 		for (int slot = 0; slot < inv.getSlots(); ++slot) {
 			if (!inv.getStackInSlot(slot).isEmpty()) {
-				stack = inv.insertItem(slot, stack, false);
+				result = inv.insertItem(slot, result, false);
 
-				if (stack.isEmpty()) {
+				if (result.isEmpty()) {
 					return ItemStack.EMPTY;
 				}
 			}
 		}
 
 		for (int slot = 0; slot < inv.getSlots(); ++slot) {
-			stack = inv.insertItem(slot, stack, false);
+			result = inv.insertItem(slot, result, false);
 
-			if (stack.isEmpty()) {
+			if (result.isEmpty()) {
 				return ItemStack.EMPTY;
 			}
 		}
 
-		return stack;
+		return result;
 	}
 
 	private static void tryToEatItem(World world, BlockPos pos, Entity entity, Block receiver) {

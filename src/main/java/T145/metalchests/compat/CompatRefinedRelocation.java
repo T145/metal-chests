@@ -130,42 +130,33 @@ class CompatRefinedRelocation {
 	@SubscribeEvent
 	public static void activate(RightClickBlock event) {
 		World world = event.getWorld();
-
-		if (world.isRemote) {
-			return;
-		}
-
 		BlockPos pos = event.getPos();
 		TileEntity te = world.getTileEntity(pos);
 
-		if (te == null) {
-			return;
-		}
+		if (!world.isRemote && te instanceof TileMetalChest) {
+			EntityPlayer player = event.getEntityPlayer();
+			ItemStack stack = event.getItemStack();
 
-		EntityPlayer player = event.getEntityPlayer();
-		ItemStack stack = event.getItemStack();
+			if (player.isSneaking() && stack.getItem() instanceof ItemSortingUpgrade) {
+				te.updateContainingBlockInfo();
 
-		if (player.isSneaking() && te instanceof TileMetalChest && stack.getItem() instanceof ItemSortingUpgrade) {
-			te.updateContainingBlockInfo();
+				TileMetalChest oldChest = (TileMetalChest) te;
+				TileMetalChest newChest = te instanceof TileMetalHungryChest ? new TileMetalSortingHungryChest(oldChest.getChestType()) : new TileMetalSortingChest(oldChest.getChestType());
+				Block chestBlock = newChest instanceof TileMetalSortingHungryChest ? BlocksMC.METAL_SORTING_HUNGRY_CHEST : BlocksMC.METAL_SORTING_CHEST;
 
-			TileMetalChest oldChest = (TileMetalChest) te;
-			TileMetalChest newChest = te instanceof TileMetalHungryChest ? new TileMetalSortingHungryChest(oldChest.getChestType()) : new TileMetalSortingChest(oldChest.getChestType());
-			Block chestBlock = newChest instanceof TileMetalSortingHungryChest ? BlocksMC.METAL_SORTING_HUNGRY_CHEST : BlocksMC.METAL_SORTING_CHEST;
+				world.removeTileEntity(pos);
+				world.setBlockToAir(pos);
+				world.setTileEntity(pos, newChest);
 
-			world.removeTileEntity(pos);
-			world.setBlockToAir(pos);
-			world.setTileEntity(pos, newChest);
+				IBlockState state = chestBlock.getDefaultState().withProperty(IMetalChest.VARIANT, newChest.getChestType());
+				world.setBlockState(pos, state, 3);
 
-			IBlockState state = chestBlock.getDefaultState().withProperty(IMetalChest.VARIANT, newChest.getChestType());
-			world.setBlockState(pos, state, 3);
-			world.notifyBlockUpdate(pos, state, state, 3);
+				TileMetalChest chest = (TileMetalChest) world.getTileEntity(pos);
 
-			TileEntity tile = world.getTileEntity(pos);
-
-			if (tile instanceof TileMetalChest) {
-				TileMetalChest chest = (TileMetalChest) tile;
-				chest.setInventory(oldChest.getInventory());
-				chest.setFront(oldChest.getFront());
+				if (chest != null) {
+					chest.setInventory(oldChest.getInventory());
+					chest.setFront(oldChest.getFront());
+				}
 			}
 		}
 	}
