@@ -5,6 +5,7 @@
 [![downloads](http://cf.way2muchnoise.eu/full_metalchests_downloads.svg)](https://www.curseforge.com/minecraft/mc-mods/metalchests)
 [![versions](http://cf.way2muchnoise.eu/versions/metalchests.svg)](https://www.curseforge.com/minecraft/mc-mods/metalchests)
 [![packs](http://cf.way2muchnoise.eu/packs/metalchests.svg)](https://www.curseforge.com/minecraft/mc-mods/metalchests/relations/dependents)
+[![discord](https://img.shields.io/discord/265632935456014336.svg?colorB=%237289da&label=discord)](https://discord.gg/3a3RW7H)
 
 ---
 **_Table of Contents_**
