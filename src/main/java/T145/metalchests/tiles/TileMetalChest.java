@@ -210,7 +210,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	@OverridingMethodsMustInvokeSuper
 	public NBTTagCompound writeToNBT(NBTTagCompound tag) {
-		tag = super.writeToNBT(tag);
+		super.writeToNBT(tag);
 		tag.setString(TAG_CHEST_TYPE, chestType.toString());
 		tag.setTag(TAG_INVENTORY, inventory.serializeNBT());
 		tag.setString(TAG_FRONT, front.toString());

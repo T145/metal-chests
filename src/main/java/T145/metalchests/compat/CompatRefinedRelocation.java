@@ -128,7 +128,7 @@ class CompatRefinedRelocation {
 
 	@Optional.Method(modid = RegistryMC.ID_RR2)
 	@SubscribeEvent
-	public static void onRightClick(RightClickBlock event) {
+	public static void activate(RightClickBlock event) {
 		World world = event.getWorld();
 
 		if (world.isRemote) {

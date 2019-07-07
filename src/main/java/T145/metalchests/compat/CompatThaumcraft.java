@@ -87,7 +87,7 @@ class CompatThaumcraft {
 		return stack;
 	}
 
-	private static void tryToEatItem(World world, BlockPos pos, IBlockState state, Entity entity, Block receiver) {
+	private static void tryToEatItem(World world, BlockPos pos, Entity entity, Block receiver) {
 		TileEntity te = world.getTileEntity(pos);
 
 		if (te instanceof IMetalChest && entity instanceof EntityItem && !entity.isDead) {
@@ -129,7 +129,7 @@ class CompatThaumcraft {
 
 			@Override
 			public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-				tryToEatItem(world, pos, state, entity, this);
+				tryToEatItem(world, pos, entity, this);
 			}
 		});
 
@@ -150,7 +150,7 @@ class CompatThaumcraft {
 
 				@Override
 				public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-					tryToEatItem(world, pos, state, entity, this);
+					tryToEatItem(world, pos, entity, this);
 				}
 			});
 

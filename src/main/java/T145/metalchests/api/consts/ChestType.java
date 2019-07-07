@@ -41,32 +41,6 @@ public enum ChestType implements IStringSerializable {
 	public static final ObjectList<ChestType> TIERS = new ObjectArrayList<>(Collections.nCopies(values().length - 1, null));
 	private static final Map<String, Integer> ORES = new Object2ObjectOpenHashMap<>(values().length);
 
-	private static boolean isEnabled(ChestType type, JsonObject obj) {
-		String enabled = obj.getAsJsonPrimitive("enabled").getAsString();
-		type.auto = enabled.contentEquals("auto");
-		return Boolean.parseBoolean(enabled);
-	}
-
-	// the metal chest block & item block *need* access to values(),
-	// specifically item block's getTranslationKey & block's getStateFromMeta()
-	// (anything else causes crashes)
-	public static void setTiers(JsonObject settings) {
-		for (ChestType type : values()) {
-			JsonObject props = settings.getAsJsonObject("chests").getAsJsonObject(type.getName());
-			int index = props.getAsJsonPrimitive("index").getAsInt();
-
-			type.setRegistered(isEnabled(type, props));
-			type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
-			type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
-			type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
-			type.setIndex(index);
-			TIERS.set(index, type);
-			ORES.put(type.ore, index);
-		}
-
-		Iterables.removeIf(TIERS, type -> type == null || !type.registered);
-	}
-
 	private final String ore;
 	private final Material material;
 	private final MapColor color;
@@ -175,6 +149,32 @@ public enum ChestType implements IStringSerializable {
 				TIERS.add(type.getIndex(), type);
 			}
 		}
+	}
+
+	private static boolean isEnabled(ChestType type, JsonObject obj) {
+		String enabled = obj.getAsJsonPrimitive("enabled").getAsString();
+		type.auto = enabled.contentEquals("auto");
+		return Boolean.parseBoolean(enabled);
+	}
+
+	// the metal chest block & item block *need* access to values(),
+	// specifically item block's getTranslationKey & block's getStateFromMeta()
+	// (anything else causes crashes)
+	public static void setTiers(JsonObject settings) {
+		for (ChestType type : values()) {
+			JsonObject props = settings.getAsJsonObject("chests").getAsJsonObject(type.getName());
+			int index = props.getAsJsonPrimitive("index").getAsInt();
+
+			type.setRegistered(isEnabled(type, props));
+			type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
+			type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
+			type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
+			type.setIndex(index);
+			TIERS.set(index, type);
+			ORES.put(type.ore, index);
+		}
+
+		Iterables.removeIf(TIERS, type -> type == null || !type.registered);
 	}
 
 	public static void postInit() {
