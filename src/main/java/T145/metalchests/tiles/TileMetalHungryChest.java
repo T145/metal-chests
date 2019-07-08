@@ -17,7 +17,7 @@ package t145.metalchests.tiles;
 
 import net.minecraft.item.Item;
 import t145.metalchests.api.consts.ChestType;
-import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.api.objs.ItemsMC;
 
 public class TileMetalHungryChest extends TileMetalChest {
 

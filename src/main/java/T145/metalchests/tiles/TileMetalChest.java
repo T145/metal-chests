@@ -47,7 +47,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import t145.metalchests.api.chests.IMetalChest;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
-import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.api.objs.ItemsMC;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({

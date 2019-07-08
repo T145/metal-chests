@@ -24,8 +24,8 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import t145.metalchests.api.obj.BlocksMC;
-import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.api.objs.BlocksMC;
+import t145.metalchests.api.objs.ItemsMC;
 
 public class RegistryMC {
 

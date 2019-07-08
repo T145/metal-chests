@@ -13,20 +13,26 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package t145.metalchests.api.obj;
+package t145.metalchests.api.objs;
 
-import net.minecraft.item.Item;
+import net.minecraft.block.Block;
 import net.minecraftforge.fml.common.registry.GameRegistry.ObjectHolder;
 import t145.metalchests.api.consts.RegistryMC;
 
 @ObjectHolder(RegistryMC.ID)
-public class ItemsMC {
+public class BlocksMC {
 
-	@ObjectHolder(RegistryMC.KEY_CHEST_UPGRADE)
-	public static Item CHEST_UPGRADE;
+	@ObjectHolder(RegistryMC.KEY_METAL_CHEST)
+	public static Block METAL_CHEST;
 
-	@ObjectHolder(RegistryMC.KEY_HUNGRY_CHEST_UPGRADE)
-	public static Item HUNGRY_CHEST_UPGRADE;
+	@ObjectHolder(RegistryMC.KEY_METAL_HUNGRY_CHEST)
+	public static Block METAL_HUNGRY_CHEST;
 
-	private ItemsMC() {}
+	@ObjectHolder(RegistryMC.KEY_METAL_SORTING_CHEST)
+	public static Block METAL_SORTING_CHEST;
+
+	@ObjectHolder(RegistryMC.KEY_METAL_SORTING_HUNGRY_CHEST)
+	public static Block METAL_SORTING_HUNGRY_CHEST;
+
+	private BlocksMC() {}
 }

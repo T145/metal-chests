@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package t145.metalchests.compat;
+package t145.metalchests.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +38,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
-import t145.metalchests.api.obj.BlocksMC;
+import t145.metalchests.api.objs.BlocksMC;
 import thaumcraft.api.blocks.BlocksTC;
 
 @EventBusSubscriber(modid = RegistryMC.ID)

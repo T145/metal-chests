@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package t145.metalchests;
+package t145.metalchests.core;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -78,8 +78,8 @@ import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.ChestUpgrade;
 import t145.metalchests.api.consts.RegistryMC;
-import t145.metalchests.api.obj.BlocksMC;
-import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.api.objs.BlocksMC;
+import t145.metalchests.api.objs.ItemsMC;
 import t145.metalchests.blocks.BlockMetalChest;
 import t145.metalchests.blocks.BlockMetalChestItem;
 import t145.metalchests.client.gui.GuiHandler;
@@ -95,7 +95,7 @@ import t145.metalchests.tiles.TileMetalSortingHungryChest;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
 dependencies = "required-after:tbone;after:chesttransporter;after:thaumcraft")
-@EventBusSubscriber(modid = RegistryMC.ID)
+@EventBusSubscriber
 public class MetalChests {
 
 	public static final String VERSION = "@VERSION@";

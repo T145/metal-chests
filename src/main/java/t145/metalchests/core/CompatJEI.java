@@ -1,4 +1,4 @@
-package t145.metalchests.compat;
+package t145.metalchests.core;
 
 import mezz.jei.api.IItemBlacklist;
 import mezz.jei.api.IJeiRuntime;
@@ -9,8 +9,8 @@ import net.minecraft.item.ItemStack;
 import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.ChestUpgrade;
-import t145.metalchests.api.obj.BlocksMC;
-import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.api.objs.BlocksMC;
+import t145.metalchests.api.objs.ItemsMC;
 
 @JEIPlugin
 public class CompatJEI implements IModPlugin {

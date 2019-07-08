@@ -13,7 +13,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.ChestUpgrade;
 import t145.metalchests.api.consts.RegistryMC;
-import t145.metalchests.api.obj.ItemsMC;
+import t145.metalchests.api.objs.ItemsMC;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
