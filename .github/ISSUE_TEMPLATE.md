@@ -1,3 +1,4 @@
+
 ## Problem Details
 
 <!-- If this issue is about a problem: -->
@@ -5,7 +6,7 @@
 <!-- Please detail the problem here, including:
   -- Expected behavior
   -- Actual behavior
-  -- Detailed logs of the issue -->
+  -- Detailed logs of the issue (using a service like [PasteBin](https://pastebin.com/)) -->
 
 <!-- else: delete this section and detail your feature request! -->
 

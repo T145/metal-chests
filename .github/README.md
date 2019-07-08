@@ -262,9 +262,9 @@ If you see something wrong with it or want to add a new feature, then please for
 
 </div>
 
-<div align="center">
-
 ### Supported Tokens
+
+<div align="center">
 
 **0x**, _`Recommended`_
 
