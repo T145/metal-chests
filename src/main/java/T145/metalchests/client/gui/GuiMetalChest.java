@@ -67,8 +67,6 @@ public class GuiMetalChest extends GuiContainer implements IChestButtonCallback,
 
 		int x = (width - xSize) / 2;
 		int y = (height - ySize) / 2;
-
-		// Might have gone *a little* overboard with the local variables...
 		int b = container.getBorderSide();
 		int bTop = container.getBorderTop();
 		int bBot = container.getBorderBottom();
