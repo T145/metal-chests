@@ -31,8 +31,8 @@ import t145.metalchests.api.consts.ChestType;
 @ChestContainer
 public class ContainerMetalChest extends Container {
 
-	public static final int MAX_COLUMNS = 17;
-	public static final int MAX_ROWS = 6;
+	public static final int MAX_COLUMNS = 23;
+	public static final int MAX_ROWS = 8;
 
 	public final IInventoryHandler mainInv;
 	public final ChestType type;

@@ -106,7 +106,7 @@ public class GuiMetalChest extends GuiContainer implements IChestButtonCallback,
 		TEX.drawQuad(x3, y, tx3, ty, b, h);
 
 		// Container slots
-		TEX.drawQuad(x + container.getContainerInvXOffset(), y, tx2, 256, container.getContainerInvWidth(), h);
+		TEX.drawQuad(x + container.getContainerInvXOffset(), y, tx2, 292, container.getContainerInvWidth(), h);
 		y += h;
 		ty += maxh + 2;
 
