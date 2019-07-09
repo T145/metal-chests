@@ -45,6 +45,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import t145.metalchests.api.chests.IMetalChest;
+import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
 import t145.metalchests.api.objs.ItemsMC;
@@ -233,7 +234,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	public String getTranslationKey() {
-		return "container.chest";
+		return ConfigMC.archaicNaming ? "container.chest" : String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_CHEST, chestType.getName());
 	}
 
 	@Override

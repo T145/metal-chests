@@ -16,7 +16,9 @@
 package t145.metalchests.tiles;
 
 import net.minecraft.item.Item;
+import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
 import t145.metalchests.api.objs.ItemsMC;
 
 public class TileMetalHungryChest extends TileMetalChest {
@@ -36,6 +38,6 @@ public class TileMetalHungryChest extends TileMetalChest {
 
 	@Override
 	public String getTranslationKey() {
-		return "tile.hungry_chest.name";
+		return ConfigMC.archaicNaming ? "tile.hungry_chest.name" : String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_HUNGRY_CHEST, chestType.getName());
 	}
 }

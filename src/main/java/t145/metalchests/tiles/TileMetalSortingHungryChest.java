@@ -16,7 +16,9 @@
 package t145.metalchests.tiles;
 
 import net.minecraft.item.Item;
+import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
 import t145.metalchests.api.objs.ItemsMC;
 
 public class TileMetalSortingHungryChest extends TileMetalSortingChest {
@@ -32,5 +34,10 @@ public class TileMetalSortingHungryChest extends TileMetalSortingChest {
 	@Override
 	public boolean canUpgradeUsing(Item upgrade) {
 		return upgrade == ItemsMC.HUNGRY_CHEST_UPGRADE;
+	}
+
+	@Override
+	public String getTranslationKey() {
+		return ConfigMC.archaicNaming ? super.getTranslationKey() : String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_SORTING_HUNGRY_CHEST, chestType.getName());
 	}
 }

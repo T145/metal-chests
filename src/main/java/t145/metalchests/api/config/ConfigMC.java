@@ -27,7 +27,10 @@ public class ConfigMC {
 	public static boolean regenConfig = true;
 
 	@Config.Comment("Whether or not all metal chest model textures are like the vanilla chest; black in the middle.\n* Hollow textures contributed by phyne")
-	public static boolean hollowModelTextures = false;
+	public static boolean hollowModelTextures;
+
+	@Config.Comment("Whether or not chest container names are modelled after their block type (\"Chest\") or metal type (\"Iron Chest\")")
+	public static boolean archaicNaming;
 
 	private ConfigMC() {}
 

@@ -27,7 +27,9 @@ import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.CapabilityItemHandler;
+import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
+import t145.metalchests.api.consts.RegistryMC;
 
 public class TileMetalSortingChest extends TileMetalChest {
 
@@ -135,6 +137,6 @@ public class TileMetalSortingChest extends TileMetalChest {
 
 	@Override
 	public String getTranslationKey() {
-		return "container.refinedrelocation:sorting_chest";
+		return ConfigMC.archaicNaming ? "container.refinedrelocation:sorting_chest" : String.format("tile.%s:%s.%s.name", RegistryMC.ID, RegistryMC.KEY_METAL_SORTING_CHEST, chestType.getName());
 	}
 }
