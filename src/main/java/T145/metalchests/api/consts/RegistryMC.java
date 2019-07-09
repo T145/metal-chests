@@ -73,7 +73,6 @@ public class RegistryMC {
 
 	public static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 	public static final ResourceLocation OVERLAY_TRAP = getResource("textures/entity/chest/overlay/trap.png");
-	public static final ResourceLocation OVERLAY_GLOW = getResource("textures/entity/chest/overlay/glow.png");
 
 	private RegistryMC() {}
 

@@ -63,7 +63,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	protected String customName = StringUtils.EMPTY;
 	protected byte enchantLevel;
 	protected boolean trapped;
-	protected boolean luminous;
 
 	public TileMetalChest(ChestType chestType) {
 		super();
@@ -154,16 +153,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	}
 
 	@Override
-	public boolean isLuminous() {
-		return luminous;
-	}
-
-	@Override
-	public void setLuminous(boolean luminous) {
-		this.luminous = luminous;
-	}
-
-	@Override
 	public boolean canUpgradeUsing(Item upgrade) {
 		return upgrade == ItemsMC.CHEST_UPGRADE;
 	}
@@ -217,7 +206,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		tag.setString("CustomName", customName);
 		tag.setByte(TAG_ENCHANT_LEVEL, enchantLevel);
 		tag.setBoolean(TAG_TRAPPED, trapped);
-		tag.setBoolean(TAG_LUMINOUS, luminous);
 		return tag;
 	}
 
@@ -231,7 +219,6 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 		this.setCustomName(tag.getString("CustomName"));
 		this.setEnchantLevel(tag.getByte(TAG_ENCHANT_LEVEL));
 		this.setTrapped(tag.getBoolean(TAG_TRAPPED));
-		this.setLuminous(tag.getBoolean(TAG_LUMINOUS));
 	}
 
 	@Override

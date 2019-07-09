@@ -30,7 +30,6 @@ public interface IMetalChest extends IInventoryHandler {
 	public static final String TAG_FRONT = "Front";
 	public static final String TAG_ENCHANT_LEVEL = "EnchantLevel";
 	public static final String TAG_TRAPPED = "Trapped";
-	public static final String TAG_LUMINOUS = "Luminous";
 
 	ChestAnimator getChestAnimator();
 
@@ -45,10 +44,6 @@ public interface IMetalChest extends IInventoryHandler {
 	boolean isTrapped();
 
 	void setTrapped(boolean trapped);
-
-	boolean isLuminous();
-
-	void setLuminous(boolean luminous);
 
 	byte getEnchantLevel();
 

@@ -121,10 +121,6 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 			renderOverlay(RegistryMC.OVERLAY_TRAP);
 		}
 
-		if (chest.isLuminous()) {
-			renderOverlay(RegistryMC.OVERLAY_GLOW);
-		}
-
 		postRenderChest(chest);
 
 		if (destroyStage >= 0) {

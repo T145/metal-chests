@@ -33,7 +33,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
 import T145.tbone.core.TBone;
-import T145.tbone.network.TPacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
@@ -86,8 +85,6 @@ import t145.metalchests.client.gui.GuiHandler;
 import t145.metalchests.client.render.blocks.RenderMetalChest;
 import t145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import t145.metalchests.items.ItemChestUpgrade;
-import t145.metalchests.net.PacketHandlerMC;
-import t145.metalchests.net.client.SyncMetalChest;
 import t145.metalchests.recipes.RecipeHandler;
 import t145.metalchests.tiles.TileMetalChest;
 import t145.metalchests.tiles.TileMetalSortingChest;
@@ -100,7 +97,6 @@ public class MetalChests {
 
 	public static final String VERSION = "@VERSION@";
 	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
-	public static final TPacketHandler NETWORK = new PacketHandlerMC();
 
 	@Instance(RegistryMC.ID)
 	public static MetalChests instance;
@@ -218,7 +214,6 @@ public class MetalChests {
 		meta.url = "https://github.com/T145/metalchests";
 		meta.useDependencyInformation = false;
 		meta.version = VERSION;
-		NETWORK.registerMessages();
 	}
 
 	@EventHandler
@@ -313,48 +308,28 @@ public class MetalChests {
 	@SubscribeEvent
 	public static void metalchests$activateMetalChest(RightClickBlock event) {
 		World world = event.getWorld();
-
-		if (world.isRemote) {
-			return;
-		}
-
 		BlockPos pos = event.getPos();
 		TileEntity te = world.getTileEntity(pos);
 
-		if (te == null) {
-			return;
-		}
+		if (te instanceof TileMetalChest) {
+			EntityPlayer player = event.getEntityPlayer();
 
-		EntityPlayer player = event.getEntityPlayer();
-		ItemStack stack = event.getItemStack();
+			if (player.isSneaking()) {
+				TileMetalChest chest = (TileMetalChest) te;
+				ItemStack stack = event.getItemStack();
+				boolean hasRedstone = stack.getItem().equals(Items.REDSTONE);
 
-		if (player.isSneaking() && te instanceof TileMetalChest) {
-			TileMetalChest chest = (TileMetalChest) te;
-			boolean hasRedstone = stack.getItem().equals(Items.REDSTONE);
-			boolean hasGlowstone = stack.getItem().equals(Items.GLOWSTONE_DUST);
-
-			if (hasRedstone) {
-				if (chest.isTrapped()) {
-					chest.setTrapped(false);
-				} else {
-					if (!player.capabilities.isCreativeMode) {
-						stack.shrink(1);
+				if (hasRedstone) {
+					if (chest.isTrapped()) {
+						chest.setTrapped(false);
+					} else {
+						if (!player.capabilities.isCreativeMode) {
+							stack.shrink(1);
+						}
+						chest.setTrapped(true);
 					}
-					chest.setTrapped(true);
+					event.setCanceled(true);
 				}
-				NETWORK.sendToAllAround(new SyncMetalChest(pos, chest));
-			}
-
-			if (hasGlowstone) {
-				if (chest.isLuminous()) {
-					chest.setLuminous(false);
-				} else {
-					if (!player.capabilities.isCreativeMode) {
-						stack.shrink(1);
-					}
-					chest.setLuminous(true);
-				}
-				NETWORK.sendToAllAround(new SyncMetalChest(pos, chest));
 			}
 		}
 	}

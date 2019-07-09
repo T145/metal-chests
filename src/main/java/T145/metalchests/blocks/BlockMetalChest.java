@@ -229,7 +229,7 @@ public class BlockMetalChest extends Block {
 			world.updateComparatorOutputLevel(pos, this);
 		}
 
-		super.breakBlock(world, pos, state);
+		world.removeTileEntity(pos);
 	}
 
 	@Override
@@ -373,17 +373,6 @@ public class BlockMetalChest extends Block {
 		}
 
 		return false;
-	}
-
-	@Override
-	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-		TileEntity te = world.getTileEntity(pos);
-
-		if (te instanceof TileMetalChest && ((TileMetalChest) te).isLuminous()) {
-			return 15;
-		}
-
-		return 0;
 	}
 
 	@Override
