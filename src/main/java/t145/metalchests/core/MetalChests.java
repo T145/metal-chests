@@ -67,6 +67,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -81,8 +82,9 @@ import t145.metalchests.api.objs.BlocksMC;
 import t145.metalchests.api.objs.ItemsMC;
 import t145.metalchests.blocks.BlockMetalChest;
 import t145.metalchests.blocks.BlockMetalChestItem;
-import t145.metalchests.client.gui.GuiHandler;
+import t145.metalchests.client.gui.GuiMetalChest;
 import t145.metalchests.client.render.blocks.RenderMetalChest;
+import t145.metalchests.containers.ContainerMetalChest;
 import t145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
 import t145.metalchests.items.ItemChestUpgrade;
 import t145.metalchests.recipes.RecipeHandler;
@@ -93,7 +95,7 @@ import t145.metalchests.tiles.TileMetalSortingHungryChest;
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
 dependencies = "required-after:tbone;after:chesttransporter;after:thaumcraft")
 @EventBusSubscriber
-public class MetalChests {
+public class MetalChests implements IGuiHandler {
 
 	public static final String VERSION = "@VERSION@";
 	public static final String UPDATE_JSON = "https://raw.githubusercontent.com/T145/metalchests/master/update.json";
@@ -193,6 +195,17 @@ public class MetalChests {
 		return null;
 	}
 
+	@Override
+	public ContainerMetalChest getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new ContainerMetalChest((TileMetalChest) world.getTileEntity(new BlockPos(x, y, z)), player.inventory);
+	}
+
+	@SideOnly(Side.CLIENT)
+	@Override
+	public GuiMetalChest getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
+		return new GuiMetalChest(getServerGuiElement(ID, player, world, x, y, z));
+	}
+
 	@SubscribeEvent
 	public static void metalchests$updateConfig(OnConfigChangedEvent event) {
 		if (event.getModID().equals(RegistryMC.ID)) {
@@ -201,7 +214,7 @@ public class MetalChests {
 	}
 
 	@EventHandler
-	public void metalchests$preInit(FMLPreInitializationEvent event) {
+	public void metalchests$preInit(final FMLPreInitializationEvent event) {
 		ChestType.setTiers(loadSettings());
 		ModMetadata meta = event.getModMetadata();
 		meta.authorList.add("T145");
@@ -217,8 +230,8 @@ public class MetalChests {
 	}
 
 	@EventHandler
-	public void metalchests$init(FMLInitializationEvent event) {
-		NetworkRegistry.INSTANCE.registerGuiHandler(MetalChests.instance, new GuiHandler());
+	public void metalchests$init(final FMLInitializationEvent event) {
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, this);
 
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
@@ -234,7 +247,7 @@ public class MetalChests {
 	}
 
 	@EventHandler
-	public void metalchests$postInit(FMLPostInitializationEvent event) {
+	public void metalchests$postInit(final FMLPostInitializationEvent event) {
 		OreDictionary.getOres("chestWood").forEach(stack -> {
 			UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, Block.getBlockFromItem(stack.getItem()), BlocksMC.METAL_CHEST);
 		});
@@ -274,18 +287,17 @@ public class MetalChests {
 
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
-	public static void metalchests$registerModels(ModelRegistryEvent event) {
+	public static void metalchests$registerModels(final ModelRegistryEvent event) {
 		ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), TBone.getVariantName(type)));
 		TBone.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
-		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
-			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
-			TBone.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_CHEST_UPGRADE), i, String.format("item=%s", type.getName()));
+		for (ChestUpgrade upgrade : ChestUpgrade.TIERS) {
+			TBone.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_CHEST_UPGRADE), upgrade.ordinal(), String.format("item=%s", upgrade.getName()));
 		}
 	}
 
 	@SubscribeEvent
-	public static void metalchests$tickOcelot(LivingUpdateEvent event) {
+	public static void metalchests$tickOcelot(final LivingUpdateEvent event) {
 		EntityLivingBase creature = event.getEntityLiving();
 
 		if (creature instanceof EntityOcelot && creature.ticksExisted < 5) {
@@ -306,7 +318,7 @@ public class MetalChests {
 	}
 
 	@SubscribeEvent
-	public static void metalchests$activateMetalChest(RightClickBlock event) {
+	public static void metalchests$activateMetalChest(final RightClickBlock event) {
 		World world = event.getWorld();
 		BlockPos pos = event.getPos();
 		TileEntity te = world.getTileEntity(pos);
