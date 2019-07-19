@@ -27,6 +27,7 @@ import T145.tbone.lib.ChestHandler;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -57,7 +58,7 @@ import vazkii.quark.api.IDropoffManager;
 })
 public class TileMetalChest extends TileEntity implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
-	protected final ChestAnimator animator = new ChestAnimator(this);
+	protected final ChestAnimator animator = new ChestAnimator(true);
 	protected ChestType chestType;
 	protected EnumFacing front;
 	protected ChestHandler inventory;
@@ -178,12 +179,12 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 
 	@Override
 	public void openInventory(EntityPlayer player) {
-		animator.openInventory(player);
+		animator.update(player, world, pos, SoundEvents.BLOCK_CHEST_OPEN, true, trapped);
 	}
 
 	@Override
 	public void closeInventory(EntityPlayer player) {
-		animator.closeInventory(player);
+		animator.update(player, world, pos, SoundEvents.BLOCK_CHEST_CLOSE, false, trapped);
 	}
 
 	@Override
@@ -194,7 +195,7 @@ public class TileMetalChest extends TileEntity implements IMetalChest, ITickable
 	@Override
 	public void update() {
 		inventory.tick(world, pos, getBlockType());
-		animator.tickTileEntity(pos);
+		animator.tick(world, pos);
 	}
 
 	@Override

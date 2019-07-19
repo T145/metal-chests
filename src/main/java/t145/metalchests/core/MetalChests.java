@@ -32,7 +32,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-import T145.tbone.core.TBone;
+import T145.tbone.core.ClientRegistrationHelper;
+import T145.tbone.core.RegistrationHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
@@ -104,7 +105,7 @@ public class MetalChests implements IGuiHandler {
 	public static MetalChests instance;
 
 	public MetalChests() {
-		TBone.registerMod(RegistryMC.ID, RegistryMC.NAME);
+		RegistrationHelper.registerMod(RegistryMC.ID, RegistryMC.NAME);
 	}
 
 	private static void generateConfig(File cfg) throws IOException {
@@ -235,14 +236,14 @@ public class MetalChests implements IGuiHandler {
 
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
-		TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalChest.class);
+		RegistrationHelper.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalChest.class);
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingChest.class);
+			RegistrationHelper.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingChest.class);
 		}
 
 		if (ConfigMC.hasThaumcraft() && ConfigMC.hasRefinedRelocation()) {
-			TBone.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingHungryChest.class);
+			RegistrationHelper.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingHungryChest.class);
 		}
 	}
 
@@ -262,7 +263,7 @@ public class MetalChests implements IGuiHandler {
 		final IForgeRegistry<Block> registry = event.getRegistry();
 
 		registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
-		TBone.registerTileEntity(TileMetalChest.class, RegistryMC.ID);
+		RegistrationHelper.registerTileEntity(TileMetalChest.class, RegistryMC.ID);
 	}
 
 	@SubscribeEvent
@@ -288,11 +289,11 @@ public class MetalChests implements IGuiHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void metalchests$registerModels(final ModelRegistryEvent event) {
-		ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), TBone.getVariantName(type)));
-		TBone.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
+		ChestType.TIERS.forEach(type -> ClientRegistrationHelper.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), ClientRegistrationHelper.getVariantName(type)));
+		ClientRegistrationHelper.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 		for (ChestUpgrade upgrade : ChestUpgrade.TIERS) {
-			TBone.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_CHEST_UPGRADE), upgrade.ordinal(), String.format("item=%s", upgrade.getName()));
+			ClientRegistrationHelper.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_CHEST_UPGRADE), upgrade.ordinal(), String.format("item=%s", upgrade.getName()));
 		}
 	}
 

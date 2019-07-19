@@ -83,7 +83,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	}
 
 	protected void postRenderModel(IMetalChest chest, float partialTicks) {
-		model.chestLid.rotateAngleX = chest.getChestAnimator().getRenderAngle(partialTicks);
+		model.chestLid.rotateAngleX = chest.getChestAnimator().getLidAngle(partialTicks);
 		model.renderAll();
 	}
 

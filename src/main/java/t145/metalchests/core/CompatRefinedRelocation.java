@@ -19,7 +19,8 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import T145.tbone.core.TBone;
+import T145.tbone.core.ClientRegistrationHelper;
+import T145.tbone.core.RegistrationHelper;
 import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.blay09.mods.refinedrelocation.item.ItemSortingUpgrade;
 import net.minecraft.block.Block;
@@ -83,7 +84,7 @@ class CompatRefinedRelocation {
 			}
 		});
 
-		TBone.registerTileEntity(TileMetalSortingChest.class, RegistryMC.ID);
+		RegistrationHelper.registerTileEntity(TileMetalSortingChest.class, RegistryMC.ID);
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_RR2)
@@ -98,8 +99,8 @@ class CompatRefinedRelocation {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_CHEST, type.ordinal(), TBone.getVariantName(type)));
-		TBone.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
+		ChestType.TIERS.forEach(type -> ClientRegistrationHelper.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_CHEST, type.ordinal(), ClientRegistrationHelper.getVariantName(type)));
+		ClientRegistrationHelper.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
 	}
 
 	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String postfix) {

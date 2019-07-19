@@ -18,7 +18,8 @@ package t145.metalchests.core;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import T145.tbone.core.TBone;
+import T145.tbone.core.ClientRegistrationHelper;
+import T145.tbone.core.RegistrationHelper;
 import T145.tbone.lib.ChestAnimator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -135,7 +136,7 @@ class CompatThaumcraft {
 			}
 		});
 
-		TBone.registerTileEntity(TileMetalHungryChest.class, RegistryMC.ID);
+		RegistrationHelper.registerTileEntity(TileMetalHungryChest.class, RegistryMC.ID);
 
 		if (ConfigMC.hasRefinedRelocation()) {
 			registry.register(BlocksMC.METAL_SORTING_HUNGRY_CHEST = new BlockMetalChest() {
@@ -156,7 +157,7 @@ class CompatThaumcraft {
 				}
 			});
 
-			TBone.registerTileEntity(TileMetalSortingHungryChest.class, RegistryMC.ID);
+			RegistrationHelper.registerTileEntity(TileMetalSortingHungryChest.class, RegistryMC.ID);
 		}
 	}
 
@@ -178,14 +179,14 @@ class CompatThaumcraft {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type)));
+		ChestType.TIERS.forEach(type -> ClientRegistrationHelper.registerModel(RegistryMC.ID, BlocksMC.METAL_HUNGRY_CHEST, type.ordinal(), ClientRegistrationHelper.getVariantName(type)));
 
 		for (short i = 0; i < ChestUpgrade.TIERS.size(); ++i) {
 			ChestUpgrade type = ChestUpgrade.TIERS.get(i);
-			TBone.registerModel(RegistryMC.ID, ItemsMC.HUNGRY_CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_HUNGRY_CHEST_UPGRADE), i, String.format("item=%s", type.getName()));
+			ClientRegistrationHelper.registerModel(RegistryMC.ID, ItemsMC.HUNGRY_CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_HUNGRY_CHEST_UPGRADE), i, String.format("item=%s", type.getName()));
 		}
 
-		TBone.registerTileRenderer(TileMetalHungryChest.class, new RenderMetalChest() {
+		ClientRegistrationHelper.registerTileRenderer(TileMetalHungryChest.class, new RenderMetalChest() {
 
 			@Override
 			protected ResourceLocation getActiveResource(ChestType type) {
@@ -194,9 +195,9 @@ class CompatThaumcraft {
 		});
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			ChestType.TIERS.forEach(type -> TBone.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type.ordinal(), TBone.getVariantName(type)));
+			ChestType.TIERS.forEach(type -> ClientRegistrationHelper.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_HUNGRY_CHEST, type.ordinal(), ClientRegistrationHelper.getVariantName(type)));
 
-			TBone.registerTileRenderer(TileMetalSortingHungryChest.class, new RenderMetalSortingChest() {
+			ClientRegistrationHelper.registerTileRenderer(TileMetalSortingHungryChest.class, new RenderMetalSortingChest() {
 
 				@Override
 				protected ResourceLocation getActiveResource(ChestType type) {
