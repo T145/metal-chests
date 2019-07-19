@@ -39,7 +39,7 @@ public class ConfigMC {
 	}
 
 	public static boolean hasRefinedRelocation() {
-		return Loader.isModLoaded(RegistryMC.ID_THAUMCRAFT);
+		return Loader.isModLoaded(RegistryMC.ID_RR2);
 	}
 
 	public static boolean hasThermalExpansion() {
