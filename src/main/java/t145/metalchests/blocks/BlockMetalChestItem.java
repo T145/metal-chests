@@ -19,7 +19,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import T145.tbone.items.TItemBlock;
 import cofh.core.init.CoreEnchantments;
 import cofh.core.item.IEnchantableItem;
 import cofh.core.util.helpers.MathHelper;
@@ -37,6 +36,7 @@ import net.minecraftforge.fml.common.Optional;
 import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
+import t145.tbone.items.TItemBlock;
 
 @Optional.Interface(modid = RegistryMC.ID_THERMALEXPANSION, iface = RegistryMC.IFACE_ENCHANTABLE_ITEM, striprefs = true)
 public class BlockMetalChestItem extends TItemBlock implements IEnchantableItem {

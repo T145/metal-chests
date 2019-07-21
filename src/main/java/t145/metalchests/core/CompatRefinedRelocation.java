@@ -19,8 +19,6 @@ import javax.annotation.Nullable;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import T145.tbone.core.ClientRegistrationHelper;
-import T145.tbone.core.RegistrationHelper;
 import net.blay09.mods.refinedrelocation.ModBlocks;
 import net.blay09.mods.refinedrelocation.item.ItemSortingUpgrade;
 import net.minecraft.block.Block;
@@ -59,6 +57,8 @@ import t145.metalchests.tiles.TileMetalChest;
 import t145.metalchests.tiles.TileMetalHungryChest;
 import t145.metalchests.tiles.TileMetalSortingChest;
 import t145.metalchests.tiles.TileMetalSortingHungryChest;
+import t145.tbone.core.ClientRegistrationHelper;
+import t145.tbone.core.RegistrationHelper;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatRefinedRelocation {

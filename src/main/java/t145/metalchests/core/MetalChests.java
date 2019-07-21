@@ -32,8 +32,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
-import T145.tbone.core.ClientRegistrationHelper;
-import T145.tbone.core.RegistrationHelper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
@@ -92,6 +90,8 @@ import t145.metalchests.recipes.RecipeHandler;
 import t145.metalchests.tiles.TileMetalChest;
 import t145.metalchests.tiles.TileMetalSortingChest;
 import t145.metalchests.tiles.TileMetalSortingHungryChest;
+import t145.tbone.core.ClientRegistrationHelper;
+import t145.tbone.core.RegistrationHelper;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
 dependencies = "required-after:tbone;after:chesttransporter;after:thaumcraft")

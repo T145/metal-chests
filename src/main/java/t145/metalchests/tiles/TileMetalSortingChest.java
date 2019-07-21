@@ -17,7 +17,6 @@ package t145.metalchests.tiles;
 
 import javax.annotation.Nullable;
 
-import T145.tbone.lib.ChestHandler;
 import net.blay09.mods.refinedrelocation.api.Capabilities;
 import net.blay09.mods.refinedrelocation.api.filter.IRootFilter;
 import net.blay09.mods.refinedrelocation.api.grid.ISortingInventory;
@@ -30,6 +29,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
+import t145.tbone.lib.ChestHandler;
 
 public class TileMetalSortingChest extends TileMetalChest {
 

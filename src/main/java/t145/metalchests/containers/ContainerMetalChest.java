@@ -17,7 +17,6 @@ package t145.metalchests.containers;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
 
-import T145.tbone.api.IInventoryHandler;
 import invtweaks.api.container.ChestContainer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -27,6 +26,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;
 import t145.metalchests.api.chests.IMetalChest;
 import t145.metalchests.api.consts.ChestType;
+import t145.tbone.api.IInventoryHandler;
 
 @ChestContainer
 public class ContainerMetalChest extends Container {

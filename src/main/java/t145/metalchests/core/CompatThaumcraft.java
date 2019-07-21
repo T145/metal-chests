@@ -18,9 +18,6 @@ package t145.metalchests.core;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import T145.tbone.core.ClientRegistrationHelper;
-import T145.tbone.core.RegistrationHelper;
-import T145.tbone.lib.ChestAnimator;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -59,6 +56,9 @@ import t145.metalchests.items.ItemChestUpgrade;
 import t145.metalchests.recipes.RecipeHandler;
 import t145.metalchests.tiles.TileMetalHungryChest;
 import t145.metalchests.tiles.TileMetalSortingHungryChest;
+import t145.tbone.core.ClientRegistrationHelper;
+import t145.tbone.core.RegistrationHelper;
+import t145.tbone.lib.ChestAnimator;
 import thaumcraft.api.blocks.BlocksTC;
 
 @EventBusSubscriber(modid = RegistryMC.ID)

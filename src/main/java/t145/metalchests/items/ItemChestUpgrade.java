@@ -15,7 +15,6 @@
  ******************************************************************************/
 package t145.metalchests.items;
 
-import T145.tbone.items.TItem;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -40,6 +39,7 @@ import t145.metalchests.api.chests.UpgradeRegistry;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.ChestUpgrade;
 import t145.metalchests.api.consts.RegistryMC;
+import t145.tbone.items.TItem;
 
 public class ItemChestUpgrade extends TItem {
 

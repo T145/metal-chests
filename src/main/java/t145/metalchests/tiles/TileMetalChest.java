@@ -22,8 +22,6 @@ import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 import org.apache.commons.lang3.StringUtils;
 
-import T145.tbone.lib.ChestAnimator;
-import T145.tbone.lib.ChestHandler;
 import net.dries007.holoInventory.api.INamedItemHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,6 +48,8 @@ import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
 import t145.metalchests.api.objs.ItemsMC;
+import t145.tbone.lib.ChestAnimator;
+import t145.tbone.lib.ChestHandler;
 import vazkii.quark.api.IDropoffManager;
 
 @Optional.InterfaceList({
