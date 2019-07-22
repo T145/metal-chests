@@ -58,7 +58,7 @@ import vazkii.quark.api.IDropoffManager;
 })
 public class TileMetalChest extends TileEntity implements IMetalChest, ITickable, INamedItemHandler, IDropoffManager {
 
-	protected final ChestAnimator animator = new ChestAnimator(true);
+	public ChestAnimator animator = new ChestAnimator(true);
 	protected ChestType chestType;
 	protected EnumFacing front;
 	protected ChestHandler inventory;
