@@ -21,7 +21,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,25 +29,13 @@ import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
 import t145.metalchests.tiles.TileMetalChest;
+import t145.tbone.lib.ChestHelper;
 
 @SideOnly(Side.CLIENT)
 public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> {
 
 	public static final RenderMetalChest INSTANCE = new RenderMetalChest();
 	protected final ModelChest model = new ModelChest();
-
-	public static int getFrontAngle(EnumFacing front) {
-		switch (front) {
-		case NORTH:
-			return 180;
-		case WEST:
-			return 90;
-		case EAST:
-			return -90;
-		default:
-			return 0;
-		}
-	}
 
 	protected ResourceLocation getActiveResource(ChestType type) {
 		StringBuilder builder = new StringBuilder("textures/entity/chest/").append(type.getName());
@@ -78,7 +65,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 		GlStateManager.translate(x, y + 1.0F, z + 1.0F);
 		GlStateManager.scale(1.0F, -1.0F, -1.0F);
 		GlStateManager.translate(0.5F, 0.5F, 0.5F);
-		GlStateManager.rotate(getFrontAngle(chest.getFront()), 0.0F, 1.0F, 0.0F);
+		GlStateManager.rotate(ChestHelper.getFrontAngle(chest.getFront()), 0.0F, 1.0F, 0.0F);
 		GlStateManager.translate(-0.5F, -0.5F, -0.5F);
 	}
 

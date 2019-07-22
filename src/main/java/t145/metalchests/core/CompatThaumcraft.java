@@ -15,16 +15,12 @@
  ******************************************************************************/
 package t145.metalchests.core;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -38,7 +34,6 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.registries.IForgeRegistry;
 import t145.metalchests.api.chests.IMetalChest;
 import t145.metalchests.api.chests.UpgradeRegistry;
@@ -58,59 +53,13 @@ import t145.metalchests.tiles.TileMetalHungryChest;
 import t145.metalchests.tiles.TileMetalSortingHungryChest;
 import t145.tbone.core.ClientRegistrationHelper;
 import t145.tbone.core.RegistrationHelper;
-import t145.tbone.lib.ChestAnimator;
+import t145.tbone.lib.ChestHelper;
 import thaumcraft.api.blocks.BlocksTC;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatThaumcraft {
 
 	private CompatThaumcraft() {}
-
-	private static ItemStack tryToInsertStack(final IItemHandler inv, final @Nonnull ItemStack stack) {
-		ItemStack result = stack.copy();
-
-		for (int slot = 0; slot < inv.getSlots(); ++slot) {
-			if (!inv.getStackInSlot(slot).isEmpty()) {
-				result = inv.insertItem(slot, result, false);
-
-				if (result.isEmpty()) {
-					return ItemStack.EMPTY;
-				}
-			}
-		}
-
-		for (int slot = 0; slot < inv.getSlots(); ++slot) {
-			result = inv.insertItem(slot, result, false);
-
-			if (result.isEmpty()) {
-				return ItemStack.EMPTY;
-			}
-		}
-
-		return result;
-	}
-
-	private static void tryToEatItem(World world, BlockPos pos, Entity entity, Block receiver) {
-		TileEntity te = world.getTileEntity(pos);
-
-		if (te instanceof IMetalChest && entity instanceof EntityItem && !entity.isDead) {
-			IMetalChest chest = (IMetalChest) te;
-			EntityItem item = (EntityItem) entity;
-			ItemStack stack = item.getItem();
-			ItemStack leftovers = tryToInsertStack(chest.getInventory(), stack);
-
-			if (leftovers == null || leftovers.getCount() != stack.getCount()) {
-				entity.playSound(SoundEvents.ENTITY_GENERIC_EAT, 0.25F, (world.rand.nextFloat() - world.rand.nextFloat()) * 0.2F + 1.0F);
-				world.addBlockEvent(pos, receiver, ChestAnimator.EVENT_CHEST_NOM, 2);
-			}
-
-			if (leftovers != null) {
-				item.setItem(leftovers);
-			} else {
-				entity.setDead();
-			}
-		}
-	}
 
 	@Optional.Method(modid = RegistryMC.ID_THAUMCRAFT)
 	@SubscribeEvent
@@ -132,7 +81,7 @@ class CompatThaumcraft {
 
 			@Override
 			public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-				tryToEatItem(world, pos, entity, this);
+				ChestHelper.tryToEatItem(world, pos, entity, this);
 			}
 		});
 
@@ -153,7 +102,7 @@ class CompatThaumcraft {
 
 				@Override
 				public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-					tryToEatItem(world, pos, entity, this);
+					ChestHelper.tryToEatItem(world, pos, entity, this);
 				}
 			});
 
