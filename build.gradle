@@ -95,3 +95,37 @@ build {
         project.file('build/libs').renameTo(project.file('release'))
     }
 }
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = "javadoc"
+	from javadoc.destinationDir
+}
+
+task devJar(type: Jar) {
+    from sourceSets.main.output
+    from 'LICENSE'
+    classifier = 'deobf'
+}
+
+task srcJar(type: Jar) {
+    from sourceSets.main.allJava
+    from sourceSets.api.allJava
+    classifier = 'sources'
+}
+
+task apiJar(type: Jar) {
+	classifier = "api"
+	from sourceSets.api.output
+
+	// TODO: when FG bug is fixed, remove allJava from the api jar.
+	// https://github.com/MinecraftForge/ForgeGradle/issues/369
+	// Gradle should be able to pull them from the -sources jar.
+	from sourceSets.api.allJava
+}
+
+artifacts {
+    archives devJar
+    archives srcJar
+    archives apiJar
+    //archives javadocJar
+}
