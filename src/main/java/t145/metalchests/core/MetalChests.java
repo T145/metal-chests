@@ -85,6 +85,7 @@ import t145.metalchests.client.gui.GuiMetalChest;
 import t145.metalchests.client.render.blocks.RenderMetalChest;
 import t145.metalchests.containers.ContainerMetalChest;
 import t145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
+import t145.metalchests.fixers.MetalChestFixer;
 import t145.metalchests.items.ItemChestUpgrade;
 import t145.metalchests.recipes.RecipeHandler;
 import t145.metalchests.tiles.TileMetalChest;
@@ -236,14 +237,14 @@ public class MetalChests implements IGuiHandler {
 
 		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
 
-		RegistrationHelper.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalChest.class);
+		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalChest.class));
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			RegistrationHelper.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingChest.class);
+			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingChest.class));
 		}
 
 		if (ConfigMC.hasThaumcraft() && ConfigMC.hasRefinedRelocation()) {
-			RegistrationHelper.registerInventoryFixes(fixer, FixTypes.BLOCK_ENTITY, TileMetalSortingHungryChest.class);
+			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingHungryChest.class));
 		}
 	}
 
