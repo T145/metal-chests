@@ -2,10 +2,12 @@ package t145.metalchests.fixers;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.datafix.DataFixesManager;
+import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.datafix.IDataFixer;
 import net.minecraft.util.datafix.IDataWalker;
+import t145.metalchests.api.chests.IMetalChest;
 import t145.metalchests.api.consts.RegistryMC;
 import t145.metalchests.tiles.TileMetalChest;
 
@@ -31,9 +33,7 @@ public class MetalChestFixer implements IDataWalker {
 
 	@Override
 	public NBTTagCompound process(IDataFixer fixer, NBTTagCompound tag, int version) {
-		RegistryMC.LOG.info(chestClass);
 		if (chestClass != null) {
-			RegistryMC.LOG.info("WE BE FIXING THINGS!");
 			String id = tag.getString("id");
 
 			tag.setString("id", IDS.getOrDefault(id, new ResourceLocation(id)).toString());
@@ -42,7 +42,13 @@ public class MetalChestFixer implements IDataWalker {
 				tag.removeTag("Luminous");
 			}
 
-			tag = DataFixesManager.processInventory(fixer, tag, version, "Items");
+			if (tag.hasKey(IMetalChest.TAG_INVENTORY)) {
+				NBTTagList itemTags = tag.getCompoundTag(IMetalChest.TAG_INVENTORY).getTagList("Items", 10);
+
+				for (short i = 0; i < itemTags.tagCount(); ++i) {
+					itemTags.set(i, fixer.process(FixTypes.ITEM_INSTANCE, itemTags.getCompoundTagAt(i), version));
+				}
+			}
 		}
 
 		return tag;
