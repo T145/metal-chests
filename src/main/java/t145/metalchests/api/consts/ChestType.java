@@ -163,15 +163,18 @@ public enum ChestType implements IStringSerializable {
 	public static void setTiers(JsonObject settings) {
 		for (ChestType type : values()) {
 			JsonObject props = settings.getAsJsonObject("chests").getAsJsonObject(type.getName());
-			int index = props.getAsJsonPrimitive("index").getAsInt();
 
-			type.setRegistered(isEnabled(type, props));
-			type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
-			type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
-			type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
-			type.setIndex(index);
-			TIERS.set(index, type);
-			ORES.put(type.ore, index);
+			if (props != null) {
+				int index = props.getAsJsonPrimitive("index").getAsInt();
+
+				type.setRegistered(isEnabled(type, props));
+				type.setRows(props.getAsJsonPrimitive("rows").getAsInt());
+				type.setCols(props.getAsJsonPrimitive("cols").getAsInt());
+				type.setHolding(props.getAsJsonPrimitive("holding").getAsByte());
+				type.setIndex(index);
+				TIERS.set(index, type);
+				ORES.put(type.ore, index);
+			}
 		}
 
 		Iterables.removeIf(TIERS, type -> type == null || !type.registered);
