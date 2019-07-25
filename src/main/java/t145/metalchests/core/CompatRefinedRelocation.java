@@ -57,8 +57,8 @@ import t145.metalchests.tiles.TileMetalChest;
 import t145.metalchests.tiles.TileMetalHungryChest;
 import t145.metalchests.tiles.TileMetalSortingChest;
 import t145.metalchests.tiles.TileMetalSortingHungryChest;
-import t145.tbone.core.ClientRegistrationHelper;
-import t145.tbone.core.RegistrationHelper;
+import t145.tbone.core.TClient;
+import t145.tbone.core.TServer;
 
 @EventBusSubscriber(modid = RegistryMC.ID)
 class CompatRefinedRelocation {
@@ -84,7 +84,7 @@ class CompatRefinedRelocation {
 			}
 		});
 
-		RegistrationHelper.registerTileEntity(TileMetalSortingChest.class, RegistryMC.ID);
+		TServer.registerTileEntity(TileMetalSortingChest.class, RegistryMC.ID);
 	}
 
 	@Optional.Method(modid = RegistryMC.ID_RR2)
@@ -99,8 +99,8 @@ class CompatRefinedRelocation {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void registerModels(ModelRegistryEvent event) {
-		ChestType.TIERS.forEach(type -> ClientRegistrationHelper.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_CHEST, type.ordinal(), ClientRegistrationHelper.getVariantName(type)));
-		ClientRegistrationHelper.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
+		ChestType.TIERS.forEach(type -> TClient.registerModel(RegistryMC.ID, BlocksMC.METAL_SORTING_CHEST, type.ordinal(), type));
+		TClient.registerTileRenderer(TileMetalSortingChest.class, new RenderMetalSortingChest());
 	}
 
 	private static void registerSortingChestRecipe(Block baseChest, Block metalChest, ChestType type, String postfix) {

@@ -91,8 +91,8 @@ import t145.metalchests.recipes.RecipeHandler;
 import t145.metalchests.tiles.TileMetalChest;
 import t145.metalchests.tiles.TileMetalSortingChest;
 import t145.metalchests.tiles.TileMetalSortingHungryChest;
-import t145.tbone.core.ClientRegistrationHelper;
-import t145.tbone.core.RegistrationHelper;
+import t145.tbone.core.TClient;
+import t145.tbone.core.TServer;
 
 @Mod(modid = RegistryMC.ID, name = RegistryMC.NAME, version = MetalChests.VERSION, updateJSON = MetalChests.UPDATE_JSON,
 dependencies = "required-after:tbone;after:chesttransporter;after:thaumcraft")
@@ -106,7 +106,7 @@ public class MetalChests implements IGuiHandler {
 	public static MetalChests instance;
 
 	public MetalChests() {
-		RegistrationHelper.registerMod(RegistryMC.ID, RegistryMC.NAME);
+		TServer.registerMod(RegistryMC.ID, RegistryMC.NAME);
 	}
 
 	private static void generateConfig(File cfg) throws IOException {
@@ -264,7 +264,7 @@ public class MetalChests implements IGuiHandler {
 		final IForgeRegistry<Block> registry = event.getRegistry();
 
 		registry.register(BlocksMC.METAL_CHEST = new BlockMetalChest());
-		RegistrationHelper.registerTileEntity(TileMetalChest.class, RegistryMC.ID);
+		TServer.registerTileEntity(TileMetalChest.class, RegistryMC.ID);
 	}
 
 	@SubscribeEvent
@@ -290,11 +290,11 @@ public class MetalChests implements IGuiHandler {
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public static void metalchests$registerModels(final ModelRegistryEvent event) {
-		ChestType.TIERS.forEach(type -> ClientRegistrationHelper.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), ClientRegistrationHelper.getVariantName(type)));
-		ClientRegistrationHelper.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
+		ChestType.TIERS.forEach(type -> TClient.registerModel(RegistryMC.ID, BlocksMC.METAL_CHEST, type.ordinal(), type));
+		TClient.registerTileRenderer(TileMetalChest.class, RenderMetalChest.INSTANCE);
 
 		for (ChestUpgrade upgrade : ChestUpgrade.TIERS) {
-			ClientRegistrationHelper.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_CHEST_UPGRADE), upgrade.ordinal(), String.format("item=%s", upgrade.getName()));
+			TClient.registerModel(RegistryMC.ID, ItemsMC.CHEST_UPGRADE, String.format("item_%s", RegistryMC.KEY_CHEST_UPGRADE), upgrade.ordinal(), String.format("item=%s", upgrade.getName()));
 		}
 	}
 
