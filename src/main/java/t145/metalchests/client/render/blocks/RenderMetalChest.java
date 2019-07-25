@@ -38,13 +38,7 @@ public class RenderMetalChest extends TileEntitySpecialRenderer<TileMetalChest> 
 	protected final ModelChest model = new ModelChest();
 
 	protected ResourceLocation getActiveResource(ChestType type) {
-		StringBuilder builder = new StringBuilder("textures/entity/chest/").append(type.getName());
-
-		if (ConfigMC.hollowModelTextures) {
-			builder.append("_h");
-		}
-
-		return RegistryMC.getResource(builder.append(".png").toString());
+		return ConfigMC.hollowModelTextures ? RegistryMC.HOLLOW_METAL_CHEST_MODELS[type.ordinal()] : RegistryMC.METAL_CHEST_MODELS[type.ordinal()];
 	}
 
 	protected void preRender(ResourceLocation overlay, IMetalChest chest, double x, double y, double z, int destroyStage, float alpha) {

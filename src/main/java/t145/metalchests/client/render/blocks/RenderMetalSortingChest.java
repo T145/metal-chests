@@ -28,7 +28,7 @@ import t145.metalchests.tiles.TileMetalChest;
 public class RenderMetalSortingChest extends RenderMetalChest {
 
 	protected ResourceLocation getActiveOverlay(ChestType type) {
-		return RegistryMC.getResource(String.format("textures/entity/chest/overlay/sorting_%s.png", type.getName()));
+		return RegistryMC.SORTING_OVERLAY_MODELS[type.ordinal()];
 	}
 
 	@Override

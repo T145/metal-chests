@@ -139,7 +139,7 @@ class CompatThaumcraft {
 
 			@Override
 			protected ResourceLocation getActiveResource(ChestType type) {
-				return RegistryMC.getResource(String.format("textures/entity/chest/hungry/%s.png", type.getName()));
+				return RegistryMC.METAL_HUNGRY_CHEST_MODELS[type.ordinal()];
 			}
 		});
 
@@ -150,12 +150,12 @@ class CompatThaumcraft {
 
 				@Override
 				protected ResourceLocation getActiveResource(ChestType type) {
-					return RegistryMC.getResource(String.format("textures/entity/chest/hungry/%s.png", type.getName()));
+					return RegistryMC.METAL_HUNGRY_CHEST_MODELS[type.ordinal()];
 				}
 
 				@Override
 				protected ResourceLocation getActiveOverlay(ChestType type) {
-					return RegistryMC.getResource(String.format("textures/entity/chest/hungry/overlay/sorting_%s.png", type.getName()));
+					return RegistryMC.SORTING_HUNGRY_OVERLAY_MODELS[type.ordinal()];
 				}
 			});
 		}

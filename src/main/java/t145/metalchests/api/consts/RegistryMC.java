@@ -34,6 +34,55 @@ public class RegistryMC {
 	public static final Logger LOG = LogManager.getLogger(ID);
 	public static final ResourceLocation RECIPE_GROUP = new ResourceLocation(ID);
 
+	public static final ResourceLocation[] METAL_CHEST_MODELS = new ResourceLocation[] {
+			getResource("textures/entity/chest/copper.png"),
+			getResource("textures/entity/chest/iron.png"),
+			getResource("textures/entity/chest/silver.png"),
+			getResource("textures/entity/chest/gold.png"),
+			getResource("textures/entity/chest/diamond.png"),
+			getResource("textures/entity/chest/obsidian.png")
+	};
+
+	public static final ResourceLocation[] HOLLOW_METAL_CHEST_MODELS = new ResourceLocation[] {
+			getResource("textures/entity/chest/copper_h.png"),
+			getResource("textures/entity/chest/iron_h.png"),
+			getResource("textures/entity/chest/silver_h.png"),
+			getResource("textures/entity/chest/gold_h.png"),
+			getResource("textures/entity/chest/diamond_h.png"),
+			getResource("textures/entity/chest/obsidian_h.png")
+	};
+
+	public static final ResourceLocation[] METAL_HUNGRY_CHEST_MODELS = new ResourceLocation[] {
+			getResource("textures/entity/chest/hungry/copper.png"),
+			getResource("textures/entity/chest/hungry/iron.png"),
+			getResource("textures/entity/chest/hungry/silver.png"),
+			getResource("textures/entity/chest/hungry/gold.png"),
+			getResource("textures/entity/chest/hungry/diamond.png"),
+			getResource("textures/entity/chest/hungry/obsidian.png")
+	};
+
+	public static final ResourceLocation[] SORTING_OVERLAY_MODELS = new ResourceLocation[] {
+			getResource("textures/entity/chest/overlay/sorting_copper.png"),
+			getResource("textures/entity/chest/overlay/sorting_iron.png"),
+			getResource("textures/entity/chest/overlay/sorting_silver.png"),
+			getResource("textures/entity/chest/overlay/sorting_gold.png"),
+			getResource("textures/entity/chest/overlay/sorting_diamond.png"),
+			getResource("textures/entity/chest/overlay/sorting_obsidian.png")
+	};
+
+	public static final ResourceLocation[] SORTING_HUNGRY_OVERLAY_MODELS = new ResourceLocation[] {
+			getResource("textures/entity/chest/hungry/overlay/sorting_copper.png"),
+			getResource("textures/entity/chest/hungry/overlay/sorting_iron.png"),
+			getResource("textures/entity/chest/hungry/overlay/sorting_silver.png"),
+			getResource("textures/entity/chest/hungry/overlay/sorting_gold.png"),
+			getResource("textures/entity/chest/hungry/overlay/sorting_diamond.png"),
+			getResource("textures/entity/chest/hungry/overlay/sorting_obsidian.png")
+	};
+
+	public static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
+	public static final ResourceLocation OVERLAY_TRAP = getResource("textures/entity/chest/overlay/trap.png");
+	public static final ResourceLocation OVERLAY_TRAP_DOUBLE = getResource("textures/entity/chest/overlay/trap_double.png");
+
 	public static final String ID_HOLOINVENTORY = "holoinventory";
 	public static final String IFACE_NAMED_ITEM_HANDLER = "net.dries007.holoInventory.api.INamedItemHandler";
 
@@ -70,9 +119,6 @@ public class RegistryMC {
 
 	public static final ResourceLocation RESOURCE_CHEST_UPGRADE = getResource(KEY_CHEST_UPGRADE);
 	public static final ResourceLocation RESOURCE_HUNGRY_CHEST_UPGRADE = getResource(KEY_HUNGRY_CHEST_UPGRADE);
-
-	public static final ResourceLocation OVERLAY_ENCHANT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
-	public static final ResourceLocation OVERLAY_TRAP = getResource("textures/entity/chest/overlay/trap.png");
 
 	private RegistryMC() {}
 
