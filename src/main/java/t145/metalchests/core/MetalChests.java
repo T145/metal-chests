@@ -89,6 +89,7 @@ import t145.metalchests.fixers.MetalChestFixer;
 import t145.metalchests.items.ItemChestUpgrade;
 import t145.metalchests.recipes.RecipeHandler;
 import t145.metalchests.tiles.TileMetalChest;
+import t145.metalchests.tiles.TileMetalHungryChest;
 import t145.metalchests.tiles.TileMetalSortingChest;
 import t145.metalchests.tiles.TileMetalSortingHungryChest;
 import t145.tbone.core.TClient;
@@ -239,12 +240,16 @@ public class MetalChests implements IGuiHandler {
 
 		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalChest.class));
 
-		if (ConfigMC.hasRefinedRelocation()) {
-			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingChest.class));
+		if (ConfigMC.hasThaumcraft()) {
+			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalHungryChest.class));
 		}
 
-		if (ConfigMC.hasThaumcraft() && ConfigMC.hasRefinedRelocation()) {
-			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingHungryChest.class));
+		if (ConfigMC.hasRefinedRelocation()) {
+			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingChest.class));
+
+			if (ConfigMC.hasThaumcraft()) {
+				fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingHungryChest.class));
+			}
 		}
 	}
 
