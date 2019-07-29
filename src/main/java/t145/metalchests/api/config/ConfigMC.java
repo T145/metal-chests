@@ -32,9 +32,9 @@ public class ConfigMC {
 	@Config.Comment("Whether or not chest container names are modelled after their block type (\"Chest\") or metal type (\"Iron Chest\")")
 	public static boolean archaicNaming;
 
-	@Config.Comment("This will increment the registered data fixer version by one, forcing an update on the next world load.\n"
-			+ "An update is necessary after any changes to the JSON config. Toggle it back and forth for repeated updates.\n"
-			+ "An update will always happen upon a mod update.")
+	@Config.Comment("Setting this to true will increment the registered data fixer version by one, forcing it to run on the next world load.\n"
+			+ "Doing this is necessary after changing any inventory properties in the JSON config. Toggle it back and forth to force runs.\n"
+			+ "The data fixer will always run on complete a mod update, or moving a world from a development environment to production.")
 	public static boolean forceDataFixing = true;
 
 	private ConfigMC() {}
