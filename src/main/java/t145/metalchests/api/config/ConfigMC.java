@@ -32,6 +32,9 @@ public class ConfigMC {
 	@Config.Comment("Whether or not chest container names are modelled after their block type (\"Chest\") or metal type (\"Iron Chest\")")
 	public static boolean archaicNaming;
 
+	@Config.Comment("Whether or not force data fixers to run. Normally, they'll just run whenever the mod updates.")
+	public static boolean forceDataFixing = true;
+
 	private ConfigMC() {}
 
 	public static boolean hasThaumcraft() {

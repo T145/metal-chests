@@ -50,6 +50,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
+import net.minecraftforge.common.util.CompoundDataFixer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.RightClickBlock;
@@ -84,8 +85,9 @@ import t145.metalchests.blocks.BlockMetalChestItem;
 import t145.metalchests.client.gui.GuiMetalChest;
 import t145.metalchests.client.render.blocks.RenderMetalChest;
 import t145.metalchests.containers.ContainerMetalChest;
+import t145.metalchests.data.MetalChestFixer;
+import t145.metalchests.data.MetalChestWalker;
 import t145.metalchests.entities.ai.EntityAIOcelotSitOnChest;
-import t145.metalchests.fixers.MetalChestFixer;
 import t145.metalchests.items.ItemChestUpgrade;
 import t145.metalchests.recipes.RecipeHandler;
 import t145.metalchests.tiles.TileMetalChest;
@@ -108,6 +110,10 @@ public class MetalChests implements IGuiHandler {
 
 	public MetalChests() {
 		TServer.registerMod(RegistryMC.ID, RegistryMC.NAME);
+	}
+
+	public static boolean isDeobfuscated() {
+		return VERSION.contentEquals("@VERSION@");
 	}
 
 	private static void generateConfig(File cfg) throws IOException {
@@ -236,19 +242,22 @@ public class MetalChests implements IGuiHandler {
 	public void metalchests$init(final FMLInitializationEvent event) {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, this);
 
-		DataFixer fixer = FMLCommonHandler.instance().getDataFixer();
+		int version = isDeobfuscated() ? 1 : Integer.parseInt(VERSION.substring(0, VERSION.indexOf('+')));
+		CompoundDataFixer fixers = FMLCommonHandler.instance().getDataFixer();
+		DataFixer walkers = FMLCommonHandler.instance().getDataFixer();
 
-		fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalChest.class));
+		fixers.init(RegistryMC.ID, version).registerFix(FixTypes.BLOCK_ENTITY, new MetalChestFixer(version));
+		walkers.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestWalker(TileMetalChest.class));
 
 		if (ConfigMC.hasThaumcraft()) {
-			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalHungryChest.class));
+			walkers.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestWalker(TileMetalHungryChest.class));
 		}
 
 		if (ConfigMC.hasRefinedRelocation()) {
-			fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingChest.class));
+			walkers.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestWalker(TileMetalSortingChest.class));
 
 			if (ConfigMC.hasThaumcraft()) {
-				fixer.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestFixer(TileMetalSortingHungryChest.class));
+				walkers.registerWalker(FixTypes.BLOCK_ENTITY, new MetalChestWalker(TileMetalSortingHungryChest.class));
 			}
 		}
 	}
