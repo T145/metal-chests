@@ -6,7 +6,6 @@ import java.util.Map;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.datafix.IFixableData;
 import t145.metalchests.api.chests.IMetalChest;
-import t145.metalchests.api.config.ConfigMC;
 import t145.metalchests.api.consts.ChestType;
 import t145.metalchests.api.consts.RegistryMC;
 
@@ -28,10 +27,6 @@ public class MetalChestFixer implements IFixableData {
 
 	@Override
 	public int getFixVersion() {
-		if (ConfigMC.forceDataFixing) {
-			return version + 1;
-		}
-
 		return version;
 	}
 

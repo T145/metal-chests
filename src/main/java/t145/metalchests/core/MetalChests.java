@@ -243,6 +243,11 @@ public class MetalChests implements IGuiHandler {
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, this);
 
 		int version = isDeobfuscated() ? 1 : Integer.parseInt(VERSION.substring(0, VERSION.indexOf('+')));
+
+		if (ConfigMC.forceDataFixing) {
+			++version;
+		}
+
 		CompoundDataFixer fixers = FMLCommonHandler.instance().getDataFixer();
 		DataFixer walkers = FMLCommonHandler.instance().getDataFixer();
 
