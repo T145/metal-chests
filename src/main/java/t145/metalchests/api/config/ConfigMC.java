@@ -33,8 +33,8 @@ public class ConfigMC {
 	public static boolean archaicNaming;
 
 	@Config.Comment("Setting this to true will increment the registered data fixer version by one, forcing it to run on the next world load.\n"
-			+ "Doing this is necessary after changing any inventory properties in the JSON config. Toggle it back and forth to force runs.\n"
-			+ "The data fixer will always run on complete a mod update, or moving a world from a development environment to production.")
+			+ "Doing this is necessary after changing any inventory properties in the JSON config. Toggle this between true and false to force runs.\n"
+			+ "The data fixer will always run on a complete mod update, or when moving a world from a development environment to production.")
 	public static boolean forceDataFixing = true;
 
 	private ConfigMC() {}
