@@ -33,7 +33,6 @@ public class MetalChestFixer implements IFixableData {
 	@Override
 	public NBTTagCompound fixTagCompound(NBTTagCompound tag) {
 		String id = tag.getString("id");
-		RegistryMC.LOG.info("WE BE RUNNING!");
 
 		tag.setString("id", IDS.getOrDefault(id, id));
 
