@@ -16,55 +16,6 @@ tile.metalchests:metal_chest.gold.name=Золотой сундук
 tile.metalchests:metal_chest.diamond.name=Алмазный сундук
 tile.metalchests:metal_chest.obsidian.name=Обсидиановый сундук
 
-item.metalchests:minecart_metal_chest.copper.name=Вагонетка с медным сундуком
-item.metalchests:minecart_metal_chest.iron.name=Вагонетка с железным сундуком
-item.metalchests:minecart_metal_chest.silver.name=Вагонетка с серебряным сундуком
-item.metalchests:minecart_metal_chest.gold.name=Вагонетка с золотым сундуком
-item.metalchests:minecart_metal_chest.diamond.name=Вагонетка с алмазным сундуком
-item.metalchests:minecart_metal_chest.obsidian.name=Вагонетка с обсидиановым сундуком
-
-metalchests:oak_boat_metal_chest.copper.name=Дубовая лодка с медным сундуком
-metalchests:oak_boat_metal_chest.iron.name=Дубовая лодка с железным сундуком
-metalchests:oak_boat_metal_chest.silver.name=Дубовая лодка с серебряным сундуком
-metalchests:oak_boat_metal_chest.gold.name=Дубовая лодка с золотым сундуком
-metalchests:oak_boat_metal_chest.diamond.name=Дубовая лодка с алмазным сундуком
-metalchests:oak_boat_metal_chest.obsidian.name=Дубовая лодка с обсидиановым сундуком
-
-metalchests:spruce_boat_metal_chest.copper.name=Еловая лодка с медным сундуком
-metalchests:spruce_boat_metal_chest.iron.name=Еловая лодка с железным сундуком
-metalchests:spruce_boat_metal_chest.silver.name=Еловая лодка с серебряным сундуком
-metalchests:spruce_boat_metal_chest.gold.name=Еловая лодка с золотым сундуком
-metalchests:spruce_boat_metal_chest.diamond.name=Еловая лодка с алмазным сундуком
-metalchests:spruce_boat_metal_chest.obsidian.name=Еловая лодка с обсидиановым сундуком
-
-metalchests:birch_boat_metal_chest.copper.name=Березовая лодка с медным сундуком
-metalchests:birch_boat_metal_chest.iron.name=Березовая лодка с железным сундуком
-metalchests:birch_boat_metal_chest.silver.name=Березовая лодка с серебряным сундуком
-metalchests:birch_boat_metal_chest.gold.name=Березовая лодка с золотым сундуком
-metalchests:birch_boat_metal_chest.diamond.name=Березовая лодка с алмазным сундуком
-metalchests:birch_boat_metal_chest.obsidian.name=Березовая лодка с обсидиановым сундуком
-
-metalchests:jungle_boat_metal_chest.copper.name=Лодка из тропического дерева с медным сундуком
-metalchests:jungle_boat_metal_chest.iron.name=Лодка из тропического дерева с железным сундуком
-metalchests:jungle_boat_metal_chest.silver.name=Лодка из тропического дерева с серебряным сундуком
-metalchests:jungle_boat_metal_chest.gold.name=Лодка из тропического дерева с золотым сундуком
-metalchests:jungle_boat_metal_chest.diamond.name=Лодка из тропического дерева с алмазным сундуком
-metalchests:jungle_boat_metal_chest.obsidian.name=Лодка из тропического дерева с обсидиановым сундуком
-
-metalchests:acacia_boat_metal_chest.copper.name=Еловая лодка с медным сундуком
-metalchests:acacia_boat_metal_chest.iron.name=Еловая лодка с железным сундуком
-metalchests:acacia_boat_metal_chest.silver.name=Еловая лодка с серебряным сундуком
-metalchests:acacia_boat_metal_chest.gold.name=Еловая лодка с золотым сундуком
-metalchests:acacia_boat_metal_chest.diamond.name=Еловая лодка с алмазным сундуком
-metalchests:acacia_boat_metal_chest.obsidian.name=Еловая лодка с обсидиановым сундуком
-
-metalchests:dark_oak_boat_metal_chest.copper.name=Лодка из темного дуба с медным сундуком
-metalchests:dark_oak_boat_metal_chest.iron.name=Лодка из темного дуба с железным сундуком
-metalchests:dark_oak_boat_metal_chest.silver.name=Лодка из темного дуба с серебряным сундуком
-metalchests:dark_oak_boat_metal_chest.gold.name=Лодка из темного дуба с золотым сундуком
-metalchests:dark_oak_boat_metal_chest.diamond.name=Лодка из темного дуба с алмазным сундуком
-metalchests:dark_oak_boat_metal_chest.obsidian.name=Лодка из темного дуба с обсидиановым сундуком
-
 tile.metalchests:metal_sorting_chest.copper.name=Медный сортировочный сундук
 tile.metalchests:metal_sorting_chest.iron.name=Железный сортировочный сундук
 tile.metalchests:metal_sorting_chest.silver.name=Серебряный сортировочный сундук
@@ -72,48 +23,48 @@ tile.metalchests:metal_sorting_chest.gold.name=Золотой сортирово
 tile.metalchests:metal_sorting_chest.diamond.name=Алмазный сортировочный сундук
 tile.metalchests:metal_sorting_chest.obsidian.name=Обсидиановый сортировочный сундук
 
-item.metalchests:chest_upgrade.wood_copper.name=Обновление сундука из деревянного в медный
-item.metalchests:chest_upgrade.wood_iron.name=Обновление сундука из деревянного в железный
-item.metalchests:chest_upgrade.wood_silver.name=Обновление сундука из деревянного в серебряный
-item.metalchests:chest_upgrade.wood_gold.name=Обновление сундука из деревянного в золотой
-item.metalchests:chest_upgrade.wood_diamond.name=Обновление сундука из деревянного в алмазный
-item.metalchests:chest_upgrade.wood_obsidian.name=Обновление сундука из деревянного в обсидиановый
+item.metalchests:chest_upgrade.woodCopper.name=Обновление сундука из деревянного в медный
+item.metalchests:chest_upgrade.woodIron.name=Обновление сундука из деревянного в железный
+item.metalchests:chest_upgrade.woodSilver.name=Обновление сундука из деревянного в серебряный
+item.metalchests:chest_upgrade.woodGold.name=Обновление сундука из деревянного в золотой
+item.metalchests:chest_upgrade.woodDiamond.name=Обновление сундука из деревянного в алмазный
+item.metalchests:chest_upgrade.woodObsidian.name=Обновление сундука из деревянного в обсидиановый
 
-item.metalchests:chest_upgrade.copper_iron.name=Обновление сундука из медного в железный
-item.metalchests:chest_upgrade.copper_silver.name=Обновление сундука из медного в серебряный
-item.metalchests:chest_upgrade.copper_gold.name=Обновление сундука из медного в золотой
-item.metalchests:chest_upgrade.copper_diamond.name=Обновление сундука из медного в алмазный
-item.metalchests:chest_upgrade.copper_obsidian.name=Обновление сундука из медного в обсидиановый
+item.metalchests:chest_upgrade.copperIron.name=Обновление сундука из медного в железный
+item.metalchests:chest_upgrade.copperSilver.name=Обновление сундука из медного в серебряный
+item.metalchests:chest_upgrade.copperGold.name=Обновление сундука из медного в золотой
+item.metalchests:chest_upgrade.copperDiamond.name=Обновление сундука из медного в алмазный
+item.metalchests:chest_upgrade.copperObsidian.name=Обновление сундука из медного в обсидиановый
 
-item.metalchests:chest_upgrade.iron_copper.name=Обновление сундука из железного в медный
-item.metalchests:chest_upgrade.iron_silver.name=Обновление сундука из железного в серебряный
-item.metalchests:chest_upgrade.iron_gold.name=Обновление сундука из железного в золотой
-item.metalchests:chest_upgrade.iron_diamond.name=Обновление сундука из железного в алмазный
-item.metalchests:chest_upgrade.iron_obsidian.name=Обновление сундука из железного в обсидиановый
+item.metalchests:chest_upgrade.ironCopper.name=Обновление сундука из железного в медный
+item.metalchests:chest_upgrade.ironSilver.name=Обновление сундука из железного в серебряный
+item.metalchests:chest_upgrade.ironGold.name=Обновление сундука из железного в золотой
+item.metalchests:chest_upgrade.ironDiamond.name=Обновление сундука из железного в алмазный
+item.metalchests:chest_upgrade.ironObsidian.name=Обновление сундука из железного в обсидиановый
 
-item.metalchests:chest_upgrade.silver_copper.name=Обновление сундука из серебряного в медный
-item.metalchests:chest_upgrade.silver_iron.name=Обновление сундука из серебряного в железный
-item.metalchests:chest_upgrade.silver_gold.name=Обновление сундука из серебряного в золотой
-item.metalchests:chest_upgrade.silver_diamond.name=Обновление сундука из серебряного в алмазный
-item.metalchests:chest_upgrade.silver_obsidian.name=Обновление сундука из серебряного в обсидиановый
+item.metalchests:chest_upgrade.silverCopper.name=Обновление сундука из серебряного в медный
+item.metalchests:chest_upgrade.silverIron.name=Обновление сундука из серебряного в железный
+item.metalchests:chest_upgrade.silverGold.name=Обновление сундука из серебряного в золотой
+item.metalchests:chest_upgrade.silverDiamond.name=Обновление сундука из серебряного в алмазный
+item.metalchests:chest_upgrade.silverObsidian.name=Обновление сундука из серебряного в обсидиановый
 
-item.metalchests:chest_upgrade.gold_copper.name=Обновление сундука из золотого в медный
-item.metalchests:chest_upgrade.gold_iron.name=Обновление сундука из золотого в железный
-item.metalchests:chest_upgrade.gold_silver.name=Обновление сундука из золотого в серебряный
-item.metalchests:chest_upgrade.gold_diamond.name=Обновление сундука из золотого в алмазный
-item.metalchests:chest_upgrade.gold_obsidian.name=Обновление сундука из золотого в обсидиановый
+item.metalchests:chest_upgrade.goldCopper.name=Обновление сундука из золотого в медный
+item.metalchests:chest_upgrade.goldIron.name=Обновление сундука из золотого в железный
+item.metalchests:chest_upgrade.goldSilver.name=Обновление сундука из золотого в серебряный
+item.metalchests:chest_upgrade.goldDiamond.name=Обновление сундука из золотого в алмазный
+item.metalchests:chest_upgrade.goldObsidian.name=Обновление сундука из золотого в обсидиановый
 
-item.metalchests:chest_upgrade.diamond_copper.name=Обновление сундука из алмазного в медный
-item.metalchests:chest_upgrade.diamond_iron.name=Обновление сундука из алмазного в железный
-item.metalchests:chest_upgrade.diamond_silver.name=Обновление сундука из алмазного в серебряный
-item.metalchests:chest_upgrade.diamond_gold.name=Обновление сундука из алмазного в золотой
-item.metalchests:chest_upgrade.diamond_obsidian.name=Обновление сундука из алмазного в обсидиановый
+item.metalchests:chest_upgrade.diamondCopper.name=Обновление сундука из алмазного в медный
+item.metalchests:chest_upgrade.diamondIron.name=Обновление сундука из алмазного в железный
+item.metalchests:chest_upgrade.diamondSilver.name=Обновление сундука из алмазного в серебряный
+item.metalchests:chest_upgrade.diamondGold.name=Обновление сундука из алмазного в золотой
+item.metalchests:chest_upgrade.diamondObsidian.name=Обновление сундука из алмазного в обсидиановый
 
-item.metalchests:chest_upgrade.obsidian_copper.name=Обновление сундука из обсидианового в медный
-item.metalchests:chest_upgrade.obsidian_iron.name=Обновление сундука из обсидианового в железный
-item.metalchests:chest_upgrade.obsidian_silver.name=Обновление сундука из обсидианового в серебряный
-item.metalchests:chest_upgrade.obsidian_gold.name=Обновление сундука из обсидианового в золотой
-item.metalchests:chest_upgrade.obsidian_diamond.name=Обновление сундука из обсидианового в алмазный
+item.metalchests:chest_upgrade.obsidianCopper.name=Обновление сундука из обсидианового в медный
+item.metalchests:chest_upgrade.obsidianIron.name=Обновление сундука из обсидианового в железный
+item.metalchests:chest_upgrade.obsidianSilver.name=Обновление сундука из обсидианового в серебряный
+item.metalchests:chest_upgrade.obsidianGold.name=Обновление сундука из обсидианового в золотой
+item.metalchests:chest_upgrade.obsidianDiamond.name=Обновление сундука из обсидианового в алмазный
 
 tile.metalchests:metal_hungry_chest.copper.name=Медный голодный сундук
 tile.metalchests:metal_hungry_chest.iron.name=Железный голодный сундук
@@ -122,12 +73,14 @@ tile.metalchests:metal_hungry_chest.gold.name=Золотой голодный с
 tile.metalchests:metal_hungry_chest.diamond.name=Алмазный голодный сундук
 tile.metalchests:metal_hungry_chest.obsidian.name=Обсидиановый голодный сундук
 
-tile.metalchests:metal_hungry_sorting_chest.copper.name=Медный голодный сортировочный сундук
-tile.metalchests:metal_hungry_sorting_chest.iron.name=Железный голодный сортировочный сундук
-tile.metalchests:metal_hungry_sorting_chest.silver.name=Серебряный голодный сортировочный сундук
-tile.metalchests:metal_hungry_sorting_chest.gold.name=Золотой голодный сортировочный сундук
-tile.metalchests:metal_hungry_sorting_chest.diamond.name=Алмазный голодный сортировочный сундук
-tile.metalchests:metal_hungry_sorting_chest.obsidian.name=Обсидиановый голодный сортировочный сундук
+tile.metalchests:metal_sorting_hungry_chest.copper.name=Медный голодный сортировочный сундук
+tile.metalchests:metal_sorting_hungry_chest.iron.name=Железный голодный сортировочный сундук
+tile.metalchests:metal_sorting_hungry_chest.silver.name=Серебряный голодный сортировочный сундук
+tile.metalchests:metal_sorting_hungry_chest.gold.name=Золотой голодный сортировочный сундук
+tile.metalchests:metal_sorting_hungry_chest.diamond.name=Алмазный голодный сортировочный сундук
+tile.metalchests:metal_sorting_hungry_chest.obsidian.name=Обсидиановый голодный сортировочный сундук
+
+## THESE NEED TO BE UPDATED
 
 item.metalchests:hungry_chest_upgrade.wood_copper.name=Обновление голодного сундука из деревянного в медный
 item.metalchests:hungry_chest_upgrade.wood_iron.name=Обновление голодного сундука из деревянного в железный

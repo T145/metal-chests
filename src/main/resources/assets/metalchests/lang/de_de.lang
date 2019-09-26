@@ -32,7 +32,7 @@ tile.metalchests:metal_sorting_hungry_chest.gold.name=Hungrige Sortierende Goldt
 tile.metalchests:metal_sorting_hungry_chest.diamond.name=Hungrige Sortierende Diamanttruhe
 tile.metalchests:metal_sorting_hungry_chest.obsidian.name=Hungrige Sortierende Obsidiantruhe
 
-===
+###
 
 item.metalchests:chest_upgrade.woodCopper.name=Upgrade Holz- zu Kupfertruhe
 item.metalchests:chest_upgrade.woodIron.name=Upgrade Holz- zu Eisentruhe
@@ -77,7 +77,7 @@ item.metalchests:chest_upgrade.obsidianSilver.name=Upgrade Obsidian- zu Silbertr
 item.metalchests:chest_upgrade.obsidianGold.name=Upgrade Obsidian- zu Goldtruhe
 item.metalchests:chest_upgrade.obsidianDiamond.name=Upgrade Obsidian- zu Diamanttruhe
 
-===
+###
 
 item.metalchests:hungry_chest_upgrade.woodCopper.name=Upgrade Hungrige Holz- zu Kupfertruhe
 item.metalchests:hungry_chest_upgrade.woodIron.name=Upgrade Hungrige Holz- zu Eisentruhe

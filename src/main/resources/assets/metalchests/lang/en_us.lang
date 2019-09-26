@@ -1,7 +1,7 @@
 
 itemGroup.metalchests=MetalChests
 
-info.metalchests.chest_info.fail=WARNING! The Holding enchantment level on this chest is not high enough to retain items!
+info.metalchests.chest_info.fail=WARNING! Cannot retain items based on low Holding enchant level!
 info.metalchests.jei_hungry_reminder=Crafted using the Arcane Workbench.
 info.metalchests.jei_hungry_cost=Costs are the same as a normal Hungry Chest.
 
@@ -33,7 +33,7 @@ tile.metalchests:metal_sorting_hungry_chest.gold.name=Gold Sorting Hungry Chest
 tile.metalchests:metal_sorting_hungry_chest.diamond.name=Diamond Sorting Hungry Chest
 tile.metalchests:metal_sorting_hungry_chest.obsidian.name=Obsidian Sorting Hungry Chest
 
-===
+###
 
 item.metalchests:chest_upgrade.woodCopper.name=Wood to Copper Chest Upgrade
 item.metalchests:chest_upgrade.woodIron.name=Wood to Iron Chest Upgrade
@@ -78,7 +78,7 @@ item.metalchests:chest_upgrade.obsidianSilver.name=Obsidian to Silver Chest Upgr
 item.metalchests:chest_upgrade.obsidianGold.name=Obsidian to Gold Chest Upgrade
 item.metalchests:chest_upgrade.obsidianDiamond.name=Obsidian to Diamond Chest Upgrade
 
-===
+###
 
 item.metalchests:hungry_chest_upgrade.woodCopper.name=Wood to Copper Hungry Chest Upgrade
 item.metalchests:hungry_chest_upgrade.woodIron.name=Wood to Iron Hungry Chest Upgrade
