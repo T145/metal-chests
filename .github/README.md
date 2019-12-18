@@ -26,20 +26,11 @@
 
 ### Windows
 
-#### Using [Scoop](https://github.com/lukesampson/scoop/blob/master/README.md) _(Recommended)_
+#### Using [Scoop](https://github.com/lukesampson/scoop/blob/master/README.md)
 
 ```bash
 scoop bucket add java
-scoop bucket add versions
-scoop install git ojdkbuild8 gradle4
-```
-
-#### Using [Chocolatey](https://chocolatey.org/install)
-
-```bash
-choco install git
-choco install jdk8
-choco install gradle
+scoop install git ojdkbuild10-full
 ```
 
 ### OSX
@@ -50,7 +41,6 @@ choco install gradle
 # Git should be automatically installed alongside
 # Homebrew through Apple's Command Line utilities
 brew cask install java
-brew install gradle
 ```
 
 * * *
@@ -60,8 +50,8 @@ brew install gradle
 ### Eclipse
 
 ```bash
-gradle setupEclipseWorkspace
-gradle eclipse
+gradlew genEclipseRuns
+gradlew eclipse
 ```
 
 Next, you'll need to install the [EditorConfig plugin](https://github.com/ncjones/editorconfig-eclipse#readme).
@@ -71,8 +61,8 @@ There should only be one result: install it and you're all set.
 ### IntelliJ IDEA
 
 ```bash
-gradle setupDecompWorkspace
-gradle idea
+gradlew genIntellijRuns
+gradlew idea
 ```
 
 > Be sure IDEA recognizes the `src/api/java` directory!
@@ -81,7 +71,7 @@ gradle idea
 
 ## Development
 
-> Be sure you have `T145.metalchests.api` under your project's `src/api/java` directory!
+> Be sure you have `t145.metalchests.api` under your project's `src/api/java` directory!
 
 To add upgrade compatibility to your own vanilla-like chests, you can just make this call:
 
@@ -104,15 +94,6 @@ UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, Blocks.CHEST, BlocksMC.METAL_CHE
 Mod source code is licensed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0).
 The actual workspace license is located in this project.
 To use any mod assets, you may contatct [myself](https://github.com/T145) or the original creator for permission.
-
-* * *
-
-## Contributing
-
-Thank you for wanting to contribute! This project is made specifically for the community and mainstream use!
-If you see something wrong with it or want to add a new feature, then please fork it and make a contribution.
-
-> Please  _DO NOT_ delete things and leave it at that: provide proper reasons explaining why they were deleted.
 
 * * *
 
