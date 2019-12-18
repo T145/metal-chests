@@ -2,10 +2,6 @@
 
 * * *
 
-<img src="https://cf.way2muchnoise.eu/metalchests.svg" alt="Downloads" title="Total mod download count"/>
-
-* * *
-
 **_Table of Contents_**
 
 1.  [Dependencies](https://github.com/T145/metalchests#dependencies)
@@ -93,312 +89,29 @@ To use any mod assets, you may contatct [myself](https://github.com/T145) or the
 
 * * *
 
-## Support
-
-## BTC
-
-<div align="center">
-
-**Bitcoin**: `1FVPmQvZq7srRXT2KTBUva8G8Qy3ZotpDt`
-
-</div>
-
-### Forks
-
-<div align="center">
-
-**Bitcoin Cash**: `qrv6g7usyypntgaxt4fmyen53r7630r8ls40yn5pvx`
-
-</div>
-
-<div align="center">
-
-**Bitcoin Gold**: `Gedh2Xu6kRUDWzXu52uaZZD2X41YZg5jhJ`
-
-</div>
-
-<div align="center">
-
-**Bitcoin SV**: `qrd7vqxjzx4g3q7xfc9arfne3a6z5p0fqy0l3qkf9l`
-
-</div>
-
-* * *
-
-## Altcoins
-
-<div align="center">
-
-**ARK**: `ALTate9wtGzuyw5Ko2oE185qwqRAL1ywMC`
-
-</div>
-
-<div align="center">
-
-**Binance Coin**: `bnb1nzl3rfk0m48gty5hyhwq474urscsvqgzzarlry`
-
-</div>
-
-<div align="center">
-
-**BitTorrent**: `TM9XyQDDJfoVpJ2WdWmeuFki91PkVGo9tH`
-
-</div>
-
-<div align="center">
-
-**Dash**: `XngmA2Enqi7cdMEEWcgeLEpoX77GHQEAxg`
-
-</div>
-
-<div align="center">
-
-**Decred**: `DsUEMtiQar1YbbZmykiikoKDtZbKAN4tpAg`
-
-</div>
-
-<div align="center">
-
-**DigiByte**: `DKgbbwb7sq3pEwdhCyVtnsc2aK1VFT53Xz`
-
-</div>
-
-<div align="center">
-
-**LISK**: `7664237101393086268L`
-
-</div>
-
-<div align="center">
-
-**Litecoin**: `LfDf59fTRzRGEzJbB77bDGfXLT51oQZsoo`
-
-</div>
-
-<div align="center">
-
-**Monero**: `4ASjK8q2E27UnkqLw9VjrmiAAB9qWFf9Hft9EbQKjkvpSWBmPNWbnfNDsk5WKzKqUDbrgjeG1HbmU1UHK6WBwcnzUo4R7kn`
-
-</div>
-
-<div align="center">
-
-**NEM**: `NCHWOE3BTXMXSLEVJYY752OBA3ZMWYJLE6MU5XCL`
-
-</div>
-
-<div align="center">
-
-**Neo**: `ANV167RSy7NUy5MSpsr6cUoQxU25qjyj29`
-
-</div>
-
-<div align="center">
-
-**Qtum**: `Qb3U7uXdgxwHyrpxRN4ZzAeG5i8nAyV9kg`
-
-</div>
-
-<div align="center">
-
-**Stellar**: `GCCCV6TLTGMHLVTZNTSK7FZKI5JF2YW5FUCHHFU73A7WF6F6TRW7B53E`
-
-</div>
-
-<div align="center">
-
-**Waves**: `3P9dSY8o8VxbTa69urh4AyVipSJcV7Cj31u`
-
-</div>
-
-<div align="center">
-
-**XRP / Ripple**: `rMGEUf8XnZnURRsbNWC9qVoGgTAgp5QWvF`
-
-</div>
-
-<div align="center">
-
-**Zcash**: `t1VEJe7e3Qzs367PnKj61AsSn6pyvedgckx`
-
-</div>
-
-* * *
-
-## Ethereum Assets
-
-<div align="center">
-
-**Ethereum**: `0xbE37272cE191C4B6f4376bD4248bB0Be48346964`
-
-</div>
-
-<div align="center">
-
-**Ethereum Classic**: `0x6dE6C773d450E05B38e8bD4D56D6f095D0680350`
-
-</div>
-
-### Supported Tokens
-
-<div align="center">
-
-**0x**, _`Recommended`_
-
-**AdToken**, _`NOT Recommended`_
-
-**Aeron**,
-
-**AirSwap**,
-
-**Amber**, _`NOT Recommended`_
-
-**AppCoins**,
-
-**Aragon**,
-
-**Augur**,
-
-**Bancor**,
-
-**Basic Attention Token**,
-
-**BnkToTheFuture**, _`NOT Recommended`_
-
-**Bread**,
-
-**ChainLink**,
-
-**Cindicator**,
-
-**Civic**,
-
-**Crypto.com**,
-
-**Dai**, _`NOT Recommended`_
-
-**Decentraland**,
-
-**Dent**, _`NOT Recommended`_
-
-**Dentacoin**,
-
-**DigixDAO**,
-
-**District0x**,
-
-**Dragon**, _`NOT Recommended`_
-
-**Edgeless**,
-
-**Ethos**,
-
-**FirstBlood**,
-
-**FunFair**,
-
-**Gemini Dollar**,
-
-**GenesisVersion**,
-
-**Gnosis**,
-
-**Golem**, _`Recommended`_
-
-**Iconomi**, _`NOT Recommended`_
-
-**iExec RLC**,
-
-**Kin**, _`NOT Recommended`_
-
-**KuCoin**, _`NOT Recommended`_
-
-**Kyber**,
-
-**Loom**,
-
-**Loopring**,
-
-**Lunyr**,
-
-**Maker**,
-
-**Matchpool**,
-
-**MediShares**, _`NOT Recommended`_
-
-**Melonport**,
-
-**Metal**,
-
-**Mithril**,
-
-**Numeraire**,
-
-**OmiseGo**,
-
-**Paxos**,
-
-**Pillar**, _`Recommended`_
-
-**Po.et**,
-
-**Polymath**,
-
-**Populous**,
-
-**Power Ledger**,
-
-**Qash**,
-
-**Quantstamp**,
-
-**Raiden**,
-
-**Request**,
-
-**Revain**,
-
-**Ripio**,
-
-**Rivetz**, _`NOT Recommended`_
-
-**SALT**, _`Recommended`_
-
-**Santiment**, _`NOT Recommended`_
-
-**SingularDTV**,
-
-**Status**,
-
-**Storj**,
-
-**Storm**,
-
-**TAAS**, _`NOT Recommended`_
-
-**TenX**,
-
-**Tether USD**,
-
-**Time Bank**, _`NOT Recommended`_
-
-**Tron**, _`LOL`_
-
-**TrueUSD**, _`Stable`_
-
-**USD Coin**, _`Stable`_
-
-**Veritaseum**, _`NOT Recommended`_
-
-**Vibrate**,
-
-**Waltonchain**, _`NOT Recommended`_
-
-**Wax**,
-
-**WeTrust**,
-
-**Wings**
-
-</div>
+## Cryptocurrency Support
+
+| Currency | Address |
+|---|---|
+| **Bitcoin** | `1FVPmQvZq7srRXT2KTBUva8G8Qy3ZotpDt` |
+| **Bitcoin Cash** | `qrv6g7usyypntgaxt4fmyen53r7630r8ls40yn5pvx` |
+| **Bitcoin Gold** | `Gedh2Xu6kRUDWzXu52uaZZD2X41YZg5jhJ` |
+| **Bitcoin SV** | `qrd7vqxjzx4g3q7xfc9arfne3a6z5p0fqy0l3qkf9l` |
+| **ARK** | `ALTate9wtGzuyw5Ko2oE185qwqRAL1ywMC` |
+| **Binance Coin** | `bnb1nzl3rfk0m48gty5hyhwq474urscsvqgzzarlry` |
+| **BitTorrent** | `TM9XyQDDJfoVpJ2WdWmeuFki91PkVGo9tH` |
+| **Dash** | `XngmA2Enqi7cdMEEWcgeLEpoX77GHQEAxg` |
+| **Decred** | `DsUEMtiQar1YbbZmykiikoKDtZbKAN4tpAg` |
+| **DigiByte** | `DKgbbwb7sq3pEwdhCyVtnsc2aK1VFT53Xz` |
+| **LISK** | `7664237101393086268L` |
+| **Litecoin** | `LfDf59fTRzRGEzJbB77bDGfXLT51oQZsoo` |
+| **Monero** | `4ASjK8q2E27UnkqLw9VjrmiAAB9qWFf9Hft9EbQKjkvpSWBmPNWbnfNDsk5WKzKqUDbrgjeG1HbmU1UHK6WBwcnzUo4R7kn` |
+| **NEM** | `NCHWOE3BTXMXSLEVJYY752OBA3ZMWYJLE6MU5XCL` |
+| **Neo** | `ANV167RSy7NUy5MSpsr6cUoQxU25qjyj29` |
+| **Qtum** | `Qb3U7uXdgxwHyrpxRN4ZzAeG5i8nAyV9kg` |
+| **Stellar** | `GCCCV6TLTGMHLVTZNTSK7FZKI5JF2YW5FUCHHFU73A7WF6F6TRW7B53E` |
+| **Waves** | `3P9dSY8o8VxbTa69urh4AyVipSJcV7Cj31u` |
+| **XRP / Ripple** | `rMGEUf8XnZnURRsbNWC9qVoGgTAgp5QWvF` |
+| **Zcash** | `t1VEJe7e3Qzs367PnKj61AsSn6pyvedgckx` |
+| **Ethereum** | `0xbE37272cE191C4B6f4376bD4248bB0Be48346964` |
+| **ETH Classic** | `0x6dE6C773d450E05B38e8bD4D56D6f095D0680350` |
