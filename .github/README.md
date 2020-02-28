@@ -21,8 +21,11 @@
 #### Using [Scoop](https://github.com/lukesampson/scoop/blob/master/README.md)
 
 ```bash
+scoop install git
 scoop bucket add java
-scoop install git ojdkbuild10-full
+scoop install ojdkbuild8-full
+scoop bucket add versions
+scoop install gradle4
 ```
 
 ### OSX

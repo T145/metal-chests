@@ -2,6 +2,7 @@
 
 # * top-most EditorConfig file
 root = true
+insert_final_newline = true
 
 # default style settings
 [*.java,*.scala]
@@ -9,7 +10,6 @@ charset = utf-8
 end_of_line = crlf
 indent_size = 4
 indent_style = space
-insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.{bat,cmd,ps1,[Bb][Aa][Tt],[Cc][Mm][Dd],[Pp][Ss][1]]
