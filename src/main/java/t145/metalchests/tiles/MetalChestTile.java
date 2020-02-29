@@ -6,7 +6,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import t145.metalchests.core.MetalChests;
+import net.minecraftforge.items.ItemStackHandler;
+import t145.metalchests.api.registries.ModTileTypes;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IChestLid.class)
 public class MetalChestTile extends TileEntity implements IChestLid, ITickableTileEntity {
@@ -14,12 +15,13 @@ public class MetalChestTile extends TileEntity implements IChestLid, ITickableTi
 	public static final int EVENT_PLAYER_USED = -1;
 	public static final int EVENT_CHEST_NOM = -2;
 
+	public ItemStackHandler handler;
 	public float lidAngle;
 	public float prevLidAngle;
 	public int numPlayersUsing;
 
 	public MetalChestTile() {
-		super(MetalChests.METAL_CHEST_TYPE);
+		super(ModTileTypes.METAL_CHEST_TILE_TYPE);
 	}
 
 	/**
