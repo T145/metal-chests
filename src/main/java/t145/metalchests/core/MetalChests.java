@@ -40,15 +40,13 @@ public class MetalChests {
 		bus.addListener(this::metalchests$setupClient);
 	}
 
-	private void metalchests$setup(final FMLCommonSetupEvent event) {
-	}
+	private void metalchests$setup(final FMLCommonSetupEvent event) {}
 
-	private void metalchests$setupClient(final FMLClientSetupEvent event) {
-	}
+	private void metalchests$setupClient(final FMLClientSetupEvent event) {}
 
 	@SubscribeEvent
 	public static void registerBlocks(final Register<Block> event) {
-		//event.getRegistry().register(METAL_CHEST_BLOCK);
+		event.getRegistry().register(METAL_CHEST_BLOCK);
 	}
 
 	@SubscribeEvent

@@ -9,19 +9,23 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -32,10 +36,12 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import t145.metalchests.api.MetalChestType;
 import t145.metalchests.tiles.MetalChestTile;
 
 public class MetalChestBlock extends Block implements IWaterLoggable {
 
+	public static final EnumProperty<MetalChestType> TYPE = EnumProperty.create("metal_type", MetalChestType.class);
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final VoxelShape SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
@@ -43,6 +49,7 @@ public class MetalChestBlock extends Block implements IWaterLoggable {
 
 	public MetalChestBlock() {
 		super(Properties.create(Material.IRON));
+		this.setDefaultState(getDefaultState().with(TYPE, MetalChestType.IRON).with(WATERLOGGED, false).with(FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -73,12 +80,30 @@ public class MetalChestBlock extends Block implements IWaterLoggable {
 
 	@Override
 	public ActionResultType func_225533_a_(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult ray) {
+
 		return ActionResultType.SUCCESS;
 	}
 
 	@Override
+	public boolean hasComparatorInputOverride(BlockState state) {
+		return true;
+	}
+
+	/*
+	 * @Override public int getComparatorInputOverride(BlockState state, World
+	 * world, BlockPos pos) { return
+	 * Container.calcRedstoneFromInventory(func_226916_a_(this, blockState, worldIn,
+	 * pos, false)); }
+	 */
+
+	@Override
 	public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation direction) {
 		return state.with(FACING, direction.rotate(state.get(FACING)));
+	}
+
+	@Override
+	public BlockState mirror(BlockState state, Mirror mirror) {
+		return state.rotate(mirror.toRotation(state.get(FACING)));
 	}
 
 	@Nullable
@@ -89,7 +114,7 @@ public class MetalChestBlock extends Block implements IWaterLoggable {
 
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, WATERLOGGED);
+		builder.add(FACING, TYPE, WATERLOGGED);
 	}
 
 	@Override
@@ -109,6 +134,22 @@ public class MetalChestBlock extends Block implements IWaterLoggable {
 	@Override
 	public boolean allowsMovement(BlockState state, IBlockReader world, BlockPos pos, PathType type) {
 		return false;
+	}
+
+	@Override
+	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+		// set custom name if tagged
+	}
+
+	@Override
+	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
+		TileEntity te = world.getTileEntity(pos);
+
+		if (te instanceof MetalChestTile && state.getBlock() != newState.getBlock()) {
+			// drop items
+			world.updateComparatorOutputLevel(pos, this);
+			world.removeTileEntity(pos);
+		}
 	}
 
 	@Override
