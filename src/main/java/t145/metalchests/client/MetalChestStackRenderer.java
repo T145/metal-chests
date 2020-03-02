@@ -17,9 +17,8 @@ import t145.metalchests.blocks.MetalChestBlock;
 @OnlyIn(Dist.CLIENT)
 public class MetalChestStackRenderer extends ItemStackTileEntityRenderer {
 
-	// last two parameters are a guess
 	@Override
-	public void func_228364_a_(ItemStack stack, MatrixStack matrix, IRenderTypeBuffer buf, int partialTicks, int alpha) {
+	public void render(ItemStack stack, MatrixStack matrix, IRenderTypeBuffer buf, int light, int overlay) {
 		Item item = stack.getItem();
 		Block block = Block.getBlockFromItem(item);
 
@@ -28,10 +27,10 @@ public class MetalChestStackRenderer extends ItemStackTileEntityRenderer {
 			MetalChestType type = state.get(MetalChestBlock.METAL_TYPE);
 
 			if (type != null) {
-				TileEntityRendererDispatcher.instance.func_228852_a_(state.createTileEntity(null), matrix, buf, partialTicks, alpha);
+				TileEntityRendererDispatcher.instance.renderItem(state.createTileEntity(null), matrix, buf, light, overlay);
 			}
 		} else {
-			super.func_228364_a_(stack, matrix, buf, partialTicks, alpha);
+			super.render(stack, matrix, buf, light, overlay);
 		}
 	}
 }

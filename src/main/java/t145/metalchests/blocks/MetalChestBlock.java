@@ -79,7 +79,7 @@ public class MetalChestBlock extends AbstractChestBlock<MetalChestTile> implemen
 	}
 
 	@Override
-	public ActionResultType func_225533_a_(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult ray) {
+	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
 		if (!world.isRemote) {
 			// open container
 		}
