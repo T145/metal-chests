@@ -102,11 +102,11 @@ public class MetalChests {
 	private void metalchests$registerTiles(final Register<TileEntityType<?>> event) {
 		event.getRegistry().registerAll(
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.COPPER_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, COPPER_CHEST_ID),
-				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.IRON_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, IRON_CHEST_ID),
-				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.SILVER_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, SILVER_CHEST_ID),
-				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.GOLD_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, GOLD_CHEST_ID),
-				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
-				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID)
+				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.IRON_CHEST_TILE_TYPE), BlockRegistry.IRON_CHEST).build(null).setRegistryName(MOD_ID, IRON_CHEST_ID),
+				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.SILVER_CHEST_TILE_TYPE), BlockRegistry.SILVER_CHEST).build(null).setRegistryName(MOD_ID, SILVER_CHEST_ID),
+				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.GOLD_CHEST_TILE_TYPE), BlockRegistry.GOLD_CHEST).build(null).setRegistryName(MOD_ID, GOLD_CHEST_ID),
+				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE), BlockRegistry.DIAMOND_CHEST).build(null).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
+				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE), BlockRegistry.OBSIDIAN_CHEST).build(null).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID)
 				);
 	}
 

@@ -17,12 +17,12 @@ public enum Reference {;
 	public static final String OBSIDIAN_CHEST_ID = "obsidian_chest";
 
 	public static final ResourceLocation[] METAL_CHEST_MODELS = new ResourceLocation[] {
-			getResource("textures/entity/copper.png"),
-			getResource("textures/entity/iron.png"),
-			getResource("textures/entity/silver.png"),
-			getResource("textures/entity/gold.png"),
-			getResource("textures/entity/diamond.png"),
-			getResource("textures/entity/obsidian.png")
+			getResource("entity/copper"),
+			getResource("entity/iron"),
+			getResource("entity/silver"),
+			getResource("entity/gold"),
+			getResource("entity/diamond"),
+			getResource("entity/obsidian")
 	};
 
 	public static ResourceLocation getResource(String path) {
