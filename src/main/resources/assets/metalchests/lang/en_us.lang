@@ -1,0 +1,9 @@
+
+itemGroup.metalchests=MetalChests
+
+block.metalchests.copper_chest=Copper Chest
+block.metalchests.iron_chest=Iron Chest
+block.metalchests.silver_chest=Silver Chest
+block.metalchests.gold_chest=Gold Chest
+block.metalchests.diamond_chest=Diamond Chest
+block.metalchests.obsidian_chest=Obsidian Chest

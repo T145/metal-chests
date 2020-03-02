@@ -3,11 +3,11 @@ package t145.metalchests.tiles;
 import net.minecraft.tileentity.IChestLid;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.items.ItemStackHandler;
-import t145.metalchests.api.registries.ModTileTypes;
 
 @OnlyIn(value = Dist.CLIENT, _interface = IChestLid.class)
 public class MetalChestTile extends TileEntity implements IChestLid, ITickableTileEntity {
@@ -20,8 +20,8 @@ public class MetalChestTile extends TileEntity implements IChestLid, ITickableTi
 	public float prevLidAngle;
 	public int numPlayersUsing;
 
-	public MetalChestTile() {
-		super(ModTileTypes.METAL_CHEST_TILE_TYPE);
+	public MetalChestTile(TileEntityType<?> tileType) {
+		super(tileType);
 	}
 
 	/**

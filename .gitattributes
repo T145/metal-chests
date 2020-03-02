@@ -26,3 +26,5 @@
 # block boundaries. This is important when files are downloaded through a zip archive that was authored on a
 # Linux machine (the default behavior on GitHub)
 *.bat eol=crlf
+*.cmd eol=crlf
+*.ps1 eol=crlf

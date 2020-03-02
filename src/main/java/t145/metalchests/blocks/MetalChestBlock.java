@@ -1,27 +1,27 @@
 package t145.metalchests.blocks;
 
-import javax.annotation.Nullable;
+import java.util.function.Supplier;
 
+import net.minecraft.block.AbstractChestBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathType;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityMerger;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -31,39 +31,39 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import t145.metalchests.api.MetalChestType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import t145.metalchests.api.constants.MetalChestType;
 import t145.metalchests.tiles.MetalChestTile;
 
-public class MetalChestBlock extends Block implements IWaterLoggable {
+public class MetalChestBlock extends AbstractChestBlock<MetalChestTile> implements IWaterLoggable {
 
-	public static final EnumProperty<MetalChestType> TYPE = EnumProperty.create("metal_type", MetalChestType.class);
+	public static final EnumProperty<MetalChestType> METAL_TYPE = EnumProperty.create("metal_type", MetalChestType.class);
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 	public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 	public static final VoxelShape SHAPE = Block.makeCuboidShape(1.0D, 0.0D, 1.0D, 15.0D, 14.0D, 15.0D);
-	public static final Direction[] VALID_ROTATIONS = new Direction[] { Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST };
 
-	public MetalChestBlock() {
-		super(Properties.create(Material.IRON));
-		this.setDefaultState(getDefaultState().with(TYPE, MetalChestType.IRON).with(WATERLOGGED, false).with(FACING, Direction.NORTH));
+	public MetalChestBlock(Block.Properties builder, Supplier<TileEntityType<? extends MetalChestTile>> tileType, MetalChestType metalType) {
+		super(builder, tileType);
+		this.setDefaultState(this.stateContainer.getBaseState().with(METAL_TYPE, metalType).with(FACING, Direction.NORTH).with(WATERLOGGED, false));
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
+	public TileEntity createNewTileEntity(IBlockReader world) {
+		return new MetalChestTile(this.field_226859_a_.get());
+	}
+
+	@OnlyIn(Dist.CLIENT)
+	@Override
+	public TileEntityMerger.ICallbackWrapper<? extends ChestTileEntity> func_225536_a_(BlockState state, World world, BlockPos pos, boolean isTrapped) {
+		return TileEntityMerger.ICallback::func_225537_b_;
 	}
 
 	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new MetalChestTile();
-	}
-
-	@Override
-	public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return SHAPE;
 	}
 
@@ -73,32 +73,22 @@ public class MetalChestBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public BlockState getStateForPlacement(BlockItemUseContext context) {
-		IFluidState fluid = context.getWorld().getFluidState(context.getPos());
-		return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite()).with(WATERLOGGED, Boolean.valueOf(fluid.getFluid() == Fluids.WATER));
+	public BlockState getStateForPlacement(BlockItemUseContext ctx) {
+		IFluidState fluid = ctx.getWorld().getFluidState(ctx.getPos());
+		return this.getDefaultState().with(FACING, ctx.getPlacementHorizontalFacing().getOpposite()).with(WATERLOGGED, fluid.getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public ActionResultType func_225533_a_(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult ray) {
-
+		if (!world.isRemote) {
+			// open container
+		}
 		return ActionResultType.SUCCESS;
 	}
 
 	@Override
-	public boolean hasComparatorInputOverride(BlockState state) {
-		return true;
-	}
-
-	/*
-	 * @Override public int getComparatorInputOverride(BlockState state, World
-	 * world, BlockPos pos) { return
-	 * Container.calcRedstoneFromInventory(func_226916_a_(this, blockState, worldIn,
-	 * pos, false)); }
-	 */
-
-	@Override
-	public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation direction) {
-		return state.with(FACING, direction.rotate(state.get(FACING)));
+	public BlockState rotate(BlockState state, Rotation rot) {
+		return state.with(FACING, rot.rotate(state.get(FACING)));
 	}
 
 	@Override
@@ -106,15 +96,9 @@ public class MetalChestBlock extends Block implements IWaterLoggable {
 		return state.rotate(mirror.toRotation(state.get(FACING)));
 	}
 
-	@Nullable
-	public Direction[] getValidRotations(BlockState state, IBlockReader world, BlockPos pos) {
-		// TODO: Wait for Forge to make Direction.Plane.HORIZONTAL accessible
-		return VALID_ROTATIONS;
-	}
-
 	@Override
 	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(FACING, TYPE, WATERLOGGED);
+		builder.add(METAL_TYPE, FACING, WATERLOGGED);
 	}
 
 	@Override
@@ -132,34 +116,7 @@ public class MetalChestBlock extends Block implements IWaterLoggable {
 	}
 
 	@Override
-	public boolean allowsMovement(BlockState state, IBlockReader world, BlockPos pos, PathType type) {
+	public boolean allowsMovement(BlockState state, IBlockReader worldIn, BlockPos pos, PathType type) {
 		return false;
-	}
-
-	@Override
-	public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
-		// set custom name if tagged
-	}
-
-	@Override
-	public void onReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean isMoving) {
-		TileEntity te = world.getTileEntity(pos);
-
-		if (te instanceof MetalChestTile && state.getBlock() != newState.getBlock()) {
-			// drop items
-			world.updateComparatorOutputLevel(pos, this);
-			world.removeTileEntity(pos);
-		}
-	}
-
-	@Override
-	public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-		return this.blockResistance;
-	}
-
-	@Override
-	public boolean eventReceived(BlockState state, World world, BlockPos pos, int id, int param) {
-		TileEntity te = world.getTileEntity(pos);
-		return te != null && te.receiveClientEvent(id, param);
 	}
 }
