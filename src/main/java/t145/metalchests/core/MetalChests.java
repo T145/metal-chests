@@ -1,12 +1,6 @@
 package t145.metalchests.core;
 
-import static t145.metalchests.api.Reference.COPPER_CHEST_ID;
-import static t145.metalchests.api.Reference.DIAMOND_CHEST_ID;
-import static t145.metalchests.api.Reference.GOLD_CHEST_ID;
-import static t145.metalchests.api.Reference.IRON_CHEST_ID;
-import static t145.metalchests.api.Reference.MOD_ID;
-import static t145.metalchests.api.Reference.OBSIDIAN_CHEST_ID;
-import static t145.metalchests.api.Reference.SILVER_CHEST_ID;
+import static t145.metalchests.api.Reference.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,15 +10,20 @@ import net.minecraft.block.Block.Properties;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.RegistryEvent.Register;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -39,7 +38,7 @@ import t145.metalchests.items.MetalChestItem;
 import t145.metalchests.tiles.MetalChestTile;
 
 @Mod(MOD_ID)
-@EventBusSubscriber
+@EventBusSubscriber(modid = MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
 public class MetalChests {
 
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
@@ -80,7 +79,7 @@ public class MetalChests {
 				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.GOLD, Blocks.GOLD_BLOCK), () -> TileTypeRegistry.GOLD_CHEST_TILE_TYPE, MetalChestType.GOLD).setRegistryName(MOD_ID, GOLD_CHEST_ID),
 				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.DIAMOND, Blocks.DIAMOND_BLOCK), () -> TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE, MetalChestType.DIAMOND).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
 				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.SAND, Blocks.OBSIDIAN), () -> TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE, MetalChestType.OBSIDIAN).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID)
-			);
+				);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -97,7 +96,7 @@ public class MetalChests {
 				new MetalChestItem(BlockRegistry.GOLD_CHEST).setRegistryName(MOD_ID, GOLD_CHEST_ID),
 				new MetalChestItem(BlockRegistry.DIAMOND_CHEST).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
 				new MetalChestItem(BlockRegistry.OBSIDIAN_CHEST).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID)
-			);
+				);
 	}
 
 	private void metalchests$registerTiles(final Register<TileEntityType<?>> event) {
@@ -108,9 +107,18 @@ public class MetalChests {
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.GOLD_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, GOLD_CHEST_ID),
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE), BlockRegistry.COPPER_CHEST).build(null).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID)
-			);
+				);
 	}
 
 	private void metalchests$registerContainers(final Register<ContainerType<?>> event) {
+	}
+
+	@SubscribeEvent
+	public static void textureStitch(TextureStitchEvent.Pre event) {
+		if (event.getMap().getTextureLocation().equals(Atlases.CHEST_ATLAS)) {
+			for (byte i = 0; i < METAL_CHEST_MODELS.length; ++i) {
+				event.addSprite(METAL_CHEST_MODELS[i]);
+			}
+		}
 	}
 }
