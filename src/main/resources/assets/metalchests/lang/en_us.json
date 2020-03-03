@@ -4,5 +4,6 @@
 	"block.metalchests.silver_chest": "Silver Chest",
 	"block.metalchests.gold_chest": "Gold Chest",
 	"block.metalchests.diamond_chest": "Diamond Chest",
-	"block.metalchests.obsidian_chest": "Obsidian Chest"
+	"block.metalchests.obsidian_chest": "Obsidian Chest",
+	"block.metalchests.emerald_chest": "Emerald Chest"
 }

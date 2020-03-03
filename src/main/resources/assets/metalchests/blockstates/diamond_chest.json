@@ -1,7 +1,7 @@
 {
 	"variants": {
 		"": {
-			"model": "block/chest"
+			"model": "metalchests:block/diamond_chest"
 		}
 	}
 }

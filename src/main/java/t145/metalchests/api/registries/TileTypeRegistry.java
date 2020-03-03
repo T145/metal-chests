@@ -21,11 +21,11 @@ public class TileTypeRegistry {
 	@ObjectHolder(GOLD_CHEST_ID)
 	public static final TileEntityType<MetalChestTile> GOLD_CHEST_TILE_TYPE = null;
 
-	@ObjectHolder(OBSIDIAN_CHEST_ID)
-	public static final TileEntityType<MetalChestTile> OBSIDIAN_CHEST_TILE_TYPE = null;
-
 	@ObjectHolder(DIAMOND_CHEST_ID)
 	public static final TileEntityType<MetalChestTile> DIAMOND_CHEST_TILE_TYPE = null;
+
+	@ObjectHolder(OBSIDIAN_CHEST_ID)
+	public static final TileEntityType<MetalChestTile> OBSIDIAN_CHEST_TILE_TYPE = null;
 
 	@ObjectHolder(EMERALD_CHEST_ID)
 	public static final TileEntityType<MetalChestTile> EMERALD_CHEST_TILE_TYPE = null;

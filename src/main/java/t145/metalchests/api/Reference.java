@@ -13,8 +13,8 @@ public class Reference {
 	public static final String IRON_CHEST_ID = "iron_chest";
 	public static final String SILVER_CHEST_ID = "silver_chest";
 	public static final String GOLD_CHEST_ID = "gold_chest";
-	public static final String OBSIDIAN_CHEST_ID = "obsidian_chest";
 	public static final String DIAMOND_CHEST_ID = "diamond_chest";
+	public static final String OBSIDIAN_CHEST_ID = "obsidian_chest";
 	public static final String EMERALD_CHEST_ID = "emerald_chest";
 
 	public static final ResourceLocation[] METAL_CHEST_MODELS = new ResourceLocation[] {
@@ -22,8 +22,8 @@ public class Reference {
 			getResource("entity/iron"),
 			getResource("entity/silver"),
 			getResource("entity/gold"),
-			getResource("entity/obsidian"),
 			getResource("entity/diamond"),
+			getResource("entity/obsidian"),
 			getResource("entity/emerald")
 	};
 
