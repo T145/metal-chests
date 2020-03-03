@@ -9,7 +9,8 @@ public enum MetalChestType implements IStringSerializable {
 	SILVER("ingotSilver"),
 	GOLD("ingotGold"),
 	DIAMOND("gemDiamond"),
-	OBSIDIAN("obsidian");
+	OBSIDIAN("obsidian"),
+	EMERALD("gemEmerald");
 
 	private final String ore;
 

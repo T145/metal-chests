@@ -67,8 +67,9 @@ public class MetalChests {
 		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.IRON_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
 		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.SILVER_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
 		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.GOLD_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
-		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
 		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
+		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
+		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.EMERALD_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
 	}
 
 	private void metalchests$registerBlocks(final Register<Block> event) {
@@ -77,8 +78,9 @@ public class MetalChests {
 				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.IRON, Blocks.IRON_BLOCK), () -> TileTypeRegistry.IRON_CHEST_TILE_TYPE, MetalChestType.IRON).setRegistryName(MOD_ID, IRON_CHEST_ID),
 				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.LIGHT_GRAY, Blocks.IRON_BLOCK), () -> TileTypeRegistry.SILVER_CHEST_TILE_TYPE, MetalChestType.SILVER).setRegistryName(MOD_ID, SILVER_CHEST_ID),
 				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.GOLD, Blocks.GOLD_BLOCK), () -> TileTypeRegistry.GOLD_CHEST_TILE_TYPE, MetalChestType.GOLD).setRegistryName(MOD_ID, GOLD_CHEST_ID),
+				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.SAND, Blocks.OBSIDIAN), () -> TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE, MetalChestType.OBSIDIAN).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID),
 				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.DIAMOND, Blocks.DIAMOND_BLOCK), () -> TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE, MetalChestType.DIAMOND).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
-				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.SAND, Blocks.OBSIDIAN), () -> TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE, MetalChestType.OBSIDIAN).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID));
+				new MetalChestBlock(getPropertiesFromBlock(MaterialColor.EMERALD, Blocks.EMERALD_BLOCK), () -> TileTypeRegistry.EMERALD_CHEST_TILE_TYPE, MetalChestType.EMERALD).setRegistryName(MOD_ID, EMERALD_CHEST_ID));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -93,8 +95,9 @@ public class MetalChests {
 				new MetalChestItem(BlockRegistry.IRON_CHEST).setRegistryName(MOD_ID, IRON_CHEST_ID),
 				new MetalChestItem(BlockRegistry.SILVER_CHEST).setRegistryName(MOD_ID, SILVER_CHEST_ID),
 				new MetalChestItem(BlockRegistry.GOLD_CHEST).setRegistryName(MOD_ID, GOLD_CHEST_ID),
+				new MetalChestItem(BlockRegistry.OBSIDIAN_CHEST).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID),
 				new MetalChestItem(BlockRegistry.DIAMOND_CHEST).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
-				new MetalChestItem(BlockRegistry.OBSIDIAN_CHEST).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID));
+				new MetalChestItem(BlockRegistry.EMERALD_CHEST).setRegistryName(MOD_ID, EMERALD_CHEST_ID));
 	}
 
 	private void metalchests$registerTiles(final Register<TileEntityType<?>> event) {
@@ -103,8 +106,9 @@ public class MetalChests {
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.IRON_CHEST_TILE_TYPE), BlockRegistry.IRON_CHEST).build(null).setRegistryName(MOD_ID, IRON_CHEST_ID),
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.SILVER_CHEST_TILE_TYPE), BlockRegistry.SILVER_CHEST).build(null).setRegistryName(MOD_ID, SILVER_CHEST_ID),
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.GOLD_CHEST_TILE_TYPE), BlockRegistry.GOLD_CHEST).build(null).setRegistryName(MOD_ID, GOLD_CHEST_ID),
+				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE), BlockRegistry.OBSIDIAN_CHEST).build(null).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID),
 				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE), BlockRegistry.DIAMOND_CHEST).build(null).setRegistryName(MOD_ID, DIAMOND_CHEST_ID),
-				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE), BlockRegistry.OBSIDIAN_CHEST).build(null).setRegistryName(MOD_ID, OBSIDIAN_CHEST_ID));
+				TileEntityType.Builder.create(() -> new MetalChestTile(TileTypeRegistry.EMERALD_CHEST_TILE_TYPE), BlockRegistry.EMERALD_CHEST).build(null).setRegistryName(MOD_ID, EMERALD_CHEST_ID));
 	}
 
 	private void metalchests$registerContainers(final Register<ContainerType<?>> event) {

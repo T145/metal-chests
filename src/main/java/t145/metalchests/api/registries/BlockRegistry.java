@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraftforge.registries.ObjectHolder;
 
 @ObjectHolder(MOD_ID)
-public enum BlockRegistry {;
+public class BlockRegistry {
 
 	@ObjectHolder(COPPER_CHEST_ID)
 	public static final Block COPPER_CHEST = null;
@@ -20,9 +20,16 @@ public enum BlockRegistry {;
 	@ObjectHolder(GOLD_CHEST_ID)
 	public static final Block GOLD_CHEST = null;
 
+	@ObjectHolder(OBSIDIAN_CHEST_ID)
+	public static final Block OBSIDIAN_CHEST = null;
+
 	@ObjectHolder(DIAMOND_CHEST_ID)
 	public static final Block DIAMOND_CHEST = null;
 
-	@ObjectHolder(OBSIDIAN_CHEST_ID)
-	public static final Block OBSIDIAN_CHEST = null;
+	@ObjectHolder(EMERALD_CHEST_ID)
+	public static final Block EMERALD_CHEST = null;
+
+	private BlockRegistry() {
+		throw new UnsupportedOperationException();
+	}
 }
