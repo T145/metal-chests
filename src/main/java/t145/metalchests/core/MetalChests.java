@@ -1,6 +1,15 @@
 package t145.metalchests.core;
 
-import static t145.metalchests.api.Reference.*;
+import static t145.metalchests.lib.Reference.COPPER_CHEST_ID;
+import static t145.metalchests.lib.Reference.DIAMOND_CHEST_ID;
+import static t145.metalchests.lib.Reference.EMERALD_CHEST_ID;
+import static t145.metalchests.lib.Reference.GOLD_CHEST_ID;
+import static t145.metalchests.lib.Reference.IRON_CHEST_ID;
+import static t145.metalchests.lib.Reference.METAL_CHEST_CONTAINER_ID;
+import static t145.metalchests.lib.Reference.METAL_CHEST_MODELS;
+import static t145.metalchests.lib.Reference.MOD_ID;
+import static t145.metalchests.lib.Reference.OBSIDIAN_CHEST_ID;
+import static t145.metalchests.lib.Reference.SILVER_CHEST_ID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +19,7 @@ import net.minecraft.block.Block.Properties;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -28,13 +38,17 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import t145.metalchests.api.constants.MetalChestType;
-import t145.metalchests.api.registries.BlockRegistry;
-import t145.metalchests.api.registries.TileTypeRegistry;
+import t145.metalchests.api.BlockRegistry;
+import t145.metalchests.api.ContainerTypeRegistry;
+import t145.metalchests.api.TileTypeRegistry;
 import t145.metalchests.blocks.MetalChestBlock;
-import t145.metalchests.client.MetalChestRenderer;
+import t145.metalchests.client.gui.MetalChestScreenFactory;
+import t145.metalchests.client.render.MetalChestRenderer;
 import t145.metalchests.config.ServerConfig;
+import t145.metalchests.containers.MetalChestContainer;
+import t145.metalchests.containers.MetalChestContainerFactory;
 import t145.metalchests.items.MetalChestItem;
+import t145.metalchests.lib.MetalChestType;
 import t145.metalchests.tiles.MetalChestTile;
 
 @Mod(MOD_ID)
@@ -70,6 +84,7 @@ public class MetalChests {
 		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.DIAMOND_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
 		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.OBSIDIAN_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
 		ClientRegistry.bindTileEntityRenderer(TileTypeRegistry.EMERALD_CHEST_TILE_TYPE, (dispatcher) -> new MetalChestRenderer(dispatcher));
+		ScreenManager.registerFactory(ContainerTypeRegistry.METAL_CHEST_CONTAINER_TYPE, new MetalChestScreenFactory());
 	}
 
 	private void metalchests$registerBlocks(final Register<Block> event) {
@@ -112,6 +127,7 @@ public class MetalChests {
 	}
 
 	private void metalchests$registerContainers(final Register<ContainerType<?>> event) {
+		event.getRegistry().register(new ContainerType<MetalChestContainer>(new MetalChestContainerFactory()).setRegistryName(METAL_CHEST_CONTAINER_ID));
 	}
 
 	@SubscribeEvent

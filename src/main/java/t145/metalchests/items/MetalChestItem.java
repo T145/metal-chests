@@ -3,7 +3,7 @@ package t145.metalchests.items;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
-import t145.metalchests.client.MetalChestStackRenderer;
+import t145.metalchests.client.render.MetalChestStackRenderer;
 
 public class MetalChestItem extends BlockItem {
 

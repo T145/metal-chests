@@ -1,4 +1,4 @@
-package t145.metalchests.client;
+package t145.metalchests.client.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -13,8 +13,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
-import t145.metalchests.api.Reference;
 import t145.metalchests.blocks.MetalChestBlock;
+import t145.metalchests.lib.Reference;
 import t145.metalchests.tiles.MetalChestTile;
 
 @OnlyIn(Dist.CLIENT)
@@ -28,11 +28,11 @@ public class MetalChestRenderer extends ChestTileEntityRenderer<MetalChestTile> 
 	protected Material getMaterial(MetalChestTile chest, ChestType chestType) {
 		if (chest instanceof MetalChestTile) {
 			TileEntityType<?> tileType = chest.getType();
-			ResourceLocation tileResource = tileType.getRegistryName();
-			Block invBlock = ForgeRegistries.BLOCKS.getValue(tileResource);
-			BlockState invState = chest.hasWorld() ? chest.getBlockState() : invBlock.getDefaultState().with(MetalChestBlock.FACING, Direction.SOUTH);
+			ResourceLocation res = tileType.getRegistryName();
+			Block block = ForgeRegistries.BLOCKS.getValue(res);
+			BlockState state = chest.hasWorld() ? chest.getBlockState() : block.getDefaultState().with(MetalChestBlock.FACING, Direction.SOUTH);
 
-			return new Material(Atlases.CHEST_ATLAS, Reference.METAL_CHEST_MODELS[invState.get(MetalChestBlock.METAL_TYPE).ordinal()]);
+			return new Material(Atlases.CHEST_ATLAS, Reference.METAL_CHEST_MODELS[state.get(MetalChestBlock.METAL_TYPE).ordinal()]);
 		}
 		return super.getMaterial(chest, ChestType.SINGLE);
 	}

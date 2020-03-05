@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.BlockItemUseContext;
@@ -36,7 +37,8 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import t145.metalchests.api.constants.MetalChestType;
+import net.minecraftforge.fml.network.NetworkHooks;
+import t145.metalchests.lib.MetalChestType;
 import t145.metalchests.tiles.MetalChestTile;
 
 public class MetalChestBlock extends AbstractChestBlock<MetalChestTile> implements IWaterLoggable {
@@ -81,7 +83,11 @@ public class MetalChestBlock extends AbstractChestBlock<MetalChestTile> implemen
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult p_225533_6_) {
 		if (!world.isRemote) {
-			// open container
+			TileEntity te = world.getTileEntity(pos);
+
+			if (te instanceof MetalChestTile) {
+				NetworkHooks.openGui((ServerPlayerEntity) player, (MetalChestTile) te, pos);
+			}
 		}
 		return ActionResultType.SUCCESS;
 	}

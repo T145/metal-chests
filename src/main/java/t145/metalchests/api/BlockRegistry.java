@@ -1,6 +1,6 @@
-package t145.metalchests.api.registries;
+package t145.metalchests.api;
 
-import static t145.metalchests.api.Reference.*;
+import static t145.metalchests.lib.Reference.*;
 
 import net.minecraft.block.Block;
 import net.minecraftforge.registries.ObjectHolder;

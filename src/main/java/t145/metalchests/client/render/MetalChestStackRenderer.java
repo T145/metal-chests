@@ -1,4 +1,4 @@
-package t145.metalchests.client;
+package t145.metalchests.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -11,8 +11,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import t145.metalchests.api.constants.MetalChestType;
 import t145.metalchests.blocks.MetalChestBlock;
+import t145.metalchests.lib.MetalChestType;
 
 @OnlyIn(Dist.CLIENT)
 public class MetalChestStackRenderer extends ItemStackTileEntityRenderer {
