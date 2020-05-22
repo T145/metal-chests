@@ -1,131 +1,99 @@
-
-import de.undercouch.gradle.tasks.download.Download
 import com.palantir.gradle.gitversion.VersionDetails
 
 buildscript {
+    repositories {
+        maven { url 'https://files.minecraftforge.net/maven' }
+        maven { url 'https://plugins.gradle.org/m2/' }
+        jcenter()
+        mavenCentral()
+    }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:3.+'
+        classpath "com.palantir.gradle.gitversion:gradle-git-version:0.12.3"
     }
 }
 
-plugins {
-    id 'java'
-    id 'de.undercouch.download' version '3.4.3'
-    id 'com.palantir.git-version' version '0.11.0'
-    //id 'com.matthewprenger.cursegradle' version '1.2.0'
-}
-
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'com.palantir.git-version'
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+version = "${gitVersion()}+mc1.12"
+group = 't145.metalchests'
+archivesBaseName = 'Metal Chests'
 
-compileJava.sourceCompatibility = JavaVersion.VERSION_1_8
-compileJava.targetCompatibility = JavaVersion.VERSION_1_8
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-repositories {
-    mavenCentral()
-    jcenter()
-    maven { url = 'http://files.minecraftforge.net/maven' }
-    maven { url = 'https://minecraft.curseforge.com/api/maven' }
-}
-
-version = "${gitVersion()}+mc${project.minecraft_version}"
-group = mod_group
-archivesBaseName = mod_name
-
-final String FORGE = "${project.minecraft_version}-${project.forge_version}"
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    runDir = 'run'
-    version = FORGE
-    mappings = forge_mapping
-    makeObfSourceJar = false
+    // The mappings can be changed at any time, and must be in the following format.
+    // snapshot_YYYYMMDD   Snapshot are built nightly.
+    // stable_#            Stables are built at the discretion of the MCP team.
+    // Use non-default mappings at your own risk. they may not always work.
+    // Simply re-run your setup task after changing the mappings to update your workspace.
+    //mappings channel: 'snapshot', version: '20171003-1.12'
+    mappings channel: 'snapshot', version: '20171003-1.12'
+    //makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
-    replaceIn "${mod_name}.java"
-    replace "@VERSION@", project.version
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    //replaceIn "MetalChests.java"
+    //replace "@VERSION@", project.version
+
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
-}
-
-processResources {
-    exclude '**/*.db'
-    exclude '**/*.DS_Store'
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
 }
 
 jar {
-	from 'LICENSE'
+    manifest {
+        attributes([
+            "Specification-Title": "metalchests",
+            "Specification-Vendor": "t145",
+            "Specification-Version": "1", // We are version 1 of ourselves
+            "Implementation-Title": project.name,
+            "Implementation-Version": project.version,
+            "Implementation-Vendor" :"t145",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
 }
 
-task setupEclipseWorkspace(type: Download, dependsOn: setupDecompWorkspace) {
-    File forgeArchive = project.file('forge.zip')
+jar.finalizedBy('reobfJar')
+// if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
+//publish.dependsOn('reobfJar')
 
-    src "http://files.minecraftforge.net/maven/net/minecraftforge/forge/${FORGE}/forge-${FORGE}-mdk.zip"
-    dest forgeArchive
-
-    doLast {
-        project.copy {
-            from zipTree(forgeArchive)
-            into 'forge'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
         }
-
-        project.file('forge/eclipse').renameTo(project.file('eclipse'))
-        project.file('forge.zip').delete()
-        project.file('forge').deleteDir()
     }
-}
-
-task migrateSource() {
-    project.file('build/tmp/recompileMc/sources').renameTo(project.file('minecraftSrc'))
-}
-
-migrateSource.mustRunAfter eclipse
-
-build {
-    doLast {
-        project.file('release').deleteDir()
-        project.file('build/libs').renameTo(project.file('release'))
+    repositories {
+        maven {
+            url "file:///${project.projectDir}/mcmodsrepo"
+        }
     }
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-	classifier = "javadoc"
-	from javadoc.destinationDir
-}
-
-task devJar(type: Jar) {
-    from sourceSets.main.output
-    from 'LICENSE'
-    classifier = 'deobf'
-}
-
-task srcJar(type: Jar) {
-    from sourceSets.main.allJava
-    from sourceSets.api.allJava
-    classifier = 'sources'
-}
-
-task apiJar(type: Jar) {
-	classifier = "api"
-	from sourceSets.api.output
-
-	// TODO: when FG bug is fixed, remove allJava from the api jar.
-	// https://github.com/MinecraftForge/ForgeGradle/issues/369
-	// Gradle should be able to pull them from the -sources jar.
-	from sourceSets.api.allJava
-}
-
-artifacts {
-    archives devJar
-    archives srcJar
-    archives apiJar
-    //archives javadocJar
 }
