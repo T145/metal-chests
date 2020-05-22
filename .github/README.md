@@ -101,8 +101,7 @@ UpgradeRegistry.register(ItemsMC.CHEST_UPGRADE, Blocks.CHEST, BlocksMC.METAL_CHE
 
 ## License
 
-Mod source code is licensed under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0).
-The actual workspace license is located in this project.
+All mod source and utility licensing can be found under `/licensing`.
 To use any mod assets, you may contatct [myself](https://github.com/T145) or the original creator for permission.
 
 * * *
