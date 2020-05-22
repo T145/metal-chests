@@ -3,26 +3,62 @@
 
 # Explicitly declare text files we want to always be normalized and converted to native line endings on checkout.
 # These files are text and should be normalized (Convert crlf => lf)
-*.java text
-*.properties text
+*.gitignore text
+*.gitattributes text
+*.gitmodules text
+*.editorconfig text
 *.sh text
 *.md text
 *.info text
 *.txt text
 *.json text
+## Source Code
+*.java text
+*.gradle text
+*.properties text
 
 # Denote all files that are truly binary and should not be modified.
 # (binary is a macro for -text -diff)
-*.class binary
-*.gif binary
-*.ico binary
-*.jar binary
 *.jpg binary
 *.jpeg binary
+*.jpe binary
+*.jif binary
+*.jfif binary
+*.jfi binary
 *.png binary
+*.gif binary
+*.webp binary
+*.tiff binary
+*.tif binary
+*.psd binary
+*.raw binary
+*.arw binary
+*.cr2 binary
+*.nrw binary
+*.k25 binary
+*.bmp binary
+*.dib binary
+*.heif binary
+*.heic binary
+*.ind binary
+*.indd binary
+*.indt binary
+*.jp2 binary
+*.j2k binary
+*.jpf binary
+*.jpx binary
+*.jpm binary
+*.mj2 binary
+*.svg binary
+*.svgz binary
+*.ai binary
+*.eps binary
+*.pdf binary
 
 # Make sure Windows batch files preserve CR/LF line endings, otherwise they may not be able to execute. Windows
 # batch files require a CR/LF for labels to work properly, otherwise they may fail when labels straddle 512-byte
 # block boundaries. This is important when files are downloaded through a zip archive that was authored on a
 # Linux machine (the default behavior on GitHub)
 *.bat eol=crlf
+*.cmd eol=crlf
+*.ps1 eol=crlf

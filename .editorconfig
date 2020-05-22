@@ -1,20 +1,19 @@
-# EditorConfig (is awesome): http://EditorConfig.org
+# EditorConfig is awesome: https://EditorConfig.org
 
-# * top-most EditorConfig file
+# top-most EditorConfig file
 root = true
 
-# default style settings
-[*.java]
+[*]
+end_of_line = lf                # Unix-style newlines b/c GitHub
+insert_final_newline = true     # newline ending every file
 charset = utf-8
-end_of_line = crlf
-indent_size = 4
-indent_style = space
-insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{bat,cmd,[Bb][Aa][Tt],[Cc][Mm][Dd]]
-# DOS/Win *requires* BAT/CMD files to have CRLF newlines
-end_of_line = crlf
+# Java source file settings for proper GitHub display
+[*.java]
+indent_size = 4
+indent_style = space
 
-# TAB-style indentation
-indent_style = tab
+[*.{bat,cmd,ps1,[Bb][Aa][Tt],[Cc][Mm][Dd],[Pp][Ss][1]]
+# DOS/Win *requires* BAT/CMD/PS1 files to have CRLF newlines
+end_of_line = crlf
