@@ -19,7 +19,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.palantir.git-version'
 
 version = "${gitVersion()}+mc1.12"
-group = 't145.metalchests'
+group = 't145.metal-chests'
 archivesBaseName = 'Metal Chests'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
@@ -70,7 +70,7 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "metalchests",
+            "Specification-Title": "metal-chests",
             "Specification-Vendor": "t145",
             "Specification-Version": "1", // We are version 1 of ourselves
             "Implementation-Title": project.name,
