@@ -18,46 +18,26 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'com.palantir.git-version'
 
-version = "${gitVersion()}+mc1.12"
+version = gitVersion()
 group = 't145.metal-chests'
 archivesBaseName = 'Metal Chests'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    // The mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   Snapshot are built nightly.
-    // stable_#            Stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
-    //mappings channel: 'snapshot', version: '20171003-1.12'
-    mappings channel: 'snapshot', version: '20171003-1.12'
-    //makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
-
+    mappings channel: 'snapshot', version: '20180814-1.12'
+    // makeObfSourceJar = false
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    //replaceIn "MetalChests.java"
-    //replace "@VERSION@", project.version
-
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
             workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
         }
 
         server {
-
-            // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
         }
     }
@@ -67,12 +47,17 @@ dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2854'
 }
 
+processResources {
+    exclude '**/*.db'
+    exclude '**/*.DS_Store'
+}
+
 jar {
     manifest {
         attributes([
             "Specification-Title": "metal-chests",
             "Specification-Vendor": "t145",
-            "Specification-Version": "1", // We are version 1 of ourselves
+            "Specification-Version": "1",
             "Implementation-Title": project.name,
             "Implementation-Version": project.version,
             "Implementation-Vendor" :"t145",
@@ -82,8 +67,6 @@ jar {
 }
 
 jar.finalizedBy('reobfJar')
-// if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing
-//publish.dependsOn('reobfJar')
 
 publishing {
     publications {
