@@ -1,4 +1,5 @@
 import com.palantir.gradle.gitversion.VersionDetails
+import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     repositories {
@@ -24,9 +25,19 @@ archivesBaseName = 'Metal Chests'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+task copySource(type: Copy) {
+    from 'src/java'
+    into "$buildDir/src"
+    filter(ReplaceTokens, tokens: [
+        '@VERSION@': project.version
+    ])
+}
+
+compileJava.source "$buildDir/src"
+compileJava.dependsOn copySource
+
 minecraft {
     mappings channel: 'snapshot', version: '20180814-1.12'
-    // makeObfSourceJar = false
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
