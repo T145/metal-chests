@@ -1,5 +1,4 @@
 import com.palantir.gradle.gitversion.VersionDetails
-import org.apache.tools.ant.filters.ReplaceTokens
 
 buildscript {
     repositories {
@@ -25,12 +24,23 @@ archivesBaseName = 'Metal Chests'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+sourceSets {
+    main {
+        java {
+            srcDirs = ["$buildDir/src"]
+        }
+    }
+}
+
 task copySource(type: Copy) {
-    from 'src/java'
+    from 'src/main/java'
     into "$buildDir/src"
-    filter(ReplaceTokens, tokens: [
-        '@VERSION@': project.version
-    ])
+
+    doLast {
+        ant.replaceregexp(match: '@VERSION@', replace: project.version, flags: 'g', byline: true) {
+            fileset(dir: "$buildDir/src/t145/metalchests/core", includes: 'MetalChests.java')
+        }
+    }
 }
 
 compileJava.source "$buildDir/src"
